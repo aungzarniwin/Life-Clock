@@ -1,724 +1,873 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="my">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0d0c0a">
-<title>LIFE 75 V5 — Your Life in Numbers</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="theme-color" content="#0d0d0d">
+<meta name="description" content="LIFE 75 — Your Life in Numbers">
+<title>LIFE 75 — Your Life in Numbers</title>
 
 <style>
 :root{
-  --bg:#0d0c0a;
-  --surface:#171512;
-  --surface2:#201d18;
-  --line:#302b23;
-  --text:#f5f1e8;
-  --muted:#aaa295;
-  --gold:#d8aa55;
-  --gold2:#f1ca7a;
-  --green:#72c59b;
-  --red:#df8b7d;
-  --shadow:0 18px 60px #0008;
-  --r:22px
+  --bg:#0b0b0b;
+  --panel:#141414;
+  --panel2:#1a1a1a;
+  --line:#292929;
+  --text:#f4f0e7;
+  --muted:#9e9a91;
+  --gold:#d7a84b;
+  --gold2:#f0c86b;
+  --danger:#d96b6b;
+  --success:#77bd8b;
+  --radius:18px;
+  --shadow:0 16px 45px rgba(0,0,0,.28);
 }
 
-*{box-sizing:border-box}
-
-html,body{
+*{
+  box-sizing:border-box;
   margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",
+  "Noto Sans Myanmar","Myanmar Text",sans-serif;
   background:var(--bg);
   color:var(--text);
-  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
+  min-height:100vh;
 }
 
-button,input,select,textarea{font:inherit}
-button{cursor:pointer}
-body{min-height:100vh}
-.hidden{display:none!important}
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
 
-.app{
+button{
+  cursor:pointer;
+}
+
+.hidden{
+  display:none!important;
+}
+
+.app-shell{
+  min-height:100vh;
   display:flex;
-  min-height:100vh
 }
 
+/* SIDEBAR */
 .sidebar{
-  width:258px;
-  position:fixed;
-  inset:0 auto 0 0;
-  background:#11100e;
+  width:260px;
+  background:#101010;
   border-right:1px solid var(--line);
-  padding:22px 14px;
-  z-index:20
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  z-index:50;
+  padding:24px 16px;
+  overflow-y:auto;
 }
 
 .brand{
-  display:flex;
-  gap:12px;
-  align-items:center;
-  padding:6px 10px 24px
+  padding:8px 12px 25px;
 }
 
-.brandmark{
-  width:42px;
-  height:42px;
-  border:1px solid #8f713d;
-  border-radius:14px;
-  display:grid;
-  place-items:center;
-  background:linear-gradient(145deg,#282116,#12100d);
-  font-weight:800;
-  color:var(--gold2)
+.brand-title{
+  font-size:23px;
+  font-weight:900;
+  letter-spacing:1px;
 }
 
-.brand h1{
-  font-size:16px;
-  margin:0;
-  letter-spacing:.08em
-}
-
-.brand small{
+.brand-sub{
+  margin-top:5px;
   color:var(--muted);
-  font-size:10px
+  font-size:11px;
 }
 
 .nav{
-  display:grid;
-  gap:5px
+  display:flex;
+  flex-direction:column;
+  gap:5px;
 }
 
-.nav button{
+.nav-btn{
+  width:100%;
   border:0;
   background:transparent;
-  color:var(--muted);
+  color:#aaa;
   padding:12px 13px;
-  border-radius:14px;
-  text-align:left;
+  border-radius:12px;
   display:flex;
   align-items:center;
-  gap:12px
+  gap:12px;
+  text-align:left;
+  transition:.2s;
 }
 
-.nav button:hover,
-.nav button.active{
-  background:#242019;
-  color:var(--text)
+.nav-btn:hover{
+  background:#1a1a1a;
+  color:white;
 }
 
-.nav .ico{
-  width:20px;
-  text-align:center
-}
-
-.side-bottom{
-  position:absolute;
-  bottom:18px;
-  left:14px;
-  right:14px
-}
-
-.profile-mini{
-  padding:13px;
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:16px;
-  display:flex;
-  gap:10px;
-  align-items:center
-}
-
-.avatar{
-  width:36px;
-  height:36px;
-  border-radius:50%;
-  background:#2a241a;
+.nav-btn.active{
+  background:rgba(215,168,75,.13);
   color:var(--gold2);
-  display:grid;
-  place-items:center;
-  font-weight:800
 }
 
-.profile-mini b{font-size:13px}
-
-.profile-mini small{
-  display:block;
-  color:var(--muted);
-  margin-top:2px
+.nav-icon{
+  width:22px;
+  text-align:center;
 }
 
+.sidebar-bottom{
+  margin-top:25px;
+  border-top:1px solid var(--line);
+  padding-top:16px;
+}
+
+.lang-btn{
+  width:100%;
+  padding:11px;
+  border:1px solid #3a3428;
+  background:#18140d;
+  color:var(--gold2);
+  border-radius:12px;
+}
+
+/* MAIN */
 .main{
-  margin-left:258px;
-  width:calc(100% - 258px);
-  padding:28px;
-  max-width:1500px
+  margin-left:260px;
+  width:calc(100% - 260px);
+  min-height:100vh;
 }
 
 .topbar{
+  height:72px;
+  border-bottom:1px solid var(--line);
   display:flex;
-  justify-content:space-between;
   align-items:center;
-  margin-bottom:24px
+  justify-content:space-between;
+  padding:0 30px;
+  position:sticky;
+  top:0;
+  background:rgba(11,11,11,.92);
+  backdrop-filter:blur(12px);
+  z-index:30;
 }
 
-.eyebrow{
-  color:var(--gold);
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:.16em
+.top-title{
+  font-weight:800;
+  font-size:16px;
 }
 
-.title{
+.top-date{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.page{
+  display:none;
+  padding:30px;
+  max-width:1400px;
+  margin:auto;
+}
+
+.page.active{
+  display:block;
+}
+
+.page-head{
+  margin-bottom:25px;
+}
+
+.page-head h1{
   font-size:30px;
-  margin:5px 0 0;
-  letter-spacing:-.03em
+  font-weight:900;
 }
 
-.actions{
-  display:flex;
-  gap:8px
+.page-head p{
+  color:var(--muted);
+  margin-top:6px;
 }
 
-.iconbtn,.btn{
-  border:1px solid var(--line);
-  background:var(--surface);
-  color:var(--text);
-  border-radius:13px;
-  padding:10px 13px
-}
-
-.btn.primary{
-  background:var(--gold);
-  border-color:var(--gold);
-  color:#19130a;
-  font-weight:800
-}
-
-.btn.ghost{
-  background:transparent
-}
-
-.btn.danger{
-  color:var(--red)
-}
-
-.view{display:none}
-.view.active{display:block}
-
+/* HOME */
 .hero{
   background:
-    radial-gradient(circle at 80% 10%,#5b421b44,transparent 40%),
-    linear-gradient(145deg,#1d1913,#12110e);
-  border:1px solid var(--line);
-  border-radius:28px;
-  padding:28px;
+    radial-gradient(circle at 85% 20%,rgba(215,168,75,.18),transparent 35%),
+    linear-gradient(145deg,#181510,#111);
+  border:1px solid #3a3020;
+  border-radius:25px;
+  padding:30px;
   box-shadow:var(--shadow);
-  overflow:hidden
+  margin-bottom:20px;
 }
 
-.hero-grid{
-  display:grid;
-  grid-template-columns:1.35fr .65fr;
-  gap:22px
+.hero-label{
+  color:var(--gold2);
+  font-size:12px;
+  letter-spacing:2px;
+  text-transform:uppercase;
 }
 
-.hero h2{
-  font-size:clamp(30px,4vw,52px);
-  margin:8px 0 4px;
-  line-height:1
+.hero h1{
+  font-size:42px;
+  margin-top:8px;
+  line-height:1.05;
 }
 
 .hero p{
-  color:var(--muted);
-  max-width:620px
-}
-
-.live{
-  font-variant-numeric:tabular-nums;
-  font-size:19px;
-  color:var(--gold2);
-  font-weight:700
-}
-
-.big-age{
-  font-size:clamp(46px,7vw,86px);
-  font-weight:850;
-  letter-spacing:-.06em;
-  margin:18px 0 2px
-}
-
-.age-sub{color:var(--muted)}
-
-.ring{
-  aspect-ratio:1;
-  border-radius:50%;
-  background:conic-gradient(
-    var(--gold) var(--p,0%),
-    #302a21 0
-  );
-  padding:10px;
-  max-width:240px;
-  margin:auto;
-  display:grid;
-  place-items:center
-}
-
-.ring-in{
-  width:100%;
-  height:100%;
-  border-radius:50%;
-  background:#12110e;
-  display:grid;
-  place-items:center;
-  text-align:center
-}
-
-.ring-in b{font-size:32px}
-.ring-in span{
-  color:var(--muted);
-  font-size:11px
+  color:#aaa;
+  margin-top:10px;
+  max-width:650px;
 }
 
 .grid{
   display:grid;
-  gap:14px
+  gap:16px;
 }
 
-.g4{grid-template-columns:repeat(4,1fr)}
-.g3{grid-template-columns:repeat(3,1fr)}
-.g2{grid-template-columns:repeat(2,1fr)}
+.grid-2{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
 
-.mt{margin-top:14px}
+.grid-3{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+}
+
+.grid-4{
+  grid-template-columns:repeat(4,minmax(0,1fr));
+}
 
 .card{
-  background:var(--surface);
+  background:var(--panel);
   border:1px solid var(--line);
-  border-radius:var(--r);
-  padding:19px
+  border-radius:var(--radius);
+  padding:20px;
 }
 
-.card h3{
-  margin:0 0 5px;
-  font-size:15px
-}
-
-.muted{color:var(--muted)}
-
-.metric{
-  font-size:28px;
-  font-weight:800;
-  margin:8px 0
-}
-
-.metric.gold{color:var(--gold2)}
-
-.label{
-  font-size:11px;
+.card-title{
+  font-size:12px;
   color:var(--muted);
   text-transform:uppercase;
-  letter-spacing:.09em
+  letter-spacing:1px;
 }
 
-.split{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px
+.metric{
+  margin-top:8px;
+  font-size:29px;
+  font-weight:900;
 }
 
-.progress{
-  height:8px;
-  background:#302a22;
-  border-radius:20px;
-  overflow:hidden
+.metric.gold{
+  color:var(--gold2);
 }
 
-.progress i{
-  display:block;
-  height:100%;
-  background:linear-gradient(90deg,var(--gold),var(--gold2));
-  border-radius:inherit
+.metric-sub{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:5px;
 }
 
-.section-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:end;
-  margin:30px 0 13px
+.section-title{
+  margin:28px 0 14px;
+  font-size:18px;
+  font-weight:850;
 }
 
-.section-head h2{
-  margin:0;
-  font-size:20px
+/* TIME */
+.big-clock{
+  font-size:46px;
+  font-weight:900;
+  letter-spacing:2px;
+  margin-top:10px;
 }
-
-.stat-card{min-height:130px}
 
 .countdown{
-  font-variant-numeric:tabular-nums;
-  font-size:30px;
-  font-weight:800;
-  letter-spacing:.03em
+  display:flex;
+  gap:10px;
+  margin-top:15px;
+  flex-wrap:wrap;
 }
 
-.timeline{
-  display:grid;
-  gap:10px
+.time-box{
+  min-width:75px;
+  background:#101010;
+  border:1px solid #292929;
+  border-radius:14px;
+  padding:12px;
+  text-align:center;
 }
 
-.timeline-item{
-  display:grid;
-  grid-template-columns:90px 1fr auto;
-  gap:14px;
-  align-items:center;
-  padding:13px;
-  border-bottom:1px solid var(--line)
+.time-number{
+  font-size:24px;
+  font-weight:900;
 }
 
-.timeline-item:last-child{border-bottom:0}
-
-.datebox{
-  color:var(--gold2);
-  font-weight:700
-}
-
-.tag{
-  display:inline-flex;
-  padding:5px 8px;
-  border:1px solid var(--line);
-  border-radius:99px;
+.time-label{
   color:var(--muted);
-  font-size:10px
+  font-size:10px;
+  margin-top:3px;
 }
 
-.days{font-weight:800}
-.positive{color:var(--green)}
-.negative{color:var(--red)}
-
-.chart{
-  height:220px;
-  position:relative
+/* PROGRESS */
+.progress{
+  height:10px;
+  background:#292929;
+  border-radius:999px;
+  overflow:hidden;
+  margin-top:13px;
 }
 
-.chart canvas{
-  width:100%;
-  height:100%
+.progress-fill{
+  height:100%;
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+  border-radius:999px;
+  transition:width .5s;
 }
 
+/* BUTTONS */
+.btn{
+  border:0;
+  border-radius:12px;
+  padding:11px 15px;
+  background:#272727;
+  color:#eee;
+  transition:.2s;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+  background:#333;
+}
+
+.btn-primary{
+  background:var(--gold);
+  color:#111;
+  font-weight:800;
+}
+
+.btn-primary:hover{
+  background:var(--gold2);
+}
+
+.btn-outline{
+  border:1px solid #3d3527;
+  background:transparent;
+  color:var(--gold2);
+}
+
+.actions{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin-top:16px;
+}
+
+/* LIST */
+.list{
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+}
+
+.list-item{
+  background:#111;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:14px;
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  align-items:center;
+}
+
+.list-main{
+  min-width:0;
+}
+
+.list-name{
+  font-weight:800;
+}
+
+.list-meta{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:4px;
+}
+
+.badge{
+  display:inline-flex;
+  padding:5px 9px;
+  border-radius:999px;
+  font-size:10px;
+  background:#242424;
+  color:#bbb;
+}
+
+.badge.gold{
+  background:rgba(215,168,75,.13);
+  color:var(--gold2);
+}
+
+/* LIFE */
+.life-number{
+  font-size:54px;
+  font-weight:950;
+  line-height:1;
+}
+
+.life-unit{
+  color:var(--muted);
+  margin-top:7px;
+}
+
+.circle{
+  width:190px;
+  height:190px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  margin:auto;
+  background:
+    conic-gradient(var(--gold) var(--percent),#282828 0);
+  position:relative;
+}
+
+.circle:before{
+  content:"";
+  position:absolute;
+  width:150px;
+  height:150px;
+  border-radius:50%;
+  background:#111;
+}
+
+.circle-content{
+  position:relative;
+  text-align:center;
+}
+
+.circle-percent{
+  font-size:28px;
+  font-weight:900;
+}
+
+/* WEEKS */
 .weeks{
   display:grid;
   grid-template-columns:repeat(52,1fr);
-  gap:3px
+  gap:3px;
+  margin-top:15px;
 }
 
 .week{
-  height:8px;
+  aspect-ratio:1;
   border-radius:2px;
-  background:#302b23
+  background:#282828;
 }
 
-.week.lived{background:var(--gold)}
+.week.lived{
+  background:var(--gold);
+}
 
 .week.current{
-  outline:1px solid var(--gold2);
-  outline-offset:1px
+  outline:2px solid white;
 }
 
+/* FILTERS */
 .filters{
   display:flex;
-  gap:7px;
-  overflow:auto;
-  padding-bottom:4px
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:16px;
 }
 
-.filters button{white-space:nowrap}
+.filter{
+  border:1px solid #333;
+  background:#161616;
+  color:#aaa;
+  border-radius:999px;
+  padding:8px 13px;
+}
 
-.filters button.active{
+.filter.active{
   background:var(--gold);
-  color:#17110a;
   border-color:var(--gold);
-  font-weight:700
+  color:#111;
 }
 
-.important-hero{
-  background:linear-gradient(135deg,#241d12,#171512);
-  border-color:#5c4829
-}
-
-.important-date{
-  font-size:13px;
-  color:var(--gold2)
-}
-
-.important-title{
-  font-size:26px;
-  font-weight:850;
-  margin:8px 0
-}
-
-.daysbig{
-  font-size:42px;
-  font-weight:850
-}
-
-.form{
+/* FORMS */
+.form-grid{
   display:grid;
-  gap:12px
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:13px;
 }
 
 .field{
-  display:grid;
-  gap:6px
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.field.full{
+  grid-column:1/-1;
 }
 
 .field label{
-  font-size:11px;
-  color:var(--muted)
+  font-size:12px;
+  color:#aaa;
 }
 
 .field input,
 .field select,
 .field textarea{
   width:100%;
-  background:#100f0d;
-  border:1px solid var(--line);
-  color:var(--text);
-  border-radius:12px;
-  padding:11px 12px;
-  outline:none
+  border:1px solid #333;
+  background:#0f0f0f;
+  color:#eee;
+  padding:12px;
+  border-radius:11px;
+  outline:none;
 }
 
 .field input:focus,
 .field select:focus,
 .field textarea:focus{
-  border-color:#8e6d39
+  border-color:#8d6c31;
 }
 
+.field textarea{
+  min-height:90px;
+  resize:vertical;
+}
+
+/* EMPTY */
+.empty{
+  text-align:center;
+  padding:30px 15px;
+  color:var(--muted);
+}
+
+.empty-icon{
+  font-size:30px;
+  margin-bottom:8px;
+}
+
+/* MODAL */
 .modal{
   position:fixed;
   inset:0;
-  background:#000b;
+  background:rgba(0,0,0,.72);
   display:none;
-  place-items:center;
+  align-items:center;
+  justify-content:center;
+  z-index:100;
   padding:18px;
-  z-index:50
 }
 
-.modal.show{display:grid}
+.modal.show{
+  display:flex;
+}
 
 .modal-box{
-  width:min(560px,100%);
+  width:min(600px,100%);
   max-height:90vh;
   overflow:auto;
-  background:#181613;
-  border:1px solid var(--line);
-  border-radius:24px;
-  padding:22px;
-  box-shadow:var(--shadow)
+  background:#171717;
+  border:1px solid #363636;
+  border-radius:22px;
+  padding:23px;
+  box-shadow:0 25px 80px rgba(0,0,0,.5);
 }
 
 .modal-head{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:18px
+  margin-bottom:20px;
 }
 
 .modal-head h2{
-  margin:0;
-  font-size:20px
+  font-size:20px;
 }
 
+.close{
+  width:35px;
+  height:35px;
+  border-radius:50%;
+  border:1px solid #333;
+  background:#222;
+  color:#ddd;
+}
+
+.modal-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:9px;
+  margin-top:20px;
+}
+
+/* TOAST */
 .toast{
   position:fixed;
-  left:50%;
-  bottom:90px;
-  transform:translateX(-50%) translateY(20px);
-  background:#f1e7d2;
-  color:#19140d;
-  padding:11px 16px;
+  right:20px;
+  bottom:20px;
+  background:#222;
+  border:1px solid #444;
+  color:white;
+  padding:12px 16px;
   border-radius:12px;
-  font-weight:700;
+  z-index:200;
   opacity:0;
+  transform:translateY(15px);
   pointer-events:none;
   transition:.25s;
-  z-index:80
 }
 
 .toast.show{
   opacity:1;
-  transform:translateX(-50%) translateY(0)
+  transform:translateY(0);
 }
 
+/* PREMIUM */
+.premium{
+  background:
+    radial-gradient(circle at 80% 20%,rgba(215,168,75,.2),transparent 30%),
+    #17130d;
+  border:1px solid #4a3920;
+}
+
+.price{
+  font-size:40px;
+  font-weight:950;
+  color:var(--gold2);
+}
+
+.price small{
+  font-size:13px;
+  color:#999;
+  font-weight:500;
+}
+
+.feature-list{
+  list-style:none;
+  margin-top:16px;
+  display:grid;
+  gap:10px;
+}
+
+.feature-list li{
+  color:#ccc;
+}
+
+.feature-list li::before{
+  content:"✓";
+  color:var(--gold2);
+  margin-right:8px;
+}
+
+/* LIFE CARD */
+.life-card{
+  max-width:500px;
+  margin:auto;
+  background:
+    radial-gradient(circle at 80% 10%,rgba(240,200,107,.25),transparent 30%),
+    linear-gradient(145deg,#252015,#111);
+  border:1px solid #554224;
+  border-radius:25px;
+  padding:30px;
+  min-height:300px;
+}
+
+.life-card-brand{
+  font-size:11px;
+  letter-spacing:3px;
+  color:var(--gold2);
+}
+
+.life-card-name{
+  font-size:32px;
+  font-weight:950;
+  margin-top:50px;
+}
+
+.life-card-age{
+  font-size:70px;
+  font-weight:950;
+  line-height:1;
+  margin-top:8px;
+}
+
+.life-card-footer{
+  margin-top:35px;
+  color:#999;
+  font-size:12px;
+}
+
+/* MOBILE NAV */
+.mobile-nav{
+  display:none;
+}
+
+/* LOGIN */
 .login{
   min-height:100vh;
   display:grid;
   place-items:center;
   padding:20px;
   background:
-    radial-gradient(circle at 50% 0,#60491e33,transparent 45%),
-    var(--bg)
+    radial-gradient(circle at 50% 0,rgba(215,168,75,.13),transparent 35%),
+    var(--bg);
 }
 
 .login-box{
-  width:min(470px,100%);
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:28px;
+  width:min(430px,100%);
+  background:#151515;
+  border:1px solid #303030;
+  border-radius:25px;
   padding:30px;
-  box-shadow:var(--shadow)
 }
 
-.login-brand{
-  display:flex;
-  gap:12px;
-  align-items:center;
-  margin-bottom:24px
+.login-logo{
+  color:var(--gold2);
+  font-size:12px;
+  letter-spacing:3px;
 }
 
-.notice{
-  background:#211d17;
-  border:1px solid #493a25;
-  padding:12px;
-  border-radius:13px;
-  color:#cfc2ad;
-  font-size:12px
-}
-
-.premium{
-  background:linear-gradient(135deg,#2a2114,#171512);
-  border:1px solid #67502a
-}
-
-.price{
+.login-box h1{
+  margin-top:8px;
   font-size:34px;
-  font-weight:850;
-  color:var(--gold2)
 }
 
-.bottomnav{display:none}
-
-.empty{
-  text-align:center;
-  padding:30px;
-  color:var(--muted)
-}
-
-.row-actions{
-  display:flex;
-  gap:7px;
-  justify-content:flex-end
-}
-
-.health-chip{
-  padding:7px 9px;
-  border-radius:10px;
-  background:#211f1a;
+.login-box p{
   color:var(--muted);
-  font-size:11px
+  margin:8px 0 24px;
 }
 
-.list{
+.login-actions{
   display:grid;
-  gap:9px
+  gap:10px;
+  margin-top:18px;
 }
 
-.listrow{
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
-  padding:13px;
-  background:#141310;
-  border:1px solid var(--line);
-  border-radius:14px
-}
-
-.small{font-size:12px}
-
-.footer-note{
-  color:#777064;
+.demo-note{
+  margin-top:15px;
   font-size:11px;
-  text-align:center;
-  margin:30px 0
+  color:#777;
+  line-height:1.6;
 }
 
-@media(max-width:1050px){
-  .g4{grid-template-columns:repeat(2,1fr)}
-  .hero-grid{grid-template-columns:1fr}
-  .ring{max-width:190px}
-}
-
-@media(max-width:760px){
-  .sidebar{display:none}
+/* RESPONSIVE */
+@media(max-width:900px){
+  .sidebar{
+    display:none;
+  }
 
   .main{
     margin-left:0;
     width:100%;
-    padding:17px 14px 90px
+    padding-bottom:80px;
   }
 
-  .topbar{margin-bottom:16px}
+  .topbar{
+    padding:0 17px;
+    height:62px;
+  }
 
-  .title{font-size:25px}
+  .page{
+    padding:20px 15px;
+  }
 
-  .actions .labeltxt{display:none}
+  .grid-4{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
 
-  .bottomnav{
+  .grid-3{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .mobile-nav{
+    display:flex;
     position:fixed;
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
     left:10px;
     right:10px;
     bottom:10px;
-    padding:7px;
-    background:#171512ee;
-    border:1px solid var(--line);
-    border-radius:19px;
-    z-index:30;
-    backdrop-filter:blur(14px)
+    height:65px;
+    background:rgba(20,20,20,.96);
+    border:1px solid #333;
+    border-radius:18px;
+    z-index:80;
+    backdrop-filter:blur(15px);
+    align-items:center;
+    justify-content:space-around;
   }
 
-  .bottomnav button{
+  .mobile-btn{
+    background:none;
     border:0;
-    background:transparent;
-    color:var(--muted);
+    color:#888;
     font-size:10px;
-    padding:7px 2px;
-    border-radius:12px
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:4px;
   }
 
-  .bottomnav button.active{
+  .mobile-btn.active{
     color:var(--gold2);
-    background:#292219
   }
 
-  .bottomnav span{
-    display:block;
-    font-size:17px;
-    margin-bottom:2px
+  .mobile-icon{
+    font-size:18px;
   }
 
-  .g3,.g2{grid-template-columns:1fr}
-  .g4{grid-template-columns:1fr 1fr}
+  .hero h1{
+    font-size:34px;
+  }
+}
+
+@media(max-width:600px){
+  .grid-2,
+  .grid-3,
+  .grid-4,
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .field.full{
+    grid-column:auto;
+  }
+
+  .big-clock{
+    font-size:35px;
+  }
+
+  .life-number{
+    font-size:42px;
+  }
 
   .hero{
-    padding:21px;
-    border-radius:23px
+    padding:22px;
   }
 
-  .big-age{font-size:57px}
-
-  .timeline-item{
-    grid-template-columns:65px 1fr
+  .hero h1{
+    font-size:30px;
   }
 
-  .timeline-item>.days{
-    grid-column:2
+  .page-head h1{
+    font-size:25px;
   }
 
-  .weeks{gap:2px}
-  .week{height:6px}
-
-  .section-head{margin-top:23px}
-  .card{padding:16px}
+  .list-item{
+    align-items:flex-start;
+  }
 }
 </style>
 </head>
@@ -726,4839 +875,3502 @@ body{min-height:100vh}
 <body>
 
 <!-- LOGIN -->
-<div id="login" class="login hidden">
+<div id="loginScreen" class="login hidden">
   <div class="login-box">
+    <div class="login-logo">LIFE 75</div>
+    <h1 data-i18n="welcome">Your Life in Numbers</h1>
+    <p data-i18n="loginDesc">
+      See your life through time, milestones and meaningful numbers
+    </p>
 
-    <div class="login-brand">
-      <div class="brandmark">L75</div>
-      <div>
-        <h1>LIFE 75</h1>
-        <small>Your Life in Numbers</small>
-      </div>
+    <div class="field">
+      <label data-i18n="yourName">Your Name</label>
+      <input id="loginName" data-i18n-placeholder="namePlaceholder" placeholder="Enter your name">
     </div>
 
-    <div id="loginModeText">
-      <h2>Welcome back</h2>
-      <p class="muted">
-        Sign in to sync your LIFE 75 data across devices
-      </p>
-    </div>
-
-    <div class="form">
-
-      <div class="field">
-        <label>Email</label>
-        <input
-          id="authEmail"
-          type="email"
-          placeholder="you@example.com"
-          autocomplete="email"
-        >
-      </div>
-
-      <div class="field">
-        <label>Password</label>
-        <input
-          id="authPassword"
-          type="password"
-          placeholder="Minimum 6 characters"
-          autocomplete="current-password"
-        >
-      </div>
-
-      <button class="btn primary" id="authBtn">
-        Sign In
+    <div class="login-actions">
+      <button class="btn btn-primary" onclick="enterApp()" data-i18n="enterLife">
+        Enter LIFE 75
       </button>
-
-      <button class="btn ghost" id="googleBtn">
-        Continue with Google
-      </button>
-
-      <button class="btn ghost" id="guestBtn">
+      <button class="btn btn-outline" onclick="guestMode()" data-i18n="continueGuest">
         Continue as Guest
       </button>
+    </div>
 
-      <div class="notice">
-        V5 Local Mode is available now. Firebase can be connected later for cloud sync
-      </div>
-
+    <div class="demo-note" data-i18n="loginNote">
+      Your information is stored locally on this device
     </div>
   </div>
 </div>
 
-
 <!-- APP -->
-<div id="app" class="app">
+<div id="appShell" class="app-shell hidden">
 
   <!-- SIDEBAR -->
   <aside class="sidebar">
 
     <div class="brand">
-      <div class="brandmark">L75</div>
-      <div>
-        <h1>LIFE 75</h1>
-        <small>Your Life in Numbers</small>
+      <div class="brand-title">LIFE 75</div>
+      <div class="brand-sub" data-i18n="tagline">
+        Your Life in Numbers
       </div>
     </div>
 
-    <div class="nav" id="sideNav">
+    <nav class="nav">
 
-      <button data-view="home" class="active">
-        <span class="ico">⌂</span>
-        Dashboard
+      <button class="nav-btn active" data-view="home">
+        <span class="nav-icon">⌂</span>
+        <span data-i18n="home">Home</span>
       </button>
 
-      <button data-view="life">
-        <span class="ico">❤️</span>
-        My Life
+      <button class="nav-btn" data-view="life">
+        <span class="nav-icon">⌛</span>
+        <span data-i18n="myLife">My Life</span>
       </button>
 
-      <button data-view="analytics">
-        <span class="ico">📊</span>
-        Analytics
+      <button class="nav-btn" data-view="analytics">
+        <span class="nav-icon">◒</span>
+        <span data-i18n="analytics">Analytics</span>
       </button>
 
-      <button data-view="health">
-        <span class="ico">🩺</span>
-        Health
+      <button class="nav-btn" data-view="health">
+        <span class="nav-icon">♥</span>
+        <span data-i18n="health">Health</span>
       </button>
 
-      <button data-view="family">
-        <span class="ico">👨‍👩‍👧</span>
-        Family
+      <button class="nav-btn" data-view="family">
+        <span class="nav-icon">♧</span>
+        <span data-i18n="family">Family</span>
       </button>
 
-      <button data-view="goals">
-        <span class="ico">🎯</span>
-        Goals
+      <button class="nav-btn" data-view="goals">
+        <span class="nav-icon">◎</span>
+        <span data-i18n="goals">Goals</span>
       </button>
 
-      <button data-view="milestones">
-        <span class="ico">🏆</span>
-        Milestones
+      <button class="nav-btn" data-view="milestones">
+        <span class="nav-icon">★</span>
+        <span data-i18n="milestones">Milestones</span>
       </button>
 
-      <button data-view="important">
-        <span class="ico">⭐</span>
-        Important Days
+      <button class="nav-btn" data-view="important">
+        <span class="nav-icon">◷</span>
+        <span data-i18n="importantDays">Important Days</span>
       </button>
 
-      <button data-view="card">
-        <span class="ico">✨</span>
-        Life Card
+      <button class="nav-btn" data-view="card">
+        <span class="nav-icon">▣</span>
+        <span data-i18n="lifeCard">Life Card</span>
       </button>
 
-      <button data-view="premium">
-        <span class="ico">💎</span>
-        Premium
+      <button class="nav-btn" data-view="premium">
+        <span class="nav-icon">◆</span>
+        <span data-i18n="premium">Premium</span>
       </button>
 
-    </div>
+    </nav>
 
-    <div class="side-bottom">
+    <div class="sidebar-bottom">
+      <button id="languageBtn" class="lang-btn" onclick="toggleLanguage()">
+        🌐 မြန်မာ
+      </button>
 
-      <div class="profile-mini" id="profileBtn">
-
-        <div class="avatar" id="avatarText">
-          L
-        </div>
-
-        <div>
-          <b id="sideName">My Life</b>
-          <small>Profile & Settings</small>
-        </div>
-
-      </div>
-
+      <button class="nav-btn" data-view="settings" style="margin-top:8px">
+        <span class="nav-icon">⚙</span>
+        <span data-i18n="settings">Settings</span>
+      </button>
     </div>
 
   </aside>
-
 
   <!-- MAIN -->
   <main class="main">
 
     <header class="topbar">
+      <div class="top-title" id="topTitle">LIFE 75</div>
+      <div class="top-date" id="todayDate"></div>
+    </header>
 
-      <div>
-        <div class="eyebrow">LIFE 75</div>
-        <h1 class="title" id="topTitle">
-          Your Life in Numbers
-        </h1>
+    <!-- HOME -->
+    <section id="view-home" class="page active">
+
+      <div class="hero">
+        <div class="hero-label" data-i18n="everyMoment">
+          EVERY MOMENT COUNTS
+        </div>
+
+        <h1 id="heroName">LIFE 75</h1>
+
+        <p data-i18n="heroText">
+          Your life is limited. Make every moment count
+        </p>
+
+        <div class="actions">
+          <button class="btn btn-primary" onclick="openModal('profileModal')" data-i18n="editProfile">
+            Edit Profile
+          </button>
+
+          <button class="btn btn-outline" onclick="showView('life')" data-i18n="viewLife">
+            View My Life
+          </button>
+        </div>
+      </div>
+
+      <!-- NOW -->
+      <div class="section-title" data-i18n="now">NOW</div>
+
+      <div class="card">
+        <div class="card-title" data-i18n="currentTime">Current Time</div>
+        <div id="liveClock" class="big-clock">--:--:--</div>
+        <div id="liveDate" class="metric-sub"></div>
+      </div>
+
+      <!-- TODAY LEFT -->
+      <div class="section-title" data-i18n="todayLeft">TODAY LEFT</div>
+
+      <div class="card">
+        <div class="card-title" data-i18n="untilMidnight">
+          Time remaining until midnight
+        </div>
+
+        <div class="countdown">
+          <div class="time-box">
+            <div id="leftHours" class="time-number">00</div>
+            <div class="time-label" data-i18n="hours">Hours</div>
+          </div>
+
+          <div class="time-box">
+            <div id="leftMinutes" class="time-number">00</div>
+            <div class="time-label" data-i18n="minutes">Minutes</div>
+          </div>
+
+          <div class="time-box">
+            <div id="leftSeconds" class="time-number">00</div>
+            <div class="time-label" data-i18n="seconds">Seconds</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- THIS YEAR -->
+      <div class="section-title" data-i18n="thisYear">THIS YEAR</div>
+
+      <div class="grid grid-3">
+
+        <div class="card">
+          <div class="card-title" data-i18n="daysPassed">Days Passed</div>
+          <div id="yearPassed" class="metric">0</div>
+        </div>
+
+        <div class="card">
+          <div class="card-title" data-i18n="daysLeft">Days Left</div>
+          <div id="yearLeft" class="metric gold">0</div>
+        </div>
+
+        <div class="card">
+          <div class="card-title" data-i18n="yearProgress">Year Progress</div>
+          <div id="yearProgressText" class="metric">0%</div>
+          <div class="progress">
+            <div id="yearProgressBar" class="progress-fill" style="width:0%"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- YOUR LIFE -->
+      <div class="section-title" data-i18n="yourLife">YOUR LIFE</div>
+
+      <div class="grid grid-4">
+
+        <div class="card">
+          <div class="card-title" data-i18n="age">Age</div>
+          <div id="homeAge" class="metric gold">—</div>
+          <div id="homeAgeSub" class="metric-sub"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title" data-i18n="daysLived">Days Lived</div>
+          <div id="homeDays" class="metric">—</div>
+        </div>
+
+        <div class="card">
+          <div class="card-title" data-i18n="remainingYears">
+            Planning Years Remaining
+          </div>
+          <div id="homeRemaining" class="metric">—</div>
+        </div>
+
+        <div class="card">
+          <div class="card-title" data-i18n="lifeProgress">Life Progress</div>
+          <div id="homeLifeProgress" class="metric gold">—</div>
+        </div>
+
+      </div>
+
+      <!-- NEXT IMPORTANT -->
+      <div class="section-title" data-i18n="nextImportant">
+        NEXT IMPORTANT DAY
+      </div>
+
+      <div id="homeImportant" class="card"></div>
+
+    </section>
+
+    <!-- LIFE -->
+    <section id="view-life" class="page">
+
+      <div class="page-head">
+        <h1 data-i18n="myLife">My Life</h1>
+        <p data-i18n="lifePageDesc">
+          See your life through time and numbers
+        </p>
+      </div>
+
+      <div class="grid grid-2">
+
+        <div class="card">
+          <div class="card-title" data-i18n="currentAge">Current Age</div>
+          <div id="lifeAge" class="life-number gold">—</div>
+          <div id="lifeAgeDetail" class="life-unit"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title" data-i18n="daysLived">Days Lived</div>
+          <div id="lifeDays" class="life-number">—</div>
+          <div class="life-unit" data-i18n="days">days</div>
+        </div>
+
+      </div>
+
+      <div class="section-title" data-i18n="lifeProgress">Life Progress</div>
+
+      <div class="card">
+        <div id="lifeCircle" class="circle" style="--percent:0%">
+          <div class="circle-content">
+            <div id="lifeCirclePercent" class="circle-percent">0%</div>
+            <div class="metric-sub" data-i18n="planning">Planning</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title" data-i18n="lifeNumbers">
+        Life in Numbers
+      </div>
+
+      <div class="grid grid-3">
+
+        <div class="card">
+          <div class="card-title" data-i18n="hoursLived">Hours Lived</div>
+          <div id="lifeHours" class="metric">—</div>
+        </div>
+
+        <div class="card">
+          <div class="card-title" data-i18n="minutesLived">Minutes Lived</div>
+          <div id="lifeMinutes" class="metric">—</div>
+        </div>
+
+        <div class="card">
+          <div class="card-title" data-i18n="secondsLived">Seconds Lived</div>
+          <div id="lifeSeconds" class="metric">—</div>
+        </div>
+
+        <div class="card">
+          <div class="card-title" data-i18n="estimatedHeartbeats">
+            Estimated Heartbeats
+          </div>
+          <div id="lifeBeats" class="metric">—</div>
+        </div>
+
+        <div class="card">
+          <div class="card-title" data-i18n="estimatedBreaths">
+            Estimated Breaths
+          </div>
+          <div id="lifeBreaths" class="metric">—</div>
+        </div>
+
+        <div class="card">
+          <div class="card-title" data-i18n="remainingMonths">
+            Remaining Months
+          </div>
+          <div id="lifeMonthsRemaining" class="metric gold">—</div>
+        </div>
+
+      </div>
+
+      <div class="section-title" data-i18n="lifeWeeks">
+        Life Weeks
+      </div>
+
+      <div class="card">
+        <div class="metric-sub" data-i18n="weeksDesc">
+          Each square represents approximately one week of your planning life
+        </div>
+        <div id="weeksGrid" class="weeks"></div>
+      </div>
+
+    </section>
+
+    <!-- ANALYTICS -->
+    <section id="view-analytics" class="page">
+
+      <div class="page-head">
+        <h1 data-i18n="analytics">Analytics</h1>
+        <p data-i18n="analyticsDesc">
+          Understand how your time is moving
+        </p>
+      </div>
+
+      <div class="grid grid-2">
+
+        <div class="card">
+          <div class="card-title" data-i18n="lifeProgress">Life Progress</div>
+          <div id="analyticsLifePercent" class="metric gold">—</div>
+          <div class="progress">
+            <div id="analyticsLifeBar" class="progress-fill"></div>
+          </div>
+          <div class="metric-sub" data-i18n="planningHorizonNote">
+            Based on your selected planning horizon
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title" data-i18n="yearProgress">Year Progress</div>
+          <div id="analyticsYearPercent" class="metric">—</div>
+          <div class="progress">
+            <div id="analyticsYearBar" class="progress-fill"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="section-title" data-i18n="timeOverview">
+        Time Overview
+      </div>
+
+      <div class="grid grid-4">
+
+        <div class="card">
+          <div class="card-title" data-i18n="daysLived">Days Lived</div>
+          <div id="analyticsDays" class="metric">—</div>
+        </div>
+
+        <div class="card">
+          <div class="card-title" data-i18n="remainingDays">
+            Remaining Days
+          </div>
+          <div id="analyticsRemainingDays" class="metric gold">—</div>
+        </div>
+
+        <div class="card">
+          <div class="card-title" data-i18n="remainingWeeks">
+            Remaining Weeks
+          </div>
+          <div id="analyticsRemainingWeeks" class="metric">—</div>
+        </div>
+
+        <div class="card">
+          <div class="card-title" data-i18n="remainingMonths">
+            Remaining Months
+          </div>
+          <div id="analyticsRemainingMonths" class="metric">—</div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- HEALTH -->
+    <section id="view-health" class="page">
+
+      <div class="page-head">
+        <h1 data-i18n="health">Health</h1>
+        <p data-i18n="healthDesc">
+          Track measurements and health topics to discuss
+        </p>
+      </div>
+
+      <div class="card premium">
+
+        <div class="card-title" data-i18n="healthProfile">
+          HEALTH PROFILE
+        </div>
+
+        <div class="grid grid-4" style="margin-top:15px">
+
+          <div>
+            <div class="card-title" data-i18n="weight">Weight</div>
+            <div id="healthWeight" class="metric">—</div>
+          </div>
+
+          <div>
+            <div class="card-title" data-i18n="bloodPressure">
+              Blood Pressure
+            </div>
+            <div id="healthBP" class="metric">—</div>
+          </div>
+
+          <div>
+            <div class="card-title" data-i18n="restingHeartRate">
+              Resting HR
+            </div>
+            <div id="healthHR" class="metric">—</div>
+          </div>
+
+          <div>
+            <div class="card-title" data-i18n="glucose">Glucose</div>
+            <div id="healthGlucose" class="metric">—</div>
+          </div>
+
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-primary" onclick="openModal('healthModal')" data-i18n="updateHealth">
+            Update Health
+          </button>
+        </div>
+
+      </div>
+
+      <div class="section-title" data-i18n="ageHealthGuide">
+        Age-Based Health Guide
+      </div>
+
+      <div id="healthGuide" class="card"></div>
+
+      <div class="section-title" data-i18n="healthActions">
+        Health Actions
+      </div>
+
+      <div class="grid grid-2">
+
+        <div class="card">
+          <div class="card-title" data-i18n="doMore">DO MORE</div>
+          <ul class="feature-list">
+            <li data-i18n="healthDo1">Stay physically active</li>
+            <li data-i18n="healthDo2">Prioritize balanced nutrition</li>
+            <li data-i18n="healthDo3">Protect sleep and recovery</li>
+            <li data-i18n="healthDo4">Keep appropriate checkups</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title" data-i18n="avoid">AVOID</div>
+          <ul class="feature-list">
+            <li data-i18n="healthAvoid1">Tobacco use</li>
+            <li data-i18n="healthAvoid2">Excessive alcohol</li>
+            <li data-i18n="healthAvoid3">Long periods of inactivity</li>
+            <li data-i18n="healthAvoid4">Ignoring persistent symptoms</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <div class="metric-sub" data-i18n="healthDisclaimer">
+          LIFE 75 provides general health information and tracking only. It
+          does not diagnose disease or replace professional medical advice
+        </div>
+      </div>
+
+    </section>
+
+    <!-- FAMILY -->
+    <section id="view-family" class="page">
+
+      <div class="page-head">
+        <h1 data-i18n="family">Family</h1>
+        <p data-i18n="familyDesc">
+          Keep meaningful family dates and timelines together
+        </p>
       </div>
 
       <div class="actions">
-
-        <button class="iconbtn" id="langBtn">
-          <span class="labeltxt">မြန်မာ / EN</span>
-          🌐
+        <button class="btn btn-primary" onclick="openModal('familyModal')" data-i18n="addFamily">
+          + Add Family Member
         </button>
-
-        <button class="iconbtn" id="profileBtn2">
-          ⚙
-        </button>
-
       </div>
 
-    </header>
-
-
-    <!-- HOME -->
-    <section id="view-home" class="view active">
-
-      <div class="hero">
-
-        <div class="hero-grid">
-
-          <div>
-
-            <div class="eyebrow">
-              NOW
-            </div>
-
-            <div class="live" id="liveClock">
-              00:00:00
-            </div>
-
-            <h2>
-              Make Every Moment Count
-            </h2>
-
-            <p>
-              LIFE 75 helps you see your time, milestones, health,
-              family and goals in one personal dashboard
-            </p>
-
-            <div class="big-age" id="homeAge">
-              —
-            </div>
-
-            <div class="age-sub">
-              Your current age
-            </div>
-
-            <div class="row-actions mt">
-
-              <button
-                class="btn primary"
-                id="setupBtn"
-              >
-                Set Up My Life
-              </button>
-
-              <button
-                class="btn ghost"
-                data-view-jump="important"
-              >
-                ⭐ Important Days
-              </button>
-
-            </div>
-
-          </div>
-
-
-          <div class="ring" id="lifeRing">
-
-            <div class="ring-in">
-
-              <div>
-                <b id="ringPct">
-                  0%
-                </b>
-
-                <br>
-
-                <span>
-                  planning horizon
-                </span>
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
+      <div class="section-title" data-i18n="familyTimeline">
+        Family Timeline
       </div>
 
-
-      <!-- TODAY -->
-      <div class="section-head">
-        <h2>⏳ TODAY LEFT</h2>
-      </div>
-
-      <div class="grid g2">
-
-        <div class="card stat-card">
-
-          <div class="label">
-            Time until midnight
-          </div>
-
-          <div class="countdown" id="todayLeft">
-            00:00:00
-          </div>
-
-          <p class="muted small">
-            Every day is a limited resource
-          </p>
-
-        </div>
-
-
-        <div class="card stat-card">
-
-          <div class="label">
-            Current Date
-          </div>
-
-          <div class="metric gold" id="todayDate">
-            —
-          </div>
-
-          <p class="muted small">
-            Your device local date
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <!-- YEAR -->
-      <div class="section-head">
-
-        <h2>
-          📅 THIS YEAR
-        </h2>
-
-      </div>
-
-      <div class="grid g4">
-
-        <div class="card stat-card">
-          <div class="label">Days Passed</div>
-          <div class="metric" id="daysPassed">—</div>
-        </div>
-
-        <div class="card stat-card">
-          <div class="label">Days Left</div>
-          <div class="metric gold" id="daysLeft">—</div>
-        </div>
-
-        <div class="card stat-card">
-          <div class="label">Weeks Left</div>
-          <div class="metric" id="weeksLeft">—</div>
-        </div>
-
-        <div class="card stat-card">
-          <div class="label">Year Progress</div>
-          <div class="metric" id="yearPct">—</div>
-        </div>
-
-      </div>
-
-
-      <!-- LIFE -->
-      <div class="section-head">
-
-        <h2>
-          ❤️ YOUR LIFE
-        </h2>
-
-      </div>
-
-      <div class="grid g4">
-
-        <div class="card">
-          <div class="label">Age</div>
-          <div class="metric gold" id="lifeAge">—</div>
-        </div>
-
-        <div class="card">
-          <div class="label">Days Lived</div>
-          <div class="metric" id="daysLived">—</div>
-        </div>
-
-        <div class="card">
-          <div class="label">Estimated Heartbeats</div>
-          <div class="metric" id="heartbeats">—</div>
-        </div>
-
-        <div class="card">
-          <div class="label">Years Remaining*</div>
-          <div class="metric" id="yearsRemaining">—</div>
-        </div>
-
-      </div>
-
-
-      <!-- NEXT IMPORTANT -->
-      <div class="section-head">
-
-        <h2>
-          ⭐ NEXT IMPORTANT DAY
-        </h2>
-
-      </div>
-
-      <div class="card important-hero">
-
-        <div class="split">
-
-          <div>
-
-            <div
-              class="important-date"
-              id="nextImportantDate"
-            >
-              —
-            </div>
-
-            <div
-              class="important-title"
-              id="nextImportantTitle"
-            >
-              No important day yet
-            </div>
-
-            <span
-              class="tag"
-              id="nextImportantCategory"
-            >
-              —
-            </span>
-
-          </div>
-
-          <div class="daysbig" id="nextImportantDays">
-            —
-          </div>
-
-        </div>
-
-        <div class="small muted mt">
-          days remaining
-        </div>
-
-      </div>
-
-
-      <!-- QUICK -->
-      <div class="section-head">
-
-        <h2>
-          Quick Actions
-        </h2>
-
-      </div>
-
-      <div class="grid g4">
-
-        <button
-          class="card"
-          id="quickImportant"
-          style="text-align:left"
-        >
-          <div class="label">Add</div>
-          <div class="metric">⭐</div>
-          <b>Important Day</b>
-        </button>
-
-        <button
-          class="card"
-          id="familyBtn"
-          style="text-align:left"
-        >
-          <div class="label">Add</div>
-          <div class="metric">👨‍👩‍👧</div>
-          <b>Family Member</b>
-        </button>
-
-        <button
-          class="card"
-          id="goalBtn"
-          style="text-align:left"
-        >
-          <div class="label">Add</div>
-          <div class="metric">🎯</div>
-          <b>Goal</b>
-        </button>
-
-        <button
-          class="card"
-          id="healthBtn"
-          style="text-align:left"
-        >
-          <div class="label">Record</div>
-          <div class="metric">❤️</div>
-          <b>Health</b>
-        </button>
-
-      </div>
+      <div id="familyList" class="list"></div>
 
     </section>
-
-
-    <!-- LIFE -->
-    <section id="view-life" class="view">
-
-      <div class="section-head">
-        <h2>❤️ My Life</h2>
-        <button class="btn primary" id="lifeProfileBtn">
-          Edit Profile
-        </button>
-      </div>
-
-      <div class="grid g3">
-
-        <div class="card">
-          <div class="label">Current Age</div>
-          <div class="metric gold" id="lifePageAge">—</div>
-          <div class="small muted">
-            Years · Months · Days
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="label">Days Lived</div>
-          <div class="metric" id="lifePageDays">—</div>
-        </div>
-
-        <div class="card">
-          <div class="label">Planning Horizon</div>
-          <div class="metric" id="lifePageHorizon">75</div>
-          <div class="small muted">years*</div>
-        </div>
-
-      </div>
-
-
-      <div class="section-head">
-        <h2>🟨 Life Weeks</h2>
-      </div>
-
-      <div class="card">
-
-        <p class="small muted">
-          Each square represents approximately one week
-        </p>
-
-        <div
-          class="weeks"
-          id="weeksGrid"
-        ></div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ANALYTICS -->
-    <section id="view-analytics" class="view">
-
-      <div class="section-head">
-        <h2>📊 Life Analytics</h2>
-      </div>
-
-      <div class="grid g2">
-
-        <div class="card">
-
-          <div class="split">
-            <div>
-              <div class="label">
-                Life Progress
-              </div>
-              <h3>Planning Horizon</h3>
-            </div>
-            <span class="tag">LIVE</span>
-          </div>
-
-          <div class="chart">
-            <canvas id="lifeChart"></canvas>
-          </div>
-
-        </div>
-
-
-        <div class="card">
-
-          <div class="label">
-            This Year
-          </div>
-
-          <h3>Year Progress</h3>
-
-          <div class="chart">
-            <canvas id="yearChart"></canvas>
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="section-head">
-        <h2>🎯 Goal Progress</h2>
-      </div>
-
-      <div class="card">
-
-        <div class="chart">
-          <canvas id="goalChart"></canvas>
-        </div>
-
-      </div>
-
-
-      <div class="section-head">
-        <h2>🏆 Milestone Timeline</h2>
-      </div>
-
-      <div class="card" id="analyticsTimeline"></div>
-
-    </section>
-
-
-    <!-- HEALTH -->
-    <section id="view-health" class="view">
-
-      <div class="section-head">
-
-        <div>
-          <h2>❤️ Health Center</h2>
-          <div class="small muted">
-            Track measurements and prevention topics
-          </div>
-        </div>
-
-        <button class="btn primary" id="healthBtn2">
-          + Measurement
-        </button>
-
-      </div>
-
-
-      <div class="grid g3">
-
-        <div class="card">
-          <div class="label">Weight</div>
-          <div class="metric gold" id="hWeight">—</div>
-        </div>
-
-        <div class="card">
-          <div class="label">Blood Pressure</div>
-          <div class="metric" id="hBP">—</div>
-        </div>
-
-        <div class="card">
-          <div class="label">Resting HR</div>
-          <div class="metric" id="hHR">—</div>
-        </div>
-
-      </div>
-
-
-      <div class="section-head">
-        <h2>📈 Health History</h2>
-      </div>
-
-      <div class="card">
-
-        <div class="chart">
-          <canvas id="healthChart"></canvas>
-        </div>
-
-        <div id="healthHistory"></div>
-
-      </div>
-
-
-      <div class="section-head">
-        <h2>🩺 Age-Based Guide</h2>
-      </div>
-
-      <div class="card">
-        <div id="healthGuide"></div>
-      </div>
-
-      <div class="footer-note">
-        LIFE 75 health features are for tracking and general education,
-        not diagnosis or emergency medical care
-      </div>
-
-    </section>
-
-
-    <!-- FAMILY -->
-    <section id="view-family" class="view">
-
-      <div class="section-head">
-
-        <div>
-          <h2>👨‍👩‍👧 My Family</h2>
-          <div class="small muted">
-            Keep important family dates together
-          </div>
-        </div>
-
-        <button class="btn primary" id="familyBtn2">
-          + Family
-        </button>
-
-      </div>
-
-      <div
-        class="grid g3"
-        id="familyList"
-      ></div>
-
-
-      <div class="section-head">
-        <h2>Family Timeline</h2>
-      </div>
-
-      <div class="card" id="familyTimeline"></div>
-
-    </section>
-
 
     <!-- GOALS -->
-    <section id="view-goals" class="view">
+    <section id="view-goals" class="page">
 
-      <div class="section-head">
-
-        <div>
-          <h2>🎯 Goals</h2>
-          <div class="small muted">
-            Turn remaining time into meaningful progress
-          </div>
-        </div>
-
-        <button class="btn primary" id="goalBtn2">
-          + Goal
-        </button>
-
+      <div class="page-head">
+        <h1 data-i18n="goals">Goals</h1>
+        <p data-i18n="goalsDesc">
+          Turn your remaining time into meaningful progress
+        </p>
       </div>
 
-      <div
-        class="grid g2"
-        id="goalList"
-      ></div>
+      <div class="actions">
+        <button class="btn btn-primary" onclick="openModal('goalModal')" data-i18n="addGoal">
+          + Add Goal
+        </button>
+      </div>
+
+      <div class="section-title" data-i18n="goalProgress">
+        Goal Progress
+      </div>
+
+      <div id="goalList" class="list"></div>
 
     </section>
-
 
     <!-- MILESTONES -->
-    <section id="view-milestones" class="view">
+    <section id="view-milestones" class="page">
 
-      <div class="section-head">
-        <h2>🏆 Milestones</h2>
+      <div class="page-head">
+        <h1 data-i18n="milestones">Milestones</h1>
+        <p data-i18n="milestonesDesc">
+          Important numbers and moments in your life
+        </p>
       </div>
 
-      <div
-        class="card"
-        id="milestoneList"
-      ></div>
+      <div id="milestoneList" class="list"></div>
 
     </section>
-
 
     <!-- IMPORTANT DAYS -->
-    <section id="view-important" class="view">
+    <section id="view-important" class="page">
 
-      <div class="section-head">
+      <div class="page-head">
+        <h1 data-i18n="importantDays">Important Days</h1>
+        <p data-i18n="importantDesc">
+          Never lose track of the dates that matter
+        </p>
+      </div>
 
-        <div>
-          <h2>⭐ Important Days</h2>
-          <div class="small muted">
-            Birthdays, family dates, national days and your own meaningful days
-          </div>
-        </div>
-
-        <button
-          class="btn primary"
-          id="importantBtn"
-        >
+      <div class="actions">
+        <button class="btn btn-primary" onclick="openModal('importantModal')" data-i18n="addImportantDay">
           + Add Important Day
         </button>
-
       </div>
 
-
-      <div
-        class="filters"
-        id="importantFilters"
-      >
-
-        <button class="btn active" data-filter="all">
-          All
-        </button>
-
-        <button class="btn" data-filter="personal">
-          Personal
-        </button>
-
-        <button class="btn" data-filter="family">
-          Family
-        </button>
-
-        <button class="btn" data-filter="myanmar">
-          Myanmar
-        </button>
-
-        <button class="btn" data-filter="global">
-          Global
-        </button>
-
-        <button class="btn" data-filter="work">
-          Work
-        </button>
-
-        <button class="btn" data-filter="health">
-          Health
-        </button>
-
+      <div class="section-title" data-i18n="nextImportant">
+        NEXT IMPORTANT DAY
       </div>
 
+      <div id="importantNext" class="card"></div>
 
-      <div class="section-head">
-        <h2>Today</h2>
+      <div class="section-title" data-i18n="allImportantDays">
+        All Important Days
       </div>
 
-      <div
-        class="grid g2"
-        id="todayImportant"
-      ></div>
-
-
-      <div class="section-head">
-        <h2>Upcoming Important Days</h2>
+      <div class="filters" id="importantFilters">
+        <button class="filter active" data-filter="all" data-i18n="all">All</button>
+        <button class="filter" data-filter="personal" data-i18n="personal">Personal</button>
+        <button class="filter" data-filter="family" data-i18n="family">Family</button>
+        <button class="filter" data-filter="work" data-i18n="work">Work</button>
+        <button class="filter" data-filter="health" data-i18n="health">Health</button>
+        <button class="filter" data-filter="myanmar" data-i18n="myanmar">Myanmar</button>
+        <button class="filter" data-filter="global" data-i18n="global">Global</button>
       </div>
 
-      <div
-        class="card"
-        id="importantList"
-      ></div>
+      <div id="importantList" class="list"></div>
 
     </section>
-
 
     <!-- LIFE CARD -->
-    <section id="view-card" class="view">
+    <section id="view-card" class="page">
 
-      <div class="section-head">
+      <div class="page-head">
+        <h1 data-i18n="lifeCard">Life Card</h1>
+        <p data-i18n="lifeCardDesc">
+          A simple snapshot of your life
+        </p>
+      </div>
 
-        <div>
-          <h2>✨ Life Card</h2>
-          <div class="small muted">
-            Your life summarized in one beautiful card
-          </div>
+      <div class="life-card">
+
+        <div class="life-card-brand">LIFE 75</div>
+
+        <div id="cardName" class="life-card-name">Your Name</div>
+
+        <div id="cardAge" class="life-card-age">—</div>
+
+        <div id="cardAgeLabel" class="life-card-footer">
+          years old
         </div>
 
-        <button
-          class="btn primary"
-          id="shareCardBtn"
-        >
-          Copy Card
-        </button>
+        <div class="life-card-footer">
+          Every moment counts
+        </div>
 
       </div>
 
-      <div class="card" id="lifeCardPreview"></div>
+      <div class="actions" style="justify-content:center">
+        <button class="btn btn-primary" onclick="shareLifeCard()" data-i18n="shareCard">
+          Share Life Card
+        </button>
+      </div>
 
     </section>
-
 
     <!-- PREMIUM -->
-    <section id="view-premium" class="view">
+    <section id="view-premium" class="page">
 
-      <div class="hero premium">
-
-        <div class="eyebrow">
-          LIFE 75 PREMIUM
-        </div>
-
-        <h2>
-          Unlock Your Full Life
-        </h2>
-
-        <p>
-          Go beyond the dashboard with deeper life planning,
-          family tools, important days, Life Card and more
+      <div class="page-head">
+        <h1 data-i18n="premium">Premium</h1>
+        <p data-i18n="premiumDesc">
+          Unlock the complete LIFE 75 experience
         </p>
-
       </div>
 
+      <div class="card premium">
 
-      <div class="section-head">
-        <h2>Choose Your Plan</h2>
-      </div>
+        <div class="card-title">LIFE 75 PREMIUM</div>
 
-
-      <div class="grid g4">
-
-        <div class="card">
-
-          <div class="label">
-            1 MONTH
-          </div>
-
-          <div class="price">
-            5,000 Ks
-          </div>
-
-          <p class="small muted">
-            Full Premium access
-          </p>
-
-          <button
-            class="btn primary"
-            data-plan="1 Month · 5,000 Ks"
-          >
-            Choose
-          </button>
-
+        <div class="price">
+          5,000 Ks
+          <small data-i18n="perMonth">/ month</small>
         </div>
 
+        <ul class="feature-list">
+          <li data-i18n="premium1">Life Weeks</li>
+          <li data-i18n="premium2">Custom Milestones</li>
+          <li data-i18n="premium3">Goals and Countdown</li>
+          <li data-i18n="premium4">Important Days</li>
+          <li data-i18n="premium5">Family Timeline</li>
+          <li data-i18n="premium6">Shareable Life Card</li>
+          <li data-i18n="premium7">Premium Reports</li>
+          <li data-i18n="premium8">No Ads</li>
+        </ul>
 
-        <div class="card">
-
-          <div class="label">
-            3 MONTHS
-          </div>
-
-          <div class="price">
-            12,000 Ks
-          </div>
-
-          <p class="small muted">
-            Save vs monthly
-          </p>
-
-          <button
-            class="btn primary"
-            data-plan="3 Months · 12,000 Ks"
-          >
-            Choose
+        <div class="actions">
+          <button class="btn btn-primary" onclick="openModal('paymentModal')" data-i18n="activatePremium">
+            Activate Premium
           </button>
-
-        </div>
-
-
-        <div class="card">
-
-          <div class="label">
-            6 MONTHS
-          </div>
-
-          <div class="price">
-            20,000 Ks
-          </div>
-
-          <p class="small muted">
-            Longer planning
-          </p>
-
-          <button
-            class="btn primary"
-            data-plan="6 Months · 20,000 Ks"
-          >
-            Choose
-          </button>
-
-        </div>
-
-
-        <div class="card premium">
-
-          <div class="label">
-            1 YEAR
-          </div>
-
-          <div class="price">
-            35,000 Ks
-          </div>
-
-          <p class="small muted">
-            Best long-term value
-          </p>
-
-          <button
-            class="btn primary"
-            data-plan="1 Year · 35,000 Ks"
-          >
-            Choose
-          </button>
-
         </div>
 
       </div>
 
-
-      <div class="section-head">
-        <h2>Premium Includes</h2>
+      <div class="section-title" data-i18n="pricing">
+        Pricing
       </div>
 
-      <div class="grid g3">
+      <div class="grid grid-4">
 
         <div class="card">
-          ⭐ Unlimited Important Days
+          <div class="card-title" data-i18n="oneMonth">1 Month</div>
+          <div class="metric gold">5,000 Ks</div>
         </div>
 
         <div class="card">
-          🟨 Life Weeks
+          <div class="card-title" data-i18n="threeMonths">3 Months</div>
+          <div class="metric">12,000 Ks</div>
         </div>
 
         <div class="card">
-          👨‍👩‍👧 Family Planning
+          <div class="card-title" data-i18n="sixMonths">6 Months</div>
+          <div class="metric">20,000 Ks</div>
         </div>
 
         <div class="card">
-          🎯 Advanced Goals
+          <div class="card-title" data-i18n="oneYear">1 Year</div>
+          <div class="metric">35,000 Ks</div>
         </div>
 
-        <div class="card">
-          ✨ Life Card
-        </div>
+      </div>
 
-        <div class="card">
-          ☁️ Cloud Sync — Coming Soon
-        </div>
+      <div class="section-title" data-i18n="paymentMethods">
+        Payment Methods
+      </div>
 
+      <div class="card">
+        <div class="metric-sub" data-i18n="paymentDesc">
+          KPay / WavePay payment can be submitted with a transaction ID or screenshot for verification
+        </div>
       </div>
 
     </section>
 
+    <!-- SETTINGS -->
+    <section id="view-settings" class="page">
 
-    <div class="footer-note">
-      * LIFE 75 uses a planning horizon, not a prediction of lifespan
-    </div>
+      <div class="page-head">
+        <h1 data-i18n="settings">Settings</h1>
+        <p data-i18n="settingsDesc">
+          Manage your LIFE 75 profile and preferences
+        </p>
+      </div>
+
+      <div class="grid grid-2">
+
+        <div class="card">
+          <div class="card-title" data-i18n="profile">Profile</div>
+          <div id="settingsName" class="metric"></div>
+          <div id="settingsDob" class="metric-sub"></div>
+
+          <div class="actions">
+            <button class="btn btn-primary" onclick="openModal('profileModal')" data-i18n="editProfile">
+              Edit Profile
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title" data-i18n="language">Language</div>
+          <div id="settingsLanguage" class="metric"></div>
+
+          <div class="actions">
+            <button class="btn btn-outline" onclick="toggleLanguage()" data-i18n="changeLanguage">
+              Change Language
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="section-title" data-i18n="dataManagement">
+        Data Management
+      </div>
+
+      <div class="card">
+        <div class="actions">
+          <button class="btn" onclick="exportData()" data-i18n="exportData">
+            Export Data
+          </button>
+
+          <button class="btn" onclick="clearData()" data-i18n="clearData">
+            Clear Local Data
+          </button>
+        </div>
+      </div>
+
+    </section>
 
   </main>
 
-
-  <!-- MOBILE NAV -->
-  <nav
-    class="bottomnav"
-    id="bottomNav"
-  >
-
-    <button
-      data-view="home"
-      class="active"
-    >
-      <span>⌂</span>
-      Home
-    </button>
-
-    <button data-view="life">
-      <span>❤️</span>
-      Life
-    </button>
-
-    <button data-view="health">
-      <span>🩺</span>
-      Health
-    </button>
-
-    <button data-view="family">
-      <span>👨‍👩‍👧</span>
-      Family
-    </button>
-
-    <button data-view="important">
-      <span>⭐</span>
-      More
-    </button>
-
-  </nav>
-
 </div>
 
+<!-- MOBILE NAV -->
+<nav class="mobile-nav">
+
+  <button class="mobile-btn active" data-view="home">
+    <span class="mobile-icon">⌂</span>
+    <span data-i18n="home">Home</span>
+  </button>
+
+  <button class="mobile-btn" data-view="life">
+    <span class="mobile-icon">⌛</span>
+    <span data-i18n="myLifeShort">Life</span>
+  </button>
+
+  <button class="mobile-btn" data-view="health">
+    <span class="mobile-icon">♥</span>
+    <span data-i18n="health">Health</span>
+  </button>
+
+  <button class="mobile-btn" data-view="family">
+    <span class="mobile-icon">♧</span>
+    <span data-i18n="family">Family</span>
+  </button>
+
+  <button class="mobile-btn" data-view="important">
+    <span class="mobile-icon">◷</span>
+    <span data-i18n="more">More</span>
+  </button>
+
+</nav>
 
 <!-- PROFILE MODAL -->
-<div
-  class="modal"
-  id="profileModal"
->
+<div id="profileModal" class="modal">
 
   <div class="modal-box">
 
     <div class="modal-head">
+      <h2 data-i18n="profile">Profile</h2>
+      <button class="close" onclick="closeModal('profileModal')">×</button>
+    </div>
 
-      <h2>My Profile</h2>
+    <div class="form-grid">
 
-      <button
-        class="iconbtn"
-        data-close="profileModal"
-      >
-        ✕
-      </button>
+      <div class="field full">
+        <label data-i18n="yourName">Your Name</label>
+        <input id="profileName" data-i18n-placeholder="namePlaceholder" placeholder="Your name">
+      </div>
+
+      <div class="field">
+        <label data-i18n="dateOfBirth">Date of Birth</label>
+        <input id="profileDob" type="date">
+      </div>
+
+      <div class="field">
+        <label data-i18n="birthTime">Birth Time</label>
+        <input id="profileBirthTime" type="time">
+      </div>
+
+      <div class="field">
+        <label data-i18n="sexForHealth">Sex — for health guidance</label>
+        <select id="profileSex">
+          <option value="" data-i18n="selectOption">Select</option>
+          <option value="male" data-i18n="male">Male</option>
+          <option value="female" data-i18n="female">Female</option>
+          <option value="na" data-i18n="preferNot">Prefer not to say</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label data-i18n="planningHorizon">Planning Horizon</label>
+        <select id="profileHorizon">
+          <option value="75">75 years</option>
+          <option value="80">80 years</option>
+          <option value="85">85 years</option>
+          <option value="90">90 years</option>
+        </select>
+      </div>
 
     </div>
 
-
-    <div class="form">
-
-      <div class="field">
-        <label>Name</label>
-        <input id="pName">
-      </div>
-
-      <div class="field">
-        <label>Date of Birth</label>
-        <input id="pDob" type="date">
-      </div>
-
-      <div class="field">
-        <label>Birth Time — Optional</label>
-        <input id="pTime" type="time">
-      </div>
-
-      <div class="field">
-        <label>Sex — for health guidance</label>
-
-        <select id="pSex">
-
-          <option value="">
-            Prefer not to say
-          </option>
-
-          <option value="male">
-            Male
-          </option>
-
-          <option value="female">
-            Female
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          Planning Horizon
-        </label>
-
-        <select id="pHorizon">
-
-          <option value="75">75 Years</option>
-          <option value="80">80 Years</option>
-          <option value="85">85 Years</option>
-          <option value="90">90 Years</option>
-
-        </select>
-
-      </div>
-
-
-      <button
-        class="btn primary"
-        id="saveProfile"
-      >
-        Save Profile
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('profileModal')" data-i18n="cancel">
+        Cancel
       </button>
-
+      <button class="btn btn-primary" onclick="saveProfile()" data-i18n="save">
+        Save
+      </button>
     </div>
 
   </div>
 
 </div>
-
 
 <!-- IMPORTANT MODAL -->
-<div
-  class="modal"
-  id="importantModal"
->
+<div id="importantModal" class="modal">
 
   <div class="modal-box">
 
     <div class="modal-head">
+      <h2 data-i18n="addImportantDay">Add Important Day</h2>
+      <button class="close" onclick="closeModal('importantModal')">×</button>
+    </div>
 
-      <h2>Add Important Day</h2>
+    <div class="form-grid">
 
-      <button
-        class="iconbtn"
-        data-close="importantModal"
-      >
-        ✕
-      </button>
+      <div class="field full">
+        <label data-i18n="title">Title</label>
+        <input id="importantTitle" data-i18n-placeholder="titlePlaceholder" placeholder="Important day">
+      </div>
+
+      <div class="field">
+        <label data-i18n="date">Date</label>
+        <input id="importantDate" type="date">
+      </div>
+
+      <div class="field">
+        <label data-i18n="category">Category</label>
+        <select id="importantCategory">
+          <option value="personal" data-i18n="personal">Personal</option>
+          <option value="family" data-i18n="family">Family</option>
+          <option value="work" data-i18n="work">Work</option>
+          <option value="health" data-i18n="health">Health</option>
+          <option value="myanmar" data-i18n="myanmar">Myanmar</option>
+          <option value="global" data-i18n="global">Global</option>
+        </select>
+      </div>
+
+      <div class="field full">
+        <label data-i18n="note">Note</label>
+        <textarea id="importantNote" data-i18n-placeholder="notePlaceholder" placeholder="Optional note"></textarea>
+      </div>
+
+      <div class="field full">
+        <label style="display:flex;align-items:center;gap:8px">
+          <input id="importantAnnual" type="checkbox">
+          <span data-i18n="repeatAnnual">Repeat every year</span>
+        </label>
+      </div>
 
     </div>
 
-
-    <div class="form">
-
-      <div class="field">
-        <label>Title</label>
-        <input
-          id="iTitle"
-          placeholder="Example: Wedding Anniversary"
-        >
-      </div>
-
-
-      <div class="field">
-
-        <label>Date</label>
-
-        <input
-          id="iDate"
-          type="date"
-        >
-
-      </div>
-
-
-      <div class="field">
-
-        <label>Category</label>
-
-        <select id="iCategory">
-
-          <option value="personal">
-            Personal
-          </option>
-
-          <option value="family">
-            Family
-          </option>
-
-          <option value="myanmar">
-            Myanmar
-          </option>
-
-          <option value="global">
-            Global
-          </option>
-
-          <option value="work">
-            Work
-          </option>
-
-          <option value="health">
-            Health
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <div class="field">
-
-        <label>Repeat</label>
-
-        <select id="iRepeat">
-
-          <option value="none">
-            One time
-          </option>
-
-          <option value="yearly">
-            Every year
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <div class="field">
-
-        <label>Note</label>
-
-        <textarea
-          id="iNote"
-          rows="3"
-          placeholder="Optional note"
-        ></textarea>
-
-      </div>
-
-
-      <button
-        class="btn primary"
-        id="saveImportant"
-      >
-        Save Important Day
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('importantModal')" data-i18n="cancel">
+        Cancel
       </button>
-
+      <button class="btn btn-primary" onclick="saveImportantDay()" data-i18n="save">
+        Save
+      </button>
     </div>
 
   </div>
 
 </div>
-
 
 <!-- FAMILY MODAL -->
-<div
-  class="modal"
-  id="familyModal"
->
+<div id="familyModal" class="modal">
 
   <div class="modal-box">
 
     <div class="modal-head">
+      <h2 data-i18n="addFamily">Add Family Member</h2>
+      <button class="close" onclick="closeModal('familyModal')">×</button>
+    </div>
 
-      <h2>Add Family Member</h2>
+    <div class="form-grid">
 
-      <button
-        class="iconbtn"
-        data-close="familyModal"
-      >
-        ✕
-      </button>
+      <div class="field full">
+        <label data-i18n="name">Name</label>
+        <input id="familyName" data-i18n-placeholder="namePlaceholder" placeholder="Name">
+      </div>
+
+      <div class="field">
+        <label data-i18n="relationship">Relationship</label>
+        <input id="familyRelation" data-i18n-placeholder="relationshipPlaceholder" placeholder="Relationship">
+      </div>
+
+      <div class="field">
+        <label data-i18n="dateOfBirth">Date of Birth</label>
+        <input id="familyDob" type="date">
+      </div>
 
     </div>
 
-
-    <div class="form">
-
-      <div class="field">
-        <label>Name</label>
-        <input id="fName">
-      </div>
-
-      <div class="field">
-        <label>Relationship</label>
-        <input
-          id="fRelation"
-          placeholder="Mother, Father, Wife, Son..."
-        >
-      </div>
-
-      <div class="field">
-        <label>Date of Birth</label>
-        <input id="fDob" type="date">
-      </div>
-
-
-      <button
-        class="btn primary"
-        id="saveFamily"
-      >
-        Save Family Member
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('familyModal')" data-i18n="cancel">
+        Cancel
       </button>
-
+      <button class="btn btn-primary" onclick="saveFamily()" data-i18n="save">
+        Save
+      </button>
     </div>
 
   </div>
 
 </div>
-
 
 <!-- GOAL MODAL -->
-<div
-  class="modal"
-  id="goalModal"
->
+<div id="goalModal" class="modal">
 
   <div class="modal-box">
 
     <div class="modal-head">
+      <h2 data-i18n="addGoal">Add Goal</h2>
+      <button class="close" onclick="closeModal('goalModal')">×</button>
+    </div>
 
-      <h2>Add Goal</h2>
+    <div class="form-grid">
 
-      <button
-        class="iconbtn"
-        data-close="goalModal"
-      >
-        ✕
-      </button>
+      <div class="field full">
+        <label data-i18n="goalName">Goal Name</label>
+        <input id="goalName" data-i18n-placeholder="goalPlaceholder" placeholder="My goal">
+      </div>
+
+      <div class="field">
+        <label data-i18n="deadline">Deadline</label>
+        <input id="goalDeadline" type="date">
+      </div>
+
+      <div class="field">
+        <label data-i18n="progress">Progress %</label>
+        <input id="goalProgress" type="number" min="0" max="100" value="0">
+      </div>
 
     </div>
 
-
-    <div class="form">
-
-      <div class="field">
-        <label>Goal</label>
-        <input
-          id="gTitle"
-          placeholder="Example: Save 10,000,000 Ks"
-        >
-      </div>
-
-
-      <div class="field">
-        <label>Deadline</label>
-        <input id="gDate" type="date">
-      </div>
-
-
-      <div class="field">
-        <label>Current Progress %</label>
-        <input
-          id="gProgress"
-          type="number"
-          min="0"
-          max="100"
-          value="0"
-        >
-      </div>
-
-
-      <button
-        class="btn primary"
-        id="saveGoal"
-      >
-        Save Goal
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('goalModal')" data-i18n="cancel">
+        Cancel
       </button>
-
+      <button class="btn btn-primary" onclick="saveGoal()" data-i18n="save">
+        Save
+      </button>
     </div>
 
   </div>
 
 </div>
-
 
 <!-- HEALTH MODAL -->
-<div
-  class="modal"
-  id="healthModal"
->
+<div id="healthModal" class="modal">
 
   <div class="modal-box">
 
     <div class="modal-head">
+      <h2 data-i18n="healthMeasurements">Health Measurements</h2>
+      <button class="close" onclick="closeModal('healthModal')">×</button>
+    </div>
 
-      <h2>Health Measurement</h2>
+    <div class="form-grid">
 
-      <button
-        class="iconbtn"
-        data-close="healthModal"
-      >
-        ✕
-      </button>
+      <div class="field">
+        <label data-i18n="weight">Weight (kg)</label>
+        <input id="healthWeightInput" type="number" step="0.1">
+      </div>
+
+      <div class="field">
+        <label data-i18n="height">Height (cm)</label>
+        <input id="healthHeightInput" type="number" step="0.1">
+      </div>
+
+      <div class="field">
+        <label data-i18n="systolic">Systolic BP</label>
+        <input id="healthSystolic" type="number">
+      </div>
+
+      <div class="field">
+        <label data-i18n="diastolic">Diastolic BP</label>
+        <input id="healthDiastolic" type="number">
+      </div>
+
+      <div class="field">
+        <label data-i18n="restingHeartRate">Resting Heart Rate</label>
+        <input id="healthHRInput" type="number">
+      </div>
+
+      <div class="field">
+        <label data-i18n="glucose">Glucose</label>
+        <input id="healthGlucoseInput" type="number" step="0.1">
+      </div>
+
+      <div class="field">
+        <label data-i18n="waist">Waist (cm)</label>
+        <input id="healthWaist" type="number" step="0.1">
+      </div>
+
+      <div class="field">
+        <label data-i18n="sleep">Sleep (hours)</label>
+        <input id="healthSleep" type="number" step="0.1">
+      </div>
 
     </div>
 
-
-    <div class="form">
-
-      <div class="field">
-        <label>Date</label>
-        <input id="hd" type="date">
-      </div>
-
-      <div class="field">
-        <label>Weight kg</label>
-        <input
-          id="hw"
-          type="number"
-          step="0.1"
-        >
-      </div>
-
-      <div class="field">
-        <label>Blood Pressure</label>
-        <input
-          id="hbp"
-          placeholder="120/80"
-        >
-      </div>
-
-      <div class="field">
-        <label>Resting Heart Rate</label>
-        <input
-          id="hhr"
-          type="number"
-        >
-      </div>
-
-
-      <button
-        class="btn primary"
-        id="saveHealth"
-      >
-        Save Measurement
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('healthModal')" data-i18n="cancel">
+        Cancel
       </button>
-
+      <button class="btn btn-primary" onclick="saveHealth()" data-i18n="save">
+        Save
+      </button>
     </div>
 
   </div>
 
 </div>
-
 
 <!-- PAYMENT MODAL -->
-<div
-  class="modal"
-  id="paymentModal"
->
+<div id="paymentModal" class="modal">
 
   <div class="modal-box">
 
     <div class="modal-head">
+      <h2 data-i18n="activatePremium">Activate Premium</h2>
+      <button class="close" onclick="closeModal('paymentModal')">×</button>
+    </div>
 
-      <h2>Premium Payment</h2>
+    <div class="card premium">
 
-      <button
-        class="iconbtn"
-        data-close="paymentModal"
-      >
-        ✕
-      </button>
+      <div class="card-title" data-i18n="selectedPlan">
+        SELECTED PLAN
+      </div>
+
+      <div class="price">5,000 Ks <small>/ 1 Month</small></div>
+
+      <p class="metric-sub" style="margin-top:10px" data-i18n="paymentInstruction">
+        Send payment through KPay or WavePay and submit your transaction information for verification
+      </p>
 
     </div>
 
-
-    <div class="notice">
-
-      <b id="selectedPlan">
-        Premium
-      </b>
-
-      <br><br>
-
-      Pay through KPay or WavePay and submit
-      your transaction ID for verification
-
-    </div>
-
-
-    <div class="form mt">
+    <div class="form-grid" style="margin-top:15px">
 
       <div class="field">
-
-        <label>Payment Method</label>
-
-        <select id="payMethod">
-
-          <option value="KPay">
-            KPay
-          </option>
-
-          <option value="WavePay">
-            WavePay
-          </option>
-
+        <label data-i18n="paymentMethod">Payment Method</label>
+        <select id="paymentMethod">
+          <option>KPay</option>
+          <option>WavePay</option>
         </select>
-
       </div>
-
 
       <div class="field">
-
-        <label>Transaction ID</label>
-
-        <input
-          id="payTxn"
-          placeholder="Enter transaction ID"
-        >
-
+        <label data-i18n="transactionId">Transaction ID</label>
+        <input id="transactionId" data-i18n-placeholder="transactionPlaceholder" placeholder="Transaction ID">
       </div>
 
+      <div class="field full">
+        <label data-i18n="paymentNote">Note</label>
+        <textarea id="paymentNote" data-i18n-placeholder="paymentNotePlaceholder" placeholder="Payment note"></textarea>
+      </div>
 
-      <button
-        class="btn primary"
-        id="submitPayment"
-      >
-        Submit Payment Request
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('paymentModal')" data-i18n="cancel">
+        Cancel
       </button>
-
+      <button class="btn btn-primary" onclick="submitPayment()" data-i18n="submitPayment">
+        Submit Payment
+      </button>
     </div>
 
   </div>
 
 </div>
 
-
-<div
-  class="toast"
-  id="toast"
-></div>
-
+<div id="toast" class="toast"></div>
 
 <script>
-"use strict";
+/* =========================================================
+   LIFE 75 V6
+   FULL SINGLE-FILE APP
+   REAL BILINGUAL SYSTEM
+========================================================= */
 
+const STORAGE = {
+  profile:"life75_v6_profile",
+  family:"life75_v6_family",
+  goals:"life75_v6_goals",
+  health:"life75_v6_health",
+  important:"life75_v6_important_days",
+  payments:"life75_v6_payments",
+  lang:"life75_v6_language"
+};
 
-/* =========================
-   HELPERS
-========================= */
+let lang = localStorage.getItem(STORAGE.lang) || "my";
+let currentImportantFilter = "all";
 
-const $ = id => document.getElementById(id);
+const translations = {
 
-const qsa = selector =>
-  [...document.querySelectorAll(selector)];
+  my:{
+    welcome:"Your Life in Numbers",
+    loginDesc:"သင့်ဘဝကို အချိန်၊ မှတ်တိုင်များနဲ့ အဓိပ္ပါယ်ရှိတဲ့ နံပါတ်များဖြင့် ပြန်ကြည့်ပါ",
+    yourName:"သင့်အမည်",
+    namePlaceholder:"သင့်အမည်ထည့်ပါ",
+    enterLife:"LIFE 75 စတင်ရန်",
+    continueGuest:"Guest အဖြစ် ဆက်သွားရန်",
+    loginNote:"သင့်အချက်အလက်များကို ဒီ Device ထဲမှာပဲ သိမ်းထားပါမယ်",
 
+    tagline:"Your Life in Numbers",
+    home:"ပင်မ",
+    myLife:"ကျွန်ုပ်ဘဝ",
+    myLifeShort:"ဘဝ",
+    analytics:"ဘဝခွဲခြမ်းစိတ်ဖြာမှု",
+    health:"ကျန်းမာရေး",
+    family:"မိသားစု",
+    goals:"ရည်မှန်းချက်များ",
+    milestones:"ဘဝမှတ်တိုင်များ",
+    importantDays:"အရေးကြီးရက်များ",
+    lifeCard:"Life Card",
+    premium:"Premium",
+    settings:"ဆက်တင်များ",
+    more:"နောက်ထပ်",
 
-function get(key, fallback){
+    everyMoment:"EVERY MOMENT COUNTS",
+    heroText:"သင့်ဘဝမှာ အချိန်ကန့်သတ်ချက်ရှိပါတယ် — ရှိနေတဲ့အချိန်တိုင်းကို တန်ဖိုးရှိရှိအသုံးချပါ",
+    editProfile:"Profile ပြင်ရန်",
+    viewLife:"ကျွန်ုပ်ဘဝကိုကြည့်ရန်",
 
-  try{
+    now:"လက်ရှိအချိန်",
+    currentTime:"လက်ရှိအချိန်",
+    todayLeft:"ဒီနေ့ကျန်ချိန်",
+    untilMidnight:"ညသန်းခေါင်အထိ ကျန်ရှိတဲ့အချိန်",
+    hours:"နာရီ",
+    minutes:"မိနစ်",
+    seconds:"စက္ကန့်",
 
-    const value =
-      localStorage.getItem(key);
+    thisYear:"ဒီနှစ်",
+    daysPassed:"ကုန်ဆုံးပြီးရက်",
+    daysLeft:"ကျန်ရက်",
+    yearProgress:"နှစ်တိုးတက်မှု",
 
-    return value
-      ? JSON.parse(value)
-      : fallback;
+    yourLife:"သင့်ဘဝ",
+    age:"အသက်",
+    currentAge:"လက်ရှိအသက်",
+    daysLived:"နေထိုင်ခဲ့သောရက်",
+    remainingYears:"Planning အတွက်ကျန်နှစ်",
+    lifeProgress:"ဘဝတိုးတက်မှု",
+    nextImportant:"နောက်လာမည့် အရေးကြီးရက်",
 
-  }catch{
+    lifePageDesc:"သင့်ဘဝကို အချိန်နဲ့ နံပါတ်များအဖြစ် ပြန်လည်မြင်နိုင်ပါမယ်",
+    days:"ရက်",
+    planning:"Planning",
+    lifeNumbers:"ဘဝနံပါတ်များ",
+    hoursLived:"နေထိုင်ခဲ့သောနာရီ",
+    minutesLived:"နေထိုင်ခဲ့သောမိနစ်",
+    secondsLived:"နေထိုင်ခဲ့သောစက္ကန့်",
+    estimatedHeartbeats:"ခန့်မှန်းနှလုံးခုန်နှုန်း",
+    estimatedBreaths:"ခန့်မှန်းအသက်ရှူမှု",
+    remainingMonths:"ကျန်ရှိသောလများ",
+    remainingDays:"ကျန်ရှိသောရက်များ",
+    remainingWeeks:"ကျန်ရှိသောအပတ်များ",
+    lifeWeeks:"Life Weeks",
+    weeksDesc:"Square တစ်ခုစီက သင့် Planning Life ထဲက တစ်ပတ်ခန့်ကို ကိုယ်စားပြုပါတယ်",
 
-    return fallback;
+    analyticsDesc:"သင့်အချိန်ဘယ်လိုရွေ့လျားနေသလဲဆိုတာကို နားလည်နိုင်ပါမယ်",
+    planningHorizonNote:"သင်ရွေးချယ်ထားတဲ့ Planning Horizon အပေါ် အခြေခံထားပါတယ်",
+    timeOverview:"အချိန်အကျဉ်းချုပ်",
 
+    healthDesc:"ကျန်းမာရေးတိုင်းတာချက်များနဲ့ ဆရာဝန်နဲ့ ဆွေးနွေးသင့်တဲ့ အချက်များကို စောင့်ကြည့်ပါ",
+    healthProfile:"ကျန်းမာရေး Profile",
+    weight:"ကိုယ်အလေးချိန်",
+    bloodPressure:"သွေးပေါင်",
+    restingHeartRate:"အနားယူနေချိန် နှလုံးခုန်နှုန်း",
+    glucose:"သွေးချို",
+    updateHealth:"ကျန်းမာရေးအချက်အလက် ပြင်ရန်",
+    ageHealthGuide:"အသက်အလိုက် ကျန်းမာရေးလမ်းညွှန်",
+    healthActions:"ကျန်းမာရေးအတွက် လုပ်ဆောင်ရန်",
+    doMore:"ပိုမိုလုပ်ဆောင်ရန်",
+    avoid:"ရှောင်ရန်",
+    healthDo1:"ကိုယ်လက်လှုပ်ရှားမှု ပုံမှန်လုပ်ပါ",
+    healthDo2:"အာဟာရမျှတသောအစားအစာကို ဦးစားပေးပါ",
+    healthDo3:"အိပ်စက်ခြင်းနဲ့ အနားယူခြင်းကို ဂရုစိုက်ပါ",
+    healthDo4:"သင့်တော်တဲ့ ကျန်းမာရေးစစ်ဆေးမှုများ ပြုလုပ်ပါ",
+    healthAvoid1:"ဆေးလိပ်နှင့် Tobacco အသုံးပြုမှု",
+    healthAvoid2:"အရက်အလွန်အကျွံသောက်ခြင်း",
+    healthAvoid3:"အချိန်ကြာမြင့်စွာ မလှုပ်ရှားဘဲနေခြင်း",
+    healthAvoid4:"ကြာရှည်နေသော လက္ခဏာများကို လျစ်လျူရှုခြင်း",
+    healthDisclaimer:"LIFE 75 သည် အထွေထွေကျန်းမာရေးအချက်အလက်နဲ့ Tracking အတွက်သာဖြစ်ပြီး ရောဂါရှာဖွေခြင်း သို့မဟုတ် ဆရာဝန်၏အကြံဉာဏ်ကို အစားထိုးခြင်း မပြုပါ",
+
+    familyDesc:"မိသားစုဝင်များ၏ အရေးကြီးရက်များနဲ့ Timeline ကို တစ်နေရာတည်းမှာ သိမ်းထားပါ",
+    addFamily:"+ မိသားစုဝင်ထည့်ရန်",
+    familyTimeline:"မိသားစု Timeline",
+
+    goalsDesc:"ကျန်ရှိတဲ့အချိန်ကို အဓိပ္ပါယ်ရှိတဲ့ ရည်မှန်းချက်တွေအဖြစ် ပြောင်းလဲပါ",
+    addGoal:"+ ရည်မှန်းချက်ထည့်ရန်",
+    goalProgress:"ရည်မှန်းချက်တိုးတက်မှု",
+
+    milestonesDesc:"သင့်ဘဝထဲက အရေးကြီးတဲ့ နံပါတ်များနဲ့ အချိန်များ",
+    importantDesc:"အရေးကြီးတဲ့ရက်တွေကို မမေ့အောင် စုစည်းထားပါ",
+    addImportantDay:"+ အရေးကြီးရက်ထည့်ရန်",
+    allImportantDays:"အရေးကြီးရက်အားလုံး",
+
+    all:"အားလုံး",
+    personal:"ကိုယ်ရေးကိုယ်တာ",
+    work:"အလုပ်",
+    myanmar:"မြန်မာ",
+    global:"ကမ္ဘာလုံးဆိုင်ရာ",
+
+    lifeCardDesc:"သင့်ဘဝအကြောင်း အတိုချုပ်ပြသတဲ့ Shareable Card",
+    shareCard:"Life Card မျှဝေရန်",
+
+    premiumDesc:"LIFE 75 ရဲ့ Feature အပြည့်အစုံကို အသုံးပြုနိုင်ရန် Unlock လုပ်ပါ",
+    perMonth:"/ လ",
+    premium1:"Life Weeks",
+    premium2:"Custom Milestones",
+    premium3:"Goals နဲ့ Countdown",
+    premium4:"Important Days",
+    premium5:"Family Timeline",
+    premium6:"Shareable Life Card",
+    premium7:"Premium Reports",
+    premium8:"ကြော်ငြာမပါ",
+
+    activatePremium:"Premium Activate လုပ်ရန်",
+    pricing:"စျေးနှုန်း",
+    oneMonth:"၁ လ",
+    threeMonths:"၃ လ",
+    sixMonths:"၆ လ",
+    oneYear:"၁ နှစ်",
+    paymentMethods:"ငွေပေးချေမှုနည်းလမ်း",
+    paymentDesc:"KPay / WavePay ဖြင့် ငွေပေးပြီး Transaction ID သို့မဟုတ် Screenshot ဖြင့် Verification တင်နိုင်ပါတယ်",
+
+    settingsDesc:"LIFE 75 Profile နဲ့ Preferences များကို စီမံပါ",
+    profile:"Profile",
+    language:"ဘာသာစကား",
+    changeLanguage:"ဘာသာစကားပြောင်းရန်",
+    dataManagement:"Data စီမံခန့်ခွဲမှု",
+    exportData:"Data Export လုပ်ရန်",
+    clearData:"Local Data ဖျက်ရန်",
+
+    dateOfBirth:"မွေးသက္ကရာဇ်",
+    birthTime:"မွေးချိန်",
+    sexForHealth:"ကျန်းမာရေးလမ်းညွှန်အတွက် Sex",
+    selectOption:"ရွေးချယ်ပါ",
+    male:"အမျိုးသား",
+    female:"အမျိုးသမီး",
+    preferNot:"မပြောလိုပါ",
+    planningHorizon:"Planning Horizon",
+    cancel:"မလုပ်တော့ပါ",
+    save:"သိမ်းရန်",
+
+    title:"ခေါင်းစဉ်",
+    titlePlaceholder:"အရေးကြီးရက်အမည်",
+    date:"ရက်စွဲ",
+    category:"အမျိုးအစား",
+    note:"မှတ်ချက်",
+    notePlaceholder:"ရွေးချယ်နိုင်သော မှတ်ချက်",
+    repeatAnnual:"နှစ်စဉ်ပြန်လုပ်ရန်",
+
+    name:"အမည်",
+    relationship:"ဆက်နွယ်မှု",
+    relationshipPlaceholder:"ဥပမာ — အဖေ၊ အမေ၊ ဇနီး",
+    goalName:"ရည်မှန်းချက်အမည်",
+    goalPlaceholder:"ကျွန်ုပ်၏ ရည်မှန်းချက်",
+    deadline:"နောက်ဆုံးရက်",
+    progress:"တိုးတက်မှု %",
+    healthMeasurements:"ကျန်းမာရေးတိုင်းတာချက်များ",
+    height:"အရပ် (cm)",
+    systolic:"Systolic BP",
+    diastolic:"Diastolic BP",
+    waist:"ခါးပတ်လည် (cm)",
+    sleep:"အိပ်ချိန် (နာရီ)",
+
+    selectedPlan:"ရွေးချယ်ထားသော Plan",
+    paymentInstruction:"KPay သို့မဟုတ် WavePay ဖြင့် ငွေပေးပြီး Transaction အချက်အလက်ကို Verification အတွက် တင်ပေးပါ",
+    paymentMethod:"ငွေပေးချေမှုနည်းလမ်း",
+    transactionId:"Transaction ID",
+    transactionPlaceholder:"Transaction ID ထည့်ပါ",
+    paymentNote:"မှတ်ချက်",
+    paymentNotePlaceholder:"ငွေပေးချေမှုအကြောင်း မှတ်ချက်",
+    submitPayment:"Payment တင်ရန်",
+
+    emptyFamily:"မိသားစုဝင် မထည့်ရသေးပါ",
+    emptyGoals:"ရည်မှန်းချက် မထည့်ရသေးပါ",
+    emptyImportant:"အရေးကြီးရက် မရှိသေးပါ",
+    emptyMilestones:"မှတ်တိုင် မရှိသေးပါ",
+    noImportant:"အရေးကြီးရက် မရှိသေးပါ",
+
+    today:"ဒီနေ့",
+    tomorrow:"မနက်ဖြန်",
+    daysUntil:"ရက်အတွင်း",
+    daysSince:"လွန်ခဲ့သောရက်",
+    yearsOld:"နှစ်",
+    todayLabel:"ဒီနေ့",
+    next:"နောက်တစ်ခု",
+
+    profileSaved:"Profile သိမ်းပြီးပါပြီ",
+    importantSaved:"အရေးကြီးရက် သိမ်းပြီးပါပြီ",
+    familySaved:"မိသားစုဝင် သိမ်းပြီးပါပြီ",
+    goalSaved:"ရည်မှန်းချက် သိမ်းပြီးပါပြီ",
+    healthSaved:"ကျန်းမာရေးအချက်အလက် သိမ်းပြီးပါပြီ",
+    paymentSaved:"Payment Request တင်ပြီးပါပြီ",
+    dataExported:"Data Export ပြီးပါပြီ",
+    dataCleared:"Local Data ဖျက်ပြီးပါပြီ",
+    languageChanged:"ဘာသာစကားပြောင်းပြီးပါပြီ",
+    enterName:"အမည်ထည့်ပါ",
+    enterDob:"မွေးသက္ကရာဇ်ထည့်ပါ",
+    enterTitle:"ခေါင်းစဉ်ထည့်ပါ",
+    enterGoal:"ရည်မှန်းချက်ထည့်ပါ",
+
+    healthGuide20:"အသက် ၂၀ ကျော်အရွယ်တွင် အခြေခံကျန်းမာရေးအလေ့အကျင့်၊ ကိုယ်လက်လှုပ်ရှားမှု၊ အိပ်စက်ခြင်းနဲ့ အာဟာရကို အာရုံစိုက်ပါ",
+    healthGuide30:"အသက် ၃၀ ကျော်အရွယ်တွင် ကိုယ်အလေးချိန်၊ သွေးပေါင်၊ သွေးချိုနဲ့ Cholesterol စတဲ့ အချက်များကို သင့်တော်သလို စောင့်ကြည့်ပါ",
+    healthGuide40:"အသက် ၄၀ ကျော်အရွယ်တွင် နှလုံးသွေးကြောဆိုင်ရာအန္တရာယ်၊ သွေးပေါင်၊ သွေးချို၊ Cholesterol နဲ့ သင့်တော်တဲ့ Screening များကို ဆရာဝန်နဲ့ ဆွေးနွေးပါ",
+    healthGuide50:"အသက် ၅၀ ကျော်အရွယ်တွင် ကျန်းမာရေးစစ်ဆေးမှု၊ ကင်ဆာ Screening ဆွေးနွေးမှု၊ အရိုးနဲ့ နှလုံးကျန်းမာရေးကို ပိုမိုဂရုစိုက်ပါ",
+    healthGuide60:"အသက် ၆၀ ကျော်အရွယ်တွင် ဆေးဝါး၊ အမြင်၊ အကြား၊ အရိုး၊ လဲကျနိုင်မှုနဲ့ Cognitive Health စတာတွေကို ကျန်းမာရေးပညာရှင်နဲ့ ပြန်လည်သုံးသပ်ပါ",
+    healthGuide70:"အသက် ၇၀ ကျော်အရွယ်တွင် လုံခြုံမှု၊ လှုပ်ရှားနိုင်မှု၊ အာဟာရ၊ မိသားစုနဲ့ အဓိပ္ပါယ်ရှိတဲ့ဘဝကို အာရုံစိုက်ပါ"
+  },
+
+  en:{
+    welcome:"Your Life in Numbers",
+    loginDesc:"See your life through time, milestones and meaningful numbers",
+    yourName:"Your Name",
+    namePlaceholder:"Enter your name",
+    enterLife:"Enter LIFE 75",
+    continueGuest:"Continue as Guest",
+    loginNote:"Your information is stored locally on this device",
+
+    tagline:"Your Life in Numbers",
+    home:"Home",
+    myLife:"My Life",
+    myLifeShort:"Life",
+    analytics:"Analytics",
+    health:"Health",
+    family:"Family",
+    goals:"Goals",
+    milestones:"Milestones",
+    importantDays:"Important Days",
+    lifeCard:"Life Card",
+    premium:"Premium",
+    settings:"Settings",
+    more:"More",
+
+    everyMoment:"EVERY MOMENT COUNTS",
+    heroText:"Your life is limited. Make every moment count",
+    editProfile:"Edit Profile",
+    viewLife:"View My Life",
+
+    now:"NOW",
+    currentTime:"Current Time",
+    todayLeft:"TODAY LEFT",
+    untilMidnight:"Time remaining until midnight",
+    hours:"Hours",
+    minutes:"Minutes",
+    seconds:"Seconds",
+
+    thisYear:"THIS YEAR",
+    daysPassed:"Days Passed",
+    daysLeft:"Days Left",
+    yearProgress:"Year Progress",
+
+    yourLife:"YOUR LIFE",
+    age:"Age",
+    currentAge:"Current Age",
+    daysLived:"Days Lived",
+    remainingYears:"Planning Years Remaining",
+    lifeProgress:"Life Progress",
+    nextImportant:"NEXT IMPORTANT DAY",
+
+    lifePageDesc:"See your life through time and numbers",
+    days:"days",
+    planning:"Planning",
+    lifeNumbers:"Life in Numbers",
+    hoursLived:"Hours Lived",
+    minutesLived:"Minutes Lived",
+    secondsLived:"Seconds Lived",
+    estimatedHeartbeats:"Estimated Heartbeats",
+    estimatedBreaths:"Estimated Breaths",
+    remainingMonths:"Remaining Months",
+    remainingDays:"Remaining Days",
+    remainingWeeks:"Remaining Weeks",
+    lifeWeeks:"Life Weeks",
+    weeksDesc:"Each square represents approximately one week of your planning life",
+
+    analyticsDesc:"Understand how your time is moving",
+    planningHorizonNote:"Based on your selected planning horizon",
+    timeOverview:"Time Overview",
+
+    healthDesc:"Track measurements and health topics to discuss",
+    healthProfile:"HEALTH PROFILE",
+    weight:"Weight",
+    bloodPressure:"Blood Pressure",
+    restingHeartRate:"Resting HR",
+    glucose:"Glucose",
+    updateHealth:"Update Health",
+    ageHealthGuide:"Age-Based Health Guide",
+    healthActions:"Health Actions",
+    doMore:"DO MORE",
+    avoid:"AVOID",
+    healthDo1:"Stay physically active",
+    healthDo2:"Prioritize balanced nutrition",
+    healthDo3:"Protect sleep and recovery",
+    healthDo4:"Keep appropriate checkups",
+    healthAvoid1:"Tobacco use",
+    healthAvoid2:"Excessive alcohol",
+    healthAvoid3:"Long periods of inactivity",
+    healthAvoid4:"Ignoring persistent symptoms",
+    healthDisclaimer:"LIFE 75 provides general health information and tracking only. It does not diagnose disease or replace professional medical advice",
+
+    familyDesc:"Keep meaningful family dates and timelines together",
+    addFamily:"+ Add Family Member",
+    familyTimeline:"Family Timeline",
+
+    goalsDesc:"Turn your remaining time into meaningful progress",
+    addGoal:"+ Add Goal",
+    goalProgress:"Goal Progress",
+
+    milestonesDesc:"Important numbers and moments in your life",
+    importantDesc:"Never lose track of the dates that matter",
+    addImportantDay:"+ Add Important Day",
+    allImportantDays:"All Important Days",
+
+    all:"All",
+    personal:"Personal",
+    work:"Work",
+    myanmar:"Myanmar",
+    global:"Global",
+
+    lifeCardDesc:"A simple snapshot of your life",
+    shareCard:"Share Life Card",
+
+    premiumDesc:"Unlock the complete LIFE 75 experience",
+    perMonth:"/ month",
+    premium1:"Life Weeks",
+    premium2:"Custom Milestones",
+    premium3:"Goals and Countdown",
+    premium4:"Important Days",
+    premium5:"Family Timeline",
+    premium6:"Shareable Life Card",
+    premium7:"Premium Reports",
+    premium8:"No Ads",
+
+    activatePremium:"Activate Premium",
+    pricing:"Pricing",
+    oneMonth:"1 Month",
+    threeMonths:"3 Months",
+    sixMonths:"6 Months",
+    oneYear:"1 Year",
+    paymentMethods:"Payment Methods",
+    paymentDesc:"Pay with KPay / WavePay and submit a transaction ID or screenshot for verification",
+
+    settingsDesc:"Manage your LIFE 75 profile and preferences",
+    profile:"Profile",
+    language:"Language",
+    changeLanguage:"Change Language",
+    dataManagement:"Data Management",
+    exportData:"Export Data",
+    clearData:"Clear Local Data",
+
+    dateOfBirth:"Date of Birth",
+    birthTime:"Birth Time",
+    sexForHealth:"Sex — for health guidance",
+    selectOption:"Select",
+    male:"Male",
+    female:"Female",
+    preferNot:"Prefer not to say",
+    planningHorizon:"Planning Horizon",
+    cancel:"Cancel",
+    save:"Save",
+
+    title:"Title",
+    titlePlaceholder:"Important day",
+    date:"Date",
+    category:"Category",
+    note:"Note",
+    notePlaceholder:"Optional note",
+    repeatAnnual:"Repeat every year",
+
+    name:"Name",
+    relationship:"Relationship",
+    relationshipPlaceholder:"e.g. Father, Mother, Spouse",
+    goalName:"Goal Name",
+    goalPlaceholder:"My goal",
+    deadline:"Deadline",
+    progress:"Progress %",
+    healthMeasurements:"Health Measurements",
+    height:"Height (cm)",
+    systolic:"Systolic BP",
+    diastolic:"Diastolic BP",
+    waist:"Waist (cm)",
+    sleep:"Sleep (hours)",
+
+    selectedPlan:"SELECTED PLAN",
+    paymentInstruction:"Send payment through KPay or WavePay and submit your transaction information for verification",
+    paymentMethod:"Payment Method",
+    transactionId:"Transaction ID",
+    transactionPlaceholder:"Transaction ID",
+    paymentNote:"Note",
+    paymentNotePlaceholder:"Payment note",
+    submitPayment:"Submit Payment",
+
+    emptyFamily:"No family members yet",
+    emptyGoals:"No goals yet",
+    emptyImportant:"No important days yet",
+    emptyMilestones:"No milestones yet",
+    noImportant:"No important days yet",
+
+    today:"Today",
+    tomorrow:"Tomorrow",
+    daysUntil:"days",
+    daysSince:"days ago",
+    yearsOld:"years old",
+    todayLabel:"Today",
+    next:"Next",
+
+    profileSaved:"Profile saved",
+    importantSaved:"Important day saved",
+    familySaved:"Family member saved",
+    goalSaved:"Goal saved",
+    healthSaved:"Health information saved",
+    paymentSaved:"Payment request submitted",
+    dataExported:"Data exported",
+    dataCleared:"Local data cleared",
+    languageChanged:"Language changed",
+    enterName:"Please enter your name",
+    enterDob:"Please enter your date of birth",
+    enterTitle:"Please enter a title",
+    enterGoal:"Please enter a goal",
+
+    healthGuide20:"In your 20s, focus on healthy routines, physical activity, sleep and balanced nutrition",
+    healthGuide30:"In your 30s, monitor weight, blood pressure, glucose and cholesterol as appropriate",
+    healthGuide40:"In your 40s, discuss cardiovascular risk, blood pressure, glucose, cholesterol and appropriate screening with a healthcare professional",
+    healthGuide50:"In your 50s, pay closer attention to preventive checkups, cancer screening discussions, bone health and cardiovascular health",
+    healthGuide60:"In your 60s, review medications, vision, hearing, bone health, fall prevention and cognitive health with a healthcare professional",
+    healthGuide70:"In your 70s+, focus on safety, mobility, nutrition, family connection and meaningful living"
   }
-
-}
-
-
-function set(key,value){
-
-  localStorage.setItem(
-    key,
-    JSON.stringify(value)
-  );
-
-}
-
-
-function fmt(value){
-
-  return Number(value || 0)
-    .toLocaleString();
-
-}
-
-
-function isoDate(date){
-
-  const d = new Date(date);
-
-  const y = d.getFullYear();
-
-  const m = String(
-    d.getMonth()+1
-  ).padStart(2,"0");
-
-  const day = String(
-    d.getDate()
-  ).padStart(2,"0");
-
-  return `${y}-${m}-${day}`;
-
-}
-
-
-function dateOnly(date){
-
-  return new Date(
-    date.getFullYear(),
-    date.getMonth(),
-    date.getDate()
-  );
-
-}
-
-
-function dayDiff(a,b){
-
-  const x = dateOnly(a);
-  const y = dateOnly(b);
-
-  return Math.ceil(
-    (x-y)/86400000
-  );
-
-}
-
-
-function escapeHtml(value){
-
-  return String(value ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-
-}
-
-
-function toast(message){
-
-  const el = $("toast");
-
-  el.textContent = message;
-
-  el.classList.add("show");
-
-  clearTimeout(window.__toastTimer);
-
-  window.__toastTimer =
-    setTimeout(
-      ()=>el.classList.remove("show"),
-      2200
-    );
-
-}
-
-
-function openModal(id){
-
-  $(id).classList.add("show");
-
-}
-
-
-function closeModal(id){
-
-  $(id).classList.remove("show");
-
-}
-
-
-/* =========================
-   STORAGE
-========================= */
-
-const KEY = {
-
-  profile:"life75_v5_profile",
-
-  family:"life75_v5_family",
-
-  goals:"life75_v5_goals",
-
-  health:"life75_v5_health",
-
-  important:"life75_v5_important_days",
-
-  payment:"life75_v5_payments",
-
-  lang:"life75_v5_lang"
 
 };
 
+function T(key){
+  return (translations[lang] && translations[lang][key])
+    || translations.en[key]
+    || key;
+}
 
-let profile =
-  get(KEY.profile,{
-    name:"",
-    dob:"",
-    birthTime:"",
-    sex:"",
-    horizon:75
+/* =========================================================
+   LANGUAGE ENGINE
+========================================================= */
+
+function applyLanguage(){
+
+  document.documentElement.lang = lang === "my" ? "my" : "en";
+
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const key = el.getAttribute("data-i18n");
+    if(translations[lang][key]){
+      el.textContent = translations[lang][key];
+    }
   });
 
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(el=>{
+    const key = el.getAttribute("data-i18n-placeholder");
+    if(translations[lang][key]){
+      el.placeholder = translations[lang][key];
+    }
+  });
 
-let family =
-  get(KEY.family,[]);
+  const languageBtn = document.getElementById("languageBtn");
 
-
-let goals =
-  get(KEY.goals,[]);
-
-
-let health =
-  get(KEY.health,[]);
-
-
-let customImportant =
-  get(KEY.important,[]);
-
-
-let payments =
-  get(KEY.payment,[]);
-
-
-let lang =
-  localStorage.getItem(
-    KEY.lang
-  ) || "my";
-
-
-let importantFilter =
-  "all";
-
-
-/* =========================
-   AGE
-========================= */
-
-function ageParts(dob){
-
-  if(!dob)return null;
-
-  const birth =
-    new Date(dob+"T00:00:00");
-
-  const now =
-    new Date();
-
-  if(
-    Number.isNaN(
-      birth.getTime()
-    )
-  )return null;
-
-  if(birth > now)return null;
-
-  let y =
-    now.getFullYear() -
-    birth.getFullYear();
-
-  let m =
-    now.getMonth() -
-    birth.getMonth();
-
-  let d =
-    now.getDate() -
-    birth.getDate();
-
-  if(d < 0){
-
-    m--;
-
-    const previousMonth =
-      new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        0
-      );
-
-    d +=
-      previousMonth.getDate();
-
+  if(languageBtn){
+    languageBtn.textContent =
+      lang === "my"
+        ? "🌐 English"
+        : "🌐 မြန်မာ";
   }
 
-  if(m < 0){
+  const settingsLanguage = document.getElementById("settingsLanguage");
 
-    y--;
-    m += 12;
+  if(settingsLanguage){
+    settingsLanguage.textContent =
+      lang === "my" ? "မြန်မာ" : "English";
+  }
 
+  updatePageTitle();
+  renderAll();
+}
+
+function toggleLanguage(){
+
+  lang = lang === "my" ? "en" : "my";
+
+  localStorage.setItem(STORAGE.lang,lang);
+
+  applyLanguage();
+
+  showToast(T("languageChanged"));
+}
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+function getData(key, fallback){
+  try{
+    const value = localStorage.getItem(key);
+    return value ? JSON.parse(value) : fallback;
+  }catch(e){
+    return fallback;
+  }
+}
+
+function setData(key,value){
+  localStorage.setItem(key,JSON.stringify(value));
+}
+
+let profile = getData(STORAGE.profile,{
+  name:"",
+  dob:"",
+  birthTime:"",
+  sex:"",
+  horizon:75
+});
+
+let family = getData(STORAGE.family,[]);
+let goals = getData(STORAGE.goals,[]);
+let health = getData(STORAGE.health,{});
+let importantDays = getData(STORAGE.important,[]);
+let payments = getData(STORAGE.payments,[]);
+
+/* =========================================================
+   FIXED IMPORTANT DAYS
+========================================================= */
+
+const fixedImportantDays = [
+
+  {m:1,d:1,titleMy:"နှစ်သစ်ကူးနေ့",titleEn:"New Year's Day",category:"global"},
+  {m:1,d:4,titleMy:"လွတ်လပ်ရေးနေ့",titleEn:"Independence Day",category:"myanmar"},
+  {m:2,d:12,titleMy:"ပြည်ထောင်စုနေ့",titleEn:"Union Day",category:"myanmar"},
+  {m:3,d:2,titleMy:"တောင်သူလယ်သမားနေ့",titleEn:"Peasants' Day",category:"myanmar"},
+  {m:3,d:8,titleMy:"အပြည်ပြည်ဆိုင်ရာ အမျိုးသမီးများနေ့",titleEn:"International Women's Day",category:"global"},
+  {m:3,d:27,titleMy:"တော်လှန်ရေးနေ့",titleEn:"Resistance Day",category:"myanmar"},
+  {m:4,d:7,titleMy:"ကမ္ဘာ့ကျန်းမာရေးနေ့",titleEn:"World Health Day",category:"global"},
+  {m:5,d:1,titleMy:"အလုပ်သမားနေ့",titleEn:"Labour Day",category:"global"},
+  {m:5,d:15,titleMy:"အပြည်ပြည်ဆိုင်ရာ မိသားစုများနေ့",titleEn:"International Day of Families",category:"global"},
+  {m:6,d:5,titleMy:"ကမ္ဘာ့ပတ်ဝန်းကျင်နေ့",titleEn:"World Environment Day",category:"global"},
+  {m:7,d:19,titleMy:"အာဇာနည်နေ့",titleEn:"Martyrs' Day",category:"myanmar"},
+  {m:7,d:30,titleMy:"အပြည်ပြည်ဆိုင်ရာ ချစ်ကြည်ရေးနေ့",titleEn:"International Day of Friendship",category:"global"},
+  {m:8,d:12,titleMy:"အပြည်ပြည်ဆိုင်ရာ လူငယ်များနေ့",titleEn:"International Youth Day",category:"global"},
+  {m:10,d:10,titleMy:"ကမ္ဘာ့စိတ်ကျန်းမာရေးနေ့",titleEn:"World Mental Health Day",category:"global"},
+  {m:11,d:20,titleMy:"ကမ္ဘာ့ကလေးများနေ့",titleEn:"Universal Children's Day",category:"global"},
+  {m:12,d:10,titleMy:"လူ့အခွင့်အရေးနေ့",titleEn:"Human Rights Day",category:"global"},
+  {m:12,d:25,titleMy:"ခရစ္စမတ်နေ့",titleEn:"Christmas Day",category:"global"}
+
+];
+
+/* =========================================================
+   DATE HELPERS
+========================================================= */
+
+function todayStart(){
+  const d = new Date();
+  return new Date(d.getFullYear(),d.getMonth(),d.getDate());
+}
+
+function daysInYear(year){
+  return Math.round(
+    (new Date(year+1,0,1)-new Date(year,0,1))/86400000
+  );
+}
+
+function daysBetween(a,b){
+  return Math.floor((b-a)/86400000);
+}
+
+function calculateAge(dob,date=new Date()){
+
+  if(!dob) return null;
+
+  const birth = new Date(dob+"T00:00:00");
+
+  if(isNaN(birth)) return null;
+
+  let years = date.getFullYear()-birth.getFullYear();
+  let months = date.getMonth()-birth.getMonth();
+  let days = date.getDate()-birth.getDate();
+
+  if(days < 0){
+    months--;
+    const prevMonth = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      0
+    );
+    days += prevMonth.getDate();
+  }
+
+  if(months < 0){
+    years--;
+    months += 12;
   }
 
   return {
+    years,
+    months,
+    days
+  };
+}
 
-    birth,
+function livedDays(){
+  if(!profile.dob) return null;
 
-    now,
+  const birth = new Date(profile.dob+"T00:00:00");
+  return Math.max(0,daysBetween(birth,new Date()));
+}
 
-    y,
+function planningDays(){
 
-    m,
+  if(!profile.dob) return null;
 
-    d,
+  const birth = new Date(profile.dob+"T00:00:00");
+  const end = new Date(
+    birth.getFullYear()+Number(profile.horizon||75),
+    birth.getMonth(),
+    birth.getDate()
+  );
 
-    ms:now-birth
+  return Math.max(1,daysBetween(birth,end));
+}
 
+function remainingLifeDays(){
+
+  const total = planningDays();
+  const lived = livedDays();
+
+  if(total===null || lived===null) return null;
+
+  return Math.max(0,total-lived);
+}
+
+function lifeProgress(){
+
+  const total = planningDays();
+  const lived = livedDays();
+
+  if(!total || lived===null) return 0;
+
+  return Math.min(100,(lived/total)*100);
+}
+
+function formatNumber(n){
+
+  if(n===null || n===undefined || isNaN(n)){
+    return "—";
+  }
+
+  return Math.round(n).toLocaleString(
+    lang==="my" ? "my-MM" : "en-US"
+  );
+}
+
+function formatDecimal(n){
+
+  if(n===null || n===undefined || isNaN(n)){
+    return "—";
+  }
+
+  return Number(n).toFixed(1);
+}
+
+function formatDate(date){
+
+  if(!date) return "—";
+
+  const d = new Date(date);
+
+  if(lang==="my"){
+    return d.toLocaleDateString("my-MM",{
+      year:"numeric",
+      month:"long",
+      day:"numeric"
+    });
+  }
+
+  return d.toLocaleDateString("en-US",{
+    year:"numeric",
+    month:"short",
+    day:"numeric"
+  });
+}
+
+/* =========================================================
+   VIEW SYSTEM
+========================================================= */
+
+function showView(view){
+
+  document.querySelectorAll(".page").forEach(page=>{
+    page.classList.remove("active");
+  });
+
+  const target = document.getElementById("view-"+view);
+
+  if(target){
+    target.classList.add("active");
+  }
+
+  document.querySelectorAll("[data-view]").forEach(btn=>{
+    btn.classList.toggle(
+      "active",
+      btn.getAttribute("data-view")===view
+    );
+  });
+
+  const titles = {
+    home:T("home"),
+    life:T("myLife"),
+    analytics:T("analytics"),
+    health:T("health"),
+    family:T("family"),
+    goals:T("goals"),
+    milestones:T("milestones"),
+    important:T("importantDays"),
+    card:T("lifeCard"),
+    premium:T("premium"),
+    settings:T("settings")
   };
 
+  document.getElementById("topTitle").textContent =
+    titles[view] || "LIFE 75";
+
+  window.scrollTo({top:0,behavior:"smooth"});
 }
 
-
-function ageText(){
-
-  const a =
-    ageParts(profile.dob);
-
-  if(!a)return "—";
-
-  return `${a.y}Y ${a.m}M ${a.d}D`;
-
+function updatePageTitle(){
+  document.title =
+    lang==="my"
+      ? "LIFE 75 — သင့်ဘဝကို နံပါတ်များဖြင့်"
+      : "LIFE 75 — Your Life in Numbers";
 }
 
+document.querySelectorAll("[data-view]").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    showView(btn.getAttribute("data-view"));
+  });
+});
 
-/* =========================
+/* =========================================================
    PROFILE
-========================= */
+========================================================= */
 
-function renderProfile(){
+function enterApp(){
 
-  $("sideName").textContent =
-    profile.name ||
-    "My Life";
+  const name = document.getElementById("loginName").value.trim();
 
-  $("avatarText").textContent =
-    (profile.name || "L")
-      .trim()
-      .charAt(0)
-      .toUpperCase();
+  if(name){
+    profile.name = name;
+    setData(STORAGE.profile,profile);
+  }
 
+  showApp();
 }
 
-
-function fillProfile(){
-
-  $("pName").value =
-    profile.name || "";
-
-  $("pDob").value =
-    profile.dob || "";
-
-  $("pTime").value =
-    profile.birthTime || "";
-
-  $("pSex").value =
-    profile.sex || "";
-
-  $("pHorizon").value =
-    profile.horizon || 75;
-
+function guestMode(){
+  showApp();
 }
 
+function showApp(){
 
-/* =========================
-   TIME
-========================= */
+  document.getElementById("loginScreen").classList.add("hidden");
+  document.getElementById("appShell").classList.remove("hidden");
 
-function renderTime(){
+  renderAll();
+}
 
-  const now =
-    new Date();
+function openModal(id){
 
-  $("liveClock").textContent =
-    now.toLocaleTimeString(
-      "en-GB",
-      {
-        hour12:false
-      }
-    );
+  const modal = document.getElementById(id);
 
+  if(!modal) return;
 
-  $("todayDate").textContent =
-    now.toLocaleDateString(
-      lang==="my"
-        ? "my-MM"
-        : "en-GB",
-      {
-        weekday:"long",
-        day:"numeric",
-        month:"long",
-        year:"numeric"
-      }
-    );
+  if(id==="profileModal"){
 
+    document.getElementById("profileName").value =
+      profile.name || "";
 
-  const tomorrow =
+    document.getElementById("profileDob").value =
+      profile.dob || "";
+
+    document.getElementById("profileBirthTime").value =
+      profile.birthTime || "";
+
+    document.getElementById("profileSex").value =
+      profile.sex || "";
+
+    document.getElementById("profileHorizon").value =
+      profile.horizon || 75;
+  }
+
+  if(id==="healthModal"){
+
+    document.getElementById("healthWeightInput").value =
+      health.weight || "";
+
+    document.getElementById("healthHeightInput").value =
+      health.height || "";
+
+    document.getElementById("healthSystolic").value =
+      health.systolic || "";
+
+    document.getElementById("healthDiastolic").value =
+      health.diastolic || "";
+
+    document.getElementById("healthHRInput").value =
+      health.hr || "";
+
+    document.getElementById("healthGlucoseInput").value =
+      health.glucose || "";
+
+    document.getElementById("healthWaist").value =
+      health.waist || "";
+
+    document.getElementById("healthSleep").value =
+      health.sleep || "";
+  }
+
+  modal.classList.add("show");
+}
+
+function closeModal(id){
+
+  const modal = document.getElementById(id);
+
+  if(modal){
+    modal.classList.remove("show");
+  }
+}
+
+document.querySelectorAll(".modal").forEach(modal=>{
+  modal.addEventListener("click",e=>{
+    if(e.target===modal){
+      modal.classList.remove("show");
+    }
+  });
+});
+
+function saveProfile(){
+
+  const name =
+    document.getElementById("profileName").value.trim();
+
+  const dob =
+    document.getElementById("profileDob").value;
+
+  if(!name){
+    showToast(T("enterName"));
+    return;
+  }
+
+  if(!dob){
+    showToast(T("enterDob"));
+    return;
+  }
+
+  profile = {
+    name,
+    dob,
+    birthTime:
+      document.getElementById("profileBirthTime").value,
+
+    sex:
+      document.getElementById("profileSex").value,
+
+    horizon:
+      Number(document.getElementById("profileHorizon").value)
+  };
+
+  setData(STORAGE.profile,profile);
+
+  closeModal("profileModal");
+
+  renderAll();
+
+  showToast(T("profileSaved"));
+}
+
+/* =========================================================
+   CLOCK
+========================================================= */
+
+function updateClock(){
+
+  const now = new Date();
+
+  const clock = document.getElementById("liveClock");
+
+  if(clock){
+    clock.textContent =
+      now.toLocaleTimeString(
+        lang==="my" ? "my-MM" : "en-US",
+        {
+          hour:"2-digit",
+          minute:"2-digit",
+          second:"2-digit",
+          hour12:false
+        }
+      );
+  }
+
+  const dateEl = document.getElementById("liveDate");
+
+  if(dateEl){
+    dateEl.textContent = formatDate(now);
+  }
+
+  const topDate =
+    document.getElementById("todayDate");
+
+  if(topDate){
+    topDate.textContent = formatDate(now);
+  }
+
+  const midnight =
     new Date(
       now.getFullYear(),
       now.getMonth(),
       now.getDate()+1
     );
 
-  const diff =
-    tomorrow-now;
+  let seconds =
+    Math.max(0,Math.floor((midnight-now)/1000));
 
-  const total =
-    Math.max(
-      0,
-      Math.floor(diff/1000)
-    );
+  const h = Math.floor(seconds/3600);
 
-  const hh =
-    String(
-      Math.floor(total/3600)
-    ).padStart(2,"0");
+  seconds %= 3600;
 
-  const mm =
-    String(
-      Math.floor(
-        (total%3600)/60
-      )
-    ).padStart(2,"0");
+  const m = Math.floor(seconds/60);
+  const s = seconds%60;
 
-  const ss =
-    String(
-      total%60
-    ).padStart(2,"0");
+  document.getElementById("leftHours").textContent =
+    String(h).padStart(2,"0");
 
-  $("todayLeft").textContent =
-    `${hh}:${mm}:${ss}`;
+  document.getElementById("leftMinutes").textContent =
+    String(m).padStart(2,"0");
 
-
-  const start =
-    new Date(
-      now.getFullYear(),
-      0,
-      1
-    );
-
-  const end =
-    new Date(
-      now.getFullYear()+1,
-      0,
-      1
-    );
-
-  const passed =
-    Math.floor(
-      (now-start)/86400000
-    );
-
-  const totalDays =
-    Math.round(
-      (end-start)/86400000
-    );
-
-  const left =
-    Math.max(
-      0,
-      totalDays-passed
-    );
-
-  const pct =
-    Math.min(
-      100,
-      ((now-start)/
-      (end-start))*100
-    );
-
-
-  $("daysPassed").textContent =
-    fmt(passed);
-
-  $("daysLeft").textContent =
-    fmt(left);
-
-  $("weeksLeft").textContent =
-    Math.ceil(left/7);
-
-  $("yearPct").textContent =
-    Math.round(pct)+"%";
-
+  document.getElementById("leftSeconds").textContent =
+    String(s).padStart(2,"0");
 }
 
+setInterval(updateClock,1000);
 
-/* =========================
-   LIFE
-========================= */
+/* =========================================================
+   YEAR
+========================================================= */
+
+function renderYear(){
+
+  const now = new Date();
+
+  const start =
+    new Date(now.getFullYear(),0,1);
+
+  const end =
+    new Date(now.getFullYear()+1,0,1);
+
+  const passed =
+    Math.floor((now-start)/86400000);
+
+  const total =
+    Math.floor((end-start)/86400000);
+
+  const left =
+    Math.max(0,total-passed);
+
+  const percent =
+    Math.min(100,(passed/total)*100);
+
+  document.getElementById("yearPassed").textContent =
+    formatNumber(passed);
+
+  document.getElementById("yearLeft").textContent =
+    formatNumber(left);
+
+  document.getElementById("yearProgressText").textContent =
+    percent.toFixed(1)+"%";
+
+  document.getElementById("yearProgressBar").style.width =
+    percent+"%";
+
+  document.getElementById("analyticsYearPercent").textContent =
+    percent.toFixed(1)+"%";
+
+  document.getElementById("analyticsYearBar").style.width =
+    percent+"%";
+}
+
+/* =========================================================
+   LIFE RENDER
+========================================================= */
 
 function renderLife(){
 
-  const a =
-    ageParts(profile.dob);
+  const age = calculateAge(profile.dob);
+  const days = livedDays();
 
-  if(!a){
+  if(!age || days===null){
 
-    $("homeAge").textContent =
-      "—";
-
-    $("lifeAge").textContent =
-      "—";
-
-    $("lifePageAge").textContent =
-      "—";
-
-    $("daysLived").textContent =
-      "—";
-
-    $("lifePageDays").textContent =
-      "—";
-
-    $("heartbeats").textContent =
-      "—";
-
-    $("yearsRemaining").textContent =
-      "—";
+    document.getElementById("homeAge").textContent="—";
+    document.getElementById("homeDays").textContent="—";
+    document.getElementById("homeRemaining").textContent="—";
+    document.getElementById("homeLifeProgress").textContent="—";
 
     return;
-
   }
 
+  const progress = lifeProgress();
 
-  const days =
-    Math.floor(
-      a.ms/86400000
-    );
+  document.getElementById("homeAge").textContent =
+    age.years;
 
-  const horizon =
-    Number(profile.horizon)||75;
+  document.getElementById("homeAgeSub").textContent =
+    lang==="my"
+      ? `${age.months} လ ${age.days} ရက်`
+      : `${age.months} months ${age.days} days`;
 
-  const horizonMs =
-    horizon*
-    365.2425*
-    86400000;
+  document.getElementById("homeDays").textContent =
+    formatNumber(days);
 
-  const pct =
-    Math.min(
-      100,
-      a.ms/horizonMs*100
-    );
+  document.getElementById("homeRemaining").textContent =
+    `${Number(profile.horizon)-age.years}`;
 
+  document.getElementById("homeLifeProgress").textContent =
+    progress.toFixed(1)+"%";
 
-  $("homeAge").textContent =
-    ageText();
+  document.getElementById("lifeAge").textContent =
+    age.years;
 
-  $("lifeAge").textContent =
-    ageText();
+  document.getElementById("lifeAgeDetail").textContent =
+    lang==="my"
+      ? `${age.months} လ ${age.days} ရက်`
+      : `${age.months} months ${age.days} days`;
 
-  $("lifePageAge").textContent =
-    ageText();
+  document.getElementById("lifeDays").textContent =
+    formatNumber(days);
 
-  $("daysLived").textContent =
-    fmt(days);
+  document.getElementById("lifeHours").textContent =
+    formatNumber(days*24);
 
-  $("lifePageDays").textContent =
-    fmt(days);
+  document.getElementById("lifeMinutes").textContent =
+    formatNumber(days*24*60);
 
-  $("heartbeats").textContent =
-    fmt(
-      Math.floor(
-        a.ms/60000*70
-      )
-    );
+  document.getElementById("lifeSeconds").textContent =
+    formatNumber(days*24*60*60);
 
-  $("yearsRemaining").textContent =
-    Math.max(
-      0,
-      (horizon-a.y)
-    ).toFixed(1);
+  document.getElementById("lifeBeats").textContent =
+    formatNumber(days*24*60*70);
 
+  document.getElementById("lifeBreaths").textContent =
+    formatNumber(days*24*60*16);
 
-  $("lifePageHorizon").textContent =
-    horizon;
+  const remainingDays =
+    remainingLifeDays();
 
+  document.getElementById("lifeMonthsRemaining").textContent =
+    formatNumber(remainingDays/30.4375);
 
-  $("ringPct").textContent =
-    Math.round(pct)+"%";
+  document.getElementById("analyticsDays").textContent =
+    formatNumber(days);
 
-  $("lifeRing").style
-    .setProperty(
-      "--p",
-      pct+"%"
-    );
+  document.getElementById("analyticsRemainingDays").textContent =
+    formatNumber(remainingDays);
 
+  document.getElementById("analyticsRemainingWeeks").textContent =
+    formatNumber(remainingDays/7);
+
+  document.getElementById("analyticsRemainingMonths").textContent =
+    formatNumber(remainingDays/30.4375);
+
+  document.getElementById("analyticsLifePercent").textContent =
+    progress.toFixed(1)+"%";
+
+  document.getElementById("analyticsLifeBar").style.width =
+    progress+"%";
+
+  document.getElementById("lifeCircle").style
+    .setProperty("--percent",progress+"%");
+
+  document.getElementById("lifeCirclePercent").textContent =
+    progress.toFixed(1)+"%";
+
+  document.getElementById("heroName").textContent =
+    profile.name || "LIFE 75";
+
+  document.getElementById("cardName").textContent =
+    profile.name || "Your Name";
+
+  document.getElementById("cardAge").textContent =
+    age.years;
+
+  document.getElementById("cardAgeLabel").textContent =
+    lang==="my" ? "နှစ်" : "years old";
+
+  document.getElementById("settingsName").textContent =
+    profile.name || "—";
+
+  document.getElementById("settingsDob").textContent =
+    profile.dob ? formatDate(profile.dob) : "—";
+
+  renderWeeks();
 }
 
-
-/* =========================
+/* =========================================================
    LIFE WEEKS
-========================= */
+========================================================= */
 
 function renderWeeks(){
 
-  const el =
-    $("weeksGrid");
+  const grid =
+    document.getElementById("weeksGrid");
 
-  const a =
-    ageParts(profile.dob);
+  if(!grid) return;
 
-  if(!a){
+  grid.innerHTML="";
 
-    el.innerHTML =
-      '<div class="empty" style="grid-column:1/-1">Set your DOB first</div>';
+  if(!profile.dob) return;
 
-    return;
-
-  }
-
-
-  const horizon =
-    Number(profile.horizon)||75;
-
-  const total =
-    horizon*52;
+  const totalWeeks =
+    Math.ceil(
+      Number(profile.horizon||75)*52.1775
+    );
 
   const lived =
-    Math.floor(
-      a.ms/
-      (7*86400000)
-    );
+    Math.floor((livedDays()||0)/7);
 
+  const fragment =
+    document.createDocumentFragment();
 
-  let html = "";
+  for(let i=0;i<totalWeeks;i++){
 
-  for(
-    let i=0;
-    i<total;
-    i++
-  ){
+    const el =
+      document.createElement("div");
 
-    let cls =
-      "week";
+    el.className="week";
 
-    if(i<lived)
-      cls+=" lived";
-
-    if(i===lived)
-      cls+=" current";
-
-    html+=
-      `<span class="${cls}" title="Week ${i+1}"></span>`;
-
-  }
-
-
-  el.innerHTML =
-    html;
-
-}
-
-
-/* =========================
-   IMPORTANT DAYS
-========================= */
-
-const fixedImportant = [
-
-  {
-    title:"New Year's Day",
-    date:"01-01",
-    category:"global",
-    repeat:"yearly"
-  },
-
-  {
-    title:"Myanmar Independence Day",
-    date:"01-04",
-    category:"myanmar",
-    repeat:"yearly"
-  },
-
-  {
-    title:"Union Day",
-    date:"02-12",
-    category:"myanmar",
-    repeat:"yearly"
-  },
-
-  {
-    title:"Myanmar Peasants' Day",
-    date:"03-02",
-    category:"myanmar",
-    repeat:"yearly"
-  },
-
-  {
-    title:"International Women's Day",
-    date:"03-08",
-    category:"global",
-    repeat:"yearly"
-  },
-
-  {
-    title:"Myanmar Resistance Day",
-    date:"03-27",
-    category:"myanmar",
-    repeat:"yearly"
-  },
-
-  {
-    title:"World Health Day",
-    date:"04-07",
-    category:"health",
-    repeat:"yearly"
-  },
-
-  {
-    title:"International Day of Families",
-    date:"05-15",
-    category:"global",
-    repeat:"yearly"
-  },
-
-  {
-    title:"Labour Day",
-    date:"05-01",
-    category:"myanmar",
-    repeat:"yearly"
-  },
-
-  {
-    title:"World Environment Day",
-    date:"06-05",
-    category:"global",
-    repeat:"yearly"
-  },
-
-  {
-    title:"Myanmar Martyrs' Day",
-    date:"07-19",
-    category:"myanmar",
-    repeat:"yearly"
-  },
-
-  {
-    title:"International Day of Friendship",
-    date:"07-30",
-    category:"global",
-    repeat:"yearly"
-  },
-
-  {
-    title:"International Youth Day",
-    date:"08-12",
-    category:"global",
-    repeat:"yearly"
-  },
-
-  {
-    title:"World Mental Health Day",
-    date:"10-10",
-    category:"health",
-    repeat:"yearly"
-  },
-
-  {
-    title:"Universal Children's Day",
-    date:"11-20",
-    category:"global",
-    repeat:"yearly"
-  },
-
-  {
-    title:"Human Rights Day",
-    date:"12-10",
-    category:"global",
-    repeat:"yearly"
-  },
-
-  {
-    title:"Christmas Day",
-    date:"12-25",
-    category:"global",
-    repeat:"yearly"
-  }
-
-];
-
-
-function yearlyDate(mmdd,year){
-
-  return new Date(
-    `${year}-${mmdd}T00:00:00`
-  );
-
-}
-
-
-function recurringDate(item){
-
-  const now =
-    dateOnly(
-      new Date()
-    );
-
-  const parts =
-    item.date.split("-");
-
-  if(parts.length===3){
-
-    const original =
-      new Date(
-        item.date+"T00:00:00"
-      );
-
-    if(item.repeat==="yearly"){
-
-      let d =
-        new Date(
-          now.getFullYear(),
-          original.getMonth(),
-          original.getDate()
-        );
-
-      if(d<now){
-
-        d =
-          new Date(
-            now.getFullYear()+1,
-            original.getMonth(),
-            original.getDate()
-          );
-
-      }
-
-      return d;
-
+    if(i<lived){
+      el.classList.add("lived");
     }
 
-    return original;
-
-  }
-
-
-  if(parts.length===2){
-
-    let d =
-      yearlyDate(
-        item.date,
-        now.getFullYear()
-      );
-
-    if(d<now){
-
-      d =
-        yearlyDate(
-          item.date,
-          now.getFullYear()+1
-        );
-
+    if(i===lived){
+      el.classList.add("current");
     }
 
-    return d;
-
+    fragment.appendChild(el);
   }
 
-  return null;
-
+  grid.appendChild(fragment);
 }
 
+/* =========================================================
+   HEALTH
+========================================================= */
 
-function personalBirthday(){
+function renderHealth(){
 
-  if(!profile.dob)
-    return null;
+  document.getElementById("healthWeight").textContent =
+    health.weight
+      ? `${formatDecimal(health.weight)} kg`
+      : "—";
 
-  return {
+  document.getElementById("healthBP").textContent =
+    health.systolic && health.diastolic
+      ? `${health.systolic}/${health.diastolic}`
+      : "—";
 
-    title:"My Birthday",
+  document.getElementById("healthHR").textContent =
+    health.hr
+      ? `${health.hr} bpm`
+      : "—";
 
-    date:profile.dob,
+  document.getElementById("healthGlucose").textContent =
+    health.glucose
+      ? health.glucose
+      : "—";
 
-    category:"personal",
+  const age = calculateAge(profile.dob);
 
-    repeat:"yearly",
+  let guide="";
 
-    source:"birthday"
+  if(!age){
+    guide =
+      lang==="my"
+        ? "Profile ထဲမှာ မွေးသက္ကရာဇ်ထည့်ပြီး အသက်အလိုက် လမ်းညွှန်ကို ကြည့်နိုင်ပါတယ်"
+        : "Add your date of birth in Profile to see age-based guidance";
+  }else if(age.years<30){
+    guide=T("healthGuide20");
+  }else if(age.years<40){
+    guide=T("healthGuide30");
+  }else if(age.years<50){
+    guide=T("healthGuide40");
+  }else if(age.years<60){
+    guide=T("healthGuide50");
+  }else if(age.years<70){
+    guide=T("healthGuide60");
+  }else{
+    guide=T("healthGuide70");
+  }
 
+  document.getElementById("healthGuide").textContent=guide;
+}
+
+function saveHealth(){
+
+  health = {
+    weight:document.getElementById("healthWeightInput").value,
+    height:document.getElementById("healthHeightInput").value,
+    systolic:document.getElementById("healthSystolic").value,
+    diastolic:document.getElementById("healthDiastolic").value,
+    hr:document.getElementById("healthHRInput").value,
+    glucose:document.getElementById("healthGlucoseInput").value,
+    waist:document.getElementById("healthWaist").value,
+    sleep:document.getElementById("healthSleep").value,
+    updatedAt:new Date().toISOString()
   };
 
+  setData(STORAGE.health,health);
+
+  closeModal("healthModal");
+
+  renderHealth();
+
+  showToast(T("healthSaved"));
 }
 
+/* =========================================================
+   FAMILY
+========================================================= */
 
-function familyBirthdayItems(){
+function saveFamily(){
 
-  return family.map(
-    person=>({
+  const name =
+    document.getElementById("familyName").value.trim();
 
-      id:"family-"+person.id,
+  const relation =
+    document.getElementById("familyRelation").value.trim();
 
-      title:
-        `${person.name}'s Birthday`,
+  const dob =
+    document.getElementById("familyDob").value;
 
-      date:person.dob,
+  if(!name || !dob){
+    showToast(T("enterName"));
+    return;
+  }
 
-      category:"family",
+  family.push({
+    id:Date.now(),
+    name,
+    relation,
+    dob
+  });
 
-      repeat:"yearly",
+  setData(STORAGE.family,family);
 
-      source:"family",
+  document.getElementById("familyName").value="";
+  document.getElementById("familyRelation").value="";
+  document.getElementById("familyDob").value="";
 
-      relation:
-        person.relation
+  closeModal("familyModal");
 
-    })
-  );
+  renderFamily();
+  renderImportantDays();
 
+  showToast(T("familySaved"));
 }
 
+function deleteFamily(id){
 
-function goalImportantItems(){
+  family =
+    family.filter(x=>x.id!==id);
 
-  return goals
-    .filter(g=>g.date)
-    .map(
-      g=>({
+  setData(STORAGE.family,family);
 
-        id:"goal-"+g.id,
-
-        title:
-          `${g.title} — Deadline`,
-
-        date:g.date,
-
-        category:"work",
-
-        repeat:"none",
-
-        source:"goal"
-
-      })
-    );
-
+  renderFamily();
+  renderImportantDays();
 }
 
+function renderFamily(){
 
-function allImportant(){
+  const box =
+    document.getElementById("familyList");
 
-  const items = [
+  if(!family.length){
 
-    ...fixedImportant,
+    box.innerHTML=`
+      <div class="card empty">
+        <div class="empty-icon">♧</div>
+        <div>${T("emptyFamily")}</div>
+      </div>
+    `;
 
-    ...customImportant
+    return;
+  }
 
-  ];
+  box.innerHTML =
+    family.map(member=>{
 
+      const age =
+        calculateAge(member.dob);
 
-  const birthday =
-    personalBirthday();
+      return `
+        <div class="list-item">
 
-  if(birthday)
-    items.push(birthday);
+          <div class="list-main">
 
-
-  items.push(
-    ...familyBirthdayItems()
-  );
-
-  items.push(
-    ...goalImportantItems()
-  );
-
-
-  return items
-    .map(
-      (item,index)=>{
-
-        const date =
-          recurringDate(item);
-
-        return {
-
-          ...item,
-
-          _date:date,
-
-          _id:
-            item.id ||
-            `${item.title}-${index}`
-
-        };
-
-      }
-    )
-    .filter(
-      item=>item._date
-    );
-
-}
-
-
-function categoryMatch(item){
-
-  if(
-    importantFilter==="all"
-  )
-    return true;
-
-  return item.category===
-    importantFilter;
-
-}
-
-
-function formatImportantDate(date){
-
-  return date.toLocaleDateString(
-    lang==="my"
-      ? "my-MM"
-      : "en-GB",
-    {
-      day:"numeric",
-      month:"short",
-      year:"numeric"
-    }
-  );
-
-}
-
-
-function renderImportant(){
-
-  let items =
-    allImportant()
-      .filter(categoryMatch)
-      .sort(
-        (a,b)=>
-          a._date-b._date
-      );
-
-
-  const today =
-    dateOnly(
-      new Date()
-    );
-
-
-  const todayItems =
-    items.filter(
-      item=>
-        dateOnly(item._date)
-          .getTime()===
-        today.getTime()
-    );
-
-
-  const todayEl =
-    $("todayImportant");
-
-
-  if(!todayItems.length){
-
-    todayEl.innerHTML =
-      `<div class="card empty">
-        No important day today
-      </div>`;
-
-  }else{
-
-    todayEl.innerHTML =
-      todayItems
-        .map(
-          item=>`
-
-          <div class="card important-hero">
-
-            <div class="important-date">
-              ${escapeHtml(
-                formatImportantDate(
-                  item._date
-                )
-              )}
+            <div class="list-name">
+              ${escapeHtml(member.name)}
             </div>
 
-            <div class="important-title">
-              ${escapeHtml(
-                item.title
-              )}
+            <div class="list-meta">
+              ${escapeHtml(member.relation || "")}
+              ${member.relation ? " · " : ""}
+              ${formatDate(member.dob)}
             </div>
-
-            <span class="tag">
-              ${escapeHtml(
-                item.category
-              )}
-            </span>
 
           </div>
 
-        `
-        )
-        .join("");
+          <div style="text-align:right">
 
-  }
+            <span class="badge gold">
+              ${age ? age.years+" "+T("yearsOld") : ""}
+            </span>
 
+            <button
+              class="btn"
+              style="margin-top:7px"
+              onclick="deleteFamily(${member.id})"
+            >×</button>
 
-  const upcoming =
-    items
-      .filter(
-        item=>
-          dateOnly(item._date)>=today
-      )
-      .slice(0,20);
+          </div>
 
+        </div>
+      `;
 
-  const listEl =
-    $("importantList");
-
-
-  if(!upcoming.length){
-
-    listEl.innerHTML =
-      '<div class="empty">No upcoming important days</div>';
-
-  }else{
-
-    listEl.innerHTML =
-      `<div class="timeline">
-
-        ${upcoming.map(
-          item=>{
-
-            const days =
-              dayDiff(
-                item._date,
-                today
-              );
-
-            return `
-
-              <div class="timeline-item">
-
-                <div class="datebox">
-                  ${escapeHtml(
-                    formatImportantDate(
-                      item._date
-                    )
-                  )}
-                </div>
-
-                <div>
-
-                  <b>
-                    ${escapeHtml(
-                      item.title
-                    )}
-                  </b>
-
-                  <div class="small muted">
-
-                    <span class="tag">
-                      ${escapeHtml(
-                        item.category
-                      )}
-                    </span>
-
-                    ${
-                      item.repeat==="yearly"
-                        ? " · Every year"
-                        : ""
-                    }
-
-                  </div>
-
-                  ${
-                    item.note
-                      ? `<div class="small muted mt">
-                          ${escapeHtml(
-                            item.note
-                          )}
-                        </div>`
-                      : ""
-                  }
-
-                </div>
-
-                <div class="days">
-                  ${days===0
-                    ? "Today"
-                    : days+" days"}
-                </div>
-
-              </div>
-
-            `;
-
-          }
-        ).join("")}
-
-      </div>`;
-
-  }
-
-
-  const next =
-    allImportant()
-      .filter(
-        item=>
-          dateOnly(item._date)>=today
-      )
-      .sort(
-        (a,b)=>
-          a._date-b._date
-      )[0];
-
-
-  if(next){
-
-    const days =
-      dayDiff(
-        next._date,
-        today
-      );
-
-    $("nextImportantDate")
-      .textContent =
-        formatImportantDate(
-          next._date
-        );
-
-    $("nextImportantTitle")
-      .textContent =
-        next.title;
-
-    $("nextImportantCategory")
-      .textContent =
-        next.category;
-
-    $("nextImportantDays")
-      .textContent =
-        days===0
-          ? "Today"
-          : fmt(days);
-
-  }
-
+    }).join("");
 }
 
+/* =========================================================
+   GOALS
+========================================================= */
 
-/* =========================
-   MILESTONES
-========================= */
+function saveGoal(){
 
-function milestones(){
+  const name =
+    document.getElementById("goalName").value.trim();
 
-  const a =
-    ageParts(profile.dob);
+  const deadline =
+    document.getElementById("goalDeadline").value;
 
-  const el =
-    $("milestoneList");
-
-  if(!a){
-
-    el.innerHTML =
-      '<div class="empty">Set your DOB to see milestones</div>';
-
-    return;
-
-  }
-
-
-  const today =
-    dateOnly(
-      new Date()
+  const progress =
+    Math.min(
+      100,
+      Math.max(
+        0,
+        Number(document.getElementById("goalProgress").value)||0
+      )
     );
 
+  if(!name){
+    showToast(T("enterGoal"));
+    return;
+  }
 
-  const rows = [
+  goals.push({
+    id:Date.now(),
+    name,
+    deadline,
+    progress
+  });
 
-    1,5,10,18,21,
-    30,40,50,60,70,75
+  setData(STORAGE.goals,goals);
 
-  ]
-  .filter(
-    y=>
-      y<=
-      Number(profile.horizon||75)
-  )
-  .map(
-    y=>{
+  document.getElementById("goalName").value="";
+  document.getElementById("goalDeadline").value="";
+  document.getElementById("goalProgress").value=0;
 
-      const date =
+  closeModal("goalModal");
+
+  renderGoals();
+  renderImportantDays();
+
+  showToast(T("goalSaved"));
+}
+
+function deleteGoal(id){
+
+  goals =
+    goals.filter(x=>x.id!==id);
+
+  setData(STORAGE.goals,goals);
+
+  renderGoals();
+  renderImportantDays();
+}
+
+function renderGoals(){
+
+  const box =
+    document.getElementById("goalList");
+
+  if(!goals.length){
+
+    box.innerHTML=`
+      <div class="card empty">
+        <div class="empty-icon">◎</div>
+        <div>${T("emptyGoals")}</div>
+      </div>
+    `;
+
+    return;
+  }
+
+  box.innerHTML =
+    goals.map(goal=>{
+
+      let remaining="";
+
+      if(goal.deadline){
+
+        const target =
+          new Date(goal.deadline+"T00:00:00");
+
+        const diff =
+          Math.ceil(
+            (target-todayStart())/86400000
+          );
+
+        remaining =
+          diff>=0
+            ? `${formatNumber(diff)} ${T("daysUntil")}`
+            : `${formatNumber(Math.abs(diff))} ${T("daysSince")}`;
+      }
+
+      return `
+        <div class="card">
+
+          <div style="display:flex;justify-content:space-between;gap:10px">
+
+            <div>
+              <div class="list-name">
+                ${escapeHtml(goal.name)}
+              </div>
+
+              <div class="list-meta">
+                ${goal.deadline ? formatDate(goal.deadline) : ""}
+                ${remaining ? " · "+remaining : ""}
+              </div>
+            </div>
+
+            <button
+              class="btn"
+              onclick="deleteGoal(${goal.id})"
+            >×</button>
+
+          </div>
+
+          <div style="margin-top:15px;display:flex;justify-content:space-between">
+            <span class="metric-sub">${T("progress")}</span>
+            <strong>${goal.progress}%</strong>
+          </div>
+
+          <div class="progress">
+            <div
+              class="progress-fill"
+              style="width:${goal.progress}%"
+            ></div>
+          </div>
+
+        </div>
+      `;
+
+    }).join("");
+}
+
+/* =========================================================
+   IMPORTANT DAYS
+========================================================= */
+
+function getImportantEvents(){
+
+  const now = new Date();
+
+  const events=[];
+
+  fixedImportantDays.forEach(item=>{
+
+    let year = now.getFullYear();
+
+    let date =
+      new Date(year,item.m-1,item.d);
+
+    if(date < todayStart()){
+      date =
+        new Date(year+1,item.m-1,item.d);
+    }
+
+    events.push({
+      id:`fixed-${item.m}-${item.d}`,
+      title:
+        lang==="my"
+          ? item.titleMy
+          : item.titleEn,
+      date,
+      category:item.category,
+      fixed:true,
+      annual:true
+    });
+  });
+
+  if(profile.dob){
+
+    const birth =
+      new Date(profile.dob+"T00:00:00");
+
+    let birthday =
+      new Date(
+        now.getFullYear(),
+        birth.getMonth(),
+        birth.getDate()
+      );
+
+    if(birthday<todayStart()){
+      birthday =
         new Date(
-          a.birth.getFullYear()+y,
-          a.birth.getMonth(),
-          a.birth.getDate()
+          now.getFullYear()+1,
+          birth.getMonth(),
+          birth.getDate()
         );
+    }
 
-      return {
-        y,
-        date
-      };
+    events.push({
+      id:"personal-birthday",
+      title:
+        lang==="my"
+          ? "မွေးနေ့"
+          : "Birthday",
+      date:birthday,
+      category:"personal",
+      annual:true
+    });
+  }
+
+  family.forEach(member=>{
+
+    if(!member.dob) return;
+
+    const birth =
+      new Date(member.dob+"T00:00:00");
+
+    let birthday =
+      new Date(
+        now.getFullYear(),
+        birth.getMonth(),
+        birth.getDate()
+      );
+
+    if(birthday<todayStart()){
+      birthday =
+        new Date(
+          now.getFullYear()+1,
+          birth.getMonth(),
+          birth.getDate()
+        );
+    }
+
+    events.push({
+      id:"family-"+member.id,
+      title:
+        `${member.name} ${
+          lang==="my" ? "မွေးနေ့" : "Birthday"
+        }`,
+      date:birthday,
+      category:"family",
+      annual:true
+    });
+  });
+
+  goals.forEach(goal=>{
+
+    if(!goal.deadline) return;
+
+    const date =
+      new Date(goal.deadline+"T00:00:00");
+
+    if(date>=todayStart()){
+
+      events.push({
+        id:"goal-"+goal.id,
+        title:
+          `${goal.name} ${
+            lang==="my" ? "Deadline" : "Deadline"
+          }`,
+        date,
+        category:"work",
+        annual:false
+      });
 
     }
+
+  });
+
+  importantDays.forEach(item=>{
+
+    let date =
+      new Date(item.date+"T00:00:00");
+
+    if(item.annual){
+
+      let next =
+        new Date(
+          now.getFullYear(),
+          date.getMonth(),
+          date.getDate()
+        );
+
+      if(next<todayStart()){
+        next =
+          new Date(
+            now.getFullYear()+1,
+            date.getMonth(),
+            date.getDate()
+          );
+      }
+
+      date=next;
+    }
+
+    events.push({
+      ...item,
+      date
+    });
+  });
+
+  return events.sort(
+    (a,b)=>a.date-b.date
   );
+}
 
+function categoryName(category){
 
-  const dayMilestones = [
+  return T(category) || category;
+}
 
+function daysDifference(date){
+
+  const diff =
+    Math.ceil(
+      (date-todayStart())/86400000
+    );
+
+  return diff;
+}
+
+function renderImportantDays(){
+
+  const events =
+    getImportantEvents();
+
+  renderNextImportant(events);
+
+  const filtered =
+    currentImportantFilter==="all"
+      ? events
+      : events.filter(
+          x=>x.category===currentImportantFilter
+        );
+
+  const box =
+    document.getElementById("importantList");
+
+  if(!filtered.length){
+
+    box.innerHTML=`
+      <div class="card empty">
+        <div class="empty-icon">◷</div>
+        <div>${T("noImportant")}</div>
+      </div>
+    `;
+
+    return;
+  }
+
+  box.innerHTML =
+    filtered.map(event=>{
+
+      const diff =
+        daysDifference(event.date);
+
+      let timing;
+
+      if(diff===0){
+        timing=T("todayLabel");
+      }else if(diff===1){
+        timing=T("tomorrow");
+      }else{
+        timing =
+          diff>0
+            ? `${formatNumber(diff)} ${T("daysUntil")}`
+            : `${formatNumber(Math.abs(diff))} ${T("daysSince")}`;
+      }
+
+      return `
+        <div class="list-item">
+
+          <div class="list-main">
+
+            <div class="list-name">
+              ${escapeHtml(event.title)}
+            </div>
+
+            <div class="list-meta">
+              ${formatDate(event.date)}
+            </div>
+
+          </div>
+
+          <div style="text-align:right">
+
+            <span class="badge">
+              ${categoryName(event.category)}
+            </span>
+
+            <div
+              class="metric-sub"
+              style="margin-top:6px"
+            >
+              ${timing}
+            </div>
+
+            ${
+              event.fixed
+                ? ""
+                : `
+                  <button
+                    class="btn"
+                    style="margin-top:6px"
+                    onclick="deleteImportant('${event.id}')"
+                  >×</button>
+                `
+            }
+
+          </div>
+
+        </div>
+      `;
+
+    }).join("");
+}
+
+function renderNextImportant(events){
+
+  const next =
+    events.find(
+      event=>daysDifference(event.date)>=0
+    );
+
+  const boxes =
+    [
+      document.getElementById("importantNext"),
+      document.getElementById("homeImportant")
+    ];
+
+  boxes.forEach(box=>{
+
+    if(!box) return;
+
+    if(!next){
+
+      box.innerHTML=`
+        <div class="empty">
+          ${T("noImportant")}
+        </div>
+      `;
+
+      return;
+    }
+
+    const diff =
+      daysDifference(next.date);
+
+    let timing;
+
+    if(diff===0){
+      timing=T("todayLabel");
+    }else if(diff===1){
+      timing=T("tomorrow");
+    }else{
+      timing =
+        `${formatNumber(diff)} ${T("daysUntil")}`;
+    }
+
+    box.innerHTML=`
+
+      <div style="display:flex;justify-content:space-between;gap:15px;align-items:center">
+
+        <div>
+
+          <div class="card-title">
+            ${categoryName(next.category)}
+          </div>
+
+          <div class="metric">
+            ${escapeHtml(next.title)}
+          </div>
+
+          <div class="metric-sub">
+            ${formatDate(next.date)}
+          </div>
+
+        </div>
+
+        <div style="text-align:right">
+
+          <div class="metric gold">
+            ${timing}
+          </div>
+
+          <div class="metric-sub">
+            ${T("next")}
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+  });
+}
+
+function saveImportantDay(){
+
+  const title =
+    document.getElementById("importantTitle").value.trim();
+
+  const date =
+    document.getElementById("importantDate").value;
+
+  if(!title){
+    showToast(T("enterTitle"));
+    return;
+  }
+
+  if(!date){
+    showToast(T("enterDob"));
+    return;
+  }
+
+  importantDays.push({
+
+    id:String(Date.now()),
+
+    title,
+
+    date,
+
+    category:
+      document.getElementById("importantCategory").value,
+
+    note:
+      document.getElementById("importantNote").value.trim(),
+
+    annual:
+      document.getElementById("importantAnnual").checked
+
+  });
+
+  setData(STORAGE.important,importantDays);
+
+  document.getElementById("importantTitle").value="";
+  document.getElementById("importantDate").value="";
+  document.getElementById("importantNote").value="";
+  document.getElementById("importantAnnual").checked=false;
+
+  closeModal("importantModal");
+
+  renderImportantDays();
+
+  showToast(T("importantSaved"));
+}
+
+function deleteImportant(id){
+
+  importantDays =
+    importantDays.filter(
+      x=>String(x.id)!==String(id)
+    );
+
+  setData(STORAGE.important,importantDays);
+
+  renderImportantDays();
+}
+
+document
+  .getElementById("importantFilters")
+  .addEventListener("click",e=>{
+
+    const btn =
+      e.target.closest(".filter");
+
+    if(!btn) return;
+
+    currentImportantFilter =
+      btn.dataset.filter;
+
+    document
+      .querySelectorAll("#importantFilters .filter")
+      .forEach(x=>{
+        x.classList.toggle(
+          "active",
+          x===btn
+        );
+      });
+
+    renderImportantDays();
+  });
+
+/* =========================================================
+   MILESTONES
+========================================================= */
+
+function renderMilestones(){
+
+  const box =
+    document.getElementById("milestoneList");
+
+  if(!profile.dob){
+
+    box.innerHTML=`
+      <div class="card empty">
+        <div class="empty-icon">★</div>
+        <div>${T("enterDob")}</div>
+      </div>
+    `;
+
+    return;
+  }
+
+  const birth =
+    new Date(profile.dob+"T00:00:00");
+
+  const now =
+    new Date();
+
+  const milestones=[
     1000,
     5000,
     10000,
     15000,
     20000,
     25000,
-    30000
-
+    30000,
+    40000
   ];
 
+  const birthdayYears=[
+    10,20,30,40,50,60,70,75
+  ];
 
-  const lived =
-    Math.floor(
-      a.ms/86400000
-    );
+  const list=[];
 
+  milestones.forEach(day=>{
 
-  dayMilestones.forEach(
-    days=>{
+    const date =
+      new Date(
+        birth.getTime()+day*86400000
+      );
 
-      const date =
-        new Date(
-          a.birth.getTime()+
-          days*86400000
+    list.push({
+      title:
+        lang==="my"
+          ? `${formatNumber(day)} ရက်မြောက်နေ့`
+          : `${formatNumber(day)}th Day`,
+      date
+    });
+  });
+
+  birthdayYears.forEach(year=>{
+
+    const date =
+      new Date(
+        birth.getFullYear()+year,
+        birth.getMonth(),
+        birth.getDate()
+      );
+
+    list.push({
+      title:
+        lang==="my"
+          ? `${year} နှစ်ပြည့်မွေးနေ့`
+          : `${year}th Birthday`,
+      date
+    });
+  });
+
+  list.sort((a,b)=>a.date-b.date);
+
+  box.innerHTML =
+    list.map(item=>{
+
+      const diff =
+        Math.ceil(
+          (item.date-todayStart())/86400000
         );
 
-      rows.push({
-        y:`${fmt(days)}D`,
-        date
+      let state;
+
+      if(diff===0){
+        state=T("todayLabel");
+      }else if(diff>0){
+        state =
+          `${formatNumber(diff)} ${T("daysUntil")}`;
+      }else{
+        state =
+          `${formatNumber(Math.abs(diff))} ${T("daysSince")}`;
+      }
+
+      return `
+        <div class="list-item">
+
+          <div class="list-main">
+            <div class="list-name">
+              ${item.title}
+            </div>
+
+            <div class="list-meta">
+              ${formatDate(item.date)}
+            </div>
+          </div>
+
+          <span class="badge ${
+            diff>=0 ? "gold" : ""
+          }">
+            ${state}
+          </span>
+
+        </div>
+      `;
+
+    }).join("");
+}
+
+/* =========================================================
+   LIFE CARD
+========================================================= */
+
+async function shareLifeCard(){
+
+  const age =
+    calculateAge(profile.dob);
+
+  const text =
+    lang==="my"
+      ? `LIFE 75 — ${profile.name || "My Life"}\nအသက် ${age ? age.years : "—"} နှစ်\nEvery moment counts`
+      : `LIFE 75 — ${profile.name || "My Life"}\nAge ${age ? age.years : "—"}\nEvery moment counts`;
+
+  if(navigator.share){
+
+    try{
+      await navigator.share({
+        title:"LIFE 75",
+        text
       });
 
-    }
-  );
+      return;
+    }catch(e){}
+  }
 
+  try{
 
-  rows.sort(
-    (a,b)=>
-      a.date-b.date
-  );
+    await navigator.clipboard.writeText(text);
 
+    showToast(
+      lang==="my"
+        ? "Life Card စာသားကို Copy လုပ်ပြီးပါပြီ"
+        : "Life Card text copied"
+    );
 
-  el.innerHTML =
-    `<div class="timeline">
+  }catch(e){
 
-      ${rows.map(
-        row=>{
-
-          const passed =
-            row.date<today;
-
-          const days =
-            Math.abs(
-              dayDiff(
-                row.date,
-                today
-              )
-            );
-
-          return `
-
-            <div class="timeline-item">
-
-              <div class="datebox">
-                ${row.y}
-              </div>
-
-              <div>
-
-                <b>
-                  ${
-                    typeof row.y==="number"
-                      ? `${row.y}th Birthday`
-                      : `${row.y} milestone`
-                  }
-                </b>
-
-                <div class="small muted">
-                  ${formatImportantDate(
-                    row.date
-                  )}
-                </div>
-
-              </div>
-
-              <div class="days ${
-                passed
-                  ? "muted"
-                  : "positive"
-              }">
-
-                ${
-                  passed
-                    ? "Passed"
-                    : `${fmt(days)} days`
-                }
-
-              </div>
-
-            </div>
-
-          `;
-
-        }
-      ).join("")}
-
-    </div>`;
-
+    showToast(text);
+  }
 }
 
+/* =========================================================
+   PAYMENT
+========================================================= */
 
-/* =========================
-   FAMILY
-========================= */
+function submitPayment(){
 
-function familyAge(dob){
+  const transaction =
+    document.getElementById("transactionId")
+      .value.trim();
+
+  if(!transaction){
+
+    showToast(
+      lang==="my"
+        ? "Transaction ID ထည့်ပါ"
+        : "Please enter the transaction ID"
+    );
+
+    return;
+  }
+
+  payments.push({
+
+    id:Date.now(),
+
+    method:
+      document.getElementById("paymentMethod").value,
+
+    transaction,
+
+    note:
+      document.getElementById("paymentNote").value.trim(),
+
+    date:new Date().toISOString(),
+
+    status:"pending"
+
+  });
+
+  setData(STORAGE.payments,payments);
+
+  document.getElementById("transactionId").value="";
+  document.getElementById("paymentNote").value="";
+
+  closeModal("paymentModal");
+
+  showToast(T("paymentSaved"));
+}
+
+/* =========================================================
+   DATA
+========================================================= */
+
+function exportData(){
+
+  const data = {
+
+    profile,
+    family,
+    goals,
+    health,
+    importantDays,
+    payments,
+    exportedAt:new Date().toISOString()
+
+  };
+
+  const blob =
+    new Blob(
+      [JSON.stringify(data,null,2)],
+      {type:"application/json"}
+    );
+
+  const url =
+    URL.createObjectURL(blob);
 
   const a =
-    ageParts(dob);
+    document.createElement("a");
 
-  return a
-    ? `${a.y}Y ${a.m}M`
-    : "—";
+  a.href=url;
+  a.download="life75-data.json";
 
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  URL.revokeObjectURL(url);
+
+  showToast(T("dataExported"));
 }
 
+function clearData(){
 
-function familyRender(){
+  const message =
+    lang==="my"
+      ? "LIFE 75 Local Data အားလုံးကို ဖျက်မှာသေချာပါသလား"
+      : "Are you sure you want to clear all LIFE 75 local data?";
 
-  const list =
-    $("familyList");
+  if(!confirm(message)) return;
 
-  if(!family.length){
+  Object.values(STORAGE)
+    .forEach(key=>{
+      localStorage.removeItem(key);
+    });
 
-    list.innerHTML =
-      `<div class="card empty">
-        Add family members to create your family timeline
-      </div>`;
-
-  }else{
-
-    list.innerHTML =
-      family.map(
-        person=>`
-
-          <div class="card">
-
-            <div class="split">
-
-              <div>
-
-                <h3>
-                  ${escapeHtml(
-                    person.name
-                  )}
-                </h3>
-
-                <div class="small muted">
-                  ${escapeHtml(
-                    person.relation ||
-                    "Family"
-                  )}
-                </div>
-
-              </div>
-
-              <button
-                class="btn ghost danger"
-                data-del-family="${person.id}"
-              >
-                Delete
-              </button>
-
-            </div>
-
-            <div class="metric gold">
-              ${familyAge(
-                person.dob
-              )}
-            </div>
-
-            <div class="small muted">
-              ${person.dob}
-            </div>
-
-          </div>
-
-        `
-      ).join("");
-
-  }
-
-
-  qsa(
-    "[data-del-family]"
-  ).forEach(
-    btn=>{
-
-      btn.onclick=()=>{
-
-        family =
-          family.filter(
-            x=>
-              x.id!==btn.dataset.delFamily
-          );
-
-        set(
-          KEY.family,
-          family
-        );
-
-        renderAll();
-
-        toast(
-          "Family member deleted"
-        );
-
-      };
-
-    }
-  );
-
-
-  const timeline =
-    family
-      .map(
-        person=>{
-
-          const birthday =
-            recurringDate({
-              date:person.dob,
-              repeat:"yearly"
-            });
-
-          return {
-            name:person.name,
-            date:birthday
-          };
-
-        }
-      )
-      .sort(
-        (a,b)=>
-          a.date-b.date
-      );
-
-
-  $("familyTimeline").innerHTML =
-    timeline.length
-      ? `<div class="timeline">
-
-          ${timeline.map(
-            item=>`
-
-              <div class="timeline-item">
-
-                <div class="datebox">
-                  ${formatImportantDate(
-                    item.date
-                  )}
-                </div>
-
-                <div>
-                  <b>
-                    ${escapeHtml(
-                      item.name
-                    )}
-                  </b>
-                  <div class="small muted">
-                    Birthday
-                  </div>
-                </div>
-
-              </div>
-
-            `
-          ).join("")}
-
-        </div>`
-      : '<div class="empty">No family timeline yet</div>';
-
+  location.reload();
 }
 
+/* =========================================================
+   HELPERS
+========================================================= */
 
-/* =========================
-   GOALS
-========================= */
+function escapeHtml(value){
 
-function goalsRender(){
-
-  const el =
-    $("goalList");
-
-
-  if(!goals.length){
-
-    el.innerHTML =
-      '<div class="card empty">Create your first goal</div>';
-
-  }else{
-
-    el.innerHTML =
-      goals.map(
-        goal=>`
-
-          <div class="card">
-
-            <div class="split">
-
-              <h3>
-                ${escapeHtml(
-                  goal.title
-                )}
-              </h3>
-
-              <button
-                class="btn ghost danger"
-                data-del-goal="${goal.id}"
-              >
-                Delete
-              </button>
-
-            </div>
-
-            <div class="metric gold">
-              ${goal.progress}%
-            </div>
-
-            <div class="progress">
-              <i
-                style="width:${goal.progress}%"
-              ></i>
-            </div>
-
-            <div class="split small muted mt">
-
-              <span>
-                ${goal.date || "No deadline"}
-              </span>
-
-              <span>
-                ${
-                  goal.date
-                    ? Math.max(
-                        0,
-                        dayDiff(
-                          new Date(
-                            goal.date
-                          ),
-                          new Date()
-                        )
-                      )+" days"
-                    : ""
-                }
-              </span>
-
-            </div>
-
-          </div>
-
-        `
-      ).join("");
-
-  }
-
-
-  qsa(
-    "[data-del-goal]"
-  ).forEach(
-    btn=>{
-
-      btn.onclick=()=>{
-
-        goals =
-          goals.filter(
-            x=>
-              x.id!==btn.dataset.delGoal
-          );
-
-        set(
-          KEY.goals,
-          goals
-        );
-
-        renderAll();
-
-        toast(
-          "Goal deleted"
-        );
-
-      };
-
-    }
-  );
-
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 }
 
+let toastTimer;
 
-/* =========================
-   HEALTH
-========================= */
+function showToast(message){
 
-function healthRender(){
+  const toast =
+    document.getElementById("toast");
 
-  const h =
-    health[0];
+  toast.textContent=message;
 
+  toast.classList.add("show");
 
-  $("hWeight").textContent =
-    h?.weight
-      ? `${h.weight} kg`
-      : "—";
+  clearTimeout(toastTimer);
 
-
-  $("hBP").textContent =
-    h?.bp || "—";
-
-
-  $("hHR").textContent =
-    h?.hr
-      ? `${h.hr} bpm`
-      : "—";
-
-
-  $("healthHistory").innerHTML =
-    health.length
-      ? health
-          .slice(0,12)
-          .map(
-            item=>`
-
-              <div class="listrow">
-
-                <div>
-
-                  <b>
-                    ${item.date}
-                  </b>
-
-                  <div class="small muted">
-
-                    Weight
-                    ${item.weight||"—"}
-                    kg
-
-                    ·
-
-                    BP
-                    ${escapeHtml(
-                      item.bp||"—"
-                    )}
-
-                    ·
-
-                    HR
-                    ${item.hr||"—"}
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            `
-          ).join("")
-      : '<div class="empty">No measurements yet</div>';
-
-
-  const a =
-    ageParts(profile.dob);
-
-
-  let guide =
-    "For your age, consider discussing blood pressure, metabolic health, vaccines, vision and dental care, and age-appropriate screening with a qualified clinician";
-
-
-  if(a?.y>=50){
-
-    guide =
-      "At this stage, regular preventive care, cardiovascular and metabolic risk review, vision and hearing, bone health and age-appropriate screening discussions become increasingly relevant";
-
-  }
-
-
-  if(a?.y>=65){
-
-    guide =
-      "At this stage, preventive care, medication review, mobility and fall prevention, vision and hearing, cognitive wellbeing and age-appropriate screening are useful topics to discuss";
-
-  }
-
-
-  $("healthGuide").innerHTML =
-    `<p class="muted small">
-      ${guide}
-    </p>
-
-    <div class="health-chip">
-      General guidance — not diagnosis
-    </div>`;
-
+  toastTimer =
+    setTimeout(()=>{
+      toast.classList.remove("show");
+    },2200);
 }
 
-
-/* =========================
-   CHART
-========================= */
-
-function drawLine(
-  id,
-  vals
-){
-
-  const canvas =
-    $(id);
-
-  if(!canvas)return;
-
-  const ctx =
-    canvas.getContext("2d");
-
-  const rect =
-    canvas.getBoundingClientRect();
-
-  const ratio =
-    window.devicePixelRatio||1;
-
-
-  canvas.width =
-    Math.max(
-      300,
-      rect.width*ratio
-    );
-
-  canvas.height =
-    Math.max(
-      180,
-      rect.height*ratio
-    );
-
-
-  ctx.scale(
-    ratio,
-    ratio
-  );
-
-
-  const w =
-    rect.width;
-
-  const h =
-    rect.height;
-
-
-  ctx.clearRect(
-    0,
-    0,
-    w,
-    h
-  );
-
-
-  ctx.strokeStyle =
-    "#383229";
-
-  ctx.lineWidth=1;
-
-
-  for(
-    let i=1;
-    i<5;
-    i++
-  ){
-
-    const y =
-      h*i/5;
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-      0,
-      y
-    );
-
-    ctx.lineTo(
-      w,
-      y
-    );
-
-    ctx.stroke();
-
-  }
-
-
-  if(!vals.length)return;
-
-
-  const max =
-    Math.max(
-      ...vals,
-      1
-    );
-
-  const min =
-    Math.min(
-      ...vals,
-      0
-    );
-
-
-  ctx.strokeStyle =
-    "#d8aa55";
-
-  ctx.lineWidth=3;
-
-  ctx.beginPath();
-
-
-  vals.forEach(
-    (value,index)=>{
-
-      const x =
-        vals.length===1
-          ? w/2
-          : index*
-            (
-              w/
-              (vals.length-1)
-            );
-
-
-      const y =
-        h-22-
-        (
-          (value-min)/
-          (max-min||1)
-        )*
-        (h-42);
-
-
-      if(index)
-        ctx.lineTo(x,y);
-      else
-        ctx.moveTo(x,y);
-
-    }
-  );
-
-
-  ctx.stroke();
-
-
-  vals.forEach(
-    (value,index)=>{
-
-      const x =
-        vals.length===1
-          ? w/2
-          : index*
-            (
-              w/
-              (vals.length-1)
-            );
-
-
-      const y =
-        h-22-
-        (
-          (value-min)/
-          (max-min||1)
-        )*
-        (h-42);
-
-
-      ctx.fillStyle =
-        "#f1ca7a";
-
-      ctx.beginPath();
-
-      ctx.arc(
-        x,
-        y,
-        4,
-        0,
-        Math.PI*2
-      );
-
-      ctx.fill();
-
-    }
-  );
-
-}
-
-
-/* =========================
-   ANALYTICS
-========================= */
-
-function analyticsRender(){
-
-  const a =
-    ageParts(profile.dob);
-
-
-  const horizon =
-    Number(profile.horizon)||75;
-
-
-  const pct =
-    a
-      ? Math.min(
-          100,
-          a.ms/
-          (
-            horizon*
-            365.2425*
-            86400000
-          )*
-          100
-        )
-      : 0;
-
-
-  drawLine(
-    "lifeChart",
-    [
-      0,
-      pct*.2,
-      pct*.45,
-      pct*.7,
-      pct
-    ]
-  );
-
-
-  const now =
-    new Date();
-
-  const start =
-    new Date(
-      now.getFullYear(),
-      0,
-      1
-    );
-
-  const end =
-    new Date(
-      now.getFullYear()+1,
-      0,
-      1
-    );
-
-
-  const yearPct =
-    (
-      (now-start)/
-      (end-start)
-    )*100;
-
-
-  drawLine(
-    "yearChart",
-    [
-      0,
-      yearPct*.2,
-      yearPct*.45,
-      yearPct*.7,
-      yearPct
-    ]
-  );
-
-
-  drawLine(
-    "goalChart",
-    goals.length
-      ? goals.map(
-          goal=>
-            Number(
-              goal.progress
-            )||0
-        )
-      : [0]
-  );
-
-
-  drawLine(
-    "healthChart",
-    health
-      .slice(0,10)
-      .reverse()
-      .map(
-        item=>
-          Number(
-            item.weight
-          )||0
-      )
-  );
-
-
-  $("analyticsTimeline").innerHTML =
-    milestoneTimelineHtml();
-
-}
-
-
-function milestoneTimelineHtml(){
-
-  const a =
-    ageParts(profile.dob);
-
-
-  if(!a){
-
-    return `
-      <div class="empty">
-        Set your DOB to see the timeline
-      </div>
-    `;
-
-  }
-
-
-  const rows =
-    [
-      1,5,10,18,21,
-      30,40,50,60,70,75
-    ]
-      .filter(
-        x=>
-          x<=
-          Number(
-            profile.horizon
-          )
-      )
-      .map(
-        year=>{
-
-          const d =
-            new Date(
-              a.birth.getFullYear()+year,
-              a.birth.getMonth(),
-              a.birth.getDate()
-            );
-
-          return {
-            d,
-            year
-          };
-
-        }
-      );
-
-
-  return `
-    <div class="timeline">
-
-      ${rows.map(
-        row=>{
-
-          const future =
-            row.d>=
-            dateOnly(
-              new Date()
-            );
-
-
-          return `
-
-            <div class="timeline-item">
-
-              <div class="datebox">
-                ${row.year}Y
-              </div>
-
-              <div>
-
-                <b>
-                  ${row.year}th Birthday
-                </b>
-
-                <div class="small muted">
-                  ${formatImportantDate(
-                    row.d
-                  )}
-                </div>
-
-              </div>
-
-              <div class="days">
-
-                ${
-                  future
-                    ? fmt(
-                        dayDiff(
-                          row.d,
-                          new Date()
-                        )
-                      )+" days"
-                    : "Passed"
-                }
-
-              </div>
-
-            </div>
-
-          `;
-
-        }
-      ).join("")}
-
-    </div>
-  `;
-
-}
-
-
-/* =========================
-   LIFE CARD
-========================= */
-
-function lifeCardRender(){
-
-  const a =
-    ageParts(
-      profile.dob
-    );
-
-
-  const now =
-    new Date();
-
-
-  const start =
-    new Date(
-      now.getFullYear(),
-      0,
-      1
-    );
-
-  const end =
-    new Date(
-      now.getFullYear()+1,
-      0,
-      1
-    );
-
-
-  const yearPct =
-    Math.round(
-      (
-        (now-start)/
-        (end-start)
-      )*100
-    );
-
-
-  const next =
-    allImportant()
-      .filter(
-        item=>
-          dateOnly(item._date)>=
-          dateOnly(new Date())
-      )
-      .sort(
-        (a,b)=>
-          a._date-b._date
-      )[0];
-
-
-  $("lifeCardPreview").innerHTML = `
-
-    <div class="hero">
-
-      <div class="eyebrow">
-        LIFE 75
-      </div>
-
-      <h2>
-        ${escapeHtml(
-          profile.name ||
-          "My Life"
-        )}
-      </h2>
-
-      <div class="big-age">
-        ${a
-          ? ageText()
-          : "—"}
-      </div>
-
-      <p>
-        ${
-          a
-            ? fmt(
-                Math.floor(
-                  a.ms/
-                  86400000
-                )
-              )+
-              " days lived"
-            : "Set your DOB to create your Life Card"
-        }
-      </p>
-
-
-      <div class="grid g3 mt">
-
-        <div class="card">
-
-          <div class="label">
-            Year Progress
-          </div>
-
-          <div class="metric">
-            ${yearPct}%
-          </div>
-
-        </div>
-
-
-        <div class="card">
-
-          <div class="label">
-            Next Important
-          </div>
-
-          <div class="metric small">
-
-            ${escapeHtml(
-              next?.title ||
-              "—"
-            )}
-
-          </div>
-
-        </div>
-
-
-        <div class="card">
-
-          <div class="label">
-            Goals
-          </div>
-
-          <div class="metric">
-            ${goals.length}
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-/* =========================
-   RENDER ALL
-========================= */
+/* =========================================================
+   MASTER RENDER
+========================================================= */
 
 function renderAll(){
 
-  renderProfile();
+  applyStaticOnly();
 
+  renderYear();
   renderLife();
+  renderHealth();
+  renderFamily();
+  renderGoals();
+  renderMilestones();
+  renderImportantDays();
 
-  renderTime();
+  updateClock();
 
-  renderWeeks();
-
-  renderImportant();
-
-  milestones();
-
-  familyRender();
-
-  goalsRender();
-
-  healthRender();
-
-  analyticsRender();
-
-  lifeCardRender();
-
+  document.getElementById("settingsLanguage").textContent =
+    lang==="my" ? "မြန်မာ" : "English";
 }
 
+function applyStaticOnly(){
 
-/* =========================
-   NAVIGATION
-========================= */
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
 
-function showView(view){
+    const key =
+      el.getAttribute("data-i18n");
 
-  qsa(".view")
-    .forEach(
-      element=>
-        element.classList.toggle(
-          "active",
-          element.id===
-            "view-"+view
-        )
-    );
+    if(translations[lang][key]){
+      el.textContent =
+        translations[lang][key];
+    }
 
-
-  qsa("[data-view]")
-    .forEach(
-      element=>
-        element.classList.toggle(
-          "active",
-          element.dataset.view===
-            view
-        )
-    );
-
-
-  const titles = {
-
-    home:"Your Life in Numbers",
-
-    life:"My Life",
-
-    analytics:"Life Analytics",
-
-    health:"Health Center",
-
-    family:"My Family",
-
-    goals:"Goals",
-
-    milestones:"Milestones",
-
-    important:"Important Days",
-
-    card:"Life Card",
-
-    premium:"Premium"
-
-  };
-
-
-  $("topTitle").textContent =
-    titles[view] ||
-    "LIFE 75";
-
-
-  if(view==="analytics"){
-
-    setTimeout(
-      analyticsRender,
-      30
-    );
-
-  }
-
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
   });
 
-}
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(el=>{
 
+    const key =
+      el.getAttribute("data-i18n-placeholder");
 
-/* =========================
-   NAV EVENTS
-========================= */
-
-$("sideNav").onclick =
-  event=>{
-
-    const btn =
-      event.target.closest(
-        "[data-view]"
-      );
-
-    if(btn)
-      showView(
-        btn.dataset.view
-      );
-
-  };
-
-
-$("bottomNav").onclick =
-  event=>{
-
-    const btn =
-      event.target.closest(
-        "[data-view]"
-      );
-
-    if(btn)
-      showView(
-        btn.dataset.view
-      );
-
-  };
-
-
-qsa(
-  "[data-view-jump]"
-).forEach(
-  btn=>{
-
-    btn.onclick =
-      ()=>showView(
-        btn.dataset.viewJump
-      );
-
-  }
-);
-
-
-/* =========================
-   PROFILE
-========================= */
-
-function openProfile(){
-
-  fillProfile();
-
-  openModal(
-    "profileModal"
-  );
-
-}
-
-
-$("setupBtn").onclick =
-  openProfile;
-
-$("lifeProfileBtn").onclick =
-  openProfile;
-
-$("profileBtn").onclick =
-  openProfile;
-
-$("profileBtn2").onclick =
-  openProfile;
-
-
-$("saveProfile").onclick =
-  ()=>{
-
-    profile = {
-
-      name:
-        $("pName")
-          .value
-          .trim(),
-
-      dob:
-        $("pDob").value,
-
-      birthTime:
-        $("pTime").value,
-
-      sex:
-        $("pSex").value,
-
-      horizon:
-        Number(
-          $("pHorizon").value
-        )||75
-
-    };
-
-
-    set(
-      KEY.profile,
-      profile
-    );
-
-
-    closeModal(
-      "profileModal"
-    );
-
-
-    renderAll();
-
-    toast(
-      "Profile saved"
-    );
-
-  };
-
-
-/* =========================
-   IMPORTANT EVENTS
-========================= */
-
-function openImportant(){
-
-  $("iTitle").value="";
-
-  $("iDate").value =
-    isoDate(
-      new Date()
-    );
-
-  $("iCategory").value =
-    "personal";
-
-  $("iRepeat").value =
-    "none";
-
-  $("iNote").value="";
-
-  openModal(
-    "importantModal"
-  );
-
-}
-
-
-$("importantBtn").onclick =
-  openImportant;
-
-$("quickImportant").onclick =
-  openImportant;
-
-
-$("saveImportant").onclick =
-  ()=>{
-
-    const title =
-      $("iTitle")
-        .value
-        .trim();
-
-    const date =
-      $("iDate").value;
-
-
-    if(!title||!date){
-
-      toast(
-        "Please enter title and date"
-      );
-
-      return;
-
+    if(translations[lang][key]){
+      el.placeholder =
+        translations[lang][key];
     }
 
+  });
 
-    customImportant.push({
+  const languageBtn =
+    document.getElementById("languageBtn");
 
-      id:
-        crypto.randomUUID
-          ? crypto.randomUUID()
-          : Date.now().toString(),
+  if(languageBtn){
 
-      title,
-
-      date,
-
-      category:
-        $("iCategory").value,
-
-      repeat:
-        $("iRepeat").value,
-
-      note:
-        $("iNote")
-          .value
-          .trim()
-
-    });
-
-
-    set(
-      KEY.important,
-      customImportant
-    );
-
-
-    closeModal(
-      "importantModal"
-    );
-
-
-    renderAll();
-
-    toast(
-      "Important day added"
-    );
-
-  };
-
-
-/* =========================
-   FAMILY EVENTS
-========================= */
-
-function openFamily(){
-
-  $("fName").value="";
-
-  $("fRelation").value="";
-
-  $("fDob").value="";
-
-  openModal(
-    "familyModal"
-  );
-
-}
-
-
-$("familyBtn").onclick =
-  openFamily;
-
-$("familyBtn2").onclick =
-  openFamily;
-
-
-$("saveFamily").onclick =
-  ()=>{
-
-    const name =
-      $("fName")
-        .value
-        .trim();
-
-    const dob =
-      $("fDob").value;
-
-
-    if(!name||!dob){
-
-      toast(
-        "Enter family name and DOB"
-      );
-
-      return;
-
-    }
-
-
-    family.push({
-
-      id:
-        crypto.randomUUID
-          ? crypto.randomUUID()
-          : Date.now().toString(),
-
-      name,
-
-      relation:
-        $("fRelation")
-          .value
-          .trim(),
-
-      dob
-
-    });
-
-
-    set(
-      KEY.family,
-      family
-    );
-
-
-    closeModal(
-      "familyModal"
-    );
-
-
-    renderAll();
-
-    toast(
-      "Family member added"
-    );
-
-  };
-
-
-/* =========================
-   GOAL EVENTS
-========================= */
-
-function openGoal(){
-
-  $("gTitle").value="";
-
-  $("gDate").value="";
-
-  $("gProgress").value=0;
-
-  openModal(
-    "goalModal"
-  );
-
-}
-
-
-$("goalBtn").onclick =
-  openGoal;
-
-$("goalBtn2").onclick =
-  openGoal;
-
-
-$("saveGoal").onclick =
-  ()=>{
-
-    const title =
-      $("gTitle")
-        .value
-        .trim();
-
-
-    if(!title){
-
-      toast(
-        "Enter a goal"
-      );
-
-      return;
-
-    }
-
-
-    goals.push({
-
-      id:
-        crypto.randomUUID
-          ? crypto.randomUUID()
-          : Date.now().toString(),
-
-      title,
-
-      date:
-        $("gDate").value,
-
-      progress:
-        Math.max(
-          0,
-          Math.min(
-            100,
-            Number(
-              $("gProgress").value
-            )||0
-          )
-        )
-
-    });
-
-
-    set(
-      KEY.goals,
-      goals
-    );
-
-
-    closeModal(
-      "goalModal"
-    );
-
-
-    renderAll();
-
-    toast(
-      "Goal added"
-    );
-
-  };
-
-
-/* =========================
-   HEALTH EVENTS
-========================= */
-
-function openHealth(){
-
-  $("hd").value =
-    isoDate(
-      new Date()
-    );
-
-  $("hw").value="";
-
-  $("hbp").value="";
-
-  $("hhr").value="";
-
-  openModal(
-    "healthModal"
-  );
-
-}
-
-
-$("healthBtn").onclick =
-  openHealth;
-
-$("healthBtn2").onclick =
-  openHealth;
-
-
-$("saveHealth").onclick =
-  ()=>{
-
-    health.unshift({
-
-      id:
-        Date.now().toString(),
-
-      date:
-        $("hd").value,
-
-      weight:
-        $("hw").value,
-
-      bp:
-        $("hbp")
-          .value
-          .trim(),
-
-      hr:
-        $("hhr").value
-
-    });
-
-
-    set(
-      KEY.health,
-      health
-    );
-
-
-    closeModal(
-      "healthModal"
-    );
-
-
-    renderAll();
-
-    toast(
-      "Measurement saved"
-    );
-
-  };
-
-
-/* =========================
-   MODALS
-========================= */
-
-qsa(
-  "[data-close]"
-).forEach(
-  button=>{
-
-    button.onclick =
-      ()=>{
-        closeModal(
-          button.dataset.close
-        );
-      };
-
-  }
-);
-
-
-qsa(
-  ".modal"
-).forEach(
-  modal=>{
-
-    modal.addEventListener(
-      "click",
-      event=>{
-
-        if(
-          event.target===
-          modal
-        ){
-
-          modal.classList
-            .remove("show");
-
-        }
-
-      }
-    );
-
-  }
-);
-
-
-/* =========================
-   IMPORTANT FILTERS
-========================= */
-
-qsa(
-  "#importantFilters button"
-).forEach(
-  button=>{
-
-    button.onclick =
-      ()=>{
-
-        importantFilter =
-          button.dataset.filter;
-
-
-        qsa(
-          "#importantFilters button"
-        ).forEach(
-          item=>
-            item.classList
-              .remove("active")
-        );
-
-
-        button.classList
-          .add("active");
-
-
-        renderImportant();
-
-      };
-
-  }
-);
-
-
-/* =========================
-   PREMIUM
-========================= */
-
-qsa(
-  "[data-plan]"
-).forEach(
-  button=>{
-
-    button.onclick =
-      ()=>{
-
-        $("selectedPlan")
-          .textContent =
-          button.dataset.plan;
-
-        $("payTxn").value="";
-
-        openModal(
-          "paymentModal"
-        );
-
-      };
-
-  }
-);
-
-
-$("submitPayment").onclick =
-  ()=>{
-
-    const txn =
-      $("payTxn")
-        .value
-        .trim();
-
-
-    if(!txn){
-
-      toast(
-        "Enter transaction ID"
-      );
-
-      return;
-
-    }
-
-
-    payments.push({
-
-      id:
-        Date.now().toString(),
-
-      plan:
-        $("selectedPlan")
-          .textContent,
-
-      method:
-        $("payMethod")
-          .value,
-
-      txn,
-
-      status:
-        "pending",
-
-      created:
-        new Date()
-          .toISOString()
-
-    });
-
-
-    set(
-      KEY.payment,
-      payments
-    );
-
-
-    closeModal(
-      "paymentModal"
-    );
-
-
-    toast(
-      "Premium request submitted"
-    );
-
-  };
-
-
-/* =========================
-   LIFE CARD
-========================= */
-
-$("shareCardBtn").onclick =
-  async()=>{
-
-    const a =
-      ageParts(
-        profile.dob
-      );
-
-
-    const text =
-
-`LIFE 75 — ${profile.name||"My Life"}
-
-Age: ${
-  a
-    ? ageText()
-    : "—"
-}
-
-Days lived: ${
-  a
-    ? fmt(
-        Math.floor(
-          a.ms/
-          86400000
-        )
-      )
-    : "—"
-}`;
-
-    try{
-
-      await navigator
-        .clipboard
-        .writeText(
-          text
-        );
-
-      toast(
-        "Life Card text copied"
-      );
-
-    }catch{
-
-      toast(
-        "Copy is not available in this browser"
-      );
-
-    }
-
-  };
-
-
-/* =========================
-   LANGUAGE
-========================= */
-
-$("langBtn").onclick =
-  ()=>{
-
-    lang =
+    languageBtn.textContent =
       lang==="my"
-        ? "en"
-        : "my";
+        ? "🌐 English"
+        : "🌐 မြန်မာ";
+  }
 
+  updatePageTitle();
+}
 
-    localStorage.setItem(
-      KEY.lang,
-      lang
-    );
+/* =========================================================
+   INITIALIZE
+========================================================= */
 
+function initialize(){
 
-    toast(
-      lang==="my"
-        ? "Myanmar mode"
-        : "English mode"
-    );
+  applyStaticOnly();
 
+  const hasProfile =
+    profile &&
+    profile.name &&
+    profile.dob;
 
-    renderAll();
+  /*
+    If no profile exists, show login
+    Otherwise open the application
+  */
 
-  };
+  if(hasProfile){
 
+    document
+      .getElementById("loginScreen")
+      .classList.add("hidden");
 
-/* =========================
-   LOGIN UI
-========================= */
+    document
+      .getElementById("appShell")
+      .classList.remove("hidden");
 
-$("authBtn").onclick =
-  ()=>{
+  }else{
 
-    const email =
-      $("authEmail")
-        .value
-        .trim();
+    document
+      .getElementById("loginScreen")
+      .classList.remove("hidden");
 
-    const password =
-      $("authPassword")
-        .value;
-
-
-    if(!email||!password){
-
-      toast(
-        "Enter email and password"
-      );
-
-      return;
-
-    }
-
-
-    if(password.length<6){
-
-      toast(
-        "Password must be at least 6 characters"
-      );
-
-      return;
-
-    }
-
-
-    toast(
-      "Local account mode enabled"
-    );
-
-  };
-
-
-$("googleBtn").onclick =
-  ()=>{
-
-    toast(
-      "Google login requires Firebase setup"
-    );
-
-  };
-
-
-$("guestBtn").onclick =
-  ()=>{
-
-    $("login")
-      .classList
-      .add("hidden");
-
-    $("app")
-      .classList
-      .remove("hidden");
-
-    toast(
-      "Guest mode"
-    );
-
-  };
-
-
-/* =========================
-   START
-========================= */
-
-setInterval(
-  renderTime,
-  1000
-);
-
-
-window.addEventListener(
-  "resize",
-  ()=>{
-
-    if(
-      document.querySelector(
-        "#view-analytics.active"
-      )
-    ){
-
-      analyticsRender();
-
-    }
+    document
+      .getElementById("appShell")
+      .classList.add("hidden");
 
   }
-);
 
+  renderAll();
+}
 
-fillProfile();
-
-renderAll();
+initialize();
 
 </script>
 
