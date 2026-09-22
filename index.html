@@ -1,32 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="my">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#0d0d0f">
+<meta name="theme-color" content="#10100f">
 <title>LIFE 75 — Your Life in Numbers</title>
 
 <style>
-:root{
-  --bg:#0b0b0d;
-  --surface:#121216;
-  --surface2:#18181d;
-  --surface3:#202026;
-  --text:#f5f5f3;
-  --muted:#96969f;
-  --line:rgba(255,255,255,.08);
-  --accent:#d9b36c;
-  --accent2:#f0d49b;
-  --green:#8fc9a0;
-  --red:#e88e8e;
-  --shadow:0 20px 60px rgba(0,0,0,.35);
-  --radius:24px;
-}
-
 *{
   box-sizing:border-box;
   margin:0;
   padding:0;
+}
+
+:root{
+  --bg:#0d0d0c;
+  --panel:#151513;
+  --panel2:#1c1b18;
+  --border:#2b2924;
+  --text:#f4f0e8;
+  --muted:#a9a39a;
+  --gold:#d7b56d;
+  --gold2:#f0d99d;
+  --green:#8fbf9b;
+  --danger:#c98d87;
+  --white:#ffffff;
+  --shadow:0 18px 50px rgba(0,0,0,.28);
 }
 
 html{
@@ -34,17 +33,27 @@ html{
 }
 
 body{
+  font-family:
+    "Noto Sans Myanmar",
+    "Myanmar Text",
+    "Padauk",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
   background:
-    radial-gradient(circle at 80% -10%,rgba(217,179,108,.12),transparent 35%),
-    radial-gradient(circle at -10% 30%,rgba(255,255,255,.035),transparent 30%),
+    radial-gradient(circle at 80% 0%,rgba(215,181,109,.10),transparent 28%),
     var(--bg);
   color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;
   min-height:100vh;
-  overflow-x:hidden;
+  line-height:1.55;
 }
 
-button,input,select{
+button,
+input,
+textarea,
+select{
   font:inherit;
 }
 
@@ -52,507 +61,680 @@ button{
   cursor:pointer;
 }
 
-.app{
-  width:100%;
-  max-width:1200px;
-  margin:auto;
-  min-height:100vh;
-  padding-bottom:100px;
+.hidden{
+  display:none!important;
 }
 
 /* HEADER */
 
 .header{
-  padding:22px 18px 10px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
   position:sticky;
   top:0;
-  z-index:20;
-  background:rgba(11,11,13,.82);
-  backdrop-filter:blur(20px);
+  z-index:100;
+  height:72px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 24px;
+  background:rgba(13,13,12,.88);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border);
 }
 
 .brand{
   display:flex;
   align-items:center;
-  gap:11px;
+  gap:12px;
 }
 
 .brand-mark{
   width:38px;
   height:38px;
-  border:1px solid rgba(217,179,108,.45);
-  border-radius:13px;
+  border-radius:12px;
   display:grid;
   place-items:center;
-  color:var(--accent);
-  font-size:17px;
+  color:#17130b;
+  font-weight:900;
+  background:linear-gradient(135deg,var(--gold2),var(--gold));
 }
 
-.brand-title{
-  font-weight:800;
-  letter-spacing:.12em;
-  font-size:14px;
-}
-
-.brand-sub{
-  color:var(--muted);
-  font-size:9px;
-  margin-top:3px;
+.brand-text strong{
+  display:block;
+  font-size:15px;
   letter-spacing:.08em;
 }
 
+.brand-text span{
+  display:block;
+  font-size:10px;
+  color:var(--muted);
+  letter-spacing:.05em;
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.lang-switch{
+  display:flex;
+  padding:3px;
+  border:1px solid var(--border);
+  background:var(--panel);
+  border-radius:999px;
+}
+
+.lang-btn{
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  padding:7px 12px;
+  border-radius:999px;
+  font-size:12px;
+}
+
+.lang-btn.active{
+  background:var(--gold);
+  color:#16130c;
+  font-weight:800;
+}
+
 .icon-btn{
-  width:42px;
-  height:42px;
-  border-radius:14px;
-  border:1px solid var(--line);
-  background:var(--surface);
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:var(--panel);
   color:var(--text);
+}
+
+/* LAYOUT */
+
+.app{
+  max-width:1240px;
+  margin:auto;
+  padding:30px 22px 100px;
+}
+
+.section{
+  margin-top:28px;
+  scroll-margin-top:90px;
+}
+
+.section-title{
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:15px;
+}
+
+.section-title h2{
+  font-size:22px;
+}
+
+.section-title p{
+  color:var(--muted);
+  font-size:12px;
 }
 
 /* HERO */
 
 .hero{
-  padding:38px 18px 24px;
+  padding:30px 0 10px;
 }
 
 .eyebrow{
-  color:var(--accent);
+  color:var(--gold);
+  font-size:12px;
+  letter-spacing:.12em;
   text-transform:uppercase;
-  letter-spacing:.2em;
-  font-size:10px;
-  font-weight:700;
-  margin-bottom:12px;
+  margin-bottom:10px;
 }
 
 .hero h1{
-  font-size:clamp(36px,10vw,72px);
-  line-height:.98;
-  letter-spacing:-.055em;
-  max-width:850px;
+  font-size:clamp(34px,7vw,66px);
+  line-height:1.08;
+  max-width:780px;
+  letter-spacing:-.04em;
 }
 
-.hero p{
+.hero h1 span{
+  color:var(--gold);
+}
+
+.hero-sub{
+  margin-top:15px;
   color:var(--muted);
-  margin-top:16px;
-  max-width:560px;
-  line-height:1.65;
+  max-width:620px;
   font-size:14px;
 }
 
 /* AGE CARD */
 
 .age-card{
-  margin:10px 18px 18px;
+  margin-top:28px;
   padding:28px;
-  border-radius:30px;
+  border-radius:24px;
+  border:1px solid var(--border);
   background:
-    linear-gradient(145deg,rgba(255,255,255,.065),rgba(255,255,255,.015)),
-    var(--surface);
-  border:1px solid var(--line);
+    linear-gradient(145deg,rgba(215,181,109,.08),transparent 45%),
+    var(--panel);
   box-shadow:var(--shadow);
-  position:relative;
-  overflow:hidden;
 }
 
-.age-card:after{
-  content:"";
-  position:absolute;
-  width:220px;
-  height:220px;
-  border-radius:50%;
-  right:-100px;
-  top:-110px;
-  border:1px solid rgba(217,179,108,.18);
+.age-top{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  align-items:flex-start;
 }
 
 .age-label{
   color:var(--muted);
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:.14em;
-}
-
-.age-number{
-  margin-top:12px;
-  font-size:clamp(34px,9vw,62px);
-  font-weight:800;
-  letter-spacing:-.05em;
-  line-height:1.05;
-}
-
-.age-live{
-  margin-top:10px;
-  color:var(--accent2);
   font-size:13px;
 }
 
+.age-value{
+  margin-top:5px;
+  font-size:clamp(34px,8vw,58px);
+  font-weight:800;
+  letter-spacing:-.04em;
+}
+
+.age-value span{
+  color:var(--gold);
+}
+
+.birth-info{
+  color:var(--muted);
+  font-size:12px;
+  text-align:right;
+}
+
+.live-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  margin-top:8px;
+  color:var(--green);
+  font-size:11px;
+}
+
 .live-dot{
-  display:inline-block;
   width:7px;
   height:7px;
   background:var(--green);
   border-radius:50%;
-  margin-right:6px;
   box-shadow:0 0 12px var(--green);
 }
 
 /* STATS */
 
-.section{
-  padding:18px;
-}
-
-.section-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:end;
-  margin-bottom:14px;
-}
-
-.section-title{
-  font-size:20px;
-  font-weight:750;
-  letter-spacing:-.025em;
-}
-
-.section-note{
-  color:var(--muted);
-  font-size:11px;
-}
-
 .stats-grid{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
 }
 
-.stat{
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:20px;
-  padding:19px;
-  min-height:112px;
+.stat-card{
+  padding:18px;
+  border:1px solid var(--border);
+  border-radius:18px;
+  background:var(--panel);
 }
 
-.stat-value{
-  font-size:24px;
+.stat-icon{
+  font-size:18px;
+}
+
+.stat-number{
+  margin-top:8px;
+  font-size:25px;
   font-weight:800;
-  letter-spacing:-.035em;
 }
 
 .stat-label{
   color:var(--muted);
   font-size:11px;
-  margin-top:7px;
 }
 
-.stat.accent .stat-value{
-  color:var(--accent2);
+.stat-note{
+  margin-top:4px;
+  color:#827d75;
+  font-size:9px;
 }
 
-/* LIFE PROGRESS */
+/* PROGRESS */
 
 .progress-card{
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:24px;
-  padding:22px;
+  padding:24px;
+  border:1px solid var(--border);
+  border-radius:22px;
+  background:var(--panel);
 }
 
-.progress-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:end;
-  margin-bottom:18px;
+.progress-wrap{
+  display:grid;
+  grid-template-columns:220px 1fr;
+  align-items:center;
+  gap:30px;
+}
+
+.progress-ring{
+  width:200px;
+  height:200px;
+  margin:auto;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:conic-gradient(
+    var(--gold) var(--progress),
+    #292722 var(--progress)
+  );
+  position:relative;
+}
+
+.progress-ring::after{
+  content:"";
+  position:absolute;
+  inset:14px;
+  border-radius:50%;
+  background:var(--panel);
+}
+
+.progress-inner{
+  position:relative;
+  z-index:2;
+  text-align:center;
 }
 
 .progress-percent{
-  font-size:38px;
-  font-weight:850;
-  letter-spacing:-.05em;
+  font-size:34px;
+  font-weight:900;
 }
 
-.progress-meta{
-  text-align:right;
+.progress-caption{
   color:var(--muted);
   font-size:11px;
-  line-height:1.5;
 }
 
-.progress-track{
-  height:13px;
-  border-radius:20px;
-  background:#29292f;
+.progress-content h3{
+  font-size:20px;
+}
+
+.progress-content p{
+  color:var(--muted);
+  font-size:13px;
+  margin-top:5px;
+}
+
+.progress-bar{
+  margin-top:20px;
+  height:10px;
+  background:#292722;
+  border-radius:999px;
   overflow:hidden;
 }
 
 .progress-fill{
   height:100%;
   width:0;
-  border-radius:20px;
-  background:linear-gradient(90deg,var(--accent),var(--accent2));
-  box-shadow:0 0 20px rgba(217,179,108,.25);
-  transition:width 1s ease;
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+  border-radius:999px;
+  transition:width .5s;
 }
-
-.progress-bottom{
-  display:flex;
-  justify-content:space-between;
-  color:var(--muted);
-  font-size:11px;
-  margin-top:10px;
-}
-
-/* REMAINING */
 
 .remaining-grid{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
+  grid-template-columns:repeat(4,1fr);
   gap:10px;
+  margin-top:18px;
 }
 
-.remaining-card{
-  padding:20px;
-  border-radius:20px;
-  background:linear-gradient(145deg,var(--surface2),var(--surface));
-  border:1px solid var(--line);
+.remaining-item{
+  padding:13px;
+  border:1px solid var(--border);
+  border-radius:14px;
 }
 
-.remaining-number{
-  font-size:26px;
-  font-weight:800;
+.remaining-item strong{
+  display:block;
+  font-size:20px;
 }
 
-.remaining-label{
+.remaining-item span{
   color:var(--muted);
-  font-size:11px;
-  margin-top:6px;
+  font-size:10px;
 }
 
 /* MILESTONES */
 
-.milestones{
-  display:flex;
-  gap:10px;
-  overflow-x:auto;
-  padding-bottom:5px;
-  scrollbar-width:none;
-}
-
-.milestones::-webkit-scrollbar{
-  display:none;
+.milestone-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
 }
 
 .milestone{
-  flex:0 0 210px;
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:22px;
-  padding:20px;
+  padding:18px;
+  border:1px solid var(--border);
+  background:var(--panel);
+  border-radius:18px;
+  min-height:150px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
 }
 
-.milestone-icon{
-  width:38px;
-  height:38px;
-  border-radius:13px;
-  background:rgba(217,179,108,.1);
-  display:grid;
-  place-items:center;
-  margin-bottom:18px;
+.milestone.next{
+  border-color:rgba(215,181,109,.55);
+  background:linear-gradient(145deg,rgba(215,181,109,.10),var(--panel));
 }
 
-.milestone-title{
-  font-weight:750;
-  font-size:15px;
+.milestone small{
+  color:var(--gold);
+}
+
+.milestone h3{
+  margin-top:8px;
+  font-size:16px;
+}
+
+.milestone p{
+  color:var(--muted);
+  font-size:11px;
 }
 
 .milestone-date{
-  color:var(--accent2);
-  margin-top:7px;
-  font-size:13px;
+  margin-top:12px;
+  color:var(--text)!important;
+  font-weight:700;
 }
 
-.milestone-count{
-  color:var(--muted);
-  font-size:11px;
-  margin-top:7px;
-}
-
-/* LIFE WEEKS */
+/* WEEKS */
 
 .week-card{
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:24px;
-  padding:20px;
+  padding:22px;
+  border:1px solid var(--border);
+  border-radius:22px;
+  background:var(--panel);
+  overflow:hidden;
 }
 
-.week-info{
+.week-header{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  align-items:center;
+  margin-bottom:16px;
+}
+
+.legend{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
   color:var(--muted);
-  font-size:12px;
-  line-height:1.6;
-  margin-bottom:17px;
+  font-size:10px;
+}
+
+.legend span{
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+
+.legend i{
+  width:9px;
+  height:9px;
+  border-radius:3px;
+  display:block;
+  background:#333;
+}
+
+.legend .lived{
+  background:var(--gold);
+}
+
+.legend .current{
+  background:#fff;
+}
+
+.legend .future{
+  background:#302e29;
 }
 
 .week-grid{
   display:grid;
   grid-template-columns:repeat(52,1fr);
-  gap:2px;
-  max-height:170px;
-  overflow:hidden;
+  gap:3px;
+  max-height:340px;
+  overflow:auto;
+  padding:5px;
 }
 
-.week-dot{
+.week{
   width:100%;
   aspect-ratio:1;
+  min-width:4px;
   border-radius:2px;
-  background:#29292e;
+  background:#302e29;
 }
 
-.week-dot.lived{
-  background:var(--accent);
+.week.lived{
+  background:var(--gold);
 }
 
-.week-dot.current{
-  background:var(--accent2);
-  box-shadow:0 0 7px rgba(240,212,155,.8);
+.week.current{
+  background:#fff;
+  box-shadow:0 0 0 2px var(--gold);
 }
 
 /* TIMELINE */
 
 .timeline{
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:24px;
-  padding:22px;
+  position:relative;
+  padding-left:28px;
+}
+
+.timeline::before{
+  content:"";
+  position:absolute;
+  left:7px;
+  top:5px;
+  bottom:5px;
+  width:1px;
+  background:var(--border);
 }
 
 .timeline-item{
-  display:flex;
-  gap:15px;
   position:relative;
-  padding-bottom:25px;
+  margin-bottom:18px;
+  padding:17px;
+  border:1px solid var(--border);
+  border-radius:17px;
+  background:var(--panel);
 }
 
-.timeline-item:last-child{
-  padding-bottom:0;
-}
-
-.timeline-line{
+.timeline-item::before{
+  content:"";
   position:absolute;
-  left:7px;
-  top:18px;
-  bottom:0;
-  width:1px;
-  background:var(--line);
-}
-
-.timeline-item:last-child .timeline-line{
-  display:none;
-}
-
-.timeline-dot{
-  width:15px;
-  height:15px;
+  left:-25px;
+  top:22px;
+  width:10px;
+  height:10px;
   border-radius:50%;
-  border:3px solid var(--accent);
-  background:var(--bg);
-  flex:0 0 15px;
-  position:relative;
-  z-index:2;
+  background:var(--gold);
+  border:3px solid var(--bg);
 }
 
-.timeline-content{
-  margin-top:-4px;
+.timeline-date{
+  color:var(--gold);
+  font-size:10px;
 }
 
-.timeline-year{
-  color:var(--accent);
-  font-size:11px;
-  font-weight:700;
-}
-
-.timeline-title{
-  font-weight:700;
+.timeline-item h3{
   margin-top:4px;
+  font-size:15px;
 }
 
-.timeline-desc{
+.timeline-item p{
   color:var(--muted);
   font-size:11px;
+}
+
+/* GOALS */
+
+.goal-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.goal{
+  padding:18px;
+  border:1px solid var(--border);
+  background:var(--panel);
+  border-radius:18px;
+}
+
+.goal-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.goal-category{
+  font-size:9px;
+  color:var(--gold);
+}
+
+.goal h3{
+  margin-top:8px;
+  font-size:15px;
+}
+
+.goal-date{
+  color:var(--muted);
+  font-size:10px;
   margin-top:5px;
 }
 
-/* SETUP */
-
-.setup{
-  background:
-    linear-gradient(145deg,rgba(217,179,108,.09),rgba(255,255,255,.025)),
-    var(--surface);
-  border:1px solid rgba(217,179,108,.18);
-  border-radius:25px;
-  padding:23px;
+.goal-progress{
+  margin-top:14px;
+  height:7px;
+  background:#2b2924;
+  border-radius:999px;
+  overflow:hidden;
 }
 
-.setup p{
+.goal-progress div{
+  height:100%;
+  width:0;
+  background:var(--gold);
+}
+
+.goal-percent{
+  margin-top:6px;
   color:var(--muted);
-  font-size:12px;
-  line-height:1.6;
-  margin-top:7px;
+  font-size:10px;
+  text-align:right;
+}
+
+/* REFLECTION */
+
+.reflection-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.reflection-card{
+  padding:20px;
+  border:1px solid var(--border);
+  border-radius:18px;
+  background:var(--panel);
+}
+
+.reflection-card h3{
+  font-size:15px;
+}
+
+.reflection-card p{
+  margin-top:8px;
+  color:var(--muted);
+  font-size:11px;
+}
+
+textarea{
+  width:100%;
+  min-height:120px;
+  margin-top:14px;
+  resize:vertical;
+  padding:13px;
+  border:1px solid var(--border);
+  border-radius:13px;
+  background:#100f0e;
+  color:var(--text);
+  outline:none;
+}
+
+textarea:focus,
+input:focus,
+select:focus{
+  border-color:var(--gold);
+}
+
+/* PROFILE */
+
+.profile-card{
+  padding:24px;
+  border:1px solid var(--border);
+  border-radius:22px;
+  background:var(--panel);
 }
 
 .form-grid{
   display:grid;
-  grid-template-columns:1fr;
-  gap:12px;
-  margin-top:18px;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
 }
 
 .field label{
   display:block;
   color:var(--muted);
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:.12em;
-  margin-bottom:7px;
+  font-size:11px;
+  margin-bottom:6px;
 }
 
 .field input,
 .field select{
   width:100%;
-  padding:14px;
-  border-radius:14px;
-  border:1px solid var(--line);
-  background:#0d0d10;
+  padding:12px 13px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:#100f0e;
   color:var(--text);
   outline:none;
 }
 
-.field input:focus,
-.field select:focus{
-  border-color:rgba(217,179,108,.5);
-}
-
 .primary-btn{
-  width:100%;
-  margin-top:14px;
-  padding:15px;
+  margin-top:16px;
   border:0;
-  border-radius:15px;
-  background:var(--accent);
-  color:#15130e;
+  border-radius:12px;
+  padding:12px 18px;
+  background:var(--gold);
+  color:#17130b;
   font-weight:800;
 }
 
 .secondary-btn{
-  padding:12px 16px;
-  border-radius:13px;
+  margin-top:16px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:12px 18px;
   background:transparent;
-  border:1px solid var(--line);
   color:var(--text);
 }
 
@@ -561,124 +743,207 @@ button{
 .bottom-nav{
   position:fixed;
   left:50%;
-  transform:translateX(-50%);
   bottom:12px;
-  z-index:50;
-  width:calc(100% - 24px);
-  max-width:560px;
-  padding:8px;
-  border-radius:23px;
-  background:rgba(24,24,29,.88);
-  backdrop-filter:blur(22px);
-  border:1px solid rgba(255,255,255,.1);
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  box-shadow:0 15px 50px rgba(0,0,0,.5);
+  transform:translateX(-50%);
+  z-index:90;
+  width:min(680px,calc(100% - 20px));
+  display:flex;
+  gap:4px;
+  padding:7px;
+  border:1px solid var(--border);
+  border-radius:20px;
+  background:rgba(20,19,17,.94);
+  backdrop-filter:blur(18px);
+  box-shadow:var(--shadow);
+  overflow-x:auto;
 }
 
 .nav-btn{
+  flex:1;
+  min-width:75px;
   border:0;
   background:transparent;
   color:var(--muted);
-  padding:9px 4px;
-  border-radius:16px;
-  font-size:10px;
+  border-radius:14px;
+  padding:8px 7px;
+  font-size:9px;
+  white-space:nowrap;
 }
 
 .nav-btn span{
   display:block;
-  font-size:18px;
-  margin-bottom:4px;
+  font-size:16px;
+  margin-bottom:2px;
 }
 
 .nav-btn.active{
-  background:rgba(217,179,108,.1);
-  color:var(--accent2);
+  color:var(--gold2);
+  background:#29251d;
 }
 
 /* MODAL */
 
-.modal-backdrop{
+.modal{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.7);
-  backdrop-filter:blur(10px);
-  z-index:100;
+  z-index:200;
   display:none;
-  align-items:flex-end;
+  align-items:center;
   justify-content:center;
+  padding:18px;
+  background:rgba(0,0,0,.72);
+  backdrop-filter:blur(10px);
 }
 
-.modal-backdrop.show{
+.modal.show{
   display:flex;
 }
 
-.modal{
-  width:100%;
-  max-width:600px;
-  background:#151519;
-  border:1px solid var(--line);
-  border-radius:28px 28px 0 0;
-  padding:25px;
+.modal-box{
+  width:min(520px,100%);
   max-height:90vh;
   overflow:auto;
+  padding:25px;
+  border:1px solid var(--border);
+  border-radius:24px;
+  background:#151513;
+  box-shadow:var(--shadow);
 }
 
-.modal-head{
+.modal-box h2{
+  font-size:22px;
+}
+
+.modal-box > p{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:5px;
+}
+
+.modal-actions{
   display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:20px;
+  gap:10px;
+  margin-top:8px;
 }
 
-.close-btn{
-  width:36px;
-  height:36px;
-  border-radius:12px;
-  border:1px solid var(--line);
-  background:var(--surface2);
-  color:var(--text);
+.modal-actions button{
+  flex:1;
 }
 
-.hidden{
-  display:none!important;
+/* FOOTER */
+
+.footer{
+  margin-top:60px;
+  padding:25px 0;
+  border-top:1px solid var(--border);
+  color:#6e6a63;
+  text-align:center;
+  font-size:10px;
 }
 
-/* DESKTOP */
+/* RESPONSIVE */
 
-@media(min-width:700px){
+@media(max-width:900px){
+  .stats-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
 
+  .milestone-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .progress-wrap{
+    grid-template-columns:1fr;
+  }
+
+  .goal-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .reflection-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:600px){
   .header{
-    padding:25px 28px 15px;
+    height:64px;
+    padding:0 13px;
+  }
+
+  .brand-text span{
+    display:none;
+  }
+
+  .app{
+    padding:20px 13px 100px;
   }
 
   .hero{
-    padding:65px 28px 35px;
+    padding-top:20px;
   }
 
-  .section{
-    padding:20px 28px;
+  .hero h1{
+    font-size:38px;
   }
 
   .age-card{
-    margin:10px 28px 20px;
-    padding:38px;
+    padding:20px;
+    border-radius:20px;
+  }
+
+  .age-top{
+    flex-direction:column;
+  }
+
+  .birth-info{
+    text-align:left;
   }
 
   .stats-grid{
-    grid-template-columns:repeat(4,1fr);
+    grid-template-columns:repeat(2,1fr);
+    gap:8px;
+  }
+
+  .stat-card{
+    padding:14px;
+  }
+
+  .stat-number{
+    font-size:21px;
   }
 
   .remaining-grid{
-    grid-template-columns:repeat(4,1fr);
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .milestone-grid{
+    grid-template-columns:1fr;
+  }
+
+  .goal-grid{
+    grid-template-columns:1fr;
   }
 
   .form-grid{
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:1fr;
+  }
+
+  .progress-ring{
+    width:170px;
+    height:170px;
+  }
+
+  .week-grid{
+    grid-template-columns:repeat(26,1fr);
+  }
+
+  .section-title h2{
+    font-size:19px;
   }
 
   .bottom-nav{
-    bottom:20px;
+    bottom:8px;
   }
 }
 </style>
@@ -686,607 +951,1070 @@ button{
 
 <body>
 
-<div class="app">
-
 <header class="header">
+
   <div class="brand">
-    <div class="brand-mark">◷</div>
-    <div>
-      <div class="brand-title">LIFE 75</div>
-      <div class="brand-sub">YOUR LIFE IN NUMBERS</div>
+    <div class="brand-mark">L75</div>
+    <div class="brand-text">
+      <strong>LIFE 75</strong>
+      <span id="brandSubtitle">YOUR LIFE IN NUMBERS</span>
     </div>
   </div>
 
-  <button class="icon-btn" onclick="openSetup()">⚙</button>
-</header>
+  <div class="header-actions">
 
-<main>
-
-<section class="hero" id="home">
-  <div class="eyebrow">A personal life dashboard</div>
-  <h1>Every moment<br>counts.</h1>
-  <p>
-    See the time you've lived, the milestones ahead,
-    and the time available for the life you want to build.
-  </p>
-</section>
-
-<section class="age-card">
-  <div class="age-label">Your age right now</div>
-  <div class="age-number" id="ageText">—</div>
-  <div class="age-live">
-    <span class="live-dot"></span>
-    <span id="liveSeconds">Calculating...</span>
-  </div>
-</section>
-
-<section class="section">
-
-  <div class="section-head">
-    <div class="section-title">Your Life So Far</div>
-    <div class="section-note">Live estimate</div>
-  </div>
-
-  <div class="stats-grid">
-
-    <div class="stat accent">
-      <div class="stat-value" id="yearsLived">—</div>
-      <div class="stat-label">Years lived</div>
+    <div class="lang-switch">
+      <button class="lang-btn active" id="langMy" onclick="setLanguage('my')">မြန်မာ</button>
+      <button class="lang-btn" id="langEn" onclick="setLanguage('en')">English</button>
     </div>
 
-    <div class="stat">
-      <div class="stat-value" id="monthsLived">—</div>
-      <div class="stat-label">Months lived</div>
-    </div>
-
-    <div class="stat">
-      <div class="stat-value" id="daysLived">—</div>
-      <div class="stat-label">Days lived</div>
-    </div>
-
-    <div class="stat">
-      <div class="stat-value" id="hoursLived">—</div>
-      <div class="stat-label">Hours lived</div>
-    </div>
-
-    <div class="stat">
-      <div class="stat-value" id="minutesLived">—</div>
-      <div class="stat-label">Minutes lived</div>
-    </div>
-
-    <div class="stat">
-      <div class="stat-value" id="secondsLived">—</div>
-      <div class="stat-label">Seconds lived</div>
-    </div>
-
-    <div class="stat">
-      <div class="stat-value" id="heartbeats">—</div>
-      <div class="stat-label">Estimated heartbeats</div>
-    </div>
-
-    <div class="stat">
-      <div class="stat-value" id="breaths">—</div>
-      <div class="stat-label">Estimated breaths</div>
-    </div>
-
-  </div>
-</section>
-
-<section class="section">
-
-  <div class="section-head">
-    <div class="section-title">Life Progress</div>
-    <div class="section-note" id="lifeHorizon">75 years</div>
-  </div>
-
-  <div class="progress-card">
-
-    <div class="progress-top">
-      <div>
-        <div class="progress-percent" id="progressPercent">—%</div>
-      </div>
-
-      <div class="progress-meta">
-        <div id="progressLived">— lived</div>
-        <div id="progressRemaining">— remaining</div>
-      </div>
-    </div>
-
-    <div class="progress-track">
-      <div class="progress-fill" id="progressFill"></div>
-    </div>
-
-    <div class="progress-bottom">
-      <span>Birth</span>
-      <span id="horizonEnd">75 years</span>
-    </div>
-
-  </div>
-</section>
-
-<section class="section">
-
-  <div class="section-head">
-    <div class="section-title">Time Remaining</div>
-    <div class="section-note">Planning horizon</div>
-  </div>
-
-  <div class="remaining-grid">
-
-    <div class="remaining-card">
-      <div class="remaining-number" id="remainingYears">—</div>
-      <div class="remaining-label">Years</div>
-    </div>
-
-    <div class="remaining-card">
-      <div class="remaining-number" id="remainingMonths">—</div>
-      <div class="remaining-label">Months</div>
-    </div>
-
-    <div class="remaining-card">
-      <div class="remaining-number" id="remainingWeeks">—</div>
-      <div class="remaining-label">Weeks</div>
-    </div>
-
-    <div class="remaining-card">
-      <div class="remaining-number" id="remainingDays">—</div>
-      <div class="remaining-label">Days</div>
-    </div>
-
-  </div>
-</section>
-
-<section class="section">
-
-  <div class="section-head">
-    <div class="section-title">Upcoming Milestones</div>
-    <div class="section-note">Your important dates</div>
-  </div>
-
-  <div class="milestones" id="milestones"></div>
-
-</section>
-
-<section class="section">
-
-  <div class="section-head">
-    <div class="section-title">Your Life in Weeks</div>
-    <div class="section-note" id="weekCount">—</div>
-  </div>
-
-  <div class="week-card">
-
-    <div class="week-info">
-      Every small square represents one week of a 75-year life.
-      Filled squares represent time already lived.
-    </div>
-
-    <div class="week-grid" id="weekGrid"></div>
-
-  </div>
-</section>
-
-<section class="section">
-
-  <div class="section-head">
-    <div class="section-title">Life Timeline</div>
-    <button class="secondary-btn" onclick="openSetup()">Edit</button>
-  </div>
-
-  <div class="timeline">
-
-    <div class="timeline-item">
-      <div class="timeline-line"></div>
-      <div class="timeline-dot"></div>
-
-      <div class="timeline-content">
-        <div class="timeline-year" id="birthYear">—</div>
-        <div class="timeline-title">The beginning</div>
-        <div class="timeline-desc">Your journey started here</div>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-line"></div>
-      <div class="timeline-dot"></div>
-
-      <div class="timeline-content">
-        <div class="timeline-year" id="currentYear">—</div>
-        <div class="timeline-title">Today</div>
-        <div class="timeline-desc">This moment is part of your story</div>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot"></div>
-
-      <div class="timeline-content">
-        <div class="timeline-year" id="futureYear">—</div>
-        <div class="timeline-title">Your planning horizon</div>
-        <div class="timeline-desc">A future date to plan toward</div>
-      </div>
-    </div>
-
-  </div>
-
-</section>
-
-<section class="section">
-
-  <div class="setup">
-
-    <div class="section-title">Make Your Life Count</div>
-
-    <p>
-      Set your birth details and planning horizon.
-      LIFE 75 will calculate your personal life dashboard.
-    </p>
-
-    <button class="primary-btn" onclick="openSetup()">
-      Set Up My Life →
+    <button class="icon-btn" onclick="openProfile()" aria-label="Profile">
+      ⚙
     </button>
 
   </div>
+</header>
 
-</section>
+
+<main class="app">
+
+  <!-- HERO -->
+
+  <section class="hero" id="home">
+
+    <div class="eyebrow" data-i18n="eyebrow">
+      LIFE 75 • PERSONAL LIFE DASHBOARD
+    </div>
+
+    <h1 data-i18n="heroTitle">
+      Every moment <span>counts</span>
+    </h1>
+
+    <p class="hero-sub" data-i18n="heroSub">
+      သင့်ဘဝကို နံပါတ်များဖြင့် ပြန်ကြည့်ပြီး ကျန်ရှိနေသေးတဲ့အချိန်တွေကို ပိုမိုအဓိပ္ပါယ်ရှိအောင် အသုံးချပါ
+    </p>
+
+    <div class="age-card">
+
+      <div class="age-top">
+
+        <div>
+          <div class="age-label" data-i18n="currentAge">
+            လက်ရှိအသက်
+          </div>
+
+          <div class="age-value" id="ageValue">
+            0 <span>years</span>
+          </div>
+
+          <div class="live-badge">
+            <i class="live-dot"></i>
+            <span data-i18n="liveNow">LIVE • ယခုအချိန်</span>
+          </div>
+        </div>
+
+        <div class="birth-info">
+          <div data-i18n="bornOn">မွေးဖွားသည့်နေ့</div>
+          <strong id="birthDisplay">—</strong>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- LIFE STATS -->
+
+  <section class="section" id="life">
+
+    <div class="section-title">
+      <div>
+        <h2 data-i18n="lifeSoFar">သင့်ဘဝအထိ</h2>
+        <p data-i18n="lifeSoFarSub">ယခုအချိန်အထိ ဖြတ်သန်းခဲ့သောအချိန်</p>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+
+      <div class="stat-card">
+        <div class="stat-icon">⏳</div>
+        <div class="stat-number" id="yearsLived">0</div>
+        <div class="stat-label" data-i18n="years">နှစ်</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">◷</div>
+        <div class="stat-number" id="monthsLived">0</div>
+        <div class="stat-label" data-i18n="months">လ</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">◫</div>
+        <div class="stat-number" id="daysLived">0</div>
+        <div class="stat-label" data-i18n="days">ရက်</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">◌</div>
+        <div class="stat-number" id="weeksLived">0</div>
+        <div class="stat-label" data-i18n="weeks">အပတ်</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">◴</div>
+        <div class="stat-number" id="hoursLived">0</div>
+        <div class="stat-label" data-i18n="hours">နာရီ</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">◷</div>
+        <div class="stat-number" id="minutesLived">0</div>
+        <div class="stat-label" data-i18n="minutes">မိနစ်</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">⏱</div>
+        <div class="stat-number" id="secondsLived">0</div>
+        <div class="stat-label" data-i18n="seconds">စက္ကန့်</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">♥</div>
+        <div class="stat-number" id="heartbeats">0</div>
+        <div class="stat-label" data-i18n="heartbeats">ခန့်မှန်းနှလုံးခုန်</div>
+        <div class="stat-note" data-i18n="estimate">ခန့်မှန်းတွက်ချက်မှုသာ</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">◉</div>
+        <div class="stat-number" id="breaths">0</div>
+        <div class="stat-label" data-i18n="breaths">ခန့်မှန်းအသက်ရှူ</div>
+        <div class="stat-note" data-i18n="estimate">ခန့်မှန်းတွက်ချက်မှုသာ</div>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- PROGRESS -->
+
+  <section class="section" id="progress">
+
+    <div class="section-title">
+      <div>
+        <h2 data-i18n="lifeProgress">ဘဝအချိန်တိုးတက်မှု</h2>
+        <p data-i18n="lifeProgressSub">သတ်မှတ်ထားသော Life Planning Horizon အပေါ်</p>
+      </div>
+    </div>
+
+    <div class="progress-card">
+
+      <div class="progress-wrap">
+
+        <div class="progress-ring" id="progressRing">
+
+          <div class="progress-inner">
+            <div class="progress-percent" id="progressPercent">0%</div>
+            <div class="progress-caption" data-i18n="completed">ဖြတ်သန်းပြီး</div>
+          </div>
+
+        </div>
+
+        <div class="progress-content">
+
+          <h3 id="progressTitle">75 Years Life Plan</h3>
+
+          <p id="progressDescription">
+            —
+          </p>
+
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+
+          <div class="remaining-grid">
+
+            <div class="remaining-item">
+              <strong id="remainingYears">0</strong>
+              <span data-i18n="remainingYears">ကျန်ရှိနိုင်သောနှစ်</span>
+            </div>
+
+            <div class="remaining-item">
+              <strong id="remainingMonths">0</strong>
+              <span data-i18n="remainingMonths">ကျန်ရှိနိုင်သောလ</span>
+            </div>
+
+            <div class="remaining-item">
+              <strong id="remainingWeeks">0</strong>
+              <span data-i18n="remainingWeeks">ကျန်ရှိနိုင်သောအပတ်</span>
+            </div>
+
+            <div class="remaining-item">
+              <strong id="remainingDays">0</strong>
+              <span data-i18n="remainingDays">ကျန်ရှိနိုင်သောရက်</span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- MILESTONES -->
+
+  <section class="section" id="milestones">
+
+    <div class="section-title">
+      <div>
+        <h2 data-i18n="milestones">ဘဝမှတ်တိုင်များ</h2>
+        <p data-i18n="milestonesSub">
+          အထူးနေ့ရက်များကို ကြိုတင်သိရှိထားပါ
+        </p>
+      </div>
+    </div>
+
+    <div class="milestone-grid" id="milestoneGrid"></div>
+
+  </section>
+
+
+  <!-- WEEKS -->
+
+  <section class="section" id="weeks">
+
+    <div class="section-title">
+      <div>
+        <h2 data-i18n="lifeWeeks">သင့်ဘဝ၏ အပတ်တိုင်း</h2>
+        <p data-i18n="lifeWeeksSub">
+          အပတ်တိုင်းက သင့်ဘဝရဲ့ အစိတ်အပိုင်းတစ်ခု
+        </p>
+      </div>
+    </div>
+
+    <div class="week-card">
+
+      <div class="week-header">
+
+        <div class="legend">
+
+          <span>
+            <i class="lived"></i>
+            <b data-i18n="lived">ဖြတ်သန်းပြီး</b>
+          </span>
+
+          <span>
+            <i class="current"></i>
+            <b data-i18n="current">လက်ရှိ</b>
+          </span>
+
+          <span>
+            <i class="future"></i>
+            <b data-i18n="future">ကျန်ရှိ</b>
+          </span>
+
+        </div>
+
+      </div>
+
+      <div class="week-grid" id="weekGrid"></div>
+
+    </div>
+
+  </section>
+
+
+  <!-- TIMELINE -->
+
+  <section class="section" id="timeline">
+
+    <div class="section-title">
+      <div>
+        <h2 data-i18n="timeline">ကျွန်ုပ်၏ ဘဝမှတ်တမ်း</h2>
+        <p data-i18n="timelineSub">
+          အရေးကြီးတဲ့အဖြစ်အပျက်တွေကို မှတ်တမ်းတင်ထားပါ
+        </p>
+      </div>
+
+      <button class="secondary-btn" onclick="addTimelineEvent()" data-i18n="addEvent">
+        + မှတ်တမ်းထည့်
+      </button>
+    </div>
+
+    <div class="timeline" id="timelineList"></div>
+
+  </section>
+
+
+  <!-- GOALS -->
+
+  <section class="section" id="goals">
+
+    <div class="section-title">
+      <div>
+        <h2 data-i18n="goals">ဘဝရည်မှန်းချက်များ</h2>
+        <p data-i18n="goalsSub">
+          ကျန်ရှိနေသေးတဲ့အချိန်တွေကို ဘာအတွက်အသုံးချမလဲ
+        </p>
+      </div>
+
+      <button class="secondary-btn" onclick="addGoal()" data-i18n="addGoal">
+        + ရည်မှန်းချက်ထည့်
+      </button>
+    </div>
+
+    <div class="goal-grid" id="goalList"></div>
+
+  </section>
+
+
+  <!-- REFLECTION -->
+
+  <section class="section" id="reflection">
+
+    <div class="section-title">
+      <div>
+        <h2 data-i18n="reflection">ဘဝပြန်လည်သုံးသပ်မှု</h2>
+        <p data-i18n="reflectionSub">
+          နေ့စဉ်ဘဝကို ခဏရပ်ပြီး ပြန်ကြည့်ပါ
+        </p>
+      </div>
+    </div>
+
+    <div class="reflection-grid">
+
+      <div class="reflection-card">
+        <h3 data-i18n="question1">ဒီနေ့မှာ ဘာတွေပြီးမြောက်ခဲ့လဲ</h3>
+        <p data-i18n="question1Sub">ယနေ့အတွက် အရေးကြီးဆုံးအောင်မြင်မှု</p>
+        <textarea id="reflection1"></textarea>
+      </div>
+
+      <div class="reflection-card">
+        <h3 data-i18n="question2">ဘာအတွက် ကျေးဇူးတင်မိလဲ</h3>
+        <p data-i18n="question2Sub">ဒီနေ့မှာ တန်ဖိုးထားမိတဲ့အရာ</p>
+        <textarea id="reflection2"></textarea>
+      </div>
+
+      <div class="reflection-card">
+        <h3 data-i18n="question3">မနက်ဖြန် ဘာလုပ်မလဲ</h3>
+        <p data-i18n="question3Sub">နောက်တစ်နေ့အတွက် အဓိကလုပ်ဆောင်ချက်</p>
+        <textarea id="reflection3"></textarea>
+      </div>
+
+    </div>
+
+    <button class="primary-btn" onclick="saveReflection()" data-i18n="saveReflection">
+      သိမ်းဆည်းမည်
+    </button>
+
+  </section>
+
+
+  <!-- PROFILE -->
+
+  <section class="section" id="profile">
+
+    <div class="section-title">
+      <div>
+        <h2 data-i18n="profile">ကိုယ်ရေးအချက်အလက်</h2>
+        <p data-i18n="profileSub">သင့် Life Dashboard ကို ပြင်ဆင်ပါ</p>
+      </div>
+    </div>
+
+    <div class="profile-card">
+
+      <div class="form-grid">
+
+        <div class="field">
+          <label data-i18n="name">အမည်</label>
+          <input id="profileName" type="text">
+        </div>
+
+        <div class="field">
+          <label data-i18n="dob">မွေးသက္ကရာဇ်</label>
+          <input id="profileDob" type="date">
+        </div>
+
+        <div class="field">
+          <label data-i18n="birthTime">မွေးချိန်</label>
+          <input id="profileTime" type="time">
+        </div>
+
+        <div class="field">
+          <label data-i18n="horizon">Life Planning Horizon</label>
+          <select id="profileHorizon">
+            <option value="70">70 Years</option>
+            <option value="75">75 Years</option>
+            <option value="80">80 Years</option>
+            <option value="85">85 Years</option>
+            <option value="90">90 Years</option>
+            <option value="100">100 Years</option>
+          </select>
+        </div>
+
+      </div>
+
+      <button class="primary-btn" onclick="saveProfile()" data-i18n="saveProfile">
+        သိမ်းဆည်းမည်
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <footer class="footer">
+    LIFE 75 — Your Life in Numbers
+    <br>
+    <span data-i18n="footer">
+      Life planning horizon သည် အချိန်စီမံရန်အတွက်သာ အသုံးပြုထားခြင်းဖြစ်သည်
+    </span>
+  </footer>
 
 </main>
 
-</div>
 
-<!-- BOTTOM NAV -->
+<!-- PROFILE MODAL -->
 
-<nav class="bottom-nav">
+<div class="modal" id="profileModal">
 
-  <button class="nav-btn active" onclick="scrollToSection('home',this)">
-    <span>⌂</span>
-    Home
-  </button>
+  <div class="modal-box">
 
-  <button class="nav-btn" onclick="scrollToSection('milestones',this)">
-    <span>✦</span>
-    Milestones
-  </button>
+    <h2 data-i18n="welcome">LIFE 75 မှ ကြိုဆိုပါတယ်</h2>
 
-  <button class="nav-btn" onclick="scrollToSection('weeks',this)">
-    <span>◫</span>
-    Life
-  </button>
+    <p data-i18n="welcomeSub">
+      သင့်မွေးသက္ကရာဇ်ကို ထည့်ပြီး သင့်ဘဝအချိန် Dashboard ကို စတင်ပါ
+    </p>
 
-  <button class="nav-btn" onclick="openSetup()">
-    <span>⚙</span>
-    Setup
-  </button>
-
-</nav>
-
-<!-- SETUP MODAL -->
-
-<div class="modal-backdrop" id="setupModal">
-
-  <div class="modal">
-
-    <div class="modal-head">
-
-      <div>
-        <div class="section-title">Your Life Settings</div>
-        <div class="section-note">Your data stays on this device</div>
-      </div>
-
-      <button class="close-btn" onclick="closeSetup()">×</button>
-
-    </div>
-
-    <div class="form-grid">
+    <div class="form-grid" style="margin-top:20px">
 
       <div class="field">
-        <label>Date of Birth</label>
-        <input type="date" id="dob">
+        <label data-i18n="name">အမည်</label>
+        <input id="modalName" type="text">
       </div>
 
       <div class="field">
-        <label>Birth Time</label>
-        <input type="time" id="birthTime" value="00:00">
+        <label data-i18n="dob">မွေးသက္ကရာဇ်</label>
+        <input id="modalDob" type="date">
       </div>
 
       <div class="field">
-        <label>Life Planning Horizon</label>
+        <label data-i18n="birthTime">မွေးချိန်</label>
+        <input id="modalTime" type="time" value="12:00">
+      </div>
 
-        <select id="lifeExpectancy">
-          <option value="70">70 years</option>
-          <option value="75" selected>75 years</option>
-          <option value="80">80 years</option>
-          <option value="85">85 years</option>
-          <option value="90">90 years</option>
-          <option value="100">100 years</option>
-          <option value="custom">Custom</option>
+      <div class="field">
+        <label data-i18n="horizon">Life Planning Horizon</label>
+        <select id="modalHorizon">
+          <option value="70">70 Years</option>
+          <option value="75" selected>75 Years</option>
+          <option value="80">80 Years</option>
+          <option value="85">85 Years</option>
+          <option value="90">90 Years</option>
+          <option value="100">100 Years</option>
         </select>
-
-      </div>
-
-      <div class="field hidden" id="customField">
-        <label>Custom Years</label>
-        <input type="number" id="customYears" min="1" max="120" value="75">
       </div>
 
     </div>
 
-    <button class="primary-btn" onclick="saveProfile()">
-      Save & Calculate
-    </button>
+    <div class="modal-actions">
+
+      <button class="primary-btn" onclick="createProfile()" data-i18n="start">
+        စတင်မည်
+      </button>
+
+    </div>
 
   </div>
 
 </div>
 
+
 <script>
+/* =========================================================
+   LIFE 75 V2
+   Myanmar + English
+========================================================= */
 
-const STORAGE_KEY = "life75_profile_v1";
+const STORAGE_KEY = "life75_profile_v2";
+const LANG_KEY = "life75_language_v2";
+const REFLECTION_KEY = "life75_reflection_v2";
+const GOALS_KEY = "life75_goals_v2";
+const TIMELINE_KEY = "life75_timeline_v2";
 
-let profile = {
-  dob:"",
-  birthTime:"00:00",
-  expectancy:75
+
+let profile = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+let language = localStorage.getItem(LANG_KEY) || "my";
+
+
+const T = {
+
+  my:{
+    brandSubtitle:"YOUR LIFE IN NUMBERS",
+    eyebrow:"LIFE 75 • PERSONAL LIFE DASHBOARD",
+    heroTitle:'Every moment <span>counts</span>',
+    heroSub:"သင့်ဘဝကို နံပါတ်များဖြင့် ပြန်ကြည့်ပြီး ကျန်ရှိနေသေးတဲ့အချိန်တွေကို ပိုမိုအဓိပ္ပါယ်ရှိအောင် အသုံးချပါ",
+    currentAge:"လက်ရှိအသက်",
+    liveNow:"LIVE • ယခုအချိန်",
+    bornOn:"မွေးဖွားသည့်နေ့",
+    lifeSoFar:"သင့်ဘဝအထိ",
+    lifeSoFarSub:"ယခုအချိန်အထိ ဖြတ်သန်းခဲ့သောအချိန်",
+    years:"နှစ်",
+    months:"လ",
+    days:"ရက်",
+    weeks:"အပတ်",
+    hours:"နာရီ",
+    minutes:"မိနစ်",
+    seconds:"စက္ကန့်",
+    heartbeats:"ခန့်မှန်းနှလုံးခုန်",
+    breaths:"ခန့်မှန်းအသက်ရှူ",
+    estimate:"ခန့်မှန်းတွက်ချက်မှုသာ",
+    lifeProgress:"ဘဝအချိန်တိုးတက်မှု",
+    lifeProgressSub:"သတ်မှတ်ထားသော Life Planning Horizon အပေါ်",
+    completed:"ဖြတ်သန်းပြီး",
+    remainingYears:"ကျန်ရှိနိုင်သောနှစ်",
+    remainingMonths:"ကျန်ရှိနိုင်သောလ",
+    remainingWeeks:"ကျန်ရှိနိုင်သောအပတ်",
+    remainingDays:"ကျန်ရှိနိုင်သောရက်",
+    milestones:"ဘဝမှတ်တိုင်များ",
+    milestonesSub:"အထူးနေ့ရက်များကို ကြိုတင်သိရှိထားပါ",
+    lifeWeeks:"သင့်ဘဝ၏ အပတ်တိုင်း",
+    lifeWeeksSub:"အပတ်တိုင်းက သင့်ဘဝရဲ့ အစိတ်အပိုင်းတစ်ခု",
+    lived:"ဖြတ်သန်းပြီး",
+    current:"လက်ရှိ",
+    future:"ကျန်ရှိ",
+    timeline:"ကျွန်ုပ်၏ ဘဝမှတ်တမ်း",
+    timelineSub:"အရေးကြီးတဲ့အဖြစ်အပျက်တွေကို မှတ်တမ်းတင်ထားပါ",
+    addEvent:"+ မှတ်တမ်းထည့်",
+    goals:"ဘဝရည်မှန်းချက်များ",
+    goalsSub:"ကျန်ရှိနေသေးတဲ့အချိန်တွေကို ဘာအတွက်အသုံးချမလဲ",
+    addGoal:"+ ရည်မှန်းချက်ထည့်",
+    reflection:"ဘဝပြန်လည်သုံးသပ်မှု",
+    reflectionSub:"နေ့စဉ်ဘဝကို ခဏရပ်ပြီး ပြန်ကြည့်ပါ",
+    question1:"ဒီနေ့မှာ ဘာတွေပြီးမြောက်ခဲ့လဲ",
+    question1Sub:"ယနေ့အတွက် အရေးကြီးဆုံးအောင်မြင်မှု",
+    question2:"ဘာအတွက် ကျေးဇူးတင်မိလဲ",
+    question2Sub:"ဒီနေ့မှာ တန်ဖိုးထားမိတဲ့အရာ",
+    question3:"မနက်ဖြန် ဘာလုပ်မလဲ",
+    question3Sub:"နောက်တစ်နေ့အတွက် အဓိကလုပ်ဆောင်ချက်",
+    saveReflection:"သိမ်းဆည်းမည်",
+    profile:"ကိုယ်ရေးအချက်အလက်",
+    profileSub:"သင့် Life Dashboard ကို ပြင်ဆင်ပါ",
+    name:"အမည်",
+    dob:"မွေးသက္ကရာဇ်",
+    birthTime:"မွေးချိန်",
+    horizon:"Life Planning Horizon",
+    saveProfile:"သိမ်းဆည်းမည်",
+    welcome:"LIFE 75 မှ ကြိုဆိုပါတယ်",
+    welcomeSub:"သင့်မွေးသက္ကရာဇ်ကို ထည့်ပြီး သင့်ဘဝအချိန် Dashboard ကို စတင်ပါ",
+    start:"စတင်မည်",
+    footer:"Life planning horizon သည် အချိန်စီမံရန်အတွက်သာ အသုံးပြုထားခြင်းဖြစ်သည်",
+    nextBirthday:"နောက်ထပ်မွေးနေ့",
+    dayMilestone:"ရက်ပြည့်မှတ်တိုင်",
+    today:"ယနေ့",
+    birth:"မွေးဖွားခြင်း",
+    present:"ယခုအချိန်",
+    futureHorizon:"Life Planning Horizon",
+    category:"အမျိုးအစား",
+    career:"အလုပ်အကိုင်",
+    family:"မိသားစု",
+    finance:"ငွေကြေး",
+    travel:"ခရီးသွားခြင်း",
+    learning:"လေ့လာခြင်း",
+    health:"ကျန်းမာရေး",
+    personal:"ကိုယ်ပိုင်",
+    eventTitle:"မှတ်တမ်းခေါင်းစဉ်",
+    eventDate:"နေ့စွဲ",
+    eventDesc:"အသေးစိတ်",
+    goalName:"ရည်မှန်းချက်",
+    goalDate:"ပစ်မှတ်နေ့",
+    goalProgress:"တိုးတက်မှု %",
+    cancel:"ပယ်ဖျက်",
+    added:"ထည့်သွင်းပြီး",
+    saved:"သိမ်းဆည်းပြီး"
+  },
+
+  en:{
+    brandSubtitle:"YOUR LIFE IN NUMBERS",
+    eyebrow:"LIFE 75 • PERSONAL LIFE DASHBOARD",
+    heroTitle:'Every moment <span>counts</span>',
+    heroSub:"See your life in numbers and use the time ahead with greater intention",
+    currentAge:"Current Age",
+    liveNow:"LIVE • NOW",
+    bornOn:"Date of Birth",
+    lifeSoFar:"Your Life So Far",
+    lifeSoFarSub:"Time you have lived up to this moment",
+    years:"Years",
+    months:"Months",
+    days:"Days",
+    weeks:"Weeks",
+    hours:"Hours",
+    minutes:"Minutes",
+    seconds:"Seconds",
+    heartbeats:"Estimated Heartbeats",
+    breaths:"Estimated Breaths",
+    estimate:"Estimate only",
+    lifeProgress:"Life Progress",
+    lifeProgressSub:"Based on your selected Life Planning Horizon",
+    completed:"Completed",
+    remainingYears:"Years Remaining",
+    remainingMonths:"Months Remaining",
+    remainingWeeks:"Weeks Remaining",
+    remainingDays:"Days Remaining",
+    milestones:"Life Milestones",
+    milestonesSub:"Know your important dates in advance",
+    lifeWeeks:"Your Life in Weeks",
+    lifeWeeksSub:"Every week is part of your life",
+    lived:"Lived",
+    current:"Current",
+    future:"Remaining",
+    timeline:"My Life Timeline",
+    timelineSub:"Keep track of the moments that matter",
+    addEvent:"+ Add Event",
+    goals:"Life Goals",
+    goalsSub:"What will you use your remaining time for?",
+    addGoal:"+ Add Goal",
+    reflection:"Life Reflection",
+    reflectionSub:"Pause and reflect on your life",
+    question1:"What did I accomplish today?",
+    question1Sub:"Your most important achievement today",
+    question2:"What am I grateful for?",
+    question2Sub:"Something you appreciated today",
+    question3:"What will I do tomorrow?",
+    question3Sub:"Your key action for tomorrow",
+    saveReflection:"Save Reflection",
+    profile:"Profile",
+    profileSub:"Customize your Life Dashboard",
+    name:"Name",
+    dob:"Date of Birth",
+    birthTime:"Birth Time",
+    horizon:"Life Planning Horizon",
+    saveProfile:"Save Profile",
+    welcome:"Welcome to LIFE 75",
+    welcomeSub:"Enter your date of birth to start your personal life dashboard",
+    start:"Start",
+    footer:"Your Life Planning Horizon is a planning tool, not a prediction of lifespan",
+    nextBirthday:"Next Birthday",
+    dayMilestone:"Day Milestone",
+    today:"Today",
+    birth:"Birth",
+    present:"Present",
+    futureHorizon:"Life Planning Horizon",
+    category:"Category",
+    career:"Career",
+    family:"Family",
+    finance:"Finance",
+    travel:"Travel",
+    learning:"Learning",
+    health:"Health",
+    personal:"Personal",
+    eventTitle:"Event Title",
+    eventDate:"Date",
+    eventDesc:"Description",
+    goalName:"Goal",
+    goalDate:"Target Date",
+    goalProgress:"Progress %",
+    cancel:"Cancel",
+    added:"Added",
+    saved:"Saved"
+  }
+
 };
+
+
+/* LANGUAGE */
+
+function setLanguage(lang){
+
+  language = lang;
+
+  localStorage.setItem(LANG_KEY,lang);
+
+  document.documentElement.lang = lang === "my" ? "my" : "en";
+
+  document.getElementById("langMy").classList.toggle("active",lang==="my");
+  document.getElementById("langEn").classList.toggle("active",lang==="en");
+
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+
+    const key = el.dataset.i18n;
+
+    if(T[lang][key] !== undefined){
+      el.innerHTML = T[lang][key];
+    }
+
+  });
+
+  renderAll();
+
+}
+
+
+/* HELPERS */
+
+function t(key){
+  return T[language][key] || key;
+}
+
 
 function $(id){
   return document.getElementById(id);
 }
 
-function formatNumber(num){
-  return new Intl.NumberFormat("en-US").format(Math.max(0,Math.floor(num)));
+
+function formatNumber(value){
+
+  return new Intl.NumberFormat(
+    language === "my" ? "my-MM" : "en-US"
+  ).format(Math.max(0,Math.floor(value)));
+
 }
 
-function formatDecimal(num, digits=1){
-  return Number(num).toFixed(digits);
+
+function formatDate(date){
+
+  if(!date || isNaN(date.getTime())) return "—";
+
+  return new Intl.DateTimeFormat(
+    language === "my" ? "my-MM" : "en-US",
+    {
+      year:"numeric",
+      month:"short",
+      day:"numeric"
+    }
+  ).format(date);
+
 }
 
-function daysBetween(a,b){
-  return Math.max(0,(b-a)/86400000);
+
+function addDays(date,days){
+
+  const d = new Date(date);
+
+  d.setDate(d.getDate()+days);
+
+  return d;
+
 }
 
-function createBirthDate(){
-  if(!profile.dob) return null;
 
-  const time = profile.birthTime || "00:00";
-  const parts = time.split(":");
+function getBirthDate(){
 
-  return new Date(
-    `${profile.dob}T${parts[0] || "00"}:${parts[1] || "00"}:00`
-  );
+  if(!profile || !profile.dob) return null;
+
+  const time = profile.time || "12:00";
+
+  const date = new Date(profile.dob+"T"+time+":00");
+
+  return date;
+
 }
 
-function calculateAgeParts(birth,now){
 
-  let years = now.getFullYear() - birth.getFullYear();
+function getAgeParts(birth,now){
 
-  let anniversary = new Date(
-    now.getFullYear(),
-    birth.getMonth(),
-    birth.getDate(),
-    birth.getHours(),
-    birth.getMinutes()
-  );
+  let years = now.getFullYear()-birth.getFullYear();
 
-  if(now < anniversary){
+  let anniversary = new Date(birth);
+
+  anniversary.setFullYear(birth.getFullYear()+years);
+
+  if(anniversary > now){
+
     years--;
+
+    anniversary = new Date(birth);
+
+    anniversary.setFullYear(birth.getFullYear()+years);
+
   }
 
-  const lastBirthday = new Date(
-    birth.getFullYear()+years,
-    birth.getMonth(),
-    birth.getDate(),
-    birth.getHours(),
-    birth.getMinutes()
-  );
+  let months =
+    (now.getFullYear()-anniversary.getFullYear())*12 +
+    (now.getMonth()-anniversary.getMonth());
 
-  const elapsedSinceBirthday = daysBetween(lastBirthday,now);
+  let monthAnchor = new Date(anniversary);
 
-  const months = Math.floor(elapsedSinceBirthday / 30.436875);
-  const days = Math.floor(elapsedSinceBirthday);
+  monthAnchor.setMonth(monthAnchor.getMonth()+months);
+
+  if(monthAnchor > now){
+
+    months--;
+
+    monthAnchor = new Date(anniversary);
+
+    monthAnchor.setMonth(monthAnchor.getMonth()+months);
+
+  }
+
+  const diffMs = now - monthAnchor;
+
+  const days = Math.floor(diffMs/86400000);
 
   return {
-    years:Math.max(0,years),
-    months:Math.max(0,months),
-    days:Math.max(0,days)
+    years,
+    months,
+    days
   };
+
 }
+
+
+/* PROFILE */
+
+function saveProfileData(data){
+
+  profile = {
+    name:data.name || "",
+    dob:data.dob,
+    time:data.time || "12:00",
+    horizon:Number(data.horizon) || 75
+  };
+
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(profile));
+
+  renderAll();
+
+}
+
+
+function createProfile(){
+
+  const dob = $("modalDob").value;
+
+  if(!dob){
+
+    alert(language==="my"
+      ? "မွေးသက္ကရာဇ် ထည့်ပေးပါ"
+      : "Please enter your date of birth"
+    );
+
+    return;
+
+  }
+
+  saveProfileData({
+    name:$("modalName").value.trim(),
+    dob,
+    time:$("modalTime").value || "12:00",
+    horizon:$("modalHorizon").value
+  });
+
+  $("profileModal").classList.remove("show");
+
+}
+
 
 function saveProfile(){
 
-  const dob = $("dob").value;
+  const dob = $("profileDob").value;
 
   if(!dob){
-    alert("Please select your date of birth.");
+
+    alert(
+      language==="my"
+      ? "မွေးသက္ကရာဇ် ထည့်ပေးပါ"
+      : "Please enter your date of birth"
+    );
+
     return;
+
   }
 
-  let expectancy = $("lifeExpectancy").value;
-
-  if(expectancy === "custom"){
-    expectancy = parseInt($("customYears").value,10) || 75;
-  }else{
-    expectancy = parseInt(expectancy,10);
-  }
-
-  profile = {
+  saveProfileData({
+    name:$("profileName").value.trim(),
     dob,
-    birthTime:$("birthTime").value || "00:00",
-    expectancy
-  };
+    time:$("profileTime").value || "12:00",
+    horizon:$("profileHorizon").value
+  });
 
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify(profile)
-  );
-
-  closeSetup();
-  render();
-}
-
-function loadProfile(){
-
-  try{
-
-    const saved = localStorage.getItem(STORAGE_KEY);
-
-    if(saved){
-      profile = {
-        ...profile,
-        ...JSON.parse(saved)
-      };
-    }
-
-  }catch(e){
-    console.warn("Could not load profile");
-  }
+  alert(t("saved"));
 
 }
 
-function openSetup(){
 
-  $("setupModal").classList.add("show");
+function openProfile(){
 
-  $("dob").value = profile.dob || "";
-  $("birthTime").value = profile.birthTime || "00:00";
+  if(!profile){
 
-  const standard = [70,75,80,85,90,100];
+    $("profileModal").classList.add("show");
 
-  if(standard.includes(Number(profile.expectancy))){
-
-    $("lifeExpectancy").value = String(profile.expectancy);
-    $("customField").classList.add("hidden");
-
-  }else{
-
-    $("lifeExpectancy").value = "custom";
-    $("customField").classList.remove("hidden");
-    $("customYears").value = profile.expectancy || 75;
-
-  }
-
-}
-
-function closeSetup(){
-  $("setupModal").classList.remove("show");
-}
-
-$("lifeExpectancy").addEventListener("change",function(){
-
-  if(this.value === "custom"){
-    $("customField").classList.remove("hidden");
-  }else{
-    $("customField").classList.add("hidden");
-  }
-
-});
-
-function render(){
-
-  const birth = createBirthDate();
-
-  if(!birth){
-
-    $("ageText").textContent = "Set your birthday";
-    $("liveSeconds").textContent = "Your life dashboard starts here";
     return;
 
   }
+
+  document.getElementById("profile").scrollIntoView({
+    behavior:"smooth"
+  });
+
+}
+
+
+function loadProfileForm(){
+
+  if(!profile) return;
+
+  $("profileName").value = profile.name || "";
+  $("profileDob").value = profile.dob || "";
+  $("profileTime").value = profile.time || "12:00";
+  $("profileHorizon").value = profile.horizon || 75;
+
+}
+
+
+/* MAIN RENDER */
+
+function renderAll(){
+
+  if(!profile){
+
+    return;
+
+  }
+
+  loadProfileForm();
+
+  renderAge();
+  renderStats();
+  renderProgress();
+  renderMilestones();
+  renderWeeks();
+  renderTimeline();
+  renderGoals();
+  loadReflection();
+
+}
+
+
+/* AGE */
+
+function renderAge(){
+
+  const birth = getBirthDate();
+
+  if(!birth) return;
 
   const now = new Date();
 
-  const totalSeconds = Math.max(0,(now-birth)/1000);
-  const totalMinutes = totalSeconds/60;
-  const totalHours = totalSeconds/3600;
-  const totalDays = totalSeconds/86400;
-  const totalWeeks = totalDays/7;
-  const totalMonths = totalDays/30.436875;
-  const totalYears = totalDays/365.2425;
+  const age = getAgeParts(birth,now);
 
-  const age = calculateAgeParts(birth,now);
+  $("ageValue").innerHTML =
+    `${formatNumber(age.years)} <span>${language==="my" ? "နှစ်" : "years"}</span>
+     ${formatNumber(age.months)} <span>${language==="my" ? "လ" : "months"}</span>
+     ${formatNumber(age.days)} <span>${language==="my" ? "ရက်" : "days"}</span>`;
 
-  $("ageText").textContent =
-    `${age.years} Years, ${age.months % 12} Months, ${age.days % 30} Days`;
+  $("birthDisplay").textContent = formatDate(birth);
 
-  $("liveSeconds").textContent =
-    `${formatNumber(totalSeconds)} seconds lived`;
+}
 
-  $("yearsLived").textContent =
-    formatDecimal(totalYears,2);
 
-  $("monthsLived").textContent =
-    formatNumber(totalMonths);
+/* STATS */
 
-  $("daysLived").textContent =
-    formatNumber(totalDays);
+function renderStats(){
 
-  $("hoursLived").textContent =
-    formatNumber(totalHours);
+  const birth = getBirthDate();
 
-  $("minutesLived").textContent =
-    formatNumber(totalMinutes);
+  if(!birth) return;
 
-  $("secondsLived").textContent =
-    formatNumber(totalSeconds);
+  const now = new Date();
 
-  /*
-    Estimates only:
-    average resting/normal heart rate = 70 bpm
-    average breathing rate = 15/min
-  */
+  const ms = Math.max(0,now-birth);
 
-  const estimatedHeartbeats = totalMinutes * 70;
-  const estimatedBreaths = totalMinutes * 15;
+  const seconds = Math.floor(ms/1000);
+  const minutes = Math.floor(seconds/60);
+  const hours = Math.floor(minutes/60);
+  const days = Math.floor(hours/24);
+  const weeks = Math.floor(days/7);
+
+  const age = getAgeParts(birth,now);
+
+  const months =
+    age.years*12 + age.months;
+
+  $("yearsLived").textContent = formatNumber(age.years);
+  $("monthsLived").textContent = formatNumber(months);
+  $("daysLived").textContent = formatNumber(days);
+  $("weeksLived").textContent = formatNumber(weeks);
+  $("hoursLived").textContent = formatNumber(hours);
+  $("minutesLived").textContent = formatNumber(minutes);
+  $("secondsLived").textContent = formatNumber(seconds);
 
   $("heartbeats").textContent =
-    formatNumber(estimatedHeartbeats);
+    formatNumber(minutes*70);
 
   $("breaths").textContent =
-    formatNumber(estimatedBreaths);
+    formatNumber(minutes*15);
 
-  /* LIFE PROGRESS */
+}
 
-  const lifeDays =
-    profile.expectancy * 365.2425;
 
-  const livedRatio =
-    Math.min(1,totalDays/lifeDays);
+/* PROGRESS */
+
+function renderProgress(){
+
+  const birth = getBirthDate();
+
+  if(!birth) return;
+
+  const now = new Date();
+
+  const horizon = Number(profile.horizon || 75);
+
+  const totalMs =
+    horizon*365.2425*86400000;
+
+  const livedMs =
+    Math.max(0,now-birth);
+
+  let percent =
+    (livedMs/totalMs)*100;
+
+  percent =
+    Math.max(0,Math.min(100,percent));
+
+  const remainingMs =
+    Math.max(0,totalMs-livedMs);
 
   const remainingDays =
-    Math.max(0,lifeDays-totalDays);
-
-  const remainingYears =
-    remainingDays/365.2425;
-
-  const remainingMonths =
-    remainingDays/30.436875;
+    Math.floor(remainingMs/86400000);
 
   const remainingWeeks =
-    remainingDays/7;
+    Math.floor(remainingDays/7);
 
-  const percent =
-    livedRatio*100;
+  const remainingMonths =
+    Math.floor(remainingDays/30.436875);
+
+  const remainingYears =
+    Math.floor(remainingDays/365.2425);
 
   $("progressPercent").textContent =
-    `${formatDecimal(percent,1)}%`;
-
-  $("progressLived").textContent =
-    `${formatNumber(totalDays)} days lived`;
-
-  $("progressRemaining").textContent =
-    `${formatNumber(remainingDays)} days remaining`;
+    percent.toFixed(1)+"%";
 
   $("progressFill").style.width =
-    `${percent}%`;
+    percent+"%";
 
-  $("lifeHorizon").textContent =
-    `${profile.expectancy} years`;
+  $("progressRing").style.setProperty(
+    "--progress",
+    percent+"%"
+  );
 
-  $("horizonEnd").textContent =
-    `${profile.expectancy} years`;
+  $("progressTitle").textContent =
+    `${horizon} ${language==="my" ? "နှစ် ဘဝအစီအစဉ်" : "Years Life Plan"}`;
+
+  $("progressDescription").textContent =
+    language==="my"
+      ? `${percent.toFixed(1)}% ဖြတ်သန်းပြီး — ${remainingYears} နှစ်ခန့် ကျန်ရှိနိုင်သည်`
+      : `${percent.toFixed(1)}% completed — approximately ${remainingYears} years remaining`;
 
   $("remainingYears").textContent =
-    formatDecimal(remainingYears,1);
+    formatNumber(remainingYears);
 
   $("remainingMonths").textContent =
     formatNumber(remainingMonths);
@@ -1297,27 +2025,58 @@ function render(){
   $("remainingDays").textContent =
     formatNumber(remainingDays);
 
-  /* TIMELINE */
-
-  $("birthYear").textContent =
-    birth.getFullYear();
-
-  $("currentYear").textContent =
-    now.getFullYear();
-
-  $("futureYear").textContent =
-    birth.getFullYear()+profile.expectancy;
-
-  renderMilestones(birth,now,totalDays);
-  renderWeeks(totalWeeks);
-
 }
 
-function renderMilestones(birth,now,totalDays){
 
-  const milestones = [];
+/* MILESTONES */
 
-  const dayMilestones = [
+function renderMilestones(){
+
+  const birth = getBirthDate();
+
+  if(!birth) return;
+
+  const now = new Date();
+
+  const items = [];
+
+  /* Next birthday */
+
+  let nextBirthday =
+    new Date(
+      birth.getFullYear(),
+      birth.getMonth(),
+      birth.getDate(),
+      birth.getHours(),
+      birth.getMinutes()
+    );
+
+  let ageAtBirthday =
+    now.getFullYear()-birth.getFullYear();
+
+  nextBirthday.setFullYear(
+    birth.getFullYear()+ageAtBirthday
+  );
+
+  if(nextBirthday <= now){
+
+    ageAtBirthday++;
+
+    nextBirthday.setFullYear(
+      birth.getFullYear()+ageAtBirthday
+    );
+
+  }
+
+  items.push({
+    next:true,
+    title:t("nextBirthday"),
+    value:`${ageAtBirthday} ${language==="my" ? "နှစ်" : "years"}`,
+    date:nextBirthday
+  });
+
+
+  const milestones = [
     1000,
     5000,
     10000,
@@ -1328,190 +2087,594 @@ function renderMilestones(birth,now,totalDays){
     40000
   ];
 
-  dayMilestones.forEach(dayNumber => {
+  milestones.forEach(day=>{
 
-    if(dayNumber > totalDays){
+    const date = addDays(birth,day);
 
-      const date =
-        new Date(
-          birth.getTime()+
-          dayNumber*86400000
-        );
+    if(date >= now && items.length < 8){
 
-      milestones.push({
-        icon:"✦",
-        title:`${formatNumber(dayNumber)}th Day`,
-        date:date,
-        distance:dayNumber-totalDays
+      items.push({
+        title:t("dayMilestone"),
+        value:`${formatNumber(day)} ${language==="my" ? "ရက်" : "days"}`,
+        date
       });
 
     }
 
   });
 
-  /* Next birthdays */
 
-  for(let i=1;i<=5;i++){
+  while(items.length < 8){
 
-    const year =
-      now.getFullYear()+i;
+    const index = items.length;
 
-    const birthday =
-      new Date(
-        year,
-        birth.getMonth(),
-        birth.getDate(),
-        birth.getHours(),
-        birth.getMinutes()
-      );
+    const day = milestones[index] || (40000+index*5000);
 
-    if(birthday > now){
+    const date = addDays(birth,day);
 
-      milestones.push({
-        icon:"🎂",
-        title:`Age ${year-birth.getFullYear()}`,
-        date:birthday,
-        distance:daysBetween(now,birthday)
-      });
-
-      break;
-    }
+    items.push({
+      title:t("dayMilestone"),
+      value:`${formatNumber(day)} ${language==="my" ? "ရက်" : "days"}`,
+      date
+    });
 
   }
 
-  milestones.sort(
-    (a,b)=>a.distance-b.distance
-  );
 
-  const container = $("milestones");
+  $("milestoneGrid").innerHTML =
+    items.map(item=>`
 
-  container.innerHTML = "";
+      <div class="milestone ${item.next ? "next":""}">
 
-  milestones.slice(0,8).forEach(item=>{
+        <div>
+          <small>${item.next ? "★" : "◆"} ${item.title}</small>
 
-    const card = document.createElement("div");
+          <h3>${item.value}</h3>
 
-    card.className = "milestone";
+          <p class="milestone-date">
+            ${formatDate(item.date)}
+          </p>
+        </div>
 
-    card.innerHTML = `
-      <div class="milestone-icon">${item.icon}</div>
-      <div class="milestone-title">${item.title}</div>
-      <div class="milestone-date">${formatDate(item.date)}</div>
-      <div class="milestone-count">
-        ${formatNumber(item.distance)} days from now
+        <p>
+          ${
+            item.date > now
+              ? daysUntil(now,item.date)+" "+(language==="my"?"ရက်အတွင်း":"days from now")
+              : t("today")
+          }
+        </p>
+
       </div>
-    `;
 
-    container.appendChild(card);
-
-  });
+    `).join("");
 
 }
 
-function formatDate(date){
 
-  return date.toLocaleDateString(
-    "en-US",
-    {
-      year:"numeric",
-      month:"short",
-      day:"numeric"
-    }
+function daysUntil(a,b){
+
+  return Math.max(
+    0,
+    Math.ceil((b-a)/86400000)
   );
 
 }
 
-function renderWeeks(totalWeeks){
 
-  const grid = $("weekGrid");
+/* WEEKS */
 
-  grid.innerHTML = "";
+function renderWeeks(){
 
-  const horizonWeeks =
-    Math.floor(
-      profile.expectancy*52.1775
-    );
+  const birth = getBirthDate();
+
+  if(!birth) return;
+
+  const now = new Date();
+
+  const horizon =
+    Number(profile.horizon || 75);
+
+  const totalWeeks =
+    Math.ceil(horizon*365.2425/7);
 
   const livedWeeks =
-    Math.floor(totalWeeks);
+    Math.floor(
+      Math.max(0,now-birth)/604800000
+    );
 
-  const maxRender =
-    Math.min(horizonWeeks,3900);
+  const currentWeek = livedWeeks;
 
-  $("weekCount").textContent =
-    `${formatNumber(horizonWeeks)} weeks`;
+  const maxRender = Math.min(totalWeeks,4500);
+
+  let html = "";
 
   for(let i=0;i<maxRender;i++){
 
-    const dot =
-      document.createElement("div");
-
-    dot.className = "week-dot";
+    let cls="";
 
     if(i < livedWeeks){
-      dot.classList.add("lived");
+      cls="lived";
     }
 
-    if(i === livedWeeks){
-      dot.classList.add("current");
+    if(i === currentWeek){
+      cls="current";
     }
 
-    grid.appendChild(dot);
+    html += `<div class="week ${cls}" title="${i+1}"></div>`;
 
   }
 
+  $("weekGrid").innerHTML=html;
+
 }
+
+
+/* TIMELINE */
+
+function getTimeline(){
+
+  return JSON.parse(
+    localStorage.getItem(TIMELINE_KEY) || "[]"
+  );
+
+}
+
+
+function saveTimeline(data){
+
+  localStorage.setItem(
+    TIMELINE_KEY,
+    JSON.stringify(data)
+  );
+
+}
+
+
+function renderTimeline(){
+
+  const birth = getBirthDate();
+
+  if(!birth) return;
+
+  let events = getTimeline();
+
+  if(events.length===0){
+
+    events = [
+      {
+        id:"birth",
+        date:profile.dob,
+        title:t("birth"),
+        desc:language==="my"
+          ? "သင့်ဘဝ၏ ပထမဆုံးနေ့"
+          : "The first day of your life"
+      },
+      {
+        id:"today",
+        date:new Date().toISOString().slice(0,10),
+        title:t("present"),
+        desc:language==="my"
+          ? "သင်ရောက်ရှိနေတဲ့ ယနေ့အချိန်"
+          : "Where you are today"
+      }
+    ];
+
+  }
+
+  events.sort(
+    (a,b)=>new Date(a.date)-new Date(b.date)
+  );
+
+  $("timelineList").innerHTML =
+    events.map(e=>`
+
+      <div class="timeline-item">
+
+        <div class="timeline-date">
+          ${formatDate(new Date(e.date))}
+        </div>
+
+        <h3>${escapeHtml(e.title)}</h3>
+
+        <p>${escapeHtml(e.desc || "")}</p>
+
+      </div>
+
+    `).join("");
+
+}
+
+
+function addTimelineEvent(){
+
+  const title = prompt(t("eventTitle"));
+
+  if(!title) return;
+
+  const date =
+    prompt(
+      t("eventDate"),
+      new Date().toISOString().slice(0,10)
+    );
+
+  if(!date) return;
+
+  const desc =
+    prompt(t("eventDesc"),"") || "";
+
+  const events = getTimeline();
+
+  events.push({
+    id:Date.now(),
+    title,
+    date,
+    desc
+  });
+
+  saveTimeline(events);
+
+  renderTimeline();
+
+}
+
+
+/* GOALS */
+
+function getGoals(){
+
+  return JSON.parse(
+    localStorage.getItem(GOALS_KEY) || "[]"
+  );
+
+}
+
+
+function saveGoals(data){
+
+  localStorage.setItem(
+    GOALS_KEY,
+    JSON.stringify(data)
+  );
+
+}
+
+
+function renderGoals(){
+
+  const goals = getGoals();
+
+  if(goals.length===0){
+
+    goals.push(
+      {
+        id:"g1",
+        name:language==="my"
+          ? "ကိုယ်ပိုင်လုပ်ငန်းတည်ထောင်ရန်"
+          : "Start my own business",
+        date:"2030-01-01",
+        category:"career",
+        progress:0
+      },
+      {
+        id:"g2",
+        name:language==="my"
+          ? "နိုင်ငံခြားခရီးသွားရန်"
+          : "Travel abroad",
+        date:"2032-01-01",
+        category:"travel",
+        progress:0
+      },
+      {
+        id:"g3",
+        name:language==="my"
+          ? "အိမ်တစ်လုံးဝယ်ရန်"
+          : "Buy a home",
+        date:"2035-01-01",
+        category:"finance",
+        progress:0
+      }
+    );
+
+  }
+
+  $("goalList").innerHTML =
+    goals.map(g=>`
+
+      <div class="goal">
+
+        <div class="goal-top">
+          <span class="goal-category">
+            ${categoryLabel(g.category)}
+          </span>
+
+          <span class="goal-category">
+            ${Number(g.progress)||0}%
+          </span>
+        </div>
+
+        <h3>${escapeHtml(g.name)}</h3>
+
+        <div class="goal-date">
+          ${formatDate(new Date(g.date))}
+        </div>
+
+        <div class="goal-progress">
+          <div style="width:${Math.min(100,Math.max(0,g.progress||0))}%"></div>
+        </div>
+
+        <div class="goal-percent">
+          ${language==="my" ? "တိုးတက်မှု" : "Progress"}
+          ${g.progress||0}%
+        </div>
+
+      </div>
+
+    `).join("");
+
+}
+
+
+function categoryLabel(cat){
+
+  const map = {
+    career:t("career"),
+    family:t("family"),
+    finance:t("finance"),
+    travel:t("travel"),
+    learning:t("learning"),
+    health:t("health"),
+    personal:t("personal")
+  };
+
+  return map[cat] || t("personal");
+
+}
+
+
+function addGoal(){
+
+  const name = prompt(t("goalName"));
+
+  if(!name) return;
+
+  const date =
+    prompt(
+      t("goalDate"),
+      new Date().getFullYear()+1+"-01-01"
+    );
+
+  if(!date) return;
+
+  const progress =
+    Number(
+      prompt(t("goalProgress"),"0")
+    ) || 0;
+
+  const goals = getGoals();
+
+  goals.push({
+    id:Date.now(),
+    name,
+    date,
+    category:"personal",
+    progress:Math.min(100,Math.max(0,progress))
+  });
+
+  saveGoals(goals);
+
+  renderGoals();
+
+}
+
+
+/* REFLECTION */
+
+function loadReflection(){
+
+  const data =
+    JSON.parse(
+      localStorage.getItem(REFLECTION_KEY) || "{}"
+    );
+
+  $("reflection1").value = data.one || "";
+  $("reflection2").value = data.two || "";
+  $("reflection3").value = data.three || "";
+
+}
+
+
+function saveReflection(){
+
+  const data = {
+
+    date:new Date().toISOString(),
+
+    one:$("reflection1").value,
+
+    two:$("reflection2").value,
+
+    three:$("reflection3").value
+
+  };
+
+  localStorage.setItem(
+    REFLECTION_KEY,
+    JSON.stringify(data)
+  );
+
+  alert(t("saved"));
+
+}
+
+
+/* SECURITY */
+
+function escapeHtml(str){
+
+  return String(str)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+/* NAVIGATION */
 
 function scrollToSection(id,button){
 
+  const el = document.getElementById(id);
+
+  if(!el) return;
+
+  el.scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+
   document.querySelectorAll(".nav-btn")
-    .forEach(btn=>btn.classList.remove("active"));
+    .forEach(b=>b.classList.remove("active"));
 
   if(button){
     button.classList.add("active");
   }
 
-  const target =
-    document.getElementById(id);
+}
 
-  if(target){
-    target.scrollIntoView({
-      behavior:"smooth",
-      block:"start"
-    });
+
+/* INITIALIZATION */
+
+function init(){
+
+  setLanguage(language);
+
+  if(!profile){
+
+    $("profileModal").classList.add("show");
+
+  }else{
+
+    renderAll();
+
   }
 
 }
 
-/* Create aliases for navigation */
 
-$("milestones").id = "milestones";
-$("weekGrid").id = "weekGrid";
+init();
 
-/* INITIALIZE */
-
-loadProfile();
-
-if(!profile.dob){
-
-  /*
-    Don't force the setup modal immediately.
-    Let the user experience the landing screen first.
-  */
-
-  setTimeout(()=>{
-    openSetup();
-  },500);
-
-}
-
-render();
 
 /* LIVE UPDATE */
 
 setInterval(()=>{
-  render();
+
+  if(profile){
+
+    renderAge();
+    renderStats();
+    renderProgress();
+
+  }
+
 },1000);
+
+</script>
+
+
+<!-- BOTTOM NAV -->
+
+<nav class="bottom-nav">
+
+  <button class="nav-btn active" onclick="scrollToSection('home',this)">
+    <span>⌂</span>
+    <b data-i18n="homeNav">Home</b>
+  </button>
+
+  <button class="nav-btn" onclick="scrollToSection('life',this)">
+    <span>◷</span>
+    <b data-i18n="lifeNav">Life</b>
+  </button>
+
+  <button class="nav-btn" onclick="scrollToSection('milestones',this)">
+    <span>◆</span>
+    <b data-i18n="milestoneNav">Milestones</b>
+  </button>
+
+  <button class="nav-btn" onclick="scrollToSection('timeline',this)">
+    <span>│</span>
+    <b data-i18n="timelineNav">Timeline</b>
+  </button>
+
+  <button class="nav-btn" onclick="scrollToSection('goals',this)">
+    <span>◎</span>
+    <b data-i18n="goalsNav">Goals</b>
+  </button>
+
+  <button class="nav-btn" onclick="scrollToSection('reflection',this)">
+    <span>✦</span>
+    <b data-i18n="reflectionNav">Reflect</b>
+  </button>
+
+</nav>
+
+
+<script>
+
+/* NAV TRANSLATIONS */
+
+const NAV_T = {
+
+  my:{
+    homeNav:"ပင်မ",
+    lifeNav:"ဘဝ",
+    milestoneNav:"မှတ်တိုင်",
+    timelineNav:"မှတ်တမ်း",
+    goalsNav:"ရည်မှန်းချက်",
+    reflectionNav:"ပြန်ကြည့်"
+  },
+
+  en:{
+    homeNav:"Home",
+    lifeNav:"Life",
+    milestoneNav:"Milestones",
+    timelineNav:"Timeline",
+    goalsNav:"Goals",
+    reflectionNav:"Reflect"
+  }
+
+};
+
+
+function renderNavLanguage(){
+
+  document.querySelectorAll(".nav-btn b")
+    .forEach(el=>{
+
+      const key = el.dataset.i18n;
+
+      if(NAV_T[language][key]){
+        el.textContent = NAV_T[language][key];
+      }
+
+    });
+
+}
+
+
+const originalSetLanguage = setLanguage;
+
+setLanguage = function(lang){
+
+  originalSetLanguage(lang);
+
+  renderNavLanguage();
+
+};
+
+
+setLanguage(language);
 
 </script>
 
