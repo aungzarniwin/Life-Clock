@@ -3,196 +3,973 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<meta name="theme-color" content="#111827">
-<title>LIFE 75 V5</title>
+<meta name="theme-color" content="#0d0d0c">
+<title>LIFE 75</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
+
 :root{
-  --bg:#f5f7fb;
-  --card:#fff;
-  --text:#111827;
-  --muted:#6b7280;
-  --line:#e5e7eb;
-  --accent:#7c3aed;
-  --accent2:#a855f7;
-  --soft:#f3e8ff;
-  --green:#16a34a;
-  --red:#dc2626;
-  --orange:#ea580c;
-  --shadow:0 10px 30px rgba(15,23,42,.07);
-  --radius:20px
+  --bg:#0b0b0a;
+  --bg2:#11110f;
+  --card:#171714;
+  --card2:#1d1d19;
+  --gold:#d6b36a;
+  --gold2:#f0d18a;
+  --gold-soft:rgba(214,179,106,.12);
+  --text:#f5f1e8;
+  --muted:#9d9a91;
+  --line:rgba(255,255,255,.08);
+  --green:#7bc47f;
+  --red:#d97979;
+  --radius:22px;
 }
+
+html{scroll-behavior:smooth}
+
 body{
-  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:var(--bg);
+  margin:0;
+  background:
+    radial-gradient(circle at 80% -10%,rgba(214,179,106,.08),transparent 30%),
+    radial-gradient(circle at -10% 40%,rgba(214,179,106,.05),transparent 25%),
+    var(--bg);
   color:var(--text);
-  min-height:100vh
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  min-height:100vh;
 }
+
 button,input,textarea,select{font:inherit}
-button{cursor:pointer;border:0}
-.app{display:flex;min-height:100vh}
-.sidebar{
-  width:250px;background:#111827;color:#fff;padding:22px 16px;
-  position:fixed;left:0;top:0;bottom:0;z-index:50
+button{cursor:pointer}
+
+.app{
+  min-height:100vh;
+  padding-bottom:85px;
 }
-.logo{
-  font-size:22px;font-weight:900;letter-spacing:-.5px;
-  padding:10px 12px 24px
+
+/* TOP */
+
+.top{
+  position:sticky;
+  top:0;
+  z-index:50;
+  height:70px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 22px;
+  background:rgba(11,11,10,.88);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--line);
 }
-.logo span{color:#c084fc}
-.nav{display:flex;flex-direction:column;gap:6px}
-.nav button{
-  width:100%;text-align:left;padding:13px 14px;border-radius:13px;
-  background:transparent;color:#cbd5e1;font-weight:700
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
-.nav button:hover,.nav button.active{
-  background:#fff;color:#111827
+
+.brand-mark{
+  width:36px;
+  height:36px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,var(--gold),#8c6d32);
+  color:#17120a;
+  font-weight:1000;
+  font-size:14px;
 }
-.main{margin-left:250px;width:calc(100% - 250px)}
-.topbar{
-  height:70px;background:rgba(255,255,255,.9);backdrop-filter:blur(15px);
-  border-bottom:1px solid var(--line);display:flex;align-items:center;
-  justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:30
+
+.brand-title{
+  font-size:18px;
+  font-weight:950;
+  letter-spacing:1px;
 }
-.menuBtn{display:none;background:#111827;color:#fff;border-radius:10px;padding:9px 12px}
-.container{max-width:1250px;margin:auto;padding:28px}
+
+.brand-sub{
+  color:var(--muted);
+  font-size:10px;
+  margin-top:2px;
+  letter-spacing:1px;
+}
+
+.top-actions{
+  display:flex;
+  gap:8px;
+}
+
+.icon-btn{
+  width:40px;
+  height:40px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:var(--card);
+  color:var(--text);
+  display:grid;
+  place-items:center;
+}
+
+/* LAYOUT */
+
+.container{
+  width:100%;
+  max-width:1180px;
+  margin:auto;
+  padding:25px 20px;
+}
+
 .page{display:none}
 .page.active{display:block}
-h1{font-size:30px;letter-spacing:-1px}
-h2{font-size:20px}
-.subtitle{color:var(--muted);margin-top:5px}
-.grid{display:grid;gap:18px}
-.stats{grid-template-columns:repeat(4,1fr);margin-top:24px}
-.card{
-  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-  padding:20px;box-shadow:var(--shadow)
-}
-.stat-label{color:var(--muted);font-size:13px;font-weight:700}
-.stat-value{font-size:28px;font-weight:900;margin-top:8px}
-.stat-small{font-size:12px;color:var(--muted);margin-top:5px}
-.section-title{
-  display:flex;justify-content:space-between;align-items:center;margin:28px 0 14px
-}
-.two{grid-template-columns:1.25fr .75fr}
-.three{grid-template-columns:repeat(3,1fr)}
-.btn{
-  padding:11px 16px;border-radius:12px;font-weight:800;
-  background:#111827;color:#fff
-}
-.btn.primary{background:var(--accent)}
-.btn.light{background:var(--soft);color:#6b21a8}
-.btn.danger{background:#fee2e2;color:#991b1b}
-.btn.small{padding:8px 11px;font-size:13px}
-.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-input,textarea,select{
-  width:100%;border:1px solid var(--line);border-radius:12px;
-  padding:12px;background:#fff;color:var(--text);outline:none
-}
-input:focus,textarea:focus,select:focus{border-color:var(--accent)}
-textarea{min-height:110px;resize:vertical}
-.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-label{font-size:13px;font-weight:800;display:block;margin-bottom:6px}
-.progress{
-  height:10px;background:#ede9fe;border-radius:99px;overflow:hidden;margin-top:12px
-}
-.progress div{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:99px}
-.big-number{font-size:48px;font-weight:950;line-height:1}
-.hero{
-  background:linear-gradient(135deg,#111827,#312e81);
-  color:#fff;border-radius:26px;padding:28px;position:relative;overflow:hidden
-}
-.hero:after{
-  content:"";position:absolute;width:220px;height:220px;border-radius:50%;
-  right:-80px;top:-90px;background:rgba(255,255,255,.08)
-}
-.hero>*{position:relative;z-index:2}
-.hero .eyebrow{font-size:12px;font-weight:900;letter-spacing:1px;opacity:.75}
-.hero h2{font-size:29px;margin:8px 0}
-.hero p{color:#ddd6fe;max-width:650px}
-.life-grid{
-  display:grid;grid-template-columns:repeat(15,1fr);gap:4px;margin-top:18px
-}
-.life-cell{
-  aspect-ratio:1;border-radius:4px;background:#e5e7eb;position:relative
-}
-.life-cell.past{background:#111827}
-.life-cell.current{background:#a855f7;box-shadow:0 0 0 2px #7c3aed}
-.life-cell.future{background:#ede9fe}
-.life-cell:hover{transform:scale(1.35);z-index:5}
-.legend{display:flex;gap:15px;flex-wrap:wrap;margin-top:14px;font-size:12px;color:var(--muted)}
-.dot{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:5px}
-.list{display:flex;flex-direction:column;gap:10px}
-.list-item{
-  border:1px solid var(--line);border-radius:15px;padding:15px;
-  display:flex;align-items:center;justify-content:space-between;gap:12px
-}
-.list-main{min-width:0}
-.list-title{font-weight:900}
-.list-meta{font-size:12px;color:var(--muted);margin-top:4px}
-.badge{padding:5px 9px;border-radius:99px;background:var(--soft);color:#6b21a8;font-size:11px;font-weight:900}
-.check{
-  width:22px;height:22px;border-radius:7px;border:2px solid #d1d5db;
-  display:grid;place-items:center;flex:none;background:#fff
-}
-.check.done{background:var(--green);border-color:var(--green);color:#fff}
-.empty{text-align:center;padding:35px;color:var(--muted)}
-.quote{font-size:20px;line-height:1.55;font-weight:800}
-.author{margin-top:12px;color:var(--muted);font-size:13px}
-.kpi{text-align:center}
-.kpi-value{font-size:34px;font-weight:950}
-.danger-text{color:var(--red)}
-.success-text{color:var(--green)}
-.calendar{
-  display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:14px
-}
-.cal-head{text-align:center;font-size:11px;color:var(--muted);font-weight:800}
-.day{
-  min-height:60px;border:1px solid var(--line);border-radius:10px;padding:7px;
-  background:#fff;font-size:12px
-}
-.day.today{border:2px solid var(--accent)}
-.day.has-event{background:var(--soft)}
-.event-dot{font-size:10px;color:#6b21a8;font-weight:800;margin-top:5px}
-.toast{
-  position:fixed;right:20px;bottom:25px;background:#111827;color:#fff;
-  padding:13px 17px;border-radius:12px;z-index:100;display:none;
-  box-shadow:var(--shadow)
-}
-.modal{
-  position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;
-  align-items:center;justify-content:center;z-index:90;padding:18px
-}
-.modal-box{
-  background:#fff;border-radius:22px;padding:22px;width:100%;max-width:500px;
-  max-height:90vh;overflow:auto
-}
-.close{background:#f3f4f6;border-radius:10px;padding:7px 10px}
-.overlay{display:none}
 
-@media(max-width:900px){
-  .sidebar{transform:translateX(-100%);transition:.25s}
-  .sidebar.open{transform:translateX(0)}
-  .overlay{
-    position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:40
-  }
-  .overlay.show{display:block}
-  .main{margin-left:0;width:100%}
-  .menuBtn{display:block}
-  .topbar{padding:0 16px}
-  .container{padding:18px}
-  .stats{grid-template-columns:repeat(2,1fr)}
-  .two,.three{grid-template-columns:1fr}
-  .life-grid{grid-template-columns:repeat(10,1fr)}
+.page-head{
+  margin-bottom:22px;
 }
-@media(max-width:520px){
-  h1{font-size:25px}
-  .stats{gap:10px}
-  .card{padding:16px}
-  .stat-value{font-size:23px}
-  .life-grid{grid-template-columns:repeat(10,1fr);gap:3px}
-  .form-grid{grid-template-columns:1fr}
-  .top-title{font-size:15px}
+
+.eyebrow{
+  color:var(--gold);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:1.8px;
+  text-transform:uppercase;
+}
+
+h1{
+  font-size:30px;
+  line-height:1.15;
+  margin-top:6px;
+  letter-spacing:-.8px;
+}
+
+h2{
+  font-size:19px;
+}
+
+.subtitle{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.6;
+  margin-top:6px;
+}
+
+/* HOME HERO */
+
+.hero{
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(214,179,106,.18);
+  border-radius:30px;
+  padding:25px;
+  background:
+    radial-gradient(circle at 90% 20%,rgba(214,179,106,.14),transparent 25%),
+    linear-gradient(145deg,#1c1b16,#11110f 65%);
+  box-shadow:0 20px 50px rgba(0,0,0,.28);
+}
+
+.hero-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:20px;
+}
+
+.hero h1{
+  max-width:700px;
+  font-size:34px;
+}
+
+.hero-text{
+  max-width:600px;
+  color:#b8b4a9;
+  margin-top:10px;
+  line-height:1.65;
+  font-size:14px;
+}
+
+.hero-date{
+  margin-top:18px;
+  color:var(--gold2);
+  font-size:12px;
+  font-weight:800;
+}
+
+.hero-btns{
+  display:flex;
+  gap:9px;
+  margin-top:20px;
+  flex-wrap:wrap;
+}
+
+.btn{
+  border:0;
+  border-radius:13px;
+  padding:11px 16px;
+  font-weight:850;
+  color:#111;
+  background:var(--gold);
+}
+
+.btn:hover{filter:brightness(1.08)}
+
+.btn-dark{
+  background:#25251f;
+  color:var(--text);
+  border:1px solid var(--line);
+}
+
+.btn-danger{
+  background:rgba(217,121,121,.12);
+  color:#e69b9b;
+  border:1px solid rgba(217,121,121,.18);
+}
+
+.btn-small{
+  padding:8px 11px;
+  font-size:12px;
+}
+
+/* STATS */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-top:14px;
+}
+
+.stat{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:17px;
+}
+
+.stat-label{
+  color:var(--muted);
+  font-size:10px;
+  letter-spacing:1px;
+  font-weight:900;
+}
+
+.stat-value{
+  margin-top:8px;
+  font-size:25px;
+  font-weight:950;
+}
+
+.stat-note{
+  margin-top:3px;
+  color:#77756d;
+  font-size:11px;
+}
+
+/* GRID */
+
+.grid{
+  display:grid;
+  gap:14px;
+}
+
+.grid-2{
+  grid-template-columns:1.15fr .85fr;
+}
+
+.grid-3{
+  grid-template-columns:repeat(3,1fr);
+}
+
+/* SECTION */
+
+.section{
+  margin-top:28px;
+}
+
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:13px;
+}
+
+.section-title{
+  font-size:17px;
+  font-weight:900;
+}
+
+.section-link{
+  color:var(--gold);
+  background:none;
+  border:0;
+  font-size:12px;
+  font-weight:800;
+}
+
+/* CARDS */
+
+.card{
+  background:linear-gradient(145deg,var(--card),#141411);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:19px;
+  box-shadow:0 12px 35px rgba(0,0,0,.16);
+}
+
+.card-title{
+  font-weight:900;
+  font-size:15px;
+}
+
+.card-desc{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.6;
+  margin-top:5px;
+}
+
+/* LIFE RING */
+
+.life-card{
+  display:flex;
+  align-items:center;
+  gap:25px;
+}
+
+.ring{
+  width:150px;
+  height:150px;
+  flex:none;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  position:relative;
+  background:conic-gradient(
+    var(--gold) 0deg,
+    var(--gold2) var(--ring,0deg),
+    #292820 var(--ring,0deg),
+    #292820 360deg
+  );
+}
+
+.ring:before{
+  content:"";
+  position:absolute;
+  width:122px;
+  height:122px;
+  border-radius:50%;
+  background:#12120f;
+}
+
+.ring-content{
+  position:relative;
+  z-index:2;
+  text-align:center;
+}
+
+.ring-number{
+  font-size:29px;
+  font-weight:1000;
+}
+
+.ring-label{
+  color:var(--muted);
+  font-size:10px;
+  margin-top:2px;
+}
+
+.life-info{
+  flex:1;
+}
+
+.life-age{
+  font-size:32px;
+  font-weight:1000;
+}
+
+.life-age span{
+  color:var(--muted);
+  font-size:13px;
+  font-weight:600;
+}
+
+.life-info p{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.6;
+  margin-top:7px;
+}
+
+/* QUOTE */
+
+.quote-card{
+  min-height:190px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.quote-mark{
+  font-size:42px;
+  color:var(--gold);
+  line-height:.7;
+}
+
+.quote{
+  margin-top:12px;
+  font-size:20px;
+  line-height:1.5;
+  font-weight:850;
+}
+
+.quote-author{
+  color:var(--muted);
+  font-size:11px;
+  margin-top:14px;
+}
+
+/* PROGRESS */
+
+.progress{
+  width:100%;
+  height:8px;
+  background:#282820;
+  border-radius:100px;
+  overflow:hidden;
+  margin-top:10px;
+}
+
+.progress-bar{
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,#aa813d,var(--gold2));
+  border-radius:100px;
+  transition:width .4s ease;
+}
+
+/* LIST */
+
+.list{
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+}
+
+.list-item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  justify-content:space-between;
+  padding:13px;
+  background:#1b1b17;
+  border:1px solid var(--line);
+  border-radius:15px;
+}
+
+.list-main{
+  min-width:0;
+  flex:1;
+}
+
+.list-title{
+  font-size:13px;
+  font-weight:850;
+}
+
+.list-meta{
+  color:var(--muted);
+  font-size:11px;
+  margin-top:4px;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  padding:5px 8px;
+  border-radius:8px;
+  background:var(--gold-soft);
+  color:var(--gold2);
+  font-size:10px;
+  font-weight:850;
+  white-space:nowrap;
+}
+
+/* 75 GRID */
+
+.life-grid{
+  display:grid;
+  grid-template-columns:repeat(15,1fr);
+  gap:5px;
+  margin-top:18px;
+}
+
+.life-cell{
+  aspect-ratio:1;
+  border-radius:5px;
+  background:#292923;
+  border:1px solid rgba(255,255,255,.03);
+  transition:.2s;
+}
+
+.life-cell:hover{
+  transform:scale(1.25);
+  z-index:5;
+}
+
+.life-cell.past{
+  background:#8f733f;
+}
+
+.life-cell.current{
+  background:var(--gold2);
+  box-shadow:0 0 0 2px rgba(240,209,138,.35),0 0 15px rgba(240,209,138,.25);
+}
+
+.legend{
+  display:flex;
+  gap:16px;
+  flex-wrap:wrap;
+  margin-top:15px;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.legend span{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.legend i{
+  width:10px;
+  height:10px;
+  border-radius:3px;
+  display:inline-block;
+}
+
+/* GOAL */
+
+.goal-progress{
+  margin-top:11px;
+}
+
+.goal-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  font-size:12px;
+}
+
+.goal-percent{
+  color:var(--gold2);
+  font-weight:900;
+}
+
+/* HABIT */
+
+.check{
+  width:25px;
+  height:25px;
+  flex:none;
+  border-radius:8px;
+  border:1px solid #45443b;
+  background:#11110f;
+  color:#111;
+  display:grid;
+  place-items:center;
+  font-weight:1000;
+}
+
+.check.done{
+  background:var(--gold);
+  border-color:var(--gold);
+}
+
+/* FORMS */
+
+.form{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+label{
+  display:block;
+  color:#b8b4aa;
+  font-size:11px;
+  font-weight:800;
+  margin-bottom:6px;
+}
+
+input,textarea,select{
+  width:100%;
+  border:1px solid var(--line);
+  outline:none;
+  border-radius:13px;
+  background:#11110f;
+  color:var(--text);
+  padding:12px;
+}
+
+input:focus,textarea:focus,select:focus{
+  border-color:rgba(214,179,106,.5);
+}
+
+textarea{
+  min-height:105px;
+  resize:vertical;
+}
+
+/* CALENDAR */
+
+.calendar{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:6px;
+}
+
+.cal-head{
+  color:#77756d;
+  font-size:10px;
+  text-align:center;
+  padding:5px 0;
+  font-weight:800;
+}
+
+.day{
+  min-height:58px;
+  padding:8px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:#131310;
+  font-size:11px;
+}
+
+.day.today{
+  border-color:var(--gold);
+}
+
+.day.event{
+  background:var(--gold-soft);
+}
+
+.event-text{
+  color:var(--gold2);
+  font-size:9px;
+  margin-top:5px;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+
+/* INSIGHTS */
+
+.insight-number{
+  font-size:35px;
+  font-weight:1000;
+  margin-top:8px;
+}
+
+.insight-label{
+  color:var(--muted);
+  font-size:11px;
+}
+
+/* EMPTY */
+
+.empty{
+  text-align:center;
+  padding:30px 10px;
+  color:#77756d;
+  font-size:12px;
+}
+
+/* BOTTOM NAV */
+
+.bottom-nav{
+  position:fixed;
+  left:50%;
+  bottom:12px;
+  transform:translateX(-50%);
+  width:min(580px,calc(100% - 24px));
+  height:66px;
+  z-index:60;
+  background:rgba(23,23,20,.94);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:21px;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  padding:5px;
+  box-shadow:0 15px 45px rgba(0,0,0,.45);
+}
+
+.nav-btn{
+  border:0;
+  background:transparent;
+  color:#77756d;
+  border-radius:16px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  font-size:10px;
+  font-weight:800;
+}
+
+.nav-icon{
+  font-size:18px;
+  line-height:1;
+}
+
+.nav-btn.active{
+  background:var(--gold-soft);
+  color:var(--gold2);
+}
+
+/* MORE MENU */
+
+.more-panel{
+  position:fixed;
+  left:50%;
+  bottom:89px;
+  transform:translateX(-50%) translateY(15px);
+  width:min(400px,calc(100% - 24px));
+  background:#1a1a16;
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:12px;
+  z-index:59;
+  opacity:0;
+  pointer-events:none;
+  transition:.2s;
+  box-shadow:0 20px 50px rgba(0,0,0,.5);
+}
+
+.more-panel.show{
+  opacity:1;
+  pointer-events:auto;
+  transform:translateX(-50%) translateY(0);
+}
+
+.more-item{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:13px;
+  background:transparent;
+  border:0;
+  color:var(--text);
+  text-align:left;
+  border-radius:13px;
+}
+
+.more-item:hover{
+  background:var(--gold-soft);
+}
+
+/* MODAL */
+
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  background:rgba(0,0,0,.72);
+  backdrop-filter:blur(5px);
+}
+
+.modal.show{display:flex}
+
+.modal-box{
+  width:min(500px,100%);
+  max-height:90vh;
+  overflow:auto;
+  background:#191915;
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:20px;
+}
+
+.modal-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+}
+
+.close{
+  width:35px;
+  height:35px;
+  border:0;
+  border-radius:10px;
+  background:#282821;
+  color:var(--text);
+}
+
+/* TOAST */
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:92px;
+  transform:translateX(-50%);
+  z-index:120;
+  padding:11px 16px;
+  border-radius:12px;
+  background:#f3ead7;
+  color:#17130b;
+  font-size:12px;
+  font-weight:850;
+  display:none;
+  box-shadow:0 10px 35px rgba(0,0,0,.4);
+}
+
+/* DESKTOP */
+
+@media(min-width:901px){
+  .bottom-nav{
+    bottom:20px;
+  }
+}
+
+/* TABLET */
+
+@media(max-width:850px){
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .grid-2{
+    grid-template-columns:1fr;
+  }
+
+  .grid-3{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .life-grid{
+    grid-template-columns:repeat(15,1fr);
+  }
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+  .top{
+    height:64px;
+    padding:0 15px;
+  }
+
+  .container{
+    padding:18px 14px 25px;
+  }
+
+  .brand-title{
+    font-size:16px;
+  }
+
+  .brand-sub{
+    font-size:9px;
+  }
+
+  .hero{
+    padding:20px;
+    border-radius:24px;
+  }
+
+  .hero h1{
+    font-size:27px;
+  }
+
+  .hero-top{
+    display:block;
+  }
+
+  .stats{
+    gap:9px;
+  }
+
+  .stat{
+    padding:14px;
+  }
+
+  .stat-value{
+    font-size:22px;
+  }
+
+  .grid-3{
+    grid-template-columns:1fr;
+  }
+
+  .life-card{
+    flex-direction:column;
+    text-align:center;
+  }
+
+  .life-info{
+    width:100%;
+  }
+
+  .life-grid{
+    grid-template-columns:repeat(10,1fr);
+    gap:4px;
+  }
+
+  .life-cell{
+    border-radius:4px;
+  }
+
+  .quote{
+    font-size:18px;
+  }
+
+  .section{
+    margin-top:23px;
+  }
+
+  h1{
+    font-size:26px;
+  }
+
+  .list-item{
+    padding:12px;
+  }
+
+  .calendar{
+    gap:4px;
+  }
+
+  .day{
+    min-height:50px;
+    padding:6px;
+  }
+
+  .event-text{
+    display:none;
+  }
+}
+
+@media(max-width:390px){
+  .life-grid{
+    gap:3px;
+  }
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .stat-value{
+    font-size:20px;
+  }
+
+  .bottom-nav{
+    height:63px;
+  }
 }
 </style>
 </head>
@@ -201,1020 +978,2709 @@ label{font-size:13px;font-weight:800;display:block;margin-bottom:6px}
 
 <div class="app">
 
-<aside class="sidebar" id="sidebar">
-  <div class="logo">LIFE <span>75</span></div>
-
-  <nav class="nav">
-    <button class="active" data-page="home">⌂ <span data-i18n="dashboard">Dashboard</span></button>
-    <button data-page="life">◉ <span data-i18n="life75">My Life 75</span></button>
-    <button data-page="goals">🎯 <span data-i18n="goals">Goals</span></button>
-    <button data-page="habits">✓ <span data-i18n="habits">Habits</span></button>
-    <button data-page="days">📅 <span data-i18n="important">Important Days</span></button>
-    <button data-page="money">💰 <span data-i18n="money">Money</span></button>
-    <button data-page="journal">📝 <span data-i18n="journal">Journal</span></button>
-    <button data-page="insights">📊 <span data-i18n="insights">Insights</span></button>
-    <button data-page="settings">⚙ <span data-i18n="settings">Settings</span></button>
-  </nav>
-</aside>
-
-<div class="overlay" id="overlay"></div>
-
-<main class="main">
-
-<header class="topbar">
-  <div class="row">
-    <button class="menuBtn" id="menuBtn">☰</button>
-    <strong class="top-title">LIFE 75</strong>
+<!-- TOP -->
+<header class="top">
+  <div class="brand">
+    <div class="brand-mark">75</div>
+    <div>
+      <div class="brand-title">LIFE 75</div>
+      <div class="brand-sub">LIVE WITH PURPOSE</div>
+    </div>
   </div>
-  <div class="row">
-    <span id="todayLabel" style="font-size:13px;color:var(--muted)"></span>
+
+  <div class="top-actions">
+    <button class="icon-btn" onclick="toggleLanguage()" id="langBtn">EN</button>
   </div>
 </header>
 
-<div class="container">
 
-<!-- HOME -->
+<main class="container">
+
+<!-- ================= HOME ================= -->
+
 <section class="page active" id="page-home">
+
   <div class="hero">
-    <div class="eyebrow">LIFE 75 • YOUR LIFE. YOUR TIME. YOUR PLAN.</div>
-    <h2 id="welcomeText">Your next chapter starts today</h2>
-    <p id="heroText">Use your time intentionally. Plan your goals, habits and important moments.</p>
-    <div class="row" style="margin-top:18px">
-      <button class="btn light" onclick="go('life')">View My Life 75</button>
-      <button class="btn" onclick="go('goals')">Create Goal</button>
-    </div>
-  </div>
 
-  <div class="grid stats">
-    <div class="card">
-      <div class="stat-label">CURRENT AGE</div>
-      <div class="stat-value" id="ageStat">—</div>
-      <div class="stat-small">years old</div>
-    </div>
-    <div class="card">
-      <div class="stat-label">DAYS LIVED</div>
-      <div class="stat-value" id="daysLived">—</div>
-      <div class="stat-small">approximately</div>
-    </div>
-    <div class="card">
-      <div class="stat-label">DAYS TO 75</div>
-      <div class="stat-value" id="daysRemaining">—</div>
-      <div class="stat-small">approximately</div>
-    </div>
-    <div class="card">
-      <div class="stat-label">LIFE PROGRESS</div>
-      <div class="stat-value" id="lifePercent">—</div>
-      <div class="stat-small">toward age 75</div>
-    </div>
-  </div>
+    <div class="hero-top">
 
-  <div class="grid two">
-    <div>
-      <div class="section-title">
-        <h2>Today's Focus</h2>
-        <button class="btn small light" onclick="go('journal')">Journal</button>
-      </div>
-      <div class="card">
-        <div class="quote" id="dailyQuote"></div>
-        <div class="author" id="quoteAuthor"></div>
-      </div>
-
-      <div class="section-title">
-        <h2>Goal Progress</h2>
-        <button class="btn small light" onclick="go('goals')">View All</button>
-      </div>
-      <div class="card" id="homeGoals"></div>
-    </div>
-
-    <div>
-      <div class="section-title"><h2>Life Snapshot</h2></div>
-      <div class="card">
-        <div class="kpi">
-          <div class="stat-label">HABIT COMPLETION</div>
-          <div class="kpi-value" id="habitPercent">0%</div>
-          <div class="progress"><div id="habitBar" style="width:0%"></div></div>
-        </div>
-        <hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
-        <div class="kpi">
-          <div class="stat-label">SAVINGS GOAL</div>
-          <div class="kpi-value" id="savingPercent">0%</div>
-          <div class="progress"><div id="savingBar" style="width:0%"></div></div>
-        </div>
-      </div>
-
-      <div class="section-title"><h2>Upcoming</h2></div>
-      <div class="card" id="upcomingHome"></div>
-    </div>
-  </div>
-</section>
-
-<!-- LIFE -->
-<section class="page" id="page-life">
-  <h1>My Life 75</h1>
-  <p class="subtitle">75 years • one life • make the years count</p>
-
-  <div class="grid two" style="margin-top:24px">
-    <div class="card">
-      <div class="stat-label">LIFE TIMELINE</div>
-      <div style="display:flex;align-items:end;gap:10px;margin-top:10px">
-        <div class="big-number" id="lifePercent2">0%</div>
-        <div class="stat-small">of your 75-year timeline</div>
-      </div>
-      <div class="progress"><div id="lifeBar" style="width:0%"></div></div>
-      <div class="row" style="margin-top:18px">
-        <div><b id="lifeAge2">0</b> years lived</div>
-        <div>•</div>
-        <div><b id="yearsLeft">75</b> years remaining</div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="stat-label">LIFE DETAILS</div>
-      <div class="list" style="margin-top:12px">
-        <div class="list-item"><span>Birth Date</span><b id="birthDisplay">Not set</b></div>
-        <div class="list-item"><span>75th Birthday</span><b id="targetDate">—</b></div>
-        <div class="list-item"><span>Days Lived</span><b id="daysLived2">—</b></div>
-        <div class="list-item"><span>Days Remaining</span><b id="daysRemaining2">—</b></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section-title">
-    <h2>75-Year Life Grid</h2>
-    <span class="badge">1 box = 1 year</span>
-  </div>
-  <div class="card">
-    <div class="life-grid" id="lifeGrid"></div>
-    <div class="legend">
-      <span><i class="dot" style="background:#111827"></i>Lived</span>
-      <span><i class="dot" style="background:#a855f7"></i>Current</span>
-      <span><i class="dot" style="background:#ede9fe"></i>Future</span>
-    </div>
-  </div>
-</section>
-
-<!-- GOALS -->
-<section class="page" id="page-goals">
-  <div class="section-title" style="margin-top:0">
-    <div><h1>Goals</h1><p class="subtitle">Turn your future into specific actions</p></div>
-    <button class="btn primary" onclick="openGoalModal()">+ Add Goal</button>
-  </div>
-  <div class="grid three" id="goalStats"></div>
-  <div class="card" style="margin-top:18px">
-    <div class="list" id="goalList"></div>
-  </div>
-</section>
-
-<!-- HABITS -->
-<section class="page" id="page-habits">
-  <div class="section-title" style="margin-top:0">
-    <div><h1>Habits</h1><p class="subtitle">Small actions repeated consistently</p></div>
-    <button class="btn primary" onclick="openHabitModal()">+ Add Habit</button>
-  </div>
-  <div class="grid stats">
-    <div class="card"><div class="stat-label">TODAY</div><div class="stat-value" id="habitToday">0%</div></div>
-    <div class="card"><div class="stat-label">TOTAL HABITS</div><div class="stat-value" id="habitCount">0</div></div>
-    <div class="card"><div class="stat-label">COMPLETED</div><div class="stat-value" id="habitDone">0</div></div>
-    <div class="card"><div class="stat-label">STREAK</div><div class="stat-value" id="bestStreak">0</div></div>
-  </div>
-  <div class="card" style="margin-top:18px">
-    <div class="list" id="habitList"></div>
-  </div>
-</section>
-
-<!-- IMPORTANT DAYS -->
-<section class="page" id="page-days">
-  <div class="section-title" style="margin-top:0">
-    <div><h1>Important Days</h1><p class="subtitle">Never lose track of the moments that matter</p></div>
-    <button class="btn primary" onclick="openDayModal()">+ Add Day</button>
-  </div>
-  <div class="card">
-    <div class="calendar" id="calendar"></div>
-  </div>
-  <div class="card" style="margin-top:18px">
-    <div class="list" id="dayList"></div>
-  </div>
-</section>
-
-<!-- MONEY -->
-<section class="page" id="page-money">
-  <h1>Money</h1>
-  <p class="subtitle">Track your financial direction</p>
-
-  <div class="grid stats">
-    <div class="card"><div class="stat-label">MONTHLY INCOME</div><div class="stat-value" id="incomeStat">0</div></div>
-    <div class="card"><div class="stat-label">MONTHLY EXPENSE</div><div class="stat-value" id="expenseStat">0</div></div>
-    <div class="card"><div class="stat-label">MONTHLY SAVING</div><div class="stat-value" id="savingStat">0</div></div>
-    <div class="card"><div class="stat-label">SAVING RATE</div><div class="stat-value" id="savingRate">0%</div></div>
-  </div>
-
-  <div class="grid two" style="margin-top:18px">
-    <div class="card">
-      <h2>Monthly Money</h2>
-      <div class="form-grid" style="margin-top:15px">
-        <div><label>Income</label><input id="incomeInput" type="number" min="0"></div>
-        <div><label>Expense</label><input id="expenseInput" type="number" min="0"></div>
-      </div>
-      <button class="btn primary" style="margin-top:14px" onclick="saveMoney()">Save</button>
-    </div>
-
-    <div class="card">
-      <h2>Savings Goal</h2>
-      <div class="form-grid" style="margin-top:15px">
-        <div><label>Target</label><input id="savingTarget" type="number" min="0"></div>
-        <div><label>Saved</label><input id="savingCurrent" type="number" min="0"></div>
-      </div>
-      <button class="btn primary" style="margin-top:14px" onclick="saveSaving()">Save</button>
-    </div>
-  </div>
-</section>
-
-<!-- JOURNAL -->
-<section class="page" id="page-journal">
-  <h1>Daily Journal</h1>
-  <p class="subtitle">Capture your thoughts, wins and lessons</p>
-
-  <div class="card" style="margin-top:22px">
-    <label>Today's Win</label>
-    <textarea id="journalWin" placeholder="What went well today?"></textarea>
-
-    <label style="margin-top:14px">Gratitude</label>
-    <textarea id="journalGratitude" placeholder="What are you grateful for?"></textarea>
-
-    <label style="margin-top:14px">Lesson Learned</label>
-    <textarea id="journalLesson" placeholder="What did today teach you?"></textarea>
-
-    <label style="margin-top:14px">Tomorrow's Focus</label>
-    <textarea id="journalFocus" placeholder="What is the one thing you want to accomplish tomorrow?"></textarea>
-
-    <button class="btn primary" style="margin-top:15px" onclick="saveJournal()">Save Today's Journal</button>
-  </div>
-</section>
-
-<!-- INSIGHTS -->
-<section class="page" id="page-insights">
-  <h1>Life Insights</h1>
-  <p class="subtitle">Understand how you are using your time</p>
-
-  <div class="grid three" style="margin-top:22px">
-    <div class="card kpi">
-      <div class="stat-label">LIFE PROGRESS</div>
-      <div class="kpi-value" id="insightLife">0%</div>
-      <div class="progress"><div id="insightLifeBar" style="width:0%"></div></div>
-    </div>
-    <div class="card kpi">
-      <div class="stat-label">GOAL PROGRESS</div>
-      <div class="kpi-value" id="insightGoal">0%</div>
-      <div class="progress"><div id="insightGoalBar" style="width:0%"></div></div>
-    </div>
-    <div class="card kpi">
-      <div class="stat-label">HABIT PROGRESS</div>
-      <div class="kpi-value" id="insightHabit">0%</div>
-      <div class="progress"><div id="insightHabitBar" style="width:0%"></div></div>
-    </div>
-  </div>
-
-  <div class="section-title"><h2>Life Principles</h2></div>
-  <div class="grid three">
-    <div class="card"><h2>Time</h2><p class="subtitle" style="margin-top:8px">You cannot save time. You can only choose how to use it.</p></div>
-    <div class="card"><h2>Focus</h2><p class="subtitle" style="margin-top:8px">A clear priority is more valuable than a long task list.</p></div>
-    <div class="card"><h2>Consistency</h2><p class="subtitle" style="margin-top:8px">Small actions become meaningful when repeated over time.</p></div>
-  </div>
-</section>
-
-<!-- SETTINGS -->
-<section class="page" id="page-settings">
-  <h1>Settings</h1>
-  <p class="subtitle">Personalize your LIFE 75 experience</p>
-
-  <div class="card" style="margin-top:22px">
-    <h2>Profile</h2>
-    <div class="form-grid" style="margin-top:15px">
       <div>
-        <label>Name</label>
+        <div class="eyebrow">YOUR LIFE • YOUR TIME</div>
+
+        <h1 id="welcome">
+          Make Your Years Count
+        </h1>
+
+        <p class="hero-text" id="heroDescription">
+          You have one life. LIFE 75 helps you see your time,
+          plan what matters and make each year intentional.
+        </p>
+
+        <div class="hero-date" id="heroDate">
+          Today
+        </div>
+
+        <div class="hero-btns">
+          <button class="btn" onclick="go('life')">
+            View My Life 75
+          </button>
+
+          <button class="btn btn-dark" onclick="go('goals')">
+            + Add Goal
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="stats">
+
+    <div class="stat">
+      <div class="stat-label">CURRENT AGE</div>
+      <div class="stat-value" id="homeAge">—</div>
+      <div class="stat-note">years old</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">YEARS LIVED</div>
+      <div class="stat-value" id="homeYearsLived">—</div>
+      <div class="stat-note">of 75</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">YEARS LEFT</div>
+      <div class="stat-value" id="homeYearsLeft">—</div>
+      <div class="stat-note">until 75</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">LIFE PROGRESS</div>
+      <div class="stat-value" id="homeLifePercent">—</div>
+      <div class="stat-note">timeline</div>
+    </div>
+
+  </div>
+
+
+  <div class="section">
+
+    <div class="section-head">
+      <div class="section-title">Your Life Progress</div>
+      <button class="section-link" onclick="go('life')">Details →</button>
+    </div>
+
+    <div class="card life-card">
+
+      <div class="ring" id="homeRing">
+        <div class="ring-content">
+          <div class="ring-number" id="ringPercent">0%</div>
+          <div class="ring-label">LIFE</div>
+        </div>
+      </div>
+
+      <div class="life-info">
+        <div class="life-age">
+          <span id="ageLarge">—</span>
+          <span>years old</span>
+        </div>
+
+        <p id="lifeMessage">
+          Set your birth date to start your personal LIFE 75 timeline.
+        </p>
+
+        <div class="progress">
+          <div class="progress-bar" id="homeLifeBar"></div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="grid grid-2 section">
+
+    <div>
+
+      <div class="section-head">
+        <div class="section-title">Today's Thought</div>
+      </div>
+
+      <div class="card quote-card">
+
+        <div class="quote-mark">“</div>
+
+        <div class="quote" id="dailyQuote">
+          Your time is your life. Spend it intentionally.
+        </div>
+
+        <div class="quote-author">
+          LIFE 75
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div>
+
+      <div class="section-head">
+        <div class="section-title">Upcoming</div>
+        <button class="section-link" onclick="go('days')">View All →</button>
+      </div>
+
+      <div class="card">
+        <div class="list" id="homeUpcoming"></div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="section">
+
+    <div class="section-head">
+      <div class="section-title">Goal Progress</div>
+      <button class="section-link" onclick="go('goals')">All Goals →</button>
+    </div>
+
+    <div class="card">
+      <div class="list" id="homeGoals"></div>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= LIFE 75 ================= -->
+
+<section class="page" id="page-life">
+
+  <div class="page-head">
+    <div class="eyebrow">THE BIG PICTURE</div>
+    <h1>My Life 75</h1>
+    <p class="subtitle">
+      See your life as a 75-year timeline
+    </p>
+  </div>
+
+
+  <div class="grid grid-2">
+
+    <div class="card life-card">
+
+      <div class="ring" id="lifeRing">
+        <div class="ring-content">
+          <div class="ring-number" id="lifeRingPercent">0%</div>
+          <div class="ring-label">LIFE</div>
+        </div>
+      </div>
+
+      <div class="life-info">
+        <div class="life-age">
+          <span id="lifeAge">—</span>
+          <span>years old</span>
+        </div>
+
+        <p>
+          Your LIFE 75 timeline shows approximately
+          how much of your first 75 years has passed.
+        </p>
+
+        <div class="progress">
+          <div class="progress-bar" id="lifeProgressBar"></div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="card-title">Life Details</div>
+
+      <div class="list" style="margin-top:14px">
+
+        <div class="list-item">
+          <div class="list-main">
+            <div class="list-title">Birth Date</div>
+          </div>
+          <span class="badge" id="lifeBirth">Not Set</span>
+        </div>
+
+        <div class="list-item">
+          <div class="list-main">
+            <div class="list-title">75th Birthday</div>
+          </div>
+          <span class="badge" id="lifeTarget">—</span>
+        </div>
+
+        <div class="list-item">
+          <div class="list-main">
+            <div class="list-title">Days Lived</div>
+          </div>
+          <span class="badge" id="lifeDaysLived">—</span>
+        </div>
+
+        <div class="list-item">
+          <div class="list-main">
+            <div class="list-title">Days Remaining</div>
+          </div>
+          <span class="badge" id="lifeDaysLeft">—</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="section">
+
+    <div class="section-head">
+      <div>
+        <div class="section-title">75-Year Life Grid</div>
+        <div class="subtitle">Every box represents one year</div>
+      </div>
+    </div>
+
+    <div class="card">
+
+      <div class="life-grid" id="lifeGrid"></div>
+
+      <div class="legend">
+        <span>
+          <i style="background:#8f733f"></i>
+          Years Lived
+        </span>
+
+        <span>
+          <i style="background:#f0d18a"></i>
+          Current Year
+        </span>
+
+        <span>
+          <i style="background:#292923"></i>
+          Future
+        </span>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= GOALS ================= -->
+
+<section class="page" id="page-goals">
+
+  <div class="page-head">
+    <div class="eyebrow">CREATE YOUR FUTURE</div>
+
+    <div class="section-head" style="margin-top:5px">
+      <div>
+        <h1>Goals</h1>
+        <p class="subtitle">
+          Decide what deserves your time
+        </p>
+      </div>
+
+      <button class="btn btn-small" onclick="openModal('goalModal')">
+        + Add Goal
+      </button>
+    </div>
+  </div>
+
+
+  <div class="stats">
+
+    <div class="stat">
+      <div class="stat-label">TOTAL GOALS</div>
+      <div class="stat-value" id="goalTotal">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">AVERAGE PROGRESS</div>
+      <div class="stat-value" id="goalAverage">0%</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">COMPLETED</div>
+      <div class="stat-value" id="goalCompleted">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">IN PROGRESS</div>
+      <div class="stat-value" id="goalActive">0</div>
+    </div>
+
+  </div>
+
+
+  <div class="card section">
+
+    <div class="list" id="goalList"></div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= HABITS ================= -->
+
+<section class="page" id="page-habits">
+
+  <div class="page-head">
+
+    <div class="eyebrow">DAILY CONSISTENCY</div>
+
+    <div class="section-head" style="margin-top:5px">
+
+      <div>
+        <h1>Habits</h1>
+        <p class="subtitle">
+          Your daily actions shape your years
+        </p>
+      </div>
+
+      <button class="btn btn-small" onclick="openModal('habitModal')">
+        + Add Habit
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="stats">
+
+    <div class="stat">
+      <div class="stat-label">TODAY</div>
+      <div class="stat-value" id="habitToday">0%</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">HABITS</div>
+      <div class="stat-value" id="habitTotal">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">DONE</div>
+      <div class="stat-value" id="habitDone">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">BEST STREAK</div>
+      <div class="stat-value" id="habitStreak">0</div>
+    </div>
+
+  </div>
+
+
+  <div class="card section">
+
+    <div class="list" id="habitList"></div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= IMPORTANT DAYS ================= -->
+
+<section class="page" id="page-days">
+
+  <div class="page-head">
+
+    <div class="eyebrow">REMEMBER WHAT MATTERS</div>
+
+    <div class="section-head" style="margin-top:5px">
+
+      <div>
+        <h1>Important Days</h1>
+        <p class="subtitle">
+          Keep the moments that matter close
+        </p>
+      </div>
+
+      <button class="btn btn-small" onclick="openModal('dayModal')">
+        + Add Day
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="calendar" id="calendar"></div>
+
+  </div>
+
+
+  <div class="card section">
+
+    <div class="list" id="dayList"></div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= MONEY ================= -->
+
+<section class="page" id="page-money">
+
+  <div class="page-head">
+
+    <div class="eyebrow">FINANCIAL DIRECTION</div>
+
+    <h1>Money</h1>
+
+    <p class="subtitle">
+      Give your money a purpose
+    </p>
+
+  </div>
+
+
+  <div class="stats">
+
+    <div class="stat">
+      <div class="stat-label">INCOME</div>
+      <div class="stat-value" id="moneyIncome">0</div>
+      <div class="stat-note">Ks / month</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">EXPENSE</div>
+      <div class="stat-value" id="moneyExpense">0</div>
+      <div class="stat-note">Ks / month</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">SAVING</div>
+      <div class="stat-value" id="moneySaving">0</div>
+      <div class="stat-note">Ks / month</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">SAVING RATE</div>
+      <div class="stat-value" id="moneyRate">0%</div>
+    </div>
+
+  </div>
+
+
+  <div class="grid grid-2 section">
+
+    <div class="card">
+
+      <div class="card-title">Monthly Money</div>
+
+      <div class="form" style="margin-top:15px">
+
+        <div>
+          <label>Monthly Income</label>
+          <input id="incomeInput" type="number" min="0">
+        </div>
+
+        <div>
+          <label>Monthly Expense</label>
+          <input id="expenseInput" type="number" min="0">
+        </div>
+
+        <button class="btn" onclick="saveMoney()">
+          Save Money
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="card-title">Savings Goal</div>
+
+      <div class="form" style="margin-top:15px">
+
+        <div>
+          <label>Target Amount</label>
+          <input id="savingTarget" type="number" min="0">
+        </div>
+
+        <div>
+          <label>Current Savings</label>
+          <input id="savingCurrent" type="number" min="0">
+        </div>
+
+        <button class="btn" onclick="saveSavings()">
+          Save Goal
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="card section">
+
+    <div class="section-head">
+      <div class="section-title">Savings Progress</div>
+      <span class="badge" id="savingPercent">0%</span>
+    </div>
+
+    <div class="progress">
+      <div class="progress-bar" id="savingBar"></div>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= JOURNAL ================= -->
+
+<section class="page" id="page-journal">
+
+  <div class="page-head">
+
+    <div class="eyebrow">REFLECT • LEARN • GROW</div>
+
+    <h1>Daily Journal</h1>
+
+    <p class="subtitle">
+      A few minutes of reflection can change the way you see your life
+    </p>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="form">
+
+      <div>
+        <label>Today's Win</label>
+        <textarea id="journalWin"
+          placeholder="What went well today?"></textarea>
+      </div>
+
+      <div>
+        <label>Gratitude</label>
+        <textarea id="journalGratitude"
+          placeholder="What are you grateful for today?"></textarea>
+      </div>
+
+      <div>
+        <label>Lesson Learned</label>
+        <textarea id="journalLesson"
+          placeholder="What did today teach you?"></textarea>
+      </div>
+
+      <div>
+        <label>Tomorrow's Focus</label>
+        <textarea id="journalFocus"
+          placeholder="What is the most important thing tomorrow?"></textarea>
+      </div>
+
+      <button class="btn" onclick="saveJournal()">
+        Save Today's Journal
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= INSIGHTS ================= -->
+
+<section class="page" id="page-insights">
+
+  <div class="page-head">
+
+    <div class="eyebrow">UNDERSTAND YOUR PROGRESS</div>
+
+    <h1>Life Insights</h1>
+
+    <p class="subtitle">
+      A simple view of how you are using your time
+    </p>
+
+  </div>
+
+
+  <div class="grid grid-3">
+
+    <div class="card">
+
+      <div class="insight-label">LIFE PROGRESS</div>
+
+      <div class="insight-number" id="insightLife">0%</div>
+
+      <div class="progress">
+        <div class="progress-bar" id="insightLifeBar"></div>
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="insight-label">GOAL PROGRESS</div>
+
+      <div class="insight-number" id="insightGoal">0%</div>
+
+      <div class="progress">
+        <div class="progress-bar" id="insightGoalBar"></div>
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="insight-label">HABIT TODAY</div>
+
+      <div class="insight-number" id="insightHabit">0%</div>
+
+      <div class="progress">
+        <div class="progress-bar" id="insightHabitBar"></div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="grid grid-3 section">
+
+    <div class="card">
+      <div class="card-title">Time</div>
+      <div class="card-desc">
+        Time cannot be stored. It can only be used intentionally.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Focus</div>
+      <div class="card-desc">
+        Choose the things that deserve your attention.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Consistency</div>
+      <div class="card-desc">
+        Small actions repeated over time become meaningful results.
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= SETTINGS ================= -->
+
+<section class="page" id="page-settings">
+
+  <div class="page-head">
+
+    <div class="eyebrow">PERSONALIZE YOUR LIFE 75</div>
+
+    <h1>Settings</h1>
+
+    <p class="subtitle">
+      Your profile and app preferences
+    </p>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="card-title">Profile</div>
+
+    <div class="form" style="margin-top:15px">
+
+      <div>
+        <label>Your Name</label>
         <input id="nameInput" placeholder="Your name">
       </div>
+
       <div>
         <label>Birth Date</label>
         <input id="birthInput" type="date">
       </div>
+
+      <button class="btn" onclick="saveProfile()">
+        Save Profile
+      </button>
+
     </div>
-    <button class="btn primary" style="margin-top:15px" onclick="saveProfile()">Save Profile</button>
+
   </div>
 
-  <div class="card" style="margin-top:18px">
-    <h2>Language</h2>
-    <p class="subtitle">Choose your app language</p>
-    <div class="row" style="margin-top:14px">
-      <button class="btn" onclick="setLanguage('en')">English</button>
-      <button class="btn light" onclick="setLanguage('my')">မြန်မာ</button>
+
+  <div class="card section">
+
+    <div class="card-title">Language</div>
+
+    <div class="card-desc">
+      Change the LIFE 75 interface language
     </div>
+
+    <div class="hero-btns">
+
+      <button class="btn" onclick="setLanguage('en')">
+        English
+      </button>
+
+      <button class="btn btn-dark" onclick="setLanguage('my')">
+        မြန်မာ
+      </button>
+
+    </div>
+
   </div>
 
-  <div class="card" style="margin-top:18px">
-    <h2>Data</h2>
-    <p class="subtitle">Your LIFE 75 data is stored locally in this browser</p>
-    <div class="row" style="margin-top:14px">
-      <button class="btn" onclick="exportData()">Export Data</button>
-      <button class="btn danger" onclick="resetData()">Reset All Data</button>
+
+  <div class="card section">
+
+    <div class="card-title">Data</div>
+
+    <div class="card-desc">
+      Your LIFE 75 information is stored locally on this device
     </div>
+
+    <div class="hero-btns">
+
+      <button class="btn btn-dark" onclick="exportData()">
+        Export Backup
+      </button>
+
+      <button class="btn btn-danger" onclick="resetData()">
+        Reset Data
+      </button>
+
+    </div>
+
   </div>
+
 </section>
 
-</div>
 </main>
+
+
+<!-- ================= MORE PANEL ================= -->
+
+<div class="more-panel" id="morePanel">
+
+  <button class="more-item" onclick="go('days');closeMore()">
+    📅
+    <span>Important Days</span>
+  </button>
+
+  <button class="more-item" onclick="go('money');closeMore()">
+    💰
+    <span>Money</span>
+  </button>
+
+  <button class="more-item" onclick="go('journal');closeMore()">
+    📝
+    <span>Daily Journal</span>
+  </button>
+
+  <button class="more-item" onclick="go('insights');closeMore()">
+    📊
+    <span>Life Insights</span>
+  </button>
+
+  <button class="more-item" onclick="go('settings');closeMore()">
+    ⚙️
+    <span>Settings</span>
+  </button>
+
 </div>
 
-<!-- GOAL MODAL -->
+
+<!-- ================= BOTTOM NAV ================= -->
+
+<nav class="bottom-nav">
+
+  <button class="nav-btn active" data-page="home">
+    <span class="nav-icon">⌂</span>
+    <span>Home</span>
+  </button>
+
+  <button class="nav-btn" data-page="life">
+    <span class="nav-icon">◉</span>
+    <span>Life 75</span>
+  </button>
+
+  <button class="nav-btn" data-page="goals">
+    <span class="nav-icon">◎</span>
+    <span>Goals</span>
+  </button>
+
+  <button class="nav-btn" data-page="habits">
+    <span class="nav-icon">✓</span>
+    <span>Habits</span>
+  </button>
+
+  <button class="nav-btn" id="moreBtn">
+    <span class="nav-icon">•••</span>
+    <span>More</span>
+  </button>
+
+</nav>
+
+
+<!-- ================= GOAL MODAL ================= -->
+
 <div class="modal" id="goalModal">
- <div class="modal-box">
-   <div class="section-title" style="margin:0 0 18px">
-     <h2>Add Goal</h2><button class="close" onclick="closeModal('goalModal')">✕</button>
-   </div>
-   <label>Goal</label>
-   <input id="goalName" placeholder="e.g. Build emergency fund">
-   <label style="margin-top:12px">Category</label>
-   <select id="goalCategory">
-     <option>Life</option><option>Career</option><option>Money</option>
-     <option>Family</option><option>Health</option><option>Learning</option>
-   </select>
-   <label style="margin-top:12px">Progress %</label>
-   <input id="goalProgress" type="number" min="0" max="100" value="0">
-   <button class="btn primary" style="width:100%;margin-top:16px" onclick="addGoal()">Add Goal</button>
- </div>
+
+  <div class="modal-box">
+
+    <div class="modal-head">
+      <h2>Add Goal</h2>
+      <button class="close" onclick="closeModal('goalModal')">✕</button>
+    </div>
+
+    <div class="form">
+
+      <div>
+        <label>Goal Name</label>
+        <input id="goalName" placeholder="What do you want to achieve?">
+      </div>
+
+      <div>
+        <label>Category</label>
+
+        <select id="goalCategory">
+          <option>Life</option>
+          <option>Career</option>
+          <option>Money</option>
+          <option>Family</option>
+          <option>Health</option>
+          <option>Learning</option>
+        </select>
+
+      </div>
+
+      <div>
+        <label>Current Progress %</label>
+        <input id="goalProgress" type="number" min="0" max="100" value="0">
+      </div>
+
+      <button class="btn" onclick="addGoal()">
+        Add Goal
+      </button>
+
+    </div>
+
+  </div>
+
 </div>
 
-<!-- HABIT MODAL -->
+
+<!-- ================= HABIT MODAL ================= -->
+
 <div class="modal" id="habitModal">
- <div class="modal-box">
-   <div class="section-title" style="margin:0 0 18px">
-     <h2>Add Habit</h2><button class="close" onclick="closeModal('habitModal')">✕</button>
-   </div>
-   <label>Habit</label>
-   <input id="habitName" placeholder="e.g. Read 20 minutes">
-   <button class="btn primary" style="width:100%;margin-top:16px" onclick="addHabit()">Add Habit</button>
- </div>
+
+  <div class="modal-box">
+
+    <div class="modal-head">
+      <h2>Add Habit</h2>
+      <button class="close" onclick="closeModal('habitModal')">✕</button>
+    </div>
+
+    <div class="form">
+
+      <div>
+        <label>Habit Name</label>
+        <input id="habitName" placeholder="e.g. Read 20 minutes">
+      </div>
+
+      <button class="btn" onclick="addHabit()">
+        Add Habit
+      </button>
+
+    </div>
+
+  </div>
+
 </div>
 
-<!-- DAY MODAL -->
+
+<!-- ================= DAY MODAL ================= -->
+
 <div class="modal" id="dayModal">
- <div class="modal-box">
-   <div class="section-title" style="margin:0 0 18px">
-     <h2>Add Important Day</h2><button class="close" onclick="closeModal('dayModal')">✕</button>
-   </div>
-   <label>Event</label>
-   <input id="dayName" placeholder="e.g. Birthday">
-   <label style="margin-top:12px">Date</label>
-   <input id="dayDate" type="date">
-   <label style="margin-top:12px">Category</label>
-   <select id="dayCategory">
-     <option>Birthday</option><option>Anniversary</option>
-     <option>Family</option><option>Career</option>
-     <option>Finance</option><option>Other</option>
-   </select>
-   <button class="btn primary" style="width:100%;margin-top:16px" onclick="addImportantDay()">Add Day</button>
- </div>
+
+  <div class="modal-box">
+
+    <div class="modal-head">
+      <h2>Add Important Day</h2>
+      <button class="close" onclick="closeModal('dayModal')">✕</button>
+    </div>
+
+    <div class="form">
+
+      <div>
+        <label>Event Name</label>
+        <input id="dayName" placeholder="e.g. Birthday">
+      </div>
+
+      <div>
+        <label>Date</label>
+        <input id="dayDate" type="date">
+      </div>
+
+      <div>
+        <label>Category</label>
+
+        <select id="dayCategory">
+          <option>Birthday</option>
+          <option>Anniversary</option>
+          <option>Family</option>
+          <option>Career</option>
+          <option>Finance</option>
+          <option>Other</option>
+        </select>
+
+      </div>
+
+      <button class="btn" onclick="addDay()">
+        Add Important Day
+      </button>
+
+    </div>
+
+  </div>
+
 </div>
+
 
 <div class="toast" id="toast"></div>
 
+
 <script>
-const KEY="life75_v5_data";
 
-const quotes=[
- ["Your time is your life. Spend it intentionally.","LIFE 75"],
- ["A meaningful life is built one day at a time.","LIFE 75"],
- ["Do not wait for the perfect moment. Use the moment you have.","LIFE 75"],
- ["Small progress is still progress.","LIFE 75"],
- ["Your future is shaped by what you repeatedly do today.","LIFE 75"],
- ["Focus on what matters, then take the next step.","LIFE 75"],
- ["The goal is not to control every day. It is to live each day deliberately.","LIFE 75"]
-];
+/* =========================================================
+   LIFE 75 V5.1
+   DATA
+========================================================= */
 
-const translations={
- en:{
-  dashboard:"Dashboard",life75:"My Life 75",goals:"Goals",habits:"Habits",
-  important:"Important Days",money:"Money",journal:"Journal",insights:"Insights",settings:"Settings"
- },
- my:{
-  dashboard:"ပင်မစာမျက်နှာ",life75:"ကျွန်ုပ်၏ LIFE 75",goals:"ရည်မှန်းချက်များ",
-  habits:"အလေ့အကျင့်များ",important:"အရေးကြီးနေ့များ",money:"ငွေကြေး",
-  journal:"နေ့စဉ်မှတ်တမ်း",insights:"ဘဝသုံးသပ်ချက်",settings:"ဆက်တင်"
- }
-};
+const STORAGE_KEY="LIFE75_V51_DATA";
 
 let data={
- name:"",
- birth:"",
- language:"en",
- goals:[],
- habits:[],
- days:[],
- money:{income:0,expense:0,savingTarget:0,savingCurrent:0},
- journals:{}
+  name:"",
+  birth:"",
+  language:"en",
+
+  goals:[],
+
+  habits:[],
+
+  days:[],
+
+  money:{
+    income:0,
+    expense:0,
+    savingTarget:0,
+    savingCurrent:0
+  },
+
+  journals:{}
 };
 
-function load(){
- try{
-   const saved=localStorage.getItem(KEY);
-   if(saved)data={...data,...JSON.parse(saved)};
- }catch(e){}
+
+/* =========================================================
+   QUOTES
+========================================================= */
+
+const quotes=[
+  "Your time is your life. Spend it intentionally.",
+  "A meaningful life is built one day at a time.",
+  "Do not wait for the perfect moment. Use the moment you have.",
+  "Small progress is still progress.",
+  "Your future is shaped by what you repeatedly do today.",
+  "Focus on what matters, then take the next step.",
+  "The years pass quickly. Make the years count.",
+  "You cannot control every day, but you can choose how to use it."
+];
+
+
+/* =========================================================
+   TRANSLATIONS
+========================================================= */
+
+const MY={
+  home:"ပင်မ",
+  life:"LIFE 75",
+  goals:"ရည်မှန်းချက်",
+  habits:"အလေ့အကျင့်",
+  more:"ပိုမို",
+  yearsOld:"နှစ်",
+  currentAge:"လက်ရှိအသက်"
+};
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function $(id){
+  return document.getElementById(id);
 }
+
 
 function save(){
- localStorage.setItem(KEY,JSON.stringify(data));
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
 }
 
-function $(id){return document.getElementById(id)}
 
-function toast(msg){
- const t=$("toast");
- t.textContent=msg;
- t.style.display="block";
- setTimeout(()=>t.style.display="none",1800);
+function load(){
+
+  try{
+
+    const saved=localStorage.getItem(STORAGE_KEY);
+
+    if(saved){
+
+      const parsed=JSON.parse(saved);
+
+      data={
+        ...data,
+        ...parsed,
+        money:{
+          ...data.money,
+          ...(parsed.money||{})
+        }
+      };
+
+    }
+
+  }catch(error){
+
+    console.log("LIFE 75 data load error",error);
+
+  }
+
 }
 
-function go(page){
- document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
- const target=$("page-"+page);
- if(target)target.classList.add("active");
-
- document.querySelectorAll(".nav button").forEach(b=>{
-   b.classList.toggle("active",b.dataset.page===page);
- });
-
- $("sidebar").classList.remove("open");
- $("overlay").classList.remove("show");
- window.scrollTo({top:0,behavior:"smooth"});
-
- render();
-}
-
-document.querySelectorAll(".nav button").forEach(btn=>{
- btn.addEventListener("click",()=>go(btn.dataset.page));
-});
-
-$("menuBtn").onclick=()=>{
- $("sidebar").classList.add("open");
- $("overlay").classList.add("show");
-};
-$("overlay").onclick=()=>{
- $("sidebar").classList.remove("open");
- $("overlay").classList.remove("show");
-};
-
-function calculateLife(){
- if(!data.birth)return null;
-
- const birth=new Date(data.birth+"T00:00:00");
- const now=new Date();
-
- if(isNaN(birth.getTime()) || birth>now)return null;
-
- const target=new Date(birth);
- target.setFullYear(birth.getFullYear()+75);
-
- const daysLived=Math.max(0,Math.floor((now-birth)/86400000));
- const daysRemaining=Math.max(0,Math.ceil((target-now)/86400000));
-
- let age=now.getFullYear()-birth.getFullYear();
- const beforeBirthday=
-   now.getMonth()<birth.getMonth() ||
-   (now.getMonth()===birth.getMonth() && now.getDate()<birth.getDate());
-
- if(beforeBirthday)age--;
-
- age=Math.max(0,Math.min(75,age));
-
- const percent=Math.min(100,Math.max(0,(now-birth)/(target-birth)*100));
-
- return {
-   age,
-   daysLived,
-   daysRemaining,
-   percent,
-   yearsLeft:Math.max(0,75-age),
-   target
- };
-}
-
-function formatDate(d){
- if(!d)return "—";
- const date=new Date(d+"T00:00:00");
- return date.toLocaleDateString(data.language==="my"?"my-MM":"en-US",{
-   year:"numeric",month:"short",day:"numeric"
- });
-}
-
-function render(){
- applyLanguage();
- renderHeader();
- renderLife();
- renderGoals();
- renderHabits();
- renderDays();
- renderMoney();
- renderJournal();
- renderInsights();
- renderHome();
- renderSettings();
-}
-
-function renderHeader(){
- const now=new Date();
- $("todayLabel").textContent=now.toLocaleDateString(
-   data.language==="my"?"my-MM":"en-US",
-   {weekday:"short",month:"short",day:"numeric",year:"numeric"}
- );
-}
-
-function renderLife(){
- const l=calculateLife();
-
- if(!l){
-   ["ageStat","daysLived","daysRemaining","lifePercent","lifePercent2",
-    "lifeAge2","yearsLeft","daysLived2","daysRemaining2"].forEach(id=>$(id).textContent="—");
-   $("birthDisplay").textContent="Not set";
-   $("targetDate").textContent="—";
-   $("lifeBar").style.width="0%";
-   renderLifeGrid(0);
-   return;
- }
-
- $("ageStat").textContent=l.age;
- $("daysLived").textContent=l.daysLived.toLocaleString();
- $("daysRemaining").textContent=l.daysRemaining.toLocaleString();
- $("lifePercent").textContent=l.percent.toFixed(1)+"%";
-
- $("lifePercent2").textContent=l.percent.toFixed(1)+"%";
- $("lifeAge2").textContent=l.age;
- $("yearsLeft").textContent=l.yearsLeft;
- $("daysLived2").textContent=l.daysLived.toLocaleString();
- $("daysRemaining2").textContent=l.daysRemaining.toLocaleString();
- $("birthDisplay").textContent=formatDate(data.birth);
- $("targetDate").textContent=l.target.toLocaleDateString(
-   data.language==="my"?"my-MM":"en-US",
-   {year:"numeric",month:"short",day:"numeric"}
- );
- $("lifeBar").style.width=l.percent+"%";
-
- renderLifeGrid(l.age);
-}
-
-function renderLifeGrid(age){
- const grid=$("lifeGrid");
- grid.innerHTML="";
- for(let i=0;i<75;i++){
-   const cell=document.createElement("div");
-   cell.className="life-cell";
-   cell.title="Age "+(i+1);
-   if(i<age)cell.classList.add("past");
-   if(i===age)cell.classList.add("current");
-   if(i>age)cell.classList.add("future");
-   grid.appendChild(cell);
- }
-}
-
-function renderHome(){
- const l=calculateLife();
-
- if(data.name){
-   $("welcomeText").textContent="Welcome back, "+data.name;
- }else{
-   $("welcomeText").textContent="Your next chapter starts today";
- }
-
- if(l){
-   $("heroText").textContent=
-    "You are "+l.age+" years old. You have approximately "+
-    l.daysRemaining.toLocaleString()+" days until age 75.";
- }else{
-   $("heroText").textContent=
-    "Set your birth date in Settings to unlock your personal LIFE 75 timeline.";
- }
-
- const q=quotes[new Date().getDate()%quotes.length];
- $("dailyQuote").textContent="“"+q[0]+"”";
- $("quoteAuthor").textContent="— "+q[1];
-
- const goals=data.goals.slice(0,3);
-
- if(!goals.length){
-   $("homeGoals").innerHTML=
-    '<div class="empty">No goals yet<br><button class="btn primary small" style="margin-top:10px" onclick="openGoalModal()">Create your first goal</button></div>';
- }else{
-   $("homeGoals").innerHTML=goals.map(g=>`
-    <div style="margin-bottom:15px">
-      <div class="row" style="justify-content:space-between">
-       <b>${esc(g.name)}</b><span>${g.progress}%</span>
-      </div>
-      <div class="progress"><div style="width:${g.progress}%"></div></div>
-    </div>
-   `).join("");
- }
-
- const hp=habitPercent();
- $("habitPercent").textContent=hp+"%";
- $("habitBar").style.width=hp+"%";
-
- const sp=savingPercent();
- $("savingPercent").textContent=sp+"%";
- $("savingBar").style.width=sp+"%";
-
- const upcoming=getUpcoming();
- $("upcomingHome").innerHTML=upcoming.length?
- upcoming.slice(0,4).map(d=>`
-  <div class="list-item">
-   <div class="list-main"><div class="list-title">${esc(d.name)}</div>
-   <div class="list-meta">${formatDate(d.date)}</div></div>
-   <span class="badge">${daysUntil(d.date)} days</span>
-  </div>`).join("")
- :'<div class="empty">No upcoming important days</div>';
-}
-
-function renderGoals(){
- const total=data.goals.length;
- const avg=total?Math.round(data.goals.reduce((a,b)=>a+Number(b.progress||0),0)/total):0;
- const completed=data.goals.filter(g=>Number(g.progress)>=100).length;
-
- $("goalStats").innerHTML=`
-  <div class="card"><div class="stat-label">TOTAL GOALS</div><div class="stat-value">${total}</div></div>
-  <div class="card"><div class="stat-label">AVERAGE PROGRESS</div><div class="stat-value">${avg}%</div></div>
-  <div class="card"><div class="stat-label">COMPLETED</div><div class="stat-value">${completed}</div></div>
- `;
-
- if(!total){
-   $("goalList").innerHTML='<div class="empty">No goals yet. Create a goal to start.</div>';
-   return;
- }
-
- $("goalList").innerHTML=data.goals.map((g,i)=>`
-  <div class="list-item">
-   <div class="list-main" style="flex:1">
-    <div class="row" style="justify-content:space-between">
-      <div class="list-title">${esc(g.name)}</div>
-      <span class="badge">${esc(g.category)}</span>
-    </div>
-    <div class="progress"><div style="width:${g.progress}%"></div></div>
-    <div class="list-meta">${g.progress}% complete</div>
-   </div>
-   <div class="row">
-    <button class="btn small light" onclick="changeGoal(${i})">Update</button>
-    <button class="btn small danger" onclick="deleteGoal(${i})">Delete</button>
-   </div>
-  </div>
- `).join("");
-}
-
-function openGoalModal(){
- $("goalName").value="";
- $("goalProgress").value=0;
- $("goalModal").style.display="flex";
-}
-
-function addGoal(){
- const name=$("goalName").value.trim();
- if(!name){toast("Enter a goal");return}
- data.goals.unshift({
-   id:Date.now(),name,
-   category:$("goalCategory").value,
-   progress:Math.max(0,Math.min(100,Number($("goalProgress").value)||0))
- });
- save();
- closeModal("goalModal");
- render();
- toast("Goal added");
-}
-
-function changeGoal(i){
- let p=prompt("Enter progress %",data.goals[i].progress);
- if(p===null)return;
- p=Number(p);
- if(isNaN(p))return;
- data.goals[i].progress=Math.max(0,Math.min(100,p));
- save();render();toast("Goal updated");
-}
-
-function deleteGoal(i){
- if(!confirm("Delete this goal?"))return;
- data.goals.splice(i,1);save();render();toast("Goal deleted");
-}
-
-function renderHabits(){
- const total=data.habits.length;
- const done=data.habits.filter(h=>h.completedToday).length;
- const percent=total?Math.round(done/total*100):0;
-
- $("habitToday").textContent=percent+"%";
- $("habitCount").textContent=total;
- $("habitDone").textContent=done;
- $("bestStreak").textContent=total?Math.max(...data.habits.map(h=>h.streak||0)):0;
-
- if(!total){
-   $("habitList").innerHTML='<div class="empty">No habits yet. Add your first daily habit.</div>';
-   return;
- }
-
- $("habitList").innerHTML=data.habits.map((h,i)=>`
-  <div class="list-item">
-   <div class="row" style="flex:1">
-    <button class="check ${h.completedToday?"done":""}" onclick="toggleHabit(${i})">
-      ${h.completedToday?"✓":""}
-    </button>
-    <div class="list-main">
-      <div class="list-title">${esc(h.name)}</div>
-      <div class="list-meta">🔥 ${h.streak||0} day streak</div>
-    </div>
-   </div>
-   <button class="btn small danger" onclick="deleteHabit(${i})">Delete</button>
-  </div>
- `).join("");
-}
-
-function habitPercent(){
- const total=data.habits.length;
- if(!total)return 0;
- return Math.round(data.habits.filter(h=>h.completedToday).length/total*100);
-}
-
-function openHabitModal(){
- $("habitName").value="";
- $("habitModal").style.display="flex";
-}
-
-function addHabit(){
- const name=$("habitName").value.trim();
- if(!name){toast("Enter a habit");return}
- data.habits.push({
-   id:Date.now(),name,completedToday:false,streak:0,lastCompleted:""
- });
- save();closeModal("habitModal");render();toast("Habit added");
-}
-
-function toggleHabit(i){
- const h=data.habits[i];
- const today=localDate();
-
- if(h.completedToday){
-   h.completedToday=false;
- }else{
-   h.completedToday=true;
-   if(h.lastCompleted!==today)h.streak=(h.streak||0)+1;
-   h.lastCompleted=today;
- }
- save();render();toast(h.completedToday?"Habit completed":"Habit unchecked");
-}
-
-function deleteHabit(i){
- if(!confirm("Delete this habit?"))return;
- data.habits.splice(i,1);save();render();toast("Habit deleted");
-}
-
-function localDate(){
- const d=new Date();
- const y=d.getFullYear();
- const m=String(d.getMonth()+1).padStart(2,"0");
- const day=String(d.getDate()).padStart(2,"0");
- return `${y}-${m}-${day}`;
-}
-
-function renderDays(){
- const events=[...data.days].sort((a,b)=>a.date.localeCompare(b.date));
-
- renderCalendar();
-
- if(!events.length){
-   $("dayList").innerHTML='<div class="empty">No important days added yet.</div>';
-   return;
- }
-
- $("dayList").innerHTML=events.map((d,i)=>{
-   const original=data.days.indexOf(d);
-   return `
-   <div class="list-item">
-    <div class="list-main">
-     <div class="list-title">${esc(d.name)}</div>
-     <div class="list-meta">${formatDate(d.date)} • ${esc(d.category)}</div>
-    </div>
-    <div class="row">
-     <span class="badge">${daysUntil(d.date)} days</span>
-     <button class="btn small danger" onclick="deleteDay(${original})">Delete</button>
-    </div>
-   </div>`;
- }).join("");
-}
-
-function openDayModal(){
- $("dayName").value="";
- $("dayDate").value="";
- $("dayModal").style.display="flex";
-}
-
-function addImportantDay(){
- const name=$("dayName").value.trim();
- const date=$("dayDate").value;
- if(!name||!date){toast("Enter event and date");return}
- data.days.push({
-   id:Date.now(),name,date,category:$("dayCategory").value
- });
- save();closeModal("dayModal");render();toast("Important day added");
-}
-
-function deleteDay(i){
- if(!confirm("Delete this important day?"))return;
- data.days.splice(i,1);save();render();toast("Deleted");
-}
-
-function daysUntil(dateStr){
- const now=new Date();
- now.setHours(0,0,0,0);
-
- const d=new Date(dateStr+"T00:00:00");
- let diff=Math.ceil((d-now)/86400000);
-
- if(diff<0){
-   const next=new Date(d);
-   next.setFullYear(now.getFullYear()+1);
-   diff=Math.ceil((next-now)/86400000);
- }
- return diff;
-}
-
-function getUpcoming(){
- return [...data.days]
- .map(d=>({...d,_days:daysUntil(d.date)}))
- .sort((a,b)=>a._days-b._days);
-}
-
-function renderCalendar(){
- const el=$("calendar");
- const now=new Date();
- const y=now.getFullYear();
- const m=now.getMonth();
- const first=new Date(y,m,1);
- const last=new Date(y,m+1,0);
-
- const names=data.language==="my"
- ?["တနင်္ဂနွေ","တနင်္လာ","အင်္ဂါ","ဗုဒ္ဓဟူး","ကြာသပတေး","သောကြာ","စနေ"]
- :["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-
- let html=names.map(n=>`<div class="cal-head">${n}</div>`).join("");
-
- for(let i=0;i<first.getDay();i++)html+="<div></div>";
-
- for(let day=1;day<=last.getDate();day++){
-   const ds=`${y}-${String(m+1).padStart(2,"0")}-${String(day).padStart(2,"0")}`;
-   const ev=data.days.filter(x=>x.date===ds);
-   const today=ds===localDate();
-
-   html+=`
-    <div class="day ${today?"today":""} ${ev.length?"has-event":""}">
-      <b>${day}</b>
-      ${ev.slice(0,2).map(e=>`<div class="event-dot">• ${esc(e.name)}</div>`).join("")}
-    </div>`;
- }
- el.innerHTML=html;
-}
-
-function renderMoney(){
- const income=Number(data.money.income)||0;
- const expense=Number(data.money.expense)||0;
- const saving=Math.max(0,income-expense);
- const rate=income?Math.round(saving/income*100):0;
-
- $("incomeStat").textContent=formatMoney(income);
- $("expenseStat").textContent=formatMoney(expense);
- $("savingStat").textContent=formatMoney(saving);
- $("savingRate").textContent=rate+"%";
-
- $("incomeInput").value=income||"";
- $("expenseInput").value=expense||"";
- $("savingTarget").value=data.money.savingTarget||"";
- $("savingCurrent").value=data.money.savingCurrent||"";
-}
-
-function formatMoney(n){
- return Number(n||0).toLocaleString()+" Ks";
-}
-
-function saveMoney(){
- data.money.income=Math.max(0,Number($("incomeInput").value)||0);
- data.money.expense=Math.max(0,Number($("expenseInput").value)||0);
- save();render();toast("Money updated");
-}
-
-function saveSaving(){
- data.money.savingTarget=Math.max(0,Number($("savingTarget").value)||0);
- data.money.savingCurrent=Math.max(0,Number($("savingCurrent").value)||0);
- save();render();toast("Savings updated");
-}
-
-function savingPercent(){
- const target=Number(data.money.savingTarget)||0;
- const current=Number(data.money.savingCurrent)||0;
- if(!target)return 0;
- return Math.min(100,Math.round(current/target*100));
-}
-
-function renderJournal(){
- const j=data.journals[localDate()]||{};
- $("journalWin").value=j.win||"";
- $("journalGratitude").value=j.gratitude||"";
- $("journalLesson").value=j.lesson||"";
- $("journalFocus").value=j.focus||"";
-}
-
-function saveJournal(){
- data.journals[localDate()]={
-   win:$("journalWin").value,
-   gratitude:$("journalGratitude").value,
-   lesson:$("journalLesson").value,
-   focus:$("journalFocus").value
- };
- save();toast("Today's journal saved");
-}
-
-function renderInsights(){
- const l=calculateLife();
- const lp=l?Number(l.percent.toFixed(1)):0;
-
- const gp=data.goals.length?
- Math.round(data.goals.reduce((a,b)=>a+Number(b.progress||0),0)/data.goals.length):0;
-
- const hp=habitPercent();
-
- $("insightLife").textContent=lp+"%";
- $("insightGoal").textContent=gp+"%";
- $("insightHabit").textContent=hp+"%";
-
- $("insightLifeBar").style.width=Math.min(100,lp)+"%";
- $("insightGoalBar").style.width=gp+"%";
- $("insightHabitBar").style.width=hp+"%";
-}
-
-function renderSettings(){
- $("nameInput").value=data.name||"";
- $("birthInput").value=data.birth||"";
-}
-
-function saveProfile(){
- data.name=$("nameInput").value.trim();
- data.birth=$("birthInput").value;
- save();render();toast("Profile saved");
-}
-
-function setLanguage(lang){
- data.language=lang;
- save();render();toast(lang==="my"?"ဘာသာစကားပြောင်းပြီးပါပြီ":"Language changed");
-}
-
-function applyLanguage(){
- const lang=data.language||"en";
- document.querySelectorAll("[data-i18n]").forEach(el=>{
-   const key=el.dataset.i18n;
-   if(translations[lang]&&translations[lang][key]){
-     el.textContent=translations[lang][key];
-   }
- });
-}
-
-function exportData(){
- const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
- const a=document.createElement("a");
- a.href=URL.createObjectURL(blob);
- a.download="life75-backup.json";
- a.click();
- URL.revokeObjectURL(a.href);
- toast("Backup exported");
-}
-
-function resetData(){
- if(!confirm("Reset all LIFE 75 data? This cannot be undone."))return;
- localStorage.removeItem(KEY);
- location.reload();
-}
-
-function closeModal(id){
- $(id).style.display="none";
-}
-
-document.querySelectorAll(".modal").forEach(modal=>{
- modal.addEventListener("click",e=>{
-   if(e.target===modal)modal.style.display="none";
- });
-});
 
 function esc(value){
- return String(value??"")
- .replace(/&/g,"&amp;")
- .replace(/</g,"&lt;")
- .replace(/>/g,"&gt;")
- .replace(/"/g,"&quot;")
- .replace(/'/g,"&#039;");
+
+  return String(value??"")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
 }
 
+
+function todayString(){
+
+  const d=new Date();
+
+  return d.getFullYear()+"-"+
+    String(d.getMonth()+1).padStart(2,"0")+"-"+
+    String(d.getDate()).padStart(2,"0");
+
+}
+
+
+function formatDate(value){
+
+  if(!value)return "—";
+
+  const d=new Date(value+"T00:00:00");
+
+  return d.toLocaleDateString(
+    data.language==="my"?"my-MM":"en-US",
+    {
+      year:"numeric",
+      month:"short",
+      day:"numeric"
+    }
+  );
+
+}
+
+
+function money(value){
+
+  return Number(value||0).toLocaleString()+" Ks";
+
+}
+
+
+function toast(message){
+
+  const el=$("toast");
+
+  el.textContent=message;
+
+  el.style.display="block";
+
+  clearTimeout(window.toastTimer);
+
+  window.toastTimer=setTimeout(()=>{
+    el.style.display="none";
+  },1800);
+
+}
+
+
+/* =========================================================
+   LIFE CALCULATION
+========================================================= */
+
+function lifeData(){
+
+  if(!data.birth)return null;
+
+  const birth=new Date(data.birth+"T00:00:00");
+
+  const now=new Date();
+
+  if(isNaN(birth.getTime()))return null;
+
+  if(birth>now)return null;
+
+  const target=new Date(birth);
+
+  target.setFullYear(
+    birth.getFullYear()+75
+  );
+
+  const livedMs=now-birth;
+
+  const totalMs=target-birth;
+
+  const daysLived=Math.max(
+    0,
+    Math.floor(livedMs/86400000)
+  );
+
+  const daysLeft=Math.max(
+    0,
+    Math.ceil((target-now)/86400000)
+  );
+
+  let age=
+    now.getFullYear()-birth.getFullYear();
+
+  const birthdayPassed=
+    now.getMonth()>birth.getMonth() ||
+    (
+      now.getMonth()===birth.getMonth() &&
+      now.getDate()>=birth.getDate()
+    );
+
+  if(!birthdayPassed)age--;
+
+  age=Math.max(0,Math.min(75,age));
+
+  const percent=
+    Math.max(
+      0,
+      Math.min(
+        100,
+        livedMs/totalMs*100
+      )
+    );
+
+  return{
+    age,
+    daysLived,
+    daysLeft,
+    percent,
+    yearsLeft:Math.max(0,75-age),
+    target
+  };
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function go(page){
+
+  document.querySelectorAll(".page")
+    .forEach(p=>p.classList.remove("active"));
+
+  const target=$("page-"+page);
+
+  if(target){
+    target.classList.add("active");
+  }
+
+  document.querySelectorAll(".nav-btn")
+    .forEach(btn=>{
+      btn.classList.toggle(
+        "active",
+        btn.dataset.page===page
+      );
+    });
+
+  closeMore();
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+  render();
+
+}
+
+
+document.querySelectorAll(".nav-btn[data-page]")
+.forEach(btn=>{
+
+  btn.addEventListener("click",()=>{
+    go(btn.dataset.page);
+  });
+
+});
+
+
+$("moreBtn").addEventListener("click",()=>{
+
+  $("morePanel").classList.toggle("show");
+
+});
+
+
+function closeMore(){
+
+  $("morePanel").classList.remove("show");
+
+}
+
+
+/* =========================================================
+   MODALS
+========================================================= */
+
+function openModal(id){
+
+  $(id).classList.add("show");
+
+}
+
+
+function closeModal(id){
+
+  $(id).classList.remove("show");
+
+}
+
+
+document.querySelectorAll(".modal")
+.forEach(modal=>{
+
+  modal.addEventListener("click",event=>{
+
+    if(event.target===modal){
+      modal.classList.remove("show");
+    }
+
+  });
+
+});
+
+
+/* =========================================================
+   LANGUAGE
+========================================================= */
+
+function toggleLanguage(){
+
+  setLanguage(
+    data.language==="en"?"my":"en"
+  );
+
+}
+
+
+function setLanguage(language){
+
+  data.language=language;
+
+  save();
+
+  render();
+
+  toast(
+    language==="my"
+      ?"မြန်မာဘာသာသို့ ပြောင်းပြီးပါပြီ"
+      :"Language changed"
+  );
+
+}
+
+
+/* =========================================================
+   RENDER HOME
+========================================================= */
+
+function renderHome(){
+
+  const life=lifeData();
+
+  const today=new Date();
+
+  $("heroDate").textContent=
+    today.toLocaleDateString(
+      data.language==="my"?"my-MM":"en-US",
+      {
+        weekday:"long",
+        year:"numeric",
+        month:"long",
+        day:"numeric"
+      }
+    );
+
+
+  $("welcome").textContent=
+    data.name
+      ? "Welcome back, "+data.name
+      : "Make Your Years Count";
+
+
+  if(life){
+
+    $("heroDescription").textContent=
+      "You are "+life.age+
+      " years old. You have approximately "+
+      life.daysLeft.toLocaleString()+
+      " days remaining until age 75.";
+
+    $("homeAge").textContent=life.age;
+
+    $("homeYearsLived").textContent=life.age;
+
+    $("homeYearsLeft").textContent=life.yearsLeft;
+
+    $("homeLifePercent").textContent=
+      life.percent.toFixed(1)+"%";
+
+    $("ringPercent").textContent=
+      life.percent.toFixed(1)+"%";
+
+    $("ageLarge").textContent=life.age;
+
+    $("lifeMessage").textContent=
+      "Approximately "+
+      life.daysLeft.toLocaleString()+
+      " days remain until your 75-year milestone.";
+
+    $("homeLifeBar").style.width=
+      life.percent+"%";
+
+    setRing(
+      $("homeRing"),
+      life.percent
+    );
+
+  }else{
+
+    $("heroDescription").textContent=
+      "Set your birth date in Settings to start your personal LIFE 75 timeline.";
+
+    $("homeAge").textContent="—";
+    $("homeYearsLived").textContent="—";
+    $("homeYearsLeft").textContent="—";
+    $("homeLifePercent").textContent="—";
+    $("ringPercent").textContent="0%";
+    $("ageLarge").textContent="—";
+    $("homeLifeBar").style.width="0%";
+
+    setRing($("homeRing"),0);
+
+  }
+
+
+  const quoteIndex=
+    new Date().getDate()%quotes.length;
+
+  $("dailyQuote").textContent=
+    quotes[quoteIndex];
+
+
+  renderHomeUpcoming();
+
+  renderHomeGoals();
+
+}
+
+
+function setRing(element,percent){
+
+  const deg=
+    Math.max(
+      0,
+      Math.min(100,percent)
+    )*3.6;
+
+  element.style.setProperty(
+    "--ring",
+    deg+"deg"
+  );
+
+}
+
+
+/* =========================================================
+   LIFE PAGE
+========================================================= */
+
+function renderLife(){
+
+  const life=lifeData();
+
+  if(!life){
+
+    $("lifeRingPercent").textContent="0%";
+
+    $("lifeAge").textContent="—";
+
+    $("lifeBirth").textContent="Not Set";
+
+    $("lifeTarget").textContent="—";
+
+    $("lifeDaysLived").textContent="—";
+
+    $("lifeDaysLeft").textContent="—";
+
+    $("lifeProgressBar").style.width="0%";
+
+    setRing($("lifeRing"),0);
+
+    renderLifeGrid(0);
+
+    return;
+
+  }
+
+
+  $("lifeRingPercent").textContent=
+    life.percent.toFixed(1)+"%";
+
+  $("lifeAge").textContent=life.age;
+
+  $("lifeBirth").textContent=
+    formatDate(data.birth);
+
+  $("lifeTarget").textContent=
+    life.target.toLocaleDateString(
+      data.language==="my"?"my-MM":"en-US",
+      {
+        year:"numeric",
+        month:"short",
+        day:"numeric"
+      }
+    );
+
+  $("lifeDaysLived").textContent=
+    life.daysLived.toLocaleString();
+
+  $("lifeDaysLeft").textContent=
+    life.daysLeft.toLocaleString();
+
+  $("lifeProgressBar").style.width=
+    life.percent+"%";
+
+  setRing(
+    $("lifeRing"),
+    life.percent
+  );
+
+  renderLifeGrid(life.age);
+
+}
+
+
+function renderLifeGrid(age){
+
+  const grid=$("lifeGrid");
+
+  grid.innerHTML="";
+
+  for(let year=1;year<=75;year++){
+
+    const cell=document.createElement("div");
+
+    cell.className="life-cell";
+
+    cell.title="Age "+year;
+
+    if(year<=(age||0)){
+      cell.classList.add("past");
+    }
+
+    if(year===age+1){
+      cell.classList.add("current");
+    }
+
+    grid.appendChild(cell);
+
+  }
+
+}
+
+
+/* =========================================================
+   GOALS
+========================================================= */
+
+function addGoal(){
+
+  const name=$("goalName").value.trim();
+
+  if(!name){
+
+    toast("Please enter a goal");
+
+    return;
+
+  }
+
+
+  let progress=
+    Number($("goalProgress").value)||0;
+
+  progress=
+    Math.max(
+      0,
+      Math.min(100,progress)
+    );
+
+
+  data.goals.unshift({
+
+    id:Date.now(),
+
+    name:name,
+
+    category:$("goalCategory").value,
+
+    progress:progress
+
+  });
+
+
+  save();
+
+  $("goalName").value="";
+
+  $("goalProgress").value="0";
+
+  closeModal("goalModal");
+
+  render();
+
+  toast("Goal added");
+
+}
+
+
+function updateGoal(index){
+
+  const current=
+    data.goals[index].progress||0;
+
+  const value=
+    prompt(
+      "Enter progress % (0-100)",
+      current
+    );
+
+  if(value===null)return;
+
+  const number=Number(value);
+
+  if(isNaN(number))return;
+
+  data.goals[index].progress=
+    Math.max(
+      0,
+      Math.min(100,number)
+    );
+
+  save();
+
+  render();
+
+  toast("Goal updated");
+
+}
+
+
+function deleteGoal(index){
+
+  if(!confirm("Delete this goal?"))return;
+
+  data.goals.splice(index,1);
+
+  save();
+
+  render();
+
+  toast("Goal deleted");
+
+}
+
+
+function renderGoals(){
+
+  const total=data.goals.length;
+
+  const completed=
+    data.goals.filter(
+      g=>Number(g.progress)>=100
+    ).length;
+
+  const active=total-completed;
+
+  const average=
+    total
+      ? Math.round(
+          data.goals.reduce(
+            (sum,g)=>sum+Number(g.progress||0),
+            0
+          )/total
+        )
+      :0;
+
+
+  $("goalTotal").textContent=total;
+
+  $("goalAverage").textContent=
+    average+"%";
+
+  $("goalCompleted").textContent=
+    completed;
+
+  $("goalActive").textContent=
+    active;
+
+
+  if(!total){
+
+    $("goalList").innerHTML=
+      `<div class="empty">
+        No goals yet.<br>
+        Add your first goal and start building your future.
+      </div>`;
+
+    return;
+
+  }
+
+
+  $("goalList").innerHTML=
+    data.goals.map((goal,index)=>`
+
+      <div class="list-item">
+
+        <div class="list-main">
+
+          <div class="goal-top">
+
+            <span class="list-title">
+              ${esc(goal.name)}
+            </span>
+
+            <span class="goal-percent">
+              ${goal.progress}%
+            </span>
+
+          </div>
+
+          <div class="list-meta">
+            ${esc(goal.category)}
+          </div>
+
+          <div class="progress">
+            <div
+              class="progress-bar"
+              style="width:${goal.progress}%">
+            </div>
+          </div>
+
+        </div>
+
+        <div style="display:flex;gap:6px">
+
+          <button
+            class="btn btn-dark btn-small"
+            onclick="updateGoal(${index})">
+            Update
+          </button>
+
+          <button
+            class="btn btn-danger btn-small"
+            onclick="deleteGoal(${index})">
+            Delete
+          </button>
+
+        </div>
+
+      </div>
+
+    `).join("");
+
+}
+
+
+function renderHomeGoals(){
+
+  const list=$("homeGoals");
+
+  if(!data.goals.length){
+
+    list.innerHTML=
+      `<div class="empty">
+        No goals yet
+      </div>`;
+
+    return;
+
+  }
+
+
+  list.innerHTML=
+    data.goals
+      .slice(0,3)
+      .map(goal=>`
+
+        <div>
+
+          <div class="goal-top">
+
+            <span>
+              ${esc(goal.name)}
+            </span>
+
+            <span class="goal-percent">
+              ${goal.progress}%
+            </span>
+
+          </div>
+
+          <div class="progress">
+            <div
+              class="progress-bar"
+              style="width:${goal.progress}%">
+            </div>
+          </div>
+
+        </div>
+
+      `).join("");
+
+}
+
+
+/* =========================================================
+   HABITS
+========================================================= */
+
+function addHabit(){
+
+  const name=
+    $("habitName").value.trim();
+
+  if(!name){
+
+    toast("Please enter a habit");
+
+    return;
+
+  }
+
+
+  data.habits.push({
+
+    id:Date.now(),
+
+    name:name,
+
+    completedToday:false,
+
+    streak:0,
+
+    lastCompleted:""
+
+  });
+
+
+  save();
+
+  $("habitName").value="";
+
+  closeModal("habitModal");
+
+  render();
+
+  toast("Habit added");
+
+}
+
+
+function toggleHabit(index){
+
+  const habit=data.habits[index];
+
+  const today=todayString();
+
+  if(habit.completedToday){
+
+    habit.completedToday=false;
+
+  }else{
+
+    habit.completedToday=true;
+
+    if(habit.lastCompleted!==today){
+
+      habit.streak=
+        Number(habit.streak||0)+1;
+
+    }
+
+    habit.lastCompleted=today;
+
+  }
+
+
+  save();
+
+  render();
+
+}
+
+
+function deleteHabit(index){
+
+  if(!confirm("Delete this habit?"))return;
+
+  data.habits.splice(index,1);
+
+  save();
+
+  render();
+
+  toast("Habit deleted");
+
+}
+
+
+function habitPercent(){
+
+  if(!data.habits.length)return 0;
+
+  const done=
+    data.habits.filter(
+      h=>h.completedToday
+    ).length;
+
+  return Math.round(
+    done/data.habits.length*100
+  );
+
+}
+
+
+function renderHabits(){
+
+  const total=data.habits.length;
+
+  const done=
+    data.habits.filter(
+      h=>h.completedToday
+    ).length;
+
+  const percent=
+    total
+      ? Math.round(done/total*100)
+      :0;
+
+  const streak=
+    total
+      ? Math.max(
+          ...data.habits.map(
+            h=>Number(h.streak||0)
+          )
+        )
+      :0;
+
+
+  $("habitToday").textContent=
+    percent+"%";
+
+  $("habitTotal").textContent=total;
+
+  $("habitDone").textContent=done;
+
+  $("habitStreak").textContent=streak;
+
+
+  if(!total){
+
+    $("habitList").innerHTML=
+      `<div class="empty">
+        No habits yet.<br>
+        Add one small habit to begin.
+      </div>`;
+
+    return;
+
+  }
+
+
+  $("habitList").innerHTML=
+    data.habits.map((habit,index)=>`
+
+      <div class="list-item">
+
+        <div style="display:flex;gap:12px;align-items:center;flex:1">
+
+          <button
+            class="check ${habit.completedToday?"done":""}"
+            onclick="toggleHabit(${index})">
+            ${habit.completedToday?"✓":""}
+          </button>
+
+          <div class="list-main">
+
+            <div class="list-title">
+              ${esc(habit.name)}
+            </div>
+
+            <div class="list-meta">
+              🔥 ${habit.streak||0} day streak
+            </div>
+
+          </div>
+
+        </div>
+
+        <button
+          class="btn btn-danger btn-small"
+          onclick="deleteHabit(${index})">
+          Delete
+        </button>
+
+      </div>
+
+    `).join("");
+
+}
+
+
+/* =========================================================
+   IMPORTANT DAYS
+========================================================= */
+
+function addDay(){
+
+  const name=
+    $("dayName").value.trim();
+
+  const date=
+    $("dayDate").value;
+
+  if(!name||!date){
+
+    toast("Enter event and date");
+
+    return;
+
+  }
+
+
+  data.days.push({
+
+    id:Date.now(),
+
+    name:name,
+
+    date:date,
+
+    category:$("dayCategory").value
+
+  });
+
+
+  save();
+
+  $("dayName").value="";
+
+  $("dayDate").value="";
+
+  closeModal("dayModal");
+
+  render();
+
+  toast("Important day added");
+
+}
+
+
+function deleteDay(index){
+
+  if(!confirm("Delete this important day?"))return;
+
+  data.days.splice(index,1);
+
+  save();
+
+  render();
+
+  toast("Deleted");
+
+}
+
+
+function daysUntil(date){
+
+  const now=new Date();
+
+  now.setHours(0,0,0,0);
+
+  const d=
+    new Date(date+"T00:00:00");
+
+  let diff=
+    Math.ceil((d-now)/86400000);
+
+  if(diff<0){
+
+    const next=
+      new Date(d);
+
+    next.setFullYear(
+      now.getFullYear()+1
+    );
+
+    diff=
+      Math.ceil((next-now)/86400000);
+
+  }
+
+  return diff;
+
+}
+
+
+function renderDays(){
+
+  renderCalendar();
+
+
+  const sorted=
+    [...data.days]
+      .sort((a,b)=>daysUntil(a.date)-daysUntil(b.date));
+
+
+  if(!sorted.length){
+
+    $("dayList").innerHTML=
+      `<div class="empty">
+        No important days yet.
+      </div>`;
+
+    return;
+
+  }
+
+
+  $("dayList").innerHTML=
+    sorted.map(day=>{
+
+      const index=
+        data.days.findIndex(
+          x=>x.id===day.id
+        );
+
+      return`
+
+        <div class="list-item">
+
+          <div class="list-main">
+
+            <div class="list-title">
+              ${esc(day.name)}
+            </div>
+
+            <div class="list-meta">
+              ${formatDate(day.date)}
+              •
+              ${esc(day.category)}
+            </div>
+
+          </div>
+
+          <div style="display:flex;gap:7px;align-items:center">
+
+            <span class="badge">
+              ${daysUntil(day.date)} days
+            </span>
+
+            <button
+              class="btn btn-danger btn-small"
+              onclick="deleteDay(${index})">
+              Delete
+            </button>
+
+          </div>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+}
+
+
+function renderCalendar(){
+
+  const el=$("calendar");
+
+  const now=new Date();
+
+  const year=now.getFullYear();
+
+  const month=now.getMonth();
+
+  const first=
+    new Date(year,month,1);
+
+  const last=
+    new Date(year,month+1,0);
+
+
+  const names=
+    ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+
+
+  let html=
+    names
+      .map(
+        n=>`<div class="cal-head">${n}</div>`
+      )
+      .join("");
+
+
+  for(
+    let i=0;
+    i<first.getDay();
+    i++
+  ){
+
+    html+="<div></div>";
+
+  }
+
+
+  for(
+    let day=1;
+    day<=last.getDate();
+    day++
+  ){
+
+    const date=
+      year+"-"+
+      String(month+1).padStart(2,"0")+"-"+
+      String(day).padStart(2,"0");
+
+
+    const events=
+      data.days.filter(
+        x=>x.date===date
+      );
+
+
+    const today=
+      date===todayString();
+
+
+    html+=`
+
+      <div
+        class="day ${today?"today":""} ${events.length?"event":""}">
+
+        <b>${day}</b>
+
+        ${
+          events.slice(0,1)
+          .map(
+            e=>`
+              <div class="event-text">
+                ${esc(e.name)}
+              </div>
+            `
+          ).join("")
+        }
+
+      </div>
+
+    `;
+
+  }
+
+
+  el.innerHTML=html;
+
+}
+
+
+function upcomingDays(){
+
+  return [...data.days]
+    .map(x=>({
+      ...x,
+      remaining:daysUntil(x.date)
+    }))
+    .sort(
+      (a,b)=>a.remaining-b.remaining
+    );
+
+}
+
+
+function renderHomeUpcoming(){
+
+  const list=$("homeUpcoming");
+
+  const upcoming=
+    upcomingDays().slice(0,3);
+
+
+  if(!upcoming.length){
+
+    list.innerHTML=
+      `<div class="empty">
+        No upcoming important days
+      </div>`;
+
+    return;
+
+  }
+
+
+  list.innerHTML=
+    upcoming.map(day=>`
+
+      <div class="list-item">
+
+        <div class="list-main">
+
+          <div class="list-title">
+            ${esc(day.name)}
+          </div>
+
+          <div class="list-meta">
+            ${formatDate(day.date)}
+          </div>
+
+        </div>
+
+        <span class="badge">
+          ${day.remaining} days
+        </span>
+
+      </div>
+
+    `).join("");
+
+}
+
+
+/* =========================================================
+   MONEY
+========================================================= */
+
+function saveMoney(){
+
+  data.money.income=
+    Math.max(
+      0,
+      Number($("incomeInput").value)||0
+    );
+
+  data.money.expense=
+    Math.max(
+      0,
+      Number($("expenseInput").value)||0
+    );
+
+  save();
+
+  render();
+
+  toast("Money saved");
+
+}
+
+
+function saveSavings(){
+
+  data.money.savingTarget=
+    Math.max(
+      0,
+      Number($("savingTarget").value)||0
+    );
+
+  data.money.savingCurrent=
+    Math.max(
+      0,
+      Number($("savingCurrent").value)||0
+    );
+
+  save();
+
+  render();
+
+  toast("Savings saved");
+
+}
+
+
+function renderMoney(){
+
+  const income=
+    Number(data.money.income)||0;
+
+  const expense=
+    Number(data.money.expense)||0;
+
+  const saving=
+    Math.max(
+      0,
+      income-expense
+    );
+
+  const rate=
+    income
+      ? Math.round(saving/income*100)
+      :0;
+
+
+  $("moneyIncome").textContent=
+    money(income);
+
+  $("moneyExpense").textContent=
+    money(expense);
+
+  $("moneySaving").textContent=
+    money(saving);
+
+  $("moneyRate").textContent=
+    rate+"%";
+
+
+  $("incomeInput").value=
+    income||"";
+
+  $("expenseInput").value=
+    expense||"";
+
+  $("savingTarget").value=
+    data.money.savingTarget||"";
+
+  $("savingCurrent").value=
+    data.money.savingCurrent||"";
+
+
+  const target=
+    Number(data.money.savingTarget)||0;
+
+  const current=
+    Number(data.money.savingCurrent)||0;
+
+  const percent=
+    target
+      ? Math.min(
+          100,
+          Math.round(current/target*100)
+        )
+      :0;
+
+
+  $("savingPercent").textContent=
+    percent+"%";
+
+  $("savingBar").style.width=
+    percent+"%";
+
+}
+
+
+/* =========================================================
+   JOURNAL
+========================================================= */
+
+function renderJournal(){
+
+  const journal=
+    data.journals[todayString()]||{};
+
+
+  $("journalWin").value=
+    journal.win||"";
+
+  $("journalGratitude").value=
+    journal.gratitude||"";
+
+  $("journalLesson").value=
+    journal.lesson||"";
+
+  $("journalFocus").value=
+    journal.focus||"";
+
+}
+
+
+function saveJournal(){
+
+  data.journals[todayString()]={
+
+    win:$("journalWin").value,
+
+    gratitude:
+      $("journalGratitude").value,
+
+    lesson:
+      $("journalLesson").value,
+
+    focus:
+      $("journalFocus").value
+
+  };
+
+
+  save();
+
+  toast("Today's journal saved");
+
+}
+
+
+/* =========================================================
+   INSIGHTS
+========================================================= */
+
+function renderInsights(){
+
+  const life=lifeData();
+
+  const lifePercent=
+    life
+      ? Number(life.percent.toFixed(1))
+      :0;
+
+
+  const goalPercent=
+    data.goals.length
+      ? Math.round(
+          data.goals.reduce(
+            (sum,g)=>
+              sum+Number(g.progress||0),
+            0
+          )/data.goals.length
+        )
+      :0;
+
+
+  const habit=habitPercent();
+
+
+  $("insightLife").textContent=
+    lifePercent+"%";
+
+  $("insightGoal").textContent=
+    goalPercent+"%";
+
+  $("insightHabit").textContent=
+    habit+"%";
+
+
+  $("insightLifeBar").style.width=
+    lifePercent+"%";
+
+  $("insightGoalBar").style.width=
+    goalPercent+"%";
+
+  $("insightHabitBar").style.width=
+    habit+"%";
+
+}
+
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+function renderSettings(){
+
+  $("nameInput").value=
+    data.name||"";
+
+  $("birthInput").value=
+    data.birth||"";
+
+  $("langBtn").textContent=
+    data.language==="en"
+      ?"EN"
+      :"မြန်";
+
+}
+
+
+function saveProfile(){
+
+  data.name=
+    $("nameInput").value.trim();
+
+  data.birth=
+    $("birthInput").value;
+
+
+  save();
+
+  render();
+
+  toast("Profile saved");
+
+}
+
+
+/* =========================================================
+   EXPORT / RESET
+========================================================= */
+
+function exportData(){
+
+  const blob=
+    new Blob(
+      [
+        JSON.stringify(
+          data,
+          null,
+          2
+        )
+      ],
+      {
+        type:"application/json"
+      }
+    );
+
+
+  const url=
+    URL.createObjectURL(blob);
+
+  const a=
+    document.createElement("a");
+
+  a.href=url;
+
+  a.download=
+    "life75-backup.json";
+
+  document.body.appendChild(a);
+
+  a.click();
+
+  a.remove();
+
+  URL.revokeObjectURL(url);
+
+  toast("Backup exported");
+
+}
+
+
+function resetData(){
+
+  if(
+    !confirm(
+      "Reset all LIFE 75 data?"
+    )
+  )return;
+
+
+  localStorage.removeItem(
+    STORAGE_KEY
+  );
+
+  location.reload();
+
+}
+
+
+/* =========================================================
+   MAIN RENDER
+========================================================= */
+
+function render(){
+
+  renderHome();
+
+  renderLife();
+
+  renderGoals();
+
+  renderHabits();
+
+  renderDays();
+
+  renderMoney();
+
+  renderJournal();
+
+  renderInsights();
+
+  renderSettings();
+
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
 load();
+
 render();
+
 </script>
 
 </body>
