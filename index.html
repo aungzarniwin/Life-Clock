@@ -1,198 +1,645 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="my">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<meta name="theme-color" content="#111827">
-<title>LIFE 75 V5</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0d10">
+<title>LIFE 75 V8 — Life & Health OS</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#f5f7fb;
-  --card:#fff;
-  --text:#111827;
-  --muted:#6b7280;
-  --line:#e5e7eb;
-  --accent:#7c3aed;
-  --accent2:#a855f7;
-  --soft:#f3e8ff;
-  --green:#16a34a;
-  --red:#dc2626;
-  --orange:#ea580c;
-  --shadow:0 10px 30px rgba(15,23,42,.07);
-  --radius:20px
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
-body{
-  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh
-}
-button,input,textarea,select{font:inherit}
-button{cursor:pointer;border:0}
-.app{display:flex;min-height:100vh}
-.sidebar{
-  width:250px;background:#111827;color:#fff;padding:22px 16px;
-  position:fixed;left:0;top:0;bottom:0;z-index:50
-}
-.logo{
-  font-size:22px;font-weight:900;letter-spacing:-.5px;
-  padding:10px 12px 24px
-}
-.logo span{color:#c084fc}
-.nav{display:flex;flex-direction:column;gap:6px}
-.nav button{
-  width:100%;text-align:left;padding:13px 14px;border-radius:13px;
-  background:transparent;color:#cbd5e1;font-weight:700
-}
-.nav button:hover,.nav button.active{
-  background:#fff;color:#111827
-}
-.main{margin-left:250px;width:calc(100% - 250px)}
-.topbar{
-  height:70px;background:rgba(255,255,255,.9);backdrop-filter:blur(15px);
-  border-bottom:1px solid var(--line);display:flex;align-items:center;
-  justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:30
-}
-.menuBtn{display:none;background:#111827;color:#fff;border-radius:10px;padding:9px 12px}
-.container{max-width:1250px;margin:auto;padding:28px}
-.page{display:none}
-.page.active{display:block}
-h1{font-size:30px;letter-spacing:-1px}
-h2{font-size:20px}
-.subtitle{color:var(--muted);margin-top:5px}
-.grid{display:grid;gap:18px}
-.stats{grid-template-columns:repeat(4,1fr);margin-top:24px}
-.card{
-  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-  padding:20px;box-shadow:var(--shadow)
-}
-.stat-label{color:var(--muted);font-size:13px;font-weight:700}
-.stat-value{font-size:28px;font-weight:900;margin-top:8px}
-.stat-small{font-size:12px;color:var(--muted);margin-top:5px}
-.section-title{
-  display:flex;justify-content:space-between;align-items:center;margin:28px 0 14px
-}
-.two{grid-template-columns:1.25fr .75fr}
-.three{grid-template-columns:repeat(3,1fr)}
-.btn{
-  padding:11px 16px;border-radius:12px;font-weight:800;
-  background:#111827;color:#fff
-}
-.btn.primary{background:var(--accent)}
-.btn.light{background:var(--soft);color:#6b21a8}
-.btn.danger{background:#fee2e2;color:#991b1b}
-.btn.small{padding:8px 11px;font-size:13px}
-.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-input,textarea,select{
-  width:100%;border:1px solid var(--line);border-radius:12px;
-  padding:12px;background:#fff;color:var(--text);outline:none
-}
-input:focus,textarea:focus,select:focus{border-color:var(--accent)}
-textarea{min-height:110px;resize:vertical}
-.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-label{font-size:13px;font-weight:800;display:block;margin-bottom:6px}
-.progress{
-  height:10px;background:#ede9fe;border-radius:99px;overflow:hidden;margin-top:12px
-}
-.progress div{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:99px}
-.big-number{font-size:48px;font-weight:950;line-height:1}
-.hero{
-  background:linear-gradient(135deg,#111827,#312e81);
-  color:#fff;border-radius:26px;padding:28px;position:relative;overflow:hidden
-}
-.hero:after{
-  content:"";position:absolute;width:220px;height:220px;border-radius:50%;
-  right:-80px;top:-90px;background:rgba(255,255,255,.08)
-}
-.hero>*{position:relative;z-index:2}
-.hero .eyebrow{font-size:12px;font-weight:900;letter-spacing:1px;opacity:.75}
-.hero h2{font-size:29px;margin:8px 0}
-.hero p{color:#ddd6fe;max-width:650px}
-.life-grid{
-  display:grid;grid-template-columns:repeat(15,1fr);gap:4px;margin-top:18px
-}
-.life-cell{
-  aspect-ratio:1;border-radius:4px;background:#e5e7eb;position:relative
-}
-.life-cell.past{background:#111827}
-.life-cell.current{background:#a855f7;box-shadow:0 0 0 2px #7c3aed}
-.life-cell.future{background:#ede9fe}
-.life-cell:hover{transform:scale(1.35);z-index:5}
-.legend{display:flex;gap:15px;flex-wrap:wrap;margin-top:14px;font-size:12px;color:var(--muted)}
-.dot{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:5px}
-.list{display:flex;flex-direction:column;gap:10px}
-.list-item{
-  border:1px solid var(--line);border-radius:15px;padding:15px;
-  display:flex;align-items:center;justify-content:space-between;gap:12px
-}
-.list-main{min-width:0}
-.list-title{font-weight:900}
-.list-meta{font-size:12px;color:var(--muted);margin-top:4px}
-.badge{padding:5px 9px;border-radius:99px;background:var(--soft);color:#6b21a8;font-size:11px;font-weight:900}
-.check{
-  width:22px;height:22px;border-radius:7px;border:2px solid #d1d5db;
-  display:grid;place-items:center;flex:none;background:#fff
-}
-.check.done{background:var(--green);border-color:var(--green);color:#fff}
-.empty{text-align:center;padding:35px;color:var(--muted)}
-.quote{font-size:20px;line-height:1.55;font-weight:800}
-.author{margin-top:12px;color:var(--muted);font-size:13px}
-.kpi{text-align:center}
-.kpi-value{font-size:34px;font-weight:950}
-.danger-text{color:var(--red)}
-.success-text{color:var(--green)}
-.calendar{
-  display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:14px
-}
-.cal-head{text-align:center;font-size:11px;color:var(--muted);font-weight:800}
-.day{
-  min-height:60px;border:1px solid var(--line);border-radius:10px;padding:7px;
-  background:#fff;font-size:12px
-}
-.day.today{border:2px solid var(--accent)}
-.day.has-event{background:var(--soft)}
-.event-dot{font-size:10px;color:#6b21a8;font-weight:800;margin-top:5px}
-.toast{
-  position:fixed;right:20px;bottom:25px;background:#111827;color:#fff;
-  padding:13px 17px;border-radius:12px;z-index:100;display:none;
-  box-shadow:var(--shadow)
-}
-.modal{
-  position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;
-  align-items:center;justify-content:center;z-index:90;padding:18px
-}
-.modal-box{
-  background:#fff;border-radius:22px;padding:22px;width:100%;max-width:500px;
-  max-height:90vh;overflow:auto
-}
-.close{background:#f3f4f6;border-radius:10px;padding:7px 10px}
-.overlay{display:none}
 
-@media(max-width:900px){
-  .sidebar{transform:translateX(-100%);transition:.25s}
-  .sidebar.open{transform:translateX(0)}
-  .overlay{
-    position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:40
-  }
-  .overlay.show{display:block}
-  .main{margin-left:0;width:100%}
-  .menuBtn{display:block}
-  .topbar{padding:0 16px}
-  .container{padding:18px}
-  .stats{grid-template-columns:repeat(2,1fr)}
-  .two,.three{grid-template-columns:1fr}
-  .life-grid{grid-template-columns:repeat(10,1fr)}
+html,body{
+  width:100%;
+  min-height:100%;
+  overflow-x:hidden;
 }
-@media(max-width:520px){
-  h1{font-size:25px}
-  .stats{gap:10px}
-  .card{padding:16px}
-  .stat-value{font-size:23px}
-  .life-grid{grid-template-columns:repeat(10,1fr);gap:3px}
-  .form-grid{grid-template-columns:1fr}
-  .top-title{font-size:15px}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  background:#090b0f;
+  color:#f5f1e8;
+  line-height:1.55;
+}
+
+button,input,textarea,select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.hidden{
+  display:none!important;
+}
+
+.app{
+  min-height:100vh;
+  display:flex;
+}
+
+/* SIDEBAR */
+.sidebar{
+  width:270px;
+  min-width:270px;
+  background:#101318;
+  border-right:1px solid #252a31;
+  padding:22px 16px;
+  position:fixed;
+  inset:0 auto 0 0;
+  z-index:100;
+  overflow-y:auto;
+}
+
+.brand{
+  padding:4px 10px 24px;
+}
+
+.brand-name{
+  font-size:23px;
+  font-weight:900;
+  letter-spacing:.8px;
+}
+
+.brand-name span{
+  color:#d7aa55;
+}
+
+.brand-sub{
+  color:#858b94;
+  font-size:12px;
+  margin-top:4px;
+}
+
+.profile-mini{
+  background:linear-gradient(145deg,#191d23,#111419);
+  border:1px solid #292f37;
+  border-radius:16px;
+  padding:14px;
+  margin-bottom:18px;
+}
+
+.profile-mini strong{
+  display:block;
+  font-size:14px;
+}
+
+.profile-mini small{
+  color:#858b94;
+}
+
+.nav{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+
+.nav button{
+  border:0;
+  background:transparent;
+  color:#9da3ac;
+  text-align:left;
+  width:100%;
+  padding:12px 13px;
+  border-radius:11px;
+  transition:.2s;
+}
+
+.nav button:hover{
+  background:#181c22;
+  color:#fff;
+}
+
+.nav button.active{
+  background:linear-gradient(135deg,#d7aa55,#a9792d);
+  color:#111;
+  font-weight:800;
+}
+
+.nav-label{
+  margin:17px 10px 7px;
+  color:#5e646d;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1.3px;
+  text-transform:uppercase;
+}
+
+/* MAIN */
+.main{
+  width:calc(100% - 270px);
+  margin-left:270px;
+  min-width:0;
+}
+
+.topbar{
+  height:70px;
+  border-bottom:1px solid #252a31;
+  background:rgba(9,11,15,.92);
+  backdrop-filter:blur(15px);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+
+.menu-btn{
+  display:none;
+  border:1px solid #30353d;
+  background:#15191e;
+  color:#fff;
+  width:42px;
+  height:42px;
+  border-radius:11px;
+}
+
+.now{
+  text-align:right;
+}
+
+.now-time{
+  font-size:18px;
+  font-weight:800;
+  color:#d7aa55;
+}
+
+.now-date{
+  color:#737a84;
+  font-size:11px;
+}
+
+.content{
+  width:100%;
+  max-width:1500px;
+  margin:auto;
+  padding:28px;
+}
+
+.section{
+  display:none;
+}
+
+.section.active{
+  display:block;
+}
+
+.page-title{
+  font-size:28px;
+  font-weight:900;
+  margin-bottom:4px;
+}
+
+.page-sub{
+  color:#7f8791;
+  font-size:13px;
+  margin-bottom:22px;
+}
+
+/* CARDS */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
+  width:100%;
+}
+
+.grid-2{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+}
+
+.card{
+  background:linear-gradient(145deg,#14181e,#101318);
+  border:1px solid #282e36;
+  border-radius:18px;
+  padding:18px;
+  min-width:0;
+  box-shadow:0 12px 35px rgba(0,0,0,.12);
+}
+
+.card-title{
+  font-size:12px;
+  color:#8b929b;
+  text-transform:uppercase;
+  letter-spacing:.8px;
+  font-weight:800;
+}
+
+.card-value{
+  font-size:27px;
+  font-weight:900;
+  margin-top:5px;
+  word-break:break-word;
+}
+
+.gold{
+  color:#d7aa55;
+}
+
+.muted{
+  color:#818892;
+}
+
+.big-clock{
+  font-size:46px;
+  line-height:1.1;
+  font-weight:900;
+  letter-spacing:-1px;
+}
+
+.hero{
+  background:
+    radial-gradient(circle at 90% 10%,rgba(215,170,85,.16),transparent 32%),
+    linear-gradient(145deg,#181c22,#0f1216);
+  border:1px solid #353b43;
+  border-radius:22px;
+  padding:25px;
+  margin-bottom:18px;
+}
+
+.hero-grid{
+  display:grid;
+  grid-template-columns:1.4fr .6fr;
+  gap:20px;
+  align-items:center;
+}
+
+/* PROGRESS */
+.progress{
+  height:8px;
+  background:#252a30;
+  border-radius:100px;
+  overflow:hidden;
+  margin-top:12px;
+}
+
+.progress-bar{
+  height:100%;
+  background:linear-gradient(90deg,#a9792d,#e5c27b);
+  border-radius:100px;
+  width:0%;
+  transition:.4s;
+}
+
+/* LIFE GRID */
+.life-grid{
+  display:grid;
+  grid-template-columns:repeat(15,minmax(0,1fr));
+  gap:4px;
+  margin-top:14px;
+}
+
+.life-cell{
+  aspect-ratio:1;
+  border-radius:4px;
+  background:#242930;
+  border:1px solid #30363e;
+}
+
+.life-cell.lived{
+  background:#b68435;
+  border-color:#d7aa55;
+}
+
+.life-cell.current{
+  background:#f1cf87;
+  box-shadow:0 0 9px rgba(215,170,85,.6);
+}
+
+.month-grid{
+  display:grid;
+  grid-template-columns:repeat(30,minmax(0,1fr));
+  gap:3px;
+  margin-top:14px;
+}
+
+.month-cell{
+  aspect-ratio:1;
+  border-radius:3px;
+  background:#242930;
+}
+
+.month-cell.lived{
+  background:#8d652c;
+}
+
+.month-cell.current{
+  background:#e1bd70;
+}
+
+/* HEALTH */
+.health-header{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:flex-start;
+  margin-bottom:18px;
+}
+
+.condition-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:12px;
+}
+
+.condition-chip{
+  border:1px solid #5b4729;
+  background:#211b12;
+  color:#dfba72;
+  border-radius:999px;
+  padding:7px 11px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.condition-chip button{
+  border:0;
+  background:none;
+  color:#aaa;
+  padding:0;
+}
+
+/* FORM */
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+
+.field{
+  min-width:0;
+}
+
+.field.full{
+  grid-column:1/-1;
+}
+
+.field label{
+  display:block;
+  font-size:12px;
+  color:#9298a1;
+  margin-bottom:6px;
+}
+
+input,textarea,select{
+  width:100%;
+  border:1px solid #30363e;
+  background:#0c0f13;
+  color:#f4f1e8;
+  border-radius:11px;
+  padding:11px 12px;
+  outline:none;
+}
+
+input:focus,textarea:focus,select:focus{
+  border-color:#a9792d;
+}
+
+textarea{
+  min-height:90px;
+  resize:vertical;
+}
+
+.primary{
+  border:0;
+  background:linear-gradient(135deg,#d7aa55,#a9792d);
+  color:#111;
+  font-weight:900;
+  border-radius:11px;
+  padding:11px 16px;
+}
+
+.secondary{
+  border:1px solid #353b43;
+  background:#171b20;
+  color:#eee;
+  border-radius:11px;
+  padding:10px 14px;
+}
+
+.danger{
+  border:1px solid #693333;
+  background:#241517;
+  color:#e69a9a;
+  border-radius:10px;
+  padding:8px 11px;
+}
+
+/* GUIDE */
+.guide{
+  margin-top:15px;
+}
+
+.guide-box{
+  border:1px solid #2d333b;
+  border-radius:15px;
+  background:#11151a;
+  padding:15px;
+  margin-top:11px;
+}
+
+.guide-box h3{
+  font-size:15px;
+  margin-bottom:9px;
+}
+
+.guide-box ul{
+  padding-left:20px;
+}
+
+.guide-box li{
+  margin:5px 0;
+  color:#c7cbd0;
+}
+
+.avoid h3{
+  color:#e39b9b;
+}
+
+.do h3{
+  color:#a9cf9b;
+}
+
+.food h3{
+  color:#dfbd72;
+}
+
+.monitor h3{
+  color:#9fb9dc;
+}
+
+.warning{
+  border-color:#633838;
+  background:#211517;
+}
+
+.warning h3{
+  color:#e89a9a;
+}
+
+.warning li{
+  color:#d9b9b9;
+}
+
+/* CHECKLIST */
+.check-row{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  padding:10px 0;
+  border-bottom:1px solid #252a30;
+}
+
+.check-row:last-child{
+  border-bottom:0;
+}
+
+.check-row input{
+  width:18px;
+  height:18px;
+  margin-top:3px;
+}
+
+.check-row label{
+  color:#c9cdd2;
+}
+
+/* RECORDS */
+.record{
+  padding:13px;
+  border:1px solid #292f36;
+  background:#11151a;
+  border-radius:13px;
+  margin-top:9px;
+}
+
+.record-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.record small{
+  color:#777f89;
+}
+
+/* TOAST */
+.toast{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  background:#f2e3c0;
+  color:#16120b;
+  padding:12px 16px;
+  border-radius:12px;
+  font-weight:800;
+  z-index:300;
+  transform:translateY(100px);
+  opacity:0;
+  transition:.25s;
+}
+
+.toast.show{
+  transform:translateY(0);
+  opacity:1;
+}
+
+/* MOBILE */
+.overlay{
+  display:none;
+}
+
+@media(max-width:1000px){
+  .grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .hero-grid{
+    grid-template-columns:1fr;
+  }
+
+  .life-grid{
+    grid-template-columns:repeat(15,minmax(0,1fr));
+  }
+}
+
+@media(max-width:760px){
+  .sidebar{
+    transform:translateX(-100%);
+    transition:.25s;
+    width:280px;
+    min-width:280px;
+  }
+
+  .sidebar.open{
+    transform:translateX(0);
+  }
+
+  .overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.65);
+    z-index:90;
+  }
+
+  .overlay.show{
+    display:block;
+  }
+
+  .main{
+    width:100%;
+    margin-left:0;
+  }
+
+  .topbar{
+    padding:0 15px;
+  }
+
+  .menu-btn{
+    display:block;
+  }
+
+  .content{
+    padding:18px 14px 30px;
+  }
+
+  .page-title{
+    font-size:24px;
+  }
+
+  .grid,
+  .grid-2,
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .field.full{
+    grid-column:auto;
+  }
+
+  .big-clock{
+    font-size:36px;
+  }
+
+  .life-grid{
+    grid-template-columns:repeat(15,minmax(0,1fr));
+    gap:3px;
+  }
+
+  .month-grid{
+    grid-template-columns:repeat(20,minmax(0,1fr));
+  }
 }
 </style>
 </head>
@@ -201,1020 +648,2488 @@ label{font-size:13px;font-weight:800;display:block;margin-bottom:6px}
 
 <div class="app">
 
-<aside class="sidebar" id="sidebar">
-  <div class="logo">LIFE <span>75</span></div>
+  <aside class="sidebar" id="sidebar">
 
-  <nav class="nav">
-    <button class="active" data-page="home">⌂ <span data-i18n="dashboard">Dashboard</span></button>
-    <button data-page="life">◉ <span data-i18n="life75">My Life 75</span></button>
-    <button data-page="goals">🎯 <span data-i18n="goals">Goals</span></button>
-    <button data-page="habits">✓ <span data-i18n="habits">Habits</span></button>
-    <button data-page="days">📅 <span data-i18n="important">Important Days</span></button>
-    <button data-page="money">💰 <span data-i18n="money">Money</span></button>
-    <button data-page="journal">📝 <span data-i18n="journal">Journal</span></button>
-    <button data-page="insights">📊 <span data-i18n="insights">Insights</span></button>
-    <button data-page="settings">⚙ <span data-i18n="settings">Settings</span></button>
-  </nav>
-</aside>
-
-<div class="overlay" id="overlay"></div>
-
-<main class="main">
-
-<header class="topbar">
-  <div class="row">
-    <button class="menuBtn" id="menuBtn">☰</button>
-    <strong class="top-title">LIFE 75</strong>
-  </div>
-  <div class="row">
-    <span id="todayLabel" style="font-size:13px;color:var(--muted)"></span>
-  </div>
-</header>
-
-<div class="container">
-
-<!-- HOME -->
-<section class="page active" id="page-home">
-  <div class="hero">
-    <div class="eyebrow">LIFE 75 • YOUR LIFE. YOUR TIME. YOUR PLAN.</div>
-    <h2 id="welcomeText">Your next chapter starts today</h2>
-    <p id="heroText">Use your time intentionally. Plan your goals, habits and important moments.</p>
-    <div class="row" style="margin-top:18px">
-      <button class="btn light" onclick="go('life')">View My Life 75</button>
-      <button class="btn" onclick="go('goals')">Create Goal</button>
+    <div class="brand">
+      <div class="brand-name">LIFE <span>75</span></div>
+      <div class="brand-sub">Life & Health Operating System</div>
     </div>
-  </div>
 
-  <div class="grid stats">
-    <div class="card">
-      <div class="stat-label">CURRENT AGE</div>
-      <div class="stat-value" id="ageStat">—</div>
-      <div class="stat-small">years old</div>
+    <div class="profile-mini">
+      <strong id="miniName">My Life</strong>
+      <small id="miniAge">Age not set</small>
     </div>
-    <div class="card">
-      <div class="stat-label">DAYS LIVED</div>
-      <div class="stat-value" id="daysLived">—</div>
-      <div class="stat-small">approximately</div>
-    </div>
-    <div class="card">
-      <div class="stat-label">DAYS TO 75</div>
-      <div class="stat-value" id="daysRemaining">—</div>
-      <div class="stat-small">approximately</div>
-    </div>
-    <div class="card">
-      <div class="stat-label">LIFE PROGRESS</div>
-      <div class="stat-value" id="lifePercent">—</div>
-      <div class="stat-small">toward age 75</div>
-    </div>
-  </div>
 
-  <div class="grid two">
-    <div>
-      <div class="section-title">
-        <h2>Today's Focus</h2>
-        <button class="btn small light" onclick="go('journal')">Journal</button>
-      </div>
-      <div class="card">
-        <div class="quote" id="dailyQuote"></div>
-        <div class="author" id="quoteAuthor"></div>
+    <nav class="nav">
+
+      <button class="active" data-section="dashboard">⌂ Dashboard</button>
+      <button data-section="time">◷ Time Center</button>
+
+      <div class="nav-label">Life</div>
+
+      <button data-section="goals">◎ Goals</button>
+      <button data-section="important">★ Important Days</button>
+      <button data-section="journal">✎ Journal</button>
+      <button data-section="money">◈ Money</button>
+
+      <div class="nav-label">Health</div>
+
+      <button data-section="health">♥ Health Center</button>
+      <button data-section="conditions">＋ My Conditions</button>
+      <button data-section="doctor">⚕ Doctor Advice</button>
+
+      <div class="nav-label">System</div>
+
+      <button data-section="settings">⚙ Settings</button>
+
+    </nav>
+  </aside>
+
+  <div class="overlay" id="overlay"></div>
+
+  <main class="main">
+
+    <header class="topbar">
+
+      <button class="menu-btn" id="menuBtn">☰</button>
+
+      <div></div>
+
+      <div class="now">
+        <div class="now-time" id="topTime">--:--:--</div>
+        <div class="now-date" id="topDate">Loading...</div>
       </div>
 
-      <div class="section-title">
-        <h2>Goal Progress</h2>
-        <button class="btn small light" onclick="go('goals')">View All</button>
-      </div>
-      <div class="card" id="homeGoals"></div>
-    </div>
+    </header>
 
-    <div>
-      <div class="section-title"><h2>Life Snapshot</h2></div>
-      <div class="card">
-        <div class="kpi">
-          <div class="stat-label">HABIT COMPLETION</div>
-          <div class="kpi-value" id="habitPercent">0%</div>
-          <div class="progress"><div id="habitBar" style="width:0%"></div></div>
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <section class="section active" id="dashboard">
+
+        <div class="hero">
+          <div class="hero-grid">
+
+            <div>
+              <div class="card-title">YOUR LIFE RIGHT NOW</div>
+              <div class="big-clock gold" id="dashClock">--:--:--</div>
+              <div class="muted" id="dashDate">Loading...</div>
+            </div>
+
+            <div>
+              <div class="card-title">LIFE PROGRESS</div>
+              <div class="card-value gold" id="dashProgress">0%</div>
+              <div class="progress">
+                <div class="progress-bar" id="dashProgressBar"></div>
+              </div>
+            </div>
+
+          </div>
         </div>
-        <hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
-        <div class="kpi">
-          <div class="stat-label">SAVINGS GOAL</div>
-          <div class="kpi-value" id="savingPercent">0%</div>
-          <div class="progress"><div id="savingBar" style="width:0%"></div></div>
+
+        <div class="grid">
+
+          <div class="card">
+            <div class="card-title">Current Age</div>
+            <div class="card-value" id="dashAge">—</div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Years Lived</div>
+            <div class="card-value gold" id="dashYears">—</div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Years Remaining</div>
+            <div class="card-value" id="dashRemain">—</div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Conditions</div>
+            <div class="card-value" id="dashConditions">0</div>
+          </div>
+
         </div>
-      </div>
 
-      <div class="section-title"><h2>Upcoming</h2></div>
-      <div class="card" id="upcomingHome"></div>
+        <div style="height:16px"></div>
+
+        <div class="grid-2">
+
+          <div class="card">
+            <div class="card-title">Time Remaining To 75</div>
+            <div class="card-value gold" id="dashCountdown">—</div>
+            <div class="muted">years · months · days · hours · minutes · seconds</div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Today Progress</div>
+            <div class="card-value" id="todayProgress">0%</div>
+            <div class="progress">
+              <div class="progress-bar" id="todayBar"></div>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- TIME -->
+      <section class="section" id="time">
+
+        <div class="page-title">Time Center</div>
+        <div class="page-sub">Your actual device time and your life timeline</div>
+
+        <div class="hero">
+          <div class="card-title">CURRENT LOCAL TIME</div>
+          <div class="big-clock gold" id="mainClock">--:--:--</div>
+          <div class="muted" id="mainDate">—</div>
+          <div style="margin-top:8px" class="muted" id="timezone">Timezone: —</div>
+        </div>
+
+        <div class="grid">
+
+          <div class="card">
+            <div class="card-title">Calendar Age</div>
+            <div class="card-value" id="timeAge">—</div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Time Lived</div>
+            <div class="card-value" id="timeLived">—</div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Life Remaining</div>
+            <div class="card-value gold" id="timeRemaining">—</div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Life Progress</div>
+            <div class="card-value" id="timePercent">0%</div>
+          </div>
+
+        </div>
+
+        <div style="height:16px"></div>
+
+        <div class="card">
+          <div class="card-title">75 YEAR LIFE GRID</div>
+          <div class="muted">Each square represents one year</div>
+          <div class="life-grid" id="lifeGrid"></div>
+        </div>
+
+        <div style="height:16px"></div>
+
+        <div class="card">
+          <div class="card-title">900 MONTH LIFE GRID</div>
+          <div class="muted">75 years × 12 months</div>
+          <div class="month-grid" id="monthGrid"></div>
+        </div>
+
+      </section>
+
+
+      <!-- HEALTH -->
+      <section class="section" id="health">
+
+        <div class="page-title">Health Center</div>
+        <div class="page-sub">Your conditions, care guidance and health records</div>
+
+        <div class="hero">
+          <div class="health-header">
+            <div>
+              <div class="card-title">MY HEALTH CONDITIONS</div>
+              <div class="card-value" id="healthCount">0 Conditions</div>
+            </div>
+
+            <button class="primary" onclick="showSection('conditions')">
+              + Add Condition
+            </button>
+          </div>
+
+          <div class="condition-list" id="healthConditionChips"></div>
+        </div>
+
+        <div id="healthGuides"></div>
+
+        <div style="height:18px"></div>
+
+        <div class="grid-2">
+
+          <div class="card">
+            <div class="card-title">Daily Health Checklist</div>
+            <div id="healthChecklist"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Health Monitoring</div>
+            <div id="healthMonitoring"></div>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- CONDITIONS -->
+      <section class="section" id="conditions">
+
+        <div class="page-title">My Conditions</div>
+        <div class="page-sub">Add the health conditions you have</div>
+
+        <div class="grid-2">
+
+          <div class="card">
+
+            <div class="card-title">ADD CONDITION</div>
+
+            <div style="height:12px"></div>
+
+            <div class="form-grid">
+
+              <div class="field">
+                <label>Condition</label>
+                <select id="conditionSelect">
+                  <option value="">Choose condition</option>
+                  <option value="diabetes">Diabetes</option>
+                  <option value="hypertension">High Blood Pressure</option>
+                  <option value="highCholesterol">High Cholesterol</option>
+                  <option value="heartDisease">Heart Disease</option>
+                  <option value="kidneyDisease">Kidney Disease</option>
+                  <option value="fattyLiver">Fatty Liver</option>
+                  <option value="gastritis">Gastritis / Acid Reflux</option>
+                  <option value="asthma">Asthma</option>
+                  <option value="arthritis">Arthritis</option>
+                  <option value="custom">Other Condition</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label>Display Name</label>
+                <input id="conditionName" placeholder="e.g. Type 2 Diabetes">
+              </div>
+
+              <div class="field full">
+                <label>Personal Note</label>
+                <textarea id="conditionNote" placeholder="ကိုယ်ပိုင်မှတ်ချက်"></textarea>
+              </div>
+
+              <div class="field full">
+                <button class="primary" onclick="addCondition()">Add Condition</button>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="card">
+
+            <div class="card-title">MY CONDITIONS</div>
+
+            <div id="conditionRecords"></div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- DOCTOR -->
+      <section class="section" id="doctor">
+
+        <div class="page-title">Doctor Advice</div>
+        <div class="page-sub">Keep your doctor's advice and follow-up information in one place</div>
+
+        <div class="grid-2">
+
+          <div class="card">
+
+            <div class="card-title">ADD DOCTOR ADVICE</div>
+
+            <div style="height:12px"></div>
+
+            <div class="form-grid">
+
+              <div class="field">
+                <label>Doctor Name</label>
+                <input id="doctorName" placeholder="Doctor name">
+              </div>
+
+              <div class="field">
+                <label>Date</label>
+                <input id="doctorDate" type="date">
+              </div>
+
+              <div class="field full">
+                <label>Advice</label>
+                <textarea id="doctorAdvice" placeholder="ဆရာဝန်အကြံပေးချက်"></textarea>
+              </div>
+
+              <div class="field">
+                <label>Tests / Checkup</label>
+                <input id="doctorTests" placeholder="e.g. Blood test">
+              </div>
+
+              <div class="field">
+                <label>Next Visit</label>
+                <input id="doctorNext" type="date">
+              </div>
+
+              <div class="field full">
+                <button class="primary" onclick="addDoctorAdvice()">Save Advice</button>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="card">
+
+            <div class="card-title">SAVED ADVICE</div>
+
+            <div id="doctorRecords"></div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- GOALS -->
+      <section class="section" id="goals">
+
+        <div class="page-title">Goals</div>
+        <div class="page-sub">Keep the things that matter visible</div>
+
+        <div class="grid-2">
+
+          <div class="card">
+            <div class="card-title">ADD GOAL</div>
+
+            <div style="height:12px"></div>
+
+            <input id="goalName" placeholder="Goal name">
+
+            <div style="height:10px"></div>
+
+            <input id="goalDate" type="date">
+
+            <div style="height:10px"></div>
+
+            <button class="primary" onclick="addGoal()">Add Goal</button>
+          </div>
+
+          <div class="card">
+            <div class="card-title">MY GOALS</div>
+            <div id="goalRecords"></div>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- IMPORTANT -->
+      <section class="section" id="important">
+
+        <div class="page-title">Important Days</div>
+        <div class="page-sub">Never lose track of meaningful dates</div>
+
+        <div class="grid-2">
+
+          <div class="card">
+
+            <div class="card-title">ADD IMPORTANT DAY</div>
+
+            <div style="height:12px"></div>
+
+            <input id="importantName" placeholder="Birthday / Anniversary / Milestone">
+
+            <div style="height:10px"></div>
+
+            <input id="importantDate" type="date">
+
+            <div style="height:10px"></div>
+
+            <button class="primary" onclick="addImportant()">Add Date</button>
+
+          </div>
+
+          <div class="card">
+
+            <div class="card-title">UPCOMING</div>
+
+            <div id="importantRecords"></div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- JOURNAL -->
+      <section class="section" id="journal">
+
+        <div class="page-title">Journal</div>
+        <div class="page-sub">Capture today's thoughts and lessons</div>
+
+        <div class="grid-2">
+
+          <div class="card">
+
+            <div class="card-title">TODAY'S JOURNAL</div>
+
+            <div style="height:12px"></div>
+
+            <textarea id="journalText" style="min-height:180px" placeholder="ဒီနေ့ဘာတွေဖြစ်ခဲ့လဲ..."></textarea>
+
+            <div style="height:10px"></div>
+
+            <button class="primary" onclick="saveJournal()">Save Journal</button>
+
+          </div>
+
+          <div class="card">
+
+            <div class="card-title">TODAY</div>
+            <div class="card-value gold" id="journalDate">—</div>
+
+            <div style="height:15px"></div>
+
+            <div class="muted">
+              Today's Win
+            </div>
+
+            <div style="height:7px"></div>
+
+            <textarea id="journalWin" placeholder="ဒီနေ့ရရှိခဲ့တဲ့အောင်မြင်မှု"></textarea>
+
+            <div style="height:10px"></div>
+
+            <button class="secondary" onclick="saveJournalWin()">Save Win</button>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- MONEY -->
+      <section class="section" id="money">
+
+        <div class="page-title">Money</div>
+        <div class="page-sub">Simple personal financial awareness</div>
+
+        <div class="grid">
+
+          <div class="card">
+            <div class="card-title">Monthly Income</div>
+            <input id="income" type="number" placeholder="0">
+          </div>
+
+          <div class="card">
+            <div class="card-title">Monthly Expense</div>
+            <input id="expense" type="number" placeholder="0">
+          </div>
+
+          <div class="card">
+            <div class="card-title">Monthly Savings</div>
+            <div class="card-value gold" id="savingValue">0</div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Savings Rate</div>
+            <div class="card-value" id="savingRate">0%</div>
+          </div>
+
+        </div>
+
+        <div style="height:15px"></div>
+
+        <button class="primary" onclick="calculateMoney()">Calculate</button>
+
+      </section>
+
+
+      <!-- SETTINGS -->
+      <section class="section" id="settings">
+
+        <div class="page-title">Settings</div>
+        <div class="page-sub">Your LIFE 75 profile and local data</div>
+
+        <div class="grid-2">
+
+          <div class="card">
+
+            <div class="card-title">PROFILE</div>
+
+            <div style="height:12px"></div>
+
+            <div class="field">
+              <label>Name</label>
+              <input id="profileName" placeholder="Your name">
+            </div>
+
+            <div style="height:10px"></div>
+
+            <div class="field">
+              <label>Date of Birth</label>
+              <input id="profileDob" type="date">
+            </div>
+
+            <div style="height:10px"></div>
+
+            <button class="primary" onclick="saveProfile()">Save Profile</button>
+
+          </div>
+
+          <div class="card">
+
+            <div class="card-title">DATA</div>
+
+            <div style="height:12px"></div>
+
+            <button class="secondary" onclick="exportData()">Export My Data</button>
+
+            <div style="height:10px"></div>
+
+            <button class="danger" onclick="resetApp()">Reset LIFE 75</button>
+
+            <div style="height:15px"></div>
+
+            <div class="muted">
+              LIFE 75 stores your data locally in this browser
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
     </div>
-  </div>
-</section>
-
-<!-- LIFE -->
-<section class="page" id="page-life">
-  <h1>My Life 75</h1>
-  <p class="subtitle">75 years • one life • make the years count</p>
-
-  <div class="grid two" style="margin-top:24px">
-    <div class="card">
-      <div class="stat-label">LIFE TIMELINE</div>
-      <div style="display:flex;align-items:end;gap:10px;margin-top:10px">
-        <div class="big-number" id="lifePercent2">0%</div>
-        <div class="stat-small">of your 75-year timeline</div>
-      </div>
-      <div class="progress"><div id="lifeBar" style="width:0%"></div></div>
-      <div class="row" style="margin-top:18px">
-        <div><b id="lifeAge2">0</b> years lived</div>
-        <div>•</div>
-        <div><b id="yearsLeft">75</b> years remaining</div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="stat-label">LIFE DETAILS</div>
-      <div class="list" style="margin-top:12px">
-        <div class="list-item"><span>Birth Date</span><b id="birthDisplay">Not set</b></div>
-        <div class="list-item"><span>75th Birthday</span><b id="targetDate">—</b></div>
-        <div class="list-item"><span>Days Lived</span><b id="daysLived2">—</b></div>
-        <div class="list-item"><span>Days Remaining</span><b id="daysRemaining2">—</b></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section-title">
-    <h2>75-Year Life Grid</h2>
-    <span class="badge">1 box = 1 year</span>
-  </div>
-  <div class="card">
-    <div class="life-grid" id="lifeGrid"></div>
-    <div class="legend">
-      <span><i class="dot" style="background:#111827"></i>Lived</span>
-      <span><i class="dot" style="background:#a855f7"></i>Current</span>
-      <span><i class="dot" style="background:#ede9fe"></i>Future</span>
-    </div>
-  </div>
-</section>
-
-<!-- GOALS -->
-<section class="page" id="page-goals">
-  <div class="section-title" style="margin-top:0">
-    <div><h1>Goals</h1><p class="subtitle">Turn your future into specific actions</p></div>
-    <button class="btn primary" onclick="openGoalModal()">+ Add Goal</button>
-  </div>
-  <div class="grid three" id="goalStats"></div>
-  <div class="card" style="margin-top:18px">
-    <div class="list" id="goalList"></div>
-  </div>
-</section>
-
-<!-- HABITS -->
-<section class="page" id="page-habits">
-  <div class="section-title" style="margin-top:0">
-    <div><h1>Habits</h1><p class="subtitle">Small actions repeated consistently</p></div>
-    <button class="btn primary" onclick="openHabitModal()">+ Add Habit</button>
-  </div>
-  <div class="grid stats">
-    <div class="card"><div class="stat-label">TODAY</div><div class="stat-value" id="habitToday">0%</div></div>
-    <div class="card"><div class="stat-label">TOTAL HABITS</div><div class="stat-value" id="habitCount">0</div></div>
-    <div class="card"><div class="stat-label">COMPLETED</div><div class="stat-value" id="habitDone">0</div></div>
-    <div class="card"><div class="stat-label">STREAK</div><div class="stat-value" id="bestStreak">0</div></div>
-  </div>
-  <div class="card" style="margin-top:18px">
-    <div class="list" id="habitList"></div>
-  </div>
-</section>
-
-<!-- IMPORTANT DAYS -->
-<section class="page" id="page-days">
-  <div class="section-title" style="margin-top:0">
-    <div><h1>Important Days</h1><p class="subtitle">Never lose track of the moments that matter</p></div>
-    <button class="btn primary" onclick="openDayModal()">+ Add Day</button>
-  </div>
-  <div class="card">
-    <div class="calendar" id="calendar"></div>
-  </div>
-  <div class="card" style="margin-top:18px">
-    <div class="list" id="dayList"></div>
-  </div>
-</section>
-
-<!-- MONEY -->
-<section class="page" id="page-money">
-  <h1>Money</h1>
-  <p class="subtitle">Track your financial direction</p>
-
-  <div class="grid stats">
-    <div class="card"><div class="stat-label">MONTHLY INCOME</div><div class="stat-value" id="incomeStat">0</div></div>
-    <div class="card"><div class="stat-label">MONTHLY EXPENSE</div><div class="stat-value" id="expenseStat">0</div></div>
-    <div class="card"><div class="stat-label">MONTHLY SAVING</div><div class="stat-value" id="savingStat">0</div></div>
-    <div class="card"><div class="stat-label">SAVING RATE</div><div class="stat-value" id="savingRate">0%</div></div>
-  </div>
-
-  <div class="grid two" style="margin-top:18px">
-    <div class="card">
-      <h2>Monthly Money</h2>
-      <div class="form-grid" style="margin-top:15px">
-        <div><label>Income</label><input id="incomeInput" type="number" min="0"></div>
-        <div><label>Expense</label><input id="expenseInput" type="number" min="0"></div>
-      </div>
-      <button class="btn primary" style="margin-top:14px" onclick="saveMoney()">Save</button>
-    </div>
-
-    <div class="card">
-      <h2>Savings Goal</h2>
-      <div class="form-grid" style="margin-top:15px">
-        <div><label>Target</label><input id="savingTarget" type="number" min="0"></div>
-        <div><label>Saved</label><input id="savingCurrent" type="number" min="0"></div>
-      </div>
-      <button class="btn primary" style="margin-top:14px" onclick="saveSaving()">Save</button>
-    </div>
-  </div>
-</section>
-
-<!-- JOURNAL -->
-<section class="page" id="page-journal">
-  <h1>Daily Journal</h1>
-  <p class="subtitle">Capture your thoughts, wins and lessons</p>
-
-  <div class="card" style="margin-top:22px">
-    <label>Today's Win</label>
-    <textarea id="journalWin" placeholder="What went well today?"></textarea>
-
-    <label style="margin-top:14px">Gratitude</label>
-    <textarea id="journalGratitude" placeholder="What are you grateful for?"></textarea>
-
-    <label style="margin-top:14px">Lesson Learned</label>
-    <textarea id="journalLesson" placeholder="What did today teach you?"></textarea>
-
-    <label style="margin-top:14px">Tomorrow's Focus</label>
-    <textarea id="journalFocus" placeholder="What is the one thing you want to accomplish tomorrow?"></textarea>
-
-    <button class="btn primary" style="margin-top:15px" onclick="saveJournal()">Save Today's Journal</button>
-  </div>
-</section>
-
-<!-- INSIGHTS -->
-<section class="page" id="page-insights">
-  <h1>Life Insights</h1>
-  <p class="subtitle">Understand how you are using your time</p>
-
-  <div class="grid three" style="margin-top:22px">
-    <div class="card kpi">
-      <div class="stat-label">LIFE PROGRESS</div>
-      <div class="kpi-value" id="insightLife">0%</div>
-      <div class="progress"><div id="insightLifeBar" style="width:0%"></div></div>
-    </div>
-    <div class="card kpi">
-      <div class="stat-label">GOAL PROGRESS</div>
-      <div class="kpi-value" id="insightGoal">0%</div>
-      <div class="progress"><div id="insightGoalBar" style="width:0%"></div></div>
-    </div>
-    <div class="card kpi">
-      <div class="stat-label">HABIT PROGRESS</div>
-      <div class="kpi-value" id="insightHabit">0%</div>
-      <div class="progress"><div id="insightHabitBar" style="width:0%"></div></div>
-    </div>
-  </div>
-
-  <div class="section-title"><h2>Life Principles</h2></div>
-  <div class="grid three">
-    <div class="card"><h2>Time</h2><p class="subtitle" style="margin-top:8px">You cannot save time. You can only choose how to use it.</p></div>
-    <div class="card"><h2>Focus</h2><p class="subtitle" style="margin-top:8px">A clear priority is more valuable than a long task list.</p></div>
-    <div class="card"><h2>Consistency</h2><p class="subtitle" style="margin-top:8px">Small actions become meaningful when repeated over time.</p></div>
-  </div>
-</section>
-
-<!-- SETTINGS -->
-<section class="page" id="page-settings">
-  <h1>Settings</h1>
-  <p class="subtitle">Personalize your LIFE 75 experience</p>
-
-  <div class="card" style="margin-top:22px">
-    <h2>Profile</h2>
-    <div class="form-grid" style="margin-top:15px">
-      <div>
-        <label>Name</label>
-        <input id="nameInput" placeholder="Your name">
-      </div>
-      <div>
-        <label>Birth Date</label>
-        <input id="birthInput" type="date">
-      </div>
-    </div>
-    <button class="btn primary" style="margin-top:15px" onclick="saveProfile()">Save Profile</button>
-  </div>
-
-  <div class="card" style="margin-top:18px">
-    <h2>Language</h2>
-    <p class="subtitle">Choose your app language</p>
-    <div class="row" style="margin-top:14px">
-      <button class="btn" onclick="setLanguage('en')">English</button>
-      <button class="btn light" onclick="setLanguage('my')">မြန်မာ</button>
-    </div>
-  </div>
-
-  <div class="card" style="margin-top:18px">
-    <h2>Data</h2>
-    <p class="subtitle">Your LIFE 75 data is stored locally in this browser</p>
-    <div class="row" style="margin-top:14px">
-      <button class="btn" onclick="exportData()">Export Data</button>
-      <button class="btn danger" onclick="resetData()">Reset All Data</button>
-    </div>
-  </div>
-</section>
-
+  </main>
 </div>
-</main>
-</div>
 
-<!-- GOAL MODAL -->
-<div class="modal" id="goalModal">
- <div class="modal-box">
-   <div class="section-title" style="margin:0 0 18px">
-     <h2>Add Goal</h2><button class="close" onclick="closeModal('goalModal')">✕</button>
-   </div>
-   <label>Goal</label>
-   <input id="goalName" placeholder="e.g. Build emergency fund">
-   <label style="margin-top:12px">Category</label>
-   <select id="goalCategory">
-     <option>Life</option><option>Career</option><option>Money</option>
-     <option>Family</option><option>Health</option><option>Learning</option>
-   </select>
-   <label style="margin-top:12px">Progress %</label>
-   <input id="goalProgress" type="number" min="0" max="100" value="0">
-   <button class="btn primary" style="width:100%;margin-top:16px" onclick="addGoal()">Add Goal</button>
- </div>
-</div>
-
-<!-- HABIT MODAL -->
-<div class="modal" id="habitModal">
- <div class="modal-box">
-   <div class="section-title" style="margin:0 0 18px">
-     <h2>Add Habit</h2><button class="close" onclick="closeModal('habitModal')">✕</button>
-   </div>
-   <label>Habit</label>
-   <input id="habitName" placeholder="e.g. Read 20 minutes">
-   <button class="btn primary" style="width:100%;margin-top:16px" onclick="addHabit()">Add Habit</button>
- </div>
-</div>
-
-<!-- DAY MODAL -->
-<div class="modal" id="dayModal">
- <div class="modal-box">
-   <div class="section-title" style="margin:0 0 18px">
-     <h2>Add Important Day</h2><button class="close" onclick="closeModal('dayModal')">✕</button>
-   </div>
-   <label>Event</label>
-   <input id="dayName" placeholder="e.g. Birthday">
-   <label style="margin-top:12px">Date</label>
-   <input id="dayDate" type="date">
-   <label style="margin-top:12px">Category</label>
-   <select id="dayCategory">
-     <option>Birthday</option><option>Anniversary</option>
-     <option>Family</option><option>Career</option>
-     <option>Finance</option><option>Other</option>
-   </select>
-   <button class="btn primary" style="width:100%;margin-top:16px" onclick="addImportantDay()">Add Day</button>
- </div>
-</div>
-
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast">Saved</div>
 
 <script>
-const KEY="life75_v5_data";
+"use strict";
 
-const quotes=[
- ["Your time is your life. Spend it intentionally.","LIFE 75"],
- ["A meaningful life is built one day at a time.","LIFE 75"],
- ["Do not wait for the perfect moment. Use the moment you have.","LIFE 75"],
- ["Small progress is still progress.","LIFE 75"],
- ["Your future is shaped by what you repeatedly do today.","LIFE 75"],
- ["Focus on what matters, then take the next step.","LIFE 75"],
- ["The goal is not to control every day. It is to live each day deliberately.","LIFE 75"]
-];
+/* =========================================================
+   LIFE 75 V8
+   ========================================================= */
 
-const translations={
- en:{
-  dashboard:"Dashboard",life75:"My Life 75",goals:"Goals",habits:"Habits",
-  important:"Important Days",money:"Money",journal:"Journal",insights:"Insights",settings:"Settings"
- },
- my:{
-  dashboard:"ပင်မစာမျက်နှာ",life75:"ကျွန်ုပ်၏ LIFE 75",goals:"ရည်မှန်းချက်များ",
-  habits:"အလေ့အကျင့်များ",important:"အရေးကြီးနေ့များ",money:"ငွေကြေး",
-  journal:"နေ့စဉ်မှတ်တမ်း",insights:"ဘဝသုံးသပ်ချက်",settings:"ဆက်တင်"
- }
+const STORAGE_KEY = "life75_v8_health_os";
+
+const defaultState = {
+  profile:{
+    name:"",
+    dob:""
+  },
+  conditions:[],
+  doctorAdvice:[],
+  goals:[],
+  importantDays:[],
+  journal:{},
+  money:{
+    income:0,
+    expense:0
+  },
+  checklist:{}
 };
 
-let data={
- name:"",
- birth:"",
- language:"en",
- goals:[],
- habits:[],
- days:[],
- money:{income:0,expense:0,savingTarget:0,savingCurrent:0},
- journals:{}
-};
+let state = loadState();
 
-function load(){
- try{
-   const saved=localStorage.getItem(KEY);
-   if(saved)data={...data,...JSON.parse(saved)};
- }catch(e){}
+function $(id){
+  return document.getElementById(id);
 }
 
-function save(){
- localStorage.setItem(KEY,JSON.stringify(data));
+function uid(){
+  return Date.now().toString(36)+Math.random().toString(36).slice(2,8);
 }
 
-function $(id){return document.getElementById(id)}
-
-function toast(msg){
- const t=$("toast");
- t.textContent=msg;
- t.style.display="block";
- setTimeout(()=>t.style.display="none",1800);
+function escapeHTML(value){
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 }
 
-function go(page){
- document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
- const target=$("page-"+page);
- if(target)target.classList.add("active");
+function loadState(){
+  try{
+    const saved = localStorage.getItem(STORAGE_KEY);
 
- document.querySelectorAll(".nav button").forEach(b=>{
-   b.classList.toggle("active",b.dataset.page===page);
- });
+    if(!saved){
+      return structuredClone(defaultState);
+    }
 
- $("sidebar").classList.remove("open");
- $("overlay").classList.remove("show");
- window.scrollTo({top:0,behavior:"smooth"});
+    const parsed = JSON.parse(saved);
 
- render();
+    return {
+      ...structuredClone(defaultState),
+      ...parsed,
+      profile:{
+        ...defaultState.profile,
+        ...(parsed.profile || {})
+      },
+      money:{
+        ...defaultState.money,
+        ...(parsed.money || {})
+      }
+    };
+  }catch(error){
+    return structuredClone(defaultState);
+  }
 }
 
-document.querySelectorAll(".nav button").forEach(btn=>{
- btn.addEventListener("click",()=>go(btn.dataset.page));
+function saveState(){
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+}
+
+function toast(message="Saved"){
+  const el=$("toast");
+  el.textContent=message;
+  el.classList.add("show");
+
+  clearTimeout(window.__toastTimer);
+
+  window.__toastTimer=setTimeout(()=>{
+    el.classList.remove("show");
+  },1800);
+}
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+function showSection(id){
+
+  document.querySelectorAll(".section").forEach(section=>{
+    section.classList.remove("active");
+  });
+
+  const target=$(id);
+
+  if(target){
+    target.classList.add("active");
+  }
+
+  document.querySelectorAll(".nav button[data-section]").forEach(btn=>{
+    btn.classList.toggle(
+      "active",
+      btn.dataset.section===id
+    );
+  });
+
+  closeSidebar();
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+  if(id==="health"){
+    renderHealth();
+  }
+
+  if(id==="conditions"){
+    renderConditions();
+  }
+
+  if(id==="doctor"){
+    renderDoctorAdvice();
+  }
+
+  if(id==="goals"){
+    renderGoals();
+  }
+
+  if(id==="important"){
+    renderImportant();
+  }
+}
+
+document.querySelectorAll(".nav button[data-section]").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    showSection(btn.dataset.section);
+  });
 });
 
-$("menuBtn").onclick=()=>{
- $("sidebar").classList.add("open");
- $("overlay").classList.add("show");
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+$("menuBtn").addEventListener("click",()=>{
+  $("sidebar").classList.add("open");
+  $("overlay").classList.add("show");
+});
+
+$("overlay").addEventListener("click",closeSidebar);
+
+function closeSidebar(){
+  $("sidebar").classList.remove("open");
+  $("overlay").classList.remove("show");
+}
+
+/* =========================================================
+   DATE / TIME
+   ========================================================= */
+
+function formatDate(date){
+
+  return date.toLocaleDateString(
+    undefined,
+    {
+      weekday:"long",
+      year:"numeric",
+      month:"long",
+      day:"numeric"
+    }
+  );
+}
+
+function pad(n){
+  return String(n).padStart(2,"0");
+}
+
+function addYears(date,years){
+
+  const result=new Date(date);
+
+  const originalMonth=result.getMonth();
+  const originalDay=result.getDate();
+
+  result.setFullYear(
+    result.getFullYear()+years
+  );
+
+  if(
+    originalMonth===1 &&
+    originalDay===29 &&
+    result.getMonth()!==1
+  ){
+    result.setMonth(1);
+    result.setDate(28);
+  }
+
+  return result;
+}
+
+function calculateCalendarAge(dob,now){
+
+  if(!dob) return null;
+
+  const birth=new Date(dob+"T00:00:00");
+
+  if(isNaN(birth.getTime())) return null;
+
+  let years=now.getFullYear()-birth.getFullYear();
+  let anniversary=addYears(birth,years);
+
+  if(anniversary>now){
+    years--;
+    anniversary=addYears(birth,years);
+  }
+
+  let months=0;
+  let cursor=new Date(anniversary);
+
+  while(true){
+
+    const next=new Date(cursor);
+    next.setMonth(next.getMonth()+1);
+
+    if(next<=now){
+      cursor=next;
+      months++;
+    }else{
+      break;
+    }
+
+    if(months>11) break;
+  }
+
+  const days=Math.floor(
+    (now-cursor)/86400000
+  );
+
+  return {
+    years,
+    months,
+    days
+  };
+}
+
+function diffParts(start,end){
+
+  if(!start || !end || end<=start){
+    return {
+      years:0,
+      months:0,
+      days:0,
+      hours:0,
+      minutes:0,
+      seconds:0
+    };
+  }
+
+  let years=end.getFullYear()-start.getFullYear();
+
+  let cursor=addYears(start,years);
+
+  if(cursor>end){
+    years--;
+    cursor=addYears(start,years);
+  }
+
+  let months=0;
+
+  while(true){
+
+    const next=new Date(cursor);
+    next.setMonth(next.getMonth()+1);
+
+    if(next<=end){
+      cursor=next;
+      months++;
+    }else{
+      break;
+    }
+
+    if(months>=11) break;
+  }
+
+  let remaining=end-cursor;
+
+  const days=Math.floor(
+    remaining/86400000
+  );
+
+  remaining%=86400000;
+
+  const hours=Math.floor(
+    remaining/3600000
+  );
+
+  remaining%=3600000;
+
+  const minutes=Math.floor(
+    remaining/60000
+  );
+
+  remaining%=60000;
+
+  const seconds=Math.floor(
+    remaining/1000
+  );
+
+  return {
+    years,
+    months,
+    days,
+    hours,
+    minutes,
+    seconds
+  };
+}
+
+function formatParts(p){
+  return `${p.years}y ${p.months}m ${p.days}d`;
+}
+
+function formatLongParts(p){
+  return `${p.years} years · ${p.months} months · ${p.days} days`;
+}
+
+function updateClock(){
+
+  const now=new Date();
+
+  const time=
+    `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+
+  const date=formatDate(now);
+
+  $("topTime").textContent=time;
+  $("topDate").textContent=date;
+
+  $("dashClock").textContent=time;
+  $("dashDate").textContent=date;
+
+  $("mainClock").textContent=time;
+  $("mainDate").textContent=date;
+
+  $("timezone").textContent=
+    "Timezone: "+Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  $("journalDate").textContent=
+    now.toLocaleDateString(
+      undefined,
+      {
+        year:"numeric",
+        month:"long",
+        day:"numeric"
+      }
+    );
+
+  updateLifeTime(now);
+  updateTodayProgress(now);
+}
+
+function updateLifeTime(now){
+
+  const dob=state.profile.dob;
+
+  if(!dob){
+
+    [
+      "dashAge",
+      "dashYears",
+      "dashRemain",
+      "dashCountdown",
+      "timeAge",
+      "timeLived",
+      "timeRemaining"
+    ].forEach(id=>{
+      $(id).textContent="Set DOB";
+    });
+
+    $("dashProgress").textContent="0%";
+    $("timePercent").textContent="0%";
+    $("dashProgressBar").style.width="0%";
+
+    return;
+  }
+
+  const birth=new Date(dob+"T00:00:00");
+
+  if(isNaN(birth.getTime())) return;
+
+  const age=calculateCalendarAge(dob,now);
+
+  const target=addYears(birth,75);
+
+  const livedMs=Math.max(
+    0,
+    now-birth
+  );
+
+  const totalLifeMs=Math.max(
+    1,
+    target-birth
+  );
+
+  const progress=Math.min(
+    100,
+    Math.max(
+      0,
+      livedMs/totalLifeMs*100
+    )
+  );
+
+  const lived=diffParts(birth,now);
+  const remaining=diffParts(now,target);
+
+  $("dashAge").textContent=
+    `${age.years}y ${age.months}m ${age.days}d`;
+
+  $("dashYears").textContent=
+    lived.years;
+
+  $("dashRemain").textContent=
+    Math.max(0,75-age.years)+"y";
+
+  $("dashCountdown").textContent=
+    `${remaining.years}y ${remaining.months}m ${remaining.days}d ${remaining.hours}h ${remaining.minutes}m ${remaining.seconds}s`;
+
+  $("timeAge").textContent=
+    `${age.years}y ${age.months}m ${age.days}d`;
+
+  $("timeLived").textContent=
+    `${lived.years}y ${lived.months}m ${lived.days}d`;
+
+  $("timeRemaining").textContent=
+    `${remaining.years}y ${remaining.months}m ${remaining.days}d`;
+
+  $("dashProgress").textContent=
+    progress.toFixed(2)+"%";
+
+  $("timePercent").textContent=
+    progress.toFixed(2)+"%";
+
+  $("dashProgressBar").style.width=
+    progress+"%";
+
+  renderLifeGrids(age);
+}
+
+function updateTodayProgress(now){
+
+  const start=new Date(now);
+
+  start.setHours(0,0,0,0);
+
+  const end=new Date(start);
+
+  end.setDate(end.getDate()+1);
+
+  const progress=
+    Math.min(
+      100,
+      Math.max(
+        0,
+        (now-start)/(end-start)*100
+      )
+    );
+
+  $("todayProgress").textContent=
+    progress.toFixed(1)+"%";
+
+  $("todayBar").style.width=
+    progress+"%";
+}
+
+/* =========================================================
+   LIFE GRIDS
+   ========================================================= */
+
+function renderLifeGrids(age){
+
+  const yearGrid=$("lifeGrid");
+
+  yearGrid.innerHTML="";
+
+  const livedYears=Math.max(
+    0,
+    Math.min(75,age.years)
+  );
+
+  for(let i=0;i<75;i++){
+
+    const cell=document.createElement("div");
+
+    cell.className="life-cell";
+
+    if(i<livedYears){
+      cell.classList.add("lived");
+    }
+
+    if(
+      i===livedYears &&
+      age.months>=0 &&
+      livedYears<75
+    ){
+      cell.classList.add("current");
+    }
+
+    cell.title=
+      `Year ${i+1}`;
+
+    yearGrid.appendChild(cell);
+  }
+
+  const monthGrid=$("monthGrid");
+
+  monthGrid.innerHTML="";
+
+  const livedMonths=Math.max(
+    0,
+    Math.min(
+      900,
+      age.years*12+age.months
+    )
+  );
+
+  for(let i=0;i<900;i++){
+
+    const cell=document.createElement("div");
+
+    cell.className="month-cell";
+
+    if(i<livedMonths){
+      cell.classList.add("lived");
+    }
+
+    if(
+      i===livedMonths &&
+      livedMonths<900
+    ){
+      cell.classList.add("current");
+    }
+
+    monthGrid.appendChild(cell);
+  }
+}
+
+/* =========================================================
+   HEALTH DATABASE
+   ========================================================= */
+
+const HEALTH_GUIDES={
+
+  diabetes:{
+    name:"Diabetes",
+    avoid:[
+      "သကြားထည့်ထားသော အချိုရည်များကို ရှောင်ရန် သို့မဟုတ် အလွန်လျှော့ရန်",
+      "သကြားများသော မုန့်နှင့် အချိုပွဲများကို ထိန်းချုပ်ရန်",
+      "အစားအသောက်ပမာဏကို မထိန်းဘဲ တစ်ကြိမ်တည်း အလွန်အကျွံစားခြင်းကို ရှောင်ရန်",
+      "ဆရာဝန်ညွှန်ကြားချက်မရှိဘဲ ဆေးကို ကိုယ့်သဘောဖြင့် ပြောင်းလဲခြင်း မလုပ်ရန်"
+    ],
+    do:[
+      "အစားအသောက်ပမာဏနှင့် အချိန်ကို စနစ်တကျထိန်းရန်",
+      "ဆရာဝန်ညွှန်ကြားထားပါက သွေးချိုကို ပုံမှန်စောင့်ကြည့်ရန်",
+      "သင့်တော်သော ကိုယ်လက်လှုပ်ရှားမှုကို ပုံမှန်လုပ်ရန်",
+      "ဆရာဝန်ချိန်းဆိုချက်နှင့် စစ်ဆေးမှုများကို မပျက်မကွက်လိုက်နာရန်"
+    ],
+    foods:[
+      "အမျှင်ဓာတ်ပါသော ဟင်းသီးဟင်းရွက်များ",
+      "အာဟာရမျှတသော ပရိုတင်းအရင်းအမြစ်များ",
+      "အလွန်မချိုသော အစားအစာများ",
+      "ရေကို အဓိကအရည်အဖြစ် သောက်သုံးခြင်း"
+    ],
+    limit:[
+      "အချိုရည်",
+      "သကြားများသော မုန့်များ",
+      "အလွန်အကျွံ refined carbohydrates",
+      "အစားအစာပမာဏ အလွန်များခြင်း"
+    ],
+    monitor:[
+      "Blood glucose",
+      "HbA1c စစ်ဆေးမှု",
+      "Weight",
+      "Doctor follow-up"
+    ],
+    questions:[
+      "ကျွန်တော့်အတွက် သွေးချို target range က ဘယ်လောက်လဲ",
+      "ဘယ်အချိန်မှာ သွေးချိုစစ်သင့်လဲ",
+      "နောက်တစ်ကြိမ် HbA1c စစ်ဖို့ ဘယ်အချိန်လဲ",
+      "စားသောက်ပုံနဲ့ လေ့ကျင့်ခန်းကို ဘယ်လိုညှိသင့်လဲ"
+    ],
+    warning:[
+      "သွေးချိုအလွန်နိမ့်ခြင်း သို့မဟုတ် အလွန်မြင့်ခြင်းနှင့် ဆက်စပ်သော ပြင်းထန်သောလက္ခဏာများ",
+      "သတိလစ်ခြင်း",
+      "အသက်ရှူခက်ခြင်း",
+      "အလွန်အားနည်းပြီး ရေဓာတ်ခန်းခြောက်သလိုဖြစ်ခြင်း"
+    ]
+  },
+
+  hypertension:{
+    name:"High Blood Pressure",
+    avoid:[
+      "ဆားအလွန်များသော အစားအစာများကို လျှော့ရန်",
+      "အရက်သောက်ခြင်းကို ရှောင်ရန် သို့မဟုတ် ဆရာဝန်နှင့်တိုင်ပင်ပြီး ကန့်သတ်ရန်",
+      "ဆေးကို ကိုယ့်သဘောဖြင့် ရပ်ခြင်း မလုပ်ရန်",
+      "သွေးပေါင်ချိန်မြင့်နေစဉ် အလွန်ပြင်းထန်သော လေ့ကျင့်ခန်းကို ကိုယ့်သဘောဖြင့် မလုပ်ရန်"
+    ],
+    do:[
+      "သွေးပေါင်ချိန်ကို စနစ်တကျစောင့်ကြည့်ရန်",
+      "ဆားစားသုံးမှုကို ထိန်းရန်",
+      "ကိုယ်အလေးချိန်နှင့် ကိုယ်လက်လှုပ်ရှားမှုကို စောင့်ကြည့်ရန်",
+      "ဆရာဝန်ညွှန်ကြားချက်အတိုင်း ဆေးနှင့် follow-up ကို လိုက်နာရန်"
+    ],
+    foods:[
+      "ဟင်းသီးဟင်းရွက်နှင့် အသီးအနှံများ",
+      "အမျှင်ဓာတ်များသော အစားအစာများ",
+      "အာဟာရမျှတသော ပရိုတင်း",
+      "ဆားနည်းသော အစားအစာများ"
+    ],
+    limit:[
+      "ဆားများသော အစားအစာ",
+      "processed foods",
+      "အဆီနှင့် calorie အလွန်များသော အစားအစာ",
+      "အရက်"
+    ],
+    monitor:[
+      "Blood pressure",
+      "Weight",
+      "Heart rate",
+      "Doctor follow-up"
+    ],
+    questions:[
+      "ကျွန်တော့်အတွက် target blood pressure ဘယ်လောက်လဲ",
+      "အိမ်မှာ သွေးပေါင်ချိန် ဘယ်နှစ်ကြိမ်တိုင်းသင့်လဲ",
+      "လက်ရှိဆေးတွေကို ဘယ်လိုအချိန်ဇယားနဲ့ သောက်သင့်လဲ",
+      "အစားအသောက်မှာ ဘာတွေကို အထူးလျှော့သင့်လဲ"
+    ],
+    warning:[
+      "ရင်ဘတ်အောင့်ခြင်း",
+      "အသက်ရှူမဝခြင်း",
+      "ရုတ်တရက် မျက်နှာ/လက်/ခြေ အားနည်းခြင်း",
+      "စကားပြောမရခြင်း သို့မဟုတ် ရုတ်တရက် အမြင်ပြောင်းခြင်း",
+      "အလွန်ပြင်းထန်သော ခေါင်းကိုက်ခြင်း"
+    ]
+  },
+
+  highCholesterol:{
+    name:"High Cholesterol",
+    avoid:[
+      "saturated fat နှင့် trans fat များသော အစားအစာများကို လျှော့ရန်",
+      "ကြော်ထားသော အစားအစာများကို မကြာခဏစားခြင်းကို ရှောင်ရန်",
+      "processed meat များကို ကန့်သတ်ရန်"
+    ],
+    do:[
+      "ကိုယ်လက်လှုပ်ရှားမှု ပုံမှန်လုပ်ရန်",
+      "အစားအသောက်အရည်အသွေးကို စောင့်ကြည့်ရန်",
+      "ဆရာဝန်ညွှန်ကြားပါက lipid profile စစ်ဆေးရန်",
+      "ဆေးညွှန်ထားပါက ကိုယ့်သဘောဖြင့် မရပ်ရန်"
+    ],
+    foods:[
+      "အမျှင်ဓာတ်များသော အစားအစာများ",
+      "ဟင်းသီးဟင်းရွက်များ",
+      "whole grains",
+      "အာဟာရမျှတသော အစားအစာများ"
+    ],
+    limit:[
+      "အဆီများသော အသား",
+      "ကြော်စာ",
+      "trans fat ပါနိုင်သော processed foods",
+      "သကြားများသော အစားအစာများ"
+    ],
+    monitor:[
+      "Lipid profile",
+      "Weight",
+      "Blood pressure",
+      "Doctor follow-up"
+    ],
+    questions:[
+      "LDL target ဘယ်လောက်လဲ",
+      "Lipid profile ကို ဘယ်အချိန်ပြန်စစ်ရမလဲ",
+      "အစားအသောက်မှာ ဘာတွေကို အထူးလျှော့သင့်လဲ"
+    ],
+    warning:[
+      "ရင်ဘတ်အောင့်ခြင်း",
+      "အသက်ရှူမဝခြင်း",
+      "ရုတ်တရက် အားနည်းခြင်း သို့မဟုတ် stroke လက္ခဏာများ"
+    ]
+  },
+
+  heartDisease:{
+    name:"Heart Disease",
+    avoid:[
+      "ဆရာဝန်မညွှန်ကြားဘဲ အလွန်ပြင်းထန်သော physical activity မလုပ်ရန်",
+      "ဆေးကို ကိုယ့်သဘောဖြင့် ရပ်ခြင်း မလုပ်ရန်",
+      "ဆား၊ saturated fat များသော အစားအစာများကို လျှော့ရန်",
+      "ဆေးလိပ်သောက်ခြင်းကို ရှောင်ရန်"
+    ],
+    do:[
+      "Cardiology follow-up ကို လိုက်နာရန်",
+      "ဆရာဝန်သတ်မှတ်ထားသော activity plan ကို လိုက်နာရန်",
+      "သွေးပေါင်ချိန်၊ ကိုယ်အလေးချိန် စောင့်ကြည့်ရန်",
+      "ဆေးကို ညွှန်ကြားချက်အတိုင်း သုံးရန်"
+    ],
+    foods:[
+      "ဟင်းသီးဟင်းရွက်",
+      "အသီးအနှံ",
+      "whole grains",
+      "အဆီနည်းသော protein အရင်းအမြစ်များ"
+    ],
+    limit:[
+      "ဆားများသော အစားအစာ",
+      "အဆီများသော အစားအစာ",
+      "processed meat",
+      "အရက်နှင့် ဆေးလိပ်"
+    ],
+    monitor:[
+      "Blood pressure",
+      "Heart rate",
+      "Weight",
+      "Doctor / Cardiology follow-up"
+    ],
+    questions:[
+      "ကျွန်တော့်အတွက် safe exercise level ဘယ်လောက်လဲ",
+      "ဘယ်လက္ခဏာတွေ ဖြစ်လာရင် ချက်ချင်းဆေးရုံသွားသင့်လဲ",
+      "ဆေးတွေရဲ့ side effects ဘာတွေလဲ"
+    ],
+    warning:[
+      "ရင်ဘတ်အောင့်ခြင်း သို့မဟုတ် ဖိအားခံစားရခြင်း",
+      "အသက်ရှူမဝခြင်း",
+      "မူးဝေပြီး သတိလစ်ခြင်း",
+      "ရုတ်တရက် အားနည်းခြင်း"
+    ]
+  },
+
+  kidneyDisease:{
+    name:"Kidney Disease",
+    avoid:[
+      "ဆရာဝန်ညွှန်ကြားချက်မရှိဘဲ supplement သို့မဟုတ် OTC pain medicine များကို မကြာခဏသုံးခြင်းကို ရှောင်ရန်",
+      "ဆားအလွန်များသော အစားအစာများကို လျှော့ရန်",
+      "ကိုယ့်အခြေအနေမသိဘဲ protein သို့မဟုတ် electrolyte ကို အလွန်အကျွံပြောင်းလဲခြင်း မလုပ်ရန်"
+    ],
+    do:[
+      "Kidney function စစ်ဆေးမှုများကို လိုက်နာရန်",
+      "Blood pressure နှင့် diabetes ရှိပါက သွေးချိုကို စောင့်ကြည့်ရန်",
+      "ဆရာဝန်သတ်မှတ်ထားသော diet ကို လိုက်နာရန်",
+      "ဆေးဝါးအားလုံးကို ဆရာဝန်/ဆေးဝါးကျွမ်းကျင်သူနှင့် ပြန်လည်စစ်ဆေးရန်"
+    ],
+    foods:[
+      "ဆရာဝန်/အာဟာရပညာရှင်သတ်မှတ်ပေးသော အစားအစာအစီအစဉ်ကို ဦးစားပေးရန်",
+      "ဆားနည်းသော အစားအစာများ"
+    ],
+    limit:[
+      "ဆားများသော အစားအစာ",
+      "processed foods",
+      "ဆရာဝန်မညွှန်ကြားဘဲ supplement များ"
+    ],
+    monitor:[
+      "Creatinine / eGFR",
+      "Urine tests",
+      "Blood pressure",
+      "Doctor follow-up"
+    ],
+    questions:[
+      "ကျွန်တော့် kidney function အဆင့်က ဘယ်လောက်လဲ",
+      "Protein, potassium, phosphorus ကို ဘယ်လောက်ထိန်းသင့်လဲ",
+      "ဘယ်ဆေးတွေကို ရှောင်သင့်လဲ"
+    ],
+    warning:[
+      "အသက်ရှူခက်ခြင်း",
+      "အလွန်ဖောခြင်း",
+      "ဆီးအလွန်နည်းခြင်း",
+      "ပြင်းထန်သော အားနည်းခြင်း သို့မဟုတ် ရင်ဘတ်လက္ခဏာများ"
+    ]
+  },
+
+  fattyLiver:{
+    name:"Fatty Liver",
+    avoid:[
+      "အရက်သောက်ခြင်းကို ရှောင်ရန်",
+      "သကြားများသော အချိုရည်များကို လျှော့ရန်",
+      "အလွန်အကျွံ calorie စားသုံးခြင်းကို ရှောင်ရန်",
+      "ကိုယ့်သဘောဖြင့် supplement သုံးခြင်းကို ရှောင်ရန်"
+    ],
+    do:[
+      "ကိုယ်အလေးချိန်ကို ဆရာဝန်အကြံပြုချက်အတိုင်း စီမံရန်",
+      "ပုံမှန်ကိုယ်လက်လှုပ်ရှားမှုလုပ်ရန်",
+      "သွေးချို၊ cholesterol နှင့် blood pressure ကို စောင့်ကြည့်ရန်",
+      "ဆရာဝန်ညွှန်ကြားသော liver tests ကို လိုက်နာရန်"
+    ],
+    foods:[
+      "ဟင်းသီးဟင်းရွက်",
+      "အမျှင်ဓာတ်များသော အစားအစာ",
+      "အာဟာရမျှတသော protein",
+      "သကြားနည်းသော အစားအစာ"
+    ],
+    limit:[
+      "အချိုရည်",
+      "သကြားများသော အစားအစာ",
+      "အဆီနှင့် calorie အလွန်များသော အစားအစာ",
+      "အရက်"
+    ],
+    monitor:[
+      "Liver function tests",
+      "Weight",
+      "Blood sugar",
+      "Lipid profile"
+    ],
+    questions:[
+      "Liver function test ဘယ်အချိန်ပြန်စစ်ရမလဲ",
+      "ကိုယ်အလေးချိန်ကို ဘယ်လိုအတိုင်းအတာနဲ့ လျှော့သင့်လဲ",
+      "Ultrasound သို့မဟုတ် အခြားစစ်ဆေးမှုလိုအပ်လား"
+    ],
+    warning:[
+      "အသားဝါခြင်း",
+      "ဝမ်းဗိုက်အလွန်ဖောခြင်း",
+      "သွေးအန်ခြင်း",
+      "အလွန်အမင်း မူးဝေခြင်း သို့မဟုတ် သတိလစ်ခြင်း"
+    ]
+  },
+
+  gastritis:{
+    name:"Gastritis / Acid Reflux",
+    avoid:[
+      "ကိုယ့်ကို လက္ခဏာပိုဆိုးစေသော အစားအစာများကို ရှောင်ရန်",
+      "အလွန်အကျွံစားခြင်းကို ရှောင်ရန်",
+      "အိပ်ခါနီး အလွန်များပြားစွာစားခြင်းကို ရှောင်ရန်",
+      "ဆေးဝါးများကို ကိုယ့်သဘောဖြင့် ရေရှည်သုံးခြင်း မလုပ်ရန်"
+    ],
+    do:[
+      "အစားအစာကို ကိုယ့်လက္ခဏာနှင့် ကိုက်ညီအောင် စောင့်ကြည့်ရန်",
+      "အစားစားပြီး ချက်ချင်းလဲလျောင်းခြင်းကို ရှောင်ရန်",
+      "ဆရာဝန်ညွှန်ကြားပါက follow-up လုပ်ရန်",
+      "လက္ခဏာပြောင်းလဲမှုကို မှတ်တမ်းတင်ရန်"
+    ],
+    foods:[
+      "ကိုယ့်အတွက် လက္ခဏာမဖြစ်စေသော အစားအစာများ",
+      "အာဟာရမျှတသော အစားအစာ",
+      "ရေကို လုံလောက်စွာသောက်ရန်"
+    ],
+    limit:[
+      "ကိုယ့်ကို trigger ဖြစ်စေသော အစားအစာ",
+      "အလွန်စပ်သော အစားအစာ",
+      "အလွန်အဆီများသော အစားအစာ",
+      "အရက်"
+    ],
+    monitor:[
+      "Symptoms",
+      "Weight",
+      "Doctor follow-up",
+      "လိုအပ်ပါက စစ်ဆေးမှုများ"
+    ],
+    questions:[
+      "ဘယ်အစားအစာတွေကို ကျွန်တော်ရှောင်သင့်လဲ",
+      "လက်ရှိလက္ခဏာအတွက် ဘယ်စစ်ဆေးမှုလိုအပ်လဲ",
+      "ဘယ်အခြေအနေမှာ ဆေးရုံသွားသင့်လဲ"
+    ],
+    warning:[
+      "သွေးအန်ခြင်း",
+      "ဝမ်းမည်းခြင်း",
+      "အစာမျိုရခက်ခြင်း",
+      "အလေးချိန် မရည်ရွယ်ဘဲ သိသိသာသာကျခြင်း",
+      "ရင်ဘတ်အောင့်ခြင်း"
+    ]
+  },
+
+  asthma:{
+    name:"Asthma",
+    avoid:[
+      "ကိုယ့်အတွက် asthma trigger ဖြစ်စေသောအရာများကို ရှောင်ရန်",
+      "ဆေးလိပ်မီးခိုးနှင့် second-hand smoke ကို ရှောင်ရန်",
+      "ဆရာဝန်ညွှန်ကြားချက်မရှိဘဲ inhaler/ဆေးကို ရပ်ခြင်း မလုပ်ရန်"
+    ],
+    do:[
+      "ဆရာဝန်ပေးထားသော asthma action plan ကို လိုက်နာရန်",
+      "inhaler technique ကို မှန်ကန်စွာ အသုံးပြုရန်",
+      "Trigger များကို မှတ်သားထားရန်",
+      "Follow-up ကို လိုက်နာရန်"
+    ],
+    foods:[
+      "အထူးသဖြင့် သတ်မှတ်ထားသော အစားအစာမရှိပါက အာဟာရမျှတစွာ စားရန်",
+      "ရေကို လုံလောက်စွာသောက်ရန်"
+    ],
+    limit:[
+      "ကိုယ့်အတွက် allergy/trigger ဖြစ်စေသော အစားအစာ",
+      "ဆေးလိပ်မီးခိုး",
+      "အခြားသတ်မှတ်ထားသော triggers"
+    ],
+    monitor:[
+      "Symptoms",
+      "Peak flow if prescribed",
+      "Inhaler use",
+      "Doctor follow-up"
+    ],
+    questions:[
+      "ကျွန်တော့် asthma trigger တွေက ဘာတွေလဲ",
+      "ဘယ်အချိန်မှာ rescue inhaler သုံးရမလဲ",
+      "Asthma action plan ကို ဘယ်လိုလိုက်နာရမလဲ"
+    ],
+    warning:[
+      "အသက်ရှူအလွန်ခက်ခြင်း",
+      "စကားပြောရခက်ခြင်း",
+      "နှုတ်ခမ်း/မျက်နှာပြာလာခြင်း",
+      "သတ်မှတ်ထားသော rescue treatment ဖြင့် မသက်သာခြင်း"
+    ]
+  },
+
+  arthritis:{
+    name:"Arthritis",
+    avoid:[
+      "အဆစ်နာနေစဉ် အလွန်ပြင်းထန်သော လှုပ်ရှားမှုကို ရှောင်ရန်",
+      "အချိန်ကြာမြင့်စွာ လုံးဝမလှုပ်ရှားဘဲ နေခြင်းကို ရှောင်ရန်",
+      "ဆေးဝါးကို ကိုယ့်သဘောဖြင့် အလွန်အကျွံသုံးခြင်း မလုပ်ရန်"
+    ],
+    do:[
+      "ဆရာဝန်/physiotherapist အကြံပြုသော လေ့ကျင့်ခန်းလုပ်ရန်",
+      "ကိုယ်အလေးချိန်ကို သင့်တော်အောင် ထိန်းရန်",
+      "နာကျင်မှုနှင့် အဆစ်လှုပ်ရှားနိုင်မှုကို မှတ်တမ်းတင်ရန်",
+      "Follow-up လုပ်ရန်"
+    ],
+    foods:[
+      "အာဟာရမျှတသော အစားအစာ",
+      "ဟင်းသီးဟင်းရွက်",
+      "အမျှင်ဓာတ်ပါသော အစားအစာ",
+      "protein လုံလောက်စွာ"
+    ],
+    limit:[
+      "အလွန်အကျွံ calorie စားသုံးခြင်း",
+      "ကိုယ့်ကို trigger ဖြစ်စေသော အစားအစာများ"
+    ],
+    monitor:[
+      "Pain level",
+      "Mobility",
+      "Weight",
+      "Doctor / physiotherapy follow-up"
+    ],
+    questions:[
+      "ကျွန်တော့်အတွက် သင့်တော်တဲ့ exercise ဘာတွေလဲ",
+      "ဘယ်အချိန်မှာ pain treatment ပြန်စစ်သင့်လဲ",
+      "လက်ရှိဆေးတွေကို ဘယ်လိုစောင့်ကြည့်ရမလဲ"
+    ],
+    warning:[
+      "အဆစ်ရုတ်တရက် အလွန်ဖောပြီး အနီရောင်ဖြစ်ခြင်း",
+      "ဖျားခြင်းနှင့်အတူ အဆစ်ပြင်းထန်စွာနာခြင်း",
+      "လမ်းလျှောက်နိုင်မှု ရုတ်တရက်ကျဆင်းခြင်း"
+    ]
+  }
+
 };
-$("overlay").onclick=()=>{
- $("sidebar").classList.remove("open");
- $("overlay").classList.remove("show");
-};
 
-function calculateLife(){
- if(!data.birth)return null;
 
- const birth=new Date(data.birth+"T00:00:00");
- const now=new Date();
+/* =========================================================
+   CONDITION FUNCTIONS
+   ========================================================= */
 
- if(isNaN(birth.getTime()) || birth>now)return null;
+function addCondition(){
 
- const target=new Date(birth);
- target.setFullYear(birth.getFullYear()+75);
+  const type=$("conditionSelect").value;
 
- const daysLived=Math.max(0,Math.floor((now-birth)/86400000));
- const daysRemaining=Math.max(0,Math.ceil((target-now)/86400000));
+  if(!type){
+    toast("Condition ရွေးပါ");
+    return;
+  }
 
- let age=now.getFullYear()-birth.getFullYear();
- const beforeBirthday=
-   now.getMonth()<birth.getMonth() ||
-   (now.getMonth()===birth.getMonth() && now.getDate()<birth.getDate());
+  let name=$("conditionName").value.trim();
 
- if(beforeBirthday)age--;
+  if(!name){
 
- age=Math.max(0,Math.min(75,age));
+    if(type==="custom"){
+      toast("Condition name ထည့်ပါ");
+      return;
+    }
 
- const percent=Math.min(100,Math.max(0,(now-birth)/(target-birth)*100));
+    name=
+      HEALTH_GUIDES[type]?.name ||
+      type;
+  }
 
- return {
-   age,
-   daysLived,
-   daysRemaining,
-   percent,
-   yearsLeft:Math.max(0,75-age),
-   target
- };
+  const item={
+    id:uid(),
+    type,
+    name,
+    note:$("conditionNote").value.trim(),
+    createdAt:new Date().toISOString()
+  };
+
+  state.conditions.push(item);
+
+  saveState();
+
+  $("conditionName").value="";
+  $("conditionNote").value="";
+  $("conditionSelect").value="";
+
+  renderConditions();
+  renderHealth();
+
+  toast("Condition ထည့်ပြီးပါပြီ");
+
+  showSection("health");
 }
 
-function formatDate(d){
- if(!d)return "—";
- const date=new Date(d+"T00:00:00");
- return date.toLocaleDateString(data.language==="my"?"my-MM":"en-US",{
-   year:"numeric",month:"short",day:"numeric"
- });
+function removeCondition(id){
+
+  if(!confirm("ဒီ condition ကို ဖျက်မလား")) return;
+
+  state.conditions=
+    state.conditions.filter(
+      item=>item.id!==id
+    );
+
+  saveState();
+
+  renderConditions();
+  renderHealth();
+
+  toast("Condition ဖျက်ပြီးပါပြီ");
 }
 
-function render(){
- applyLanguage();
- renderHeader();
- renderLife();
- renderGoals();
- renderHabits();
- renderDays();
- renderMoney();
- renderJournal();
- renderInsights();
- renderHome();
- renderSettings();
-}
+function renderConditions(){
 
-function renderHeader(){
- const now=new Date();
- $("todayLabel").textContent=now.toLocaleDateString(
-   data.language==="my"?"my-MM":"en-US",
-   {weekday:"short",month:"short",day:"numeric",year:"numeric"}
- );
-}
+  const box=$("conditionRecords");
 
-function renderLife(){
- const l=calculateLife();
+  if(!state.conditions.length){
 
- if(!l){
-   ["ageStat","daysLived","daysRemaining","lifePercent","lifePercent2",
-    "lifeAge2","yearsLeft","daysLived2","daysRemaining2"].forEach(id=>$(id).textContent="—");
-   $("birthDisplay").textContent="Not set";
-   $("targetDate").textContent="—";
-   $("lifeBar").style.width="0%";
-   renderLifeGrid(0);
-   return;
- }
-
- $("ageStat").textContent=l.age;
- $("daysLived").textContent=l.daysLived.toLocaleString();
- $("daysRemaining").textContent=l.daysRemaining.toLocaleString();
- $("lifePercent").textContent=l.percent.toFixed(1)+"%";
-
- $("lifePercent2").textContent=l.percent.toFixed(1)+"%";
- $("lifeAge2").textContent=l.age;
- $("yearsLeft").textContent=l.yearsLeft;
- $("daysLived2").textContent=l.daysLived.toLocaleString();
- $("daysRemaining2").textContent=l.daysRemaining.toLocaleString();
- $("birthDisplay").textContent=formatDate(data.birth);
- $("targetDate").textContent=l.target.toLocaleDateString(
-   data.language==="my"?"my-MM":"en-US",
-   {year:"numeric",month:"short",day:"numeric"}
- );
- $("lifeBar").style.width=l.percent+"%";
-
- renderLifeGrid(l.age);
-}
-
-function renderLifeGrid(age){
- const grid=$("lifeGrid");
- grid.innerHTML="";
- for(let i=0;i<75;i++){
-   const cell=document.createElement("div");
-   cell.className="life-cell";
-   cell.title="Age "+(i+1);
-   if(i<age)cell.classList.add("past");
-   if(i===age)cell.classList.add("current");
-   if(i>age)cell.classList.add("future");
-   grid.appendChild(cell);
- }
-}
-
-function renderHome(){
- const l=calculateLife();
-
- if(data.name){
-   $("welcomeText").textContent="Welcome back, "+data.name;
- }else{
-   $("welcomeText").textContent="Your next chapter starts today";
- }
-
- if(l){
-   $("heroText").textContent=
-    "You are "+l.age+" years old. You have approximately "+
-    l.daysRemaining.toLocaleString()+" days until age 75.";
- }else{
-   $("heroText").textContent=
-    "Set your birth date in Settings to unlock your personal LIFE 75 timeline.";
- }
-
- const q=quotes[new Date().getDate()%quotes.length];
- $("dailyQuote").textContent="“"+q[0]+"”";
- $("quoteAuthor").textContent="— "+q[1];
-
- const goals=data.goals.slice(0,3);
-
- if(!goals.length){
-   $("homeGoals").innerHTML=
-    '<div class="empty">No goals yet<br><button class="btn primary small" style="margin-top:10px" onclick="openGoalModal()">Create your first goal</button></div>';
- }else{
-   $("homeGoals").innerHTML=goals.map(g=>`
-    <div style="margin-bottom:15px">
-      <div class="row" style="justify-content:space-between">
-       <b>${esc(g.name)}</b><span>${g.progress}%</span>
+    box.innerHTML=`
+      <div class="muted" style="padding-top:12px">
+        No conditions added yet
       </div>
-      <div class="progress"><div style="width:${g.progress}%"></div></div>
+    `;
+
+    return;
+  }
+
+  box.innerHTML=
+    state.conditions.map(item=>{
+
+      const guide=
+        HEALTH_GUIDES[item.type];
+
+      return `
+        <div class="record">
+
+          <div class="record-top">
+
+            <div>
+              <strong>${escapeHTML(item.name)}</strong>
+              <br>
+              <small>
+                ${guide ? escapeHTML(guide.name) : "Personal condition"}
+              </small>
+            </div>
+
+            <button
+              class="danger"
+              onclick="removeCondition('${item.id}')">
+              Delete
+            </button>
+
+          </div>
+
+          ${
+            item.note
+            ?
+            `<div class="muted" style="margin-top:8px">
+              ${escapeHTML(item.note)}
+            </div>`
+            :
+            ""
+          }
+
+        </div>
+      `;
+    }).join("");
+}
+
+
+/* =========================================================
+   HEALTH RENDER
+   ========================================================= */
+
+function listHTML(items){
+
+  if(!items || !items.length){
+    return "<li>အချက်အလက်မရှိသေးပါ</li>";
+  }
+
+  return items
+    .map(item=>`<li>${escapeHTML(item)}</li>`)
+    .join("");
+}
+
+function renderGuide(condition){
+
+  const guide=HEALTH_GUIDES[condition.type];
+
+  if(!guide){
+
+    return `
+      <div class="guide-box">
+        <h3>${escapeHTML(condition.name)}</h3>
+        <p class="muted">
+          ဒီ condition အတွက် ယေဘုယျ guide မရှိသေးပါ
+          ဆရာဝန်၏ ကိုယ်ပိုင်အကြံပြုချက်ကို ဦးစားပေးပါ
+        </p>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="card guide">
+
+      <div>
+        <div class="card-title">CARE GUIDE</div>
+        <div class="card-value gold">
+          ${escapeHTML(condition.name)}
+        </div>
+      </div>
+
+      <div class="guide-box avoid">
+        <h3>🚫 ရှောင်ရန်</h3>
+        <ul>${listHTML(guide.avoid)}</ul>
+      </div>
+
+      <div class="guide-box do">
+        <h3>✓ ဆောင်ရန်</h3>
+        <ul>${listHTML(guide.do)}</ul>
+      </div>
+
+      <div class="guide-box food">
+        <h3>🥗 စားသင့်တာ</h3>
+        <ul>${listHTML(guide.foods)}</ul>
+      </div>
+
+      <div class="guide-box food">
+        <h3>↘ လျှော့သင့်တာ</h3>
+        <ul>${listHTML(guide.limit)}</ul>
+      </div>
+
+      <div class="guide-box monitor">
+        <h3>◷ Monitoring / Checkup</h3>
+        <ul>${listHTML(guide.monitor)}</ul>
+      </div>
+
+      <div class="guide-box">
+        <h3>⚕ Doctor ကို မေးသင့်တာ</h3>
+        <ul>${listHTML(guide.questions)}</ul>
+      </div>
+
+      <div class="guide-box warning">
+        <h3>⚠ အရေးပေါ်သတိပြုရန်</h3>
+        <ul>${listHTML(guide.warning)}</ul>
+      </div>
+
     </div>
-   `).join("");
- }
+  `;
+}
 
- const hp=habitPercent();
- $("habitPercent").textContent=hp+"%";
- $("habitBar").style.width=hp+"%";
+function renderHealth(){
 
- const sp=savingPercent();
- $("savingPercent").textContent=sp+"%";
- $("savingBar").style.width=sp+"%";
+  $("healthCount").textContent=
+    `${state.conditions.length} Condition${state.conditions.length===1?"":"s"}`;
 
- const upcoming=getUpcoming();
- $("upcomingHome").innerHTML=upcoming.length?
- upcoming.slice(0,4).map(d=>`
-  <div class="list-item">
-   <div class="list-main"><div class="list-title">${esc(d.name)}</div>
-   <div class="list-meta">${formatDate(d.date)}</div></div>
-   <span class="badge">${daysUntil(d.date)} days</span>
-  </div>`).join("")
- :'<div class="empty">No upcoming important days</div>';
+  $("dashConditions").textContent=
+    state.conditions.length;
+
+  const chips=$("healthConditionChips");
+
+  if(!state.conditions.length){
+
+    chips.innerHTML=`
+      <span class="muted">
+        Condition မထည့်ရသေးပါ
+      </span>
+    `;
+
+  }else{
+
+    chips.innerHTML=
+      state.conditions.map(item=>`
+        <div class="condition-chip">
+          ${escapeHTML(item.name)}
+          <button onclick="removeCondition('${item.id}')">×</button>
+        </div>
+      `).join("");
+  }
+
+  const guides=$("healthGuides");
+
+  if(!state.conditions.length){
+
+    guides.innerHTML=`
+      <div class="card">
+        <div class="card-title">PERSONALIZED HEALTH GUIDE</div>
+        <div style="height:8px"></div>
+        <div class="muted">
+          ကိုယ်မှာရှိတဲ့ condition ကို ထည့်လိုက်ပါ
+          ရောဂါအလိုက် ရှောင်ရန်၊ ဆောင်ရန်၊ စားသင့်တာ၊
+          Monitoring နှင့် Doctor Questions ကို ဒီနေရာမှာ ပြပေးမယ်
+        </div>
+      </div>
+    `;
+
+  }else{
+
+    guides.innerHTML=
+      state.conditions
+        .map(renderGuide)
+        .join("");
+  }
+
+  renderChecklist();
+  renderMonitoring();
+}
+
+function renderChecklist(){
+
+  const today=
+    new Date().toISOString().slice(0,10);
+
+  const key="health_"+today;
+
+  if(!state.checklist[key]){
+    state.checklist[key]={};
+  }
+
+  const tasks=[
+    {
+      id:"medicine",
+      text:"ဆရာဝန်ညွှန်ကြားထားသော ဆေးများကို စစ်ဆေးပြီး သတ်မှတ်ထားသည့်အတိုင်း လိုက်နာရန်"
+    },
+    {
+      id:"water",
+      text:"ရေသောက်သုံးမှုကို ကိုယ့်ဆရာဝန်အကြံပြုချက်နှင့် ကိုက်ညီအောင် စောင့်ကြည့်ရန်"
+    },
+    {
+      id:"food",
+      text:"ဒီနေ့စားသောက်မှုကို စောင့်ကြည့်ရန်"
+    },
+    {
+      id:"activity",
+      text:"သင့်တော်သော ကိုယ်လက်လှုပ်ရှားမှုလုပ်ရန်"
+    },
+    {
+      id:"symptoms",
+      text:"ယနေ့ထူးခြားသော လက္ခဏာရှိ/မရှိ မှတ်သားရန်"
+    }
+  ];
+
+  $("healthChecklist").innerHTML=
+    tasks.map(task=>`
+
+      <div class="check-row">
+
+        <input
+          type="checkbox"
+          ${
+            state.checklist[key][task.id]
+            ?
+            "checked"
+            :
+            ""
+          }
+          onchange="toggleHealthCheck('${key}','${task.id}',this.checked)"
+        >
+
+        <label>
+          ${escapeHTML(task.text)}
+        </label>
+
+      </div>
+
+    `).join("");
+}
+
+function toggleHealthCheck(key,id,value){
+
+  if(!state.checklist[key]){
+    state.checklist[key]={};
+  }
+
+  state.checklist[key][id]=value;
+
+  saveState();
+}
+
+function renderMonitoring(){
+
+  const all=[];
+
+  state.conditions.forEach(condition=>{
+
+    const guide=
+      HEALTH_GUIDES[condition.type];
+
+    if(guide){
+
+      guide.monitor.forEach(item=>{
+
+        if(!all.includes(item)){
+          all.push(item);
+        }
+
+      });
+
+    }
+
+  });
+
+  if(!all.length){
+
+    $("healthMonitoring").innerHTML=`
+      <div class="muted">
+        Condition ထည့်ပြီးနောက် monitoring list ပေါ်လာမယ်
+      </div>
+    `;
+
+    return;
+  }
+
+  $("healthMonitoring").innerHTML=
+    all.map(item=>`
+      <div class="record">
+        ${escapeHTML(item)}
+      </div>
+    `).join("");
+}
+
+
+/* =========================================================
+   DOCTOR ADVICE
+   ========================================================= */
+
+function addDoctorAdvice(){
+
+  const doctor=$("doctorName").value.trim();
+  const date=$("doctorDate").value;
+  const advice=$("doctorAdvice").value.trim();
+
+  if(!advice){
+
+    toast("Doctor advice ထည့်ပါ");
+    return;
+  }
+
+  state.doctorAdvice.unshift({
+
+    id:uid(),
+    doctor,
+    date,
+    advice,
+    tests:$("doctorTests").value.trim(),
+    next:$("doctorNext").value
+
+  });
+
+  saveState();
+
+  $("doctorName").value="";
+  $("doctorDate").value="";
+  $("doctorAdvice").value="";
+  $("doctorTests").value="";
+  $("doctorNext").value="";
+
+  renderDoctorAdvice();
+
+  toast("Doctor Advice သိမ်းပြီးပါပြီ");
+}
+
+function deleteDoctorAdvice(id){
+
+  if(!confirm("ဒီ Doctor Advice ကို ဖျက်မလား")) return;
+
+  state.doctorAdvice=
+    state.doctorAdvice.filter(
+      item=>item.id!==id
+    );
+
+  saveState();
+
+  renderDoctorAdvice();
+
+  toast("Deleted");
+}
+
+function renderDoctorAdvice(){
+
+  const box=$("doctorRecords");
+
+  if(!state.doctorAdvice.length){
+
+    box.innerHTML=`
+      <div class="muted">
+        Doctor advice မရှိသေးပါ
+      </div>
+    `;
+
+    return;
+  }
+
+  box.innerHTML=
+    state.doctorAdvice.map(item=>`
+
+      <div class="record">
+
+        <div class="record-top">
+
+          <div>
+            <strong>
+              ${escapeHTML(item.doctor || "Doctor")}
+            </strong>
+
+            <br>
+
+            <small>
+              ${escapeHTML(item.date || "")}
+            </small>
+          </div>
+
+          <button
+            class="danger"
+            onclick="deleteDoctorAdvice('${item.id}')">
+            Delete
+          </button>
+
+        </div>
+
+        <div style="margin-top:10px">
+          ${escapeHTML(item.advice)}
+        </div>
+
+        ${
+          item.tests
+          ?
+          `
+          <div class="muted" style="margin-top:8px">
+            Tests: ${escapeHTML(item.tests)}
+          </div>
+          `
+          :
+          ""
+        }
+
+        ${
+          item.next
+          ?
+          `
+          <div class="muted">
+            Next visit: ${escapeHTML(item.next)}
+          </div>
+          `
+          :
+          ""
+        }
+
+      </div>
+
+    `).join("");
+}
+
+
+/* =========================================================
+   GOALS
+   ========================================================= */
+
+function addGoal(){
+
+  const name=$("goalName").value.trim();
+
+  if(!name){
+
+    toast("Goal name ထည့်ပါ");
+    return;
+  }
+
+  state.goals.unshift({
+    id:uid(),
+    name,
+    date:$("goalDate").value,
+    completed:false
+  });
+
+  saveState();
+
+  $("goalName").value="";
+  $("goalDate").value="";
+
+  renderGoals();
+
+  toast("Goal ထည့်ပြီးပါပြီ");
+}
+
+function toggleGoal(id,value){
+
+  const item=
+    state.goals.find(
+      goal=>goal.id===id
+    );
+
+  if(item){
+    item.completed=value;
+    saveState();
+    renderGoals();
+  }
+}
+
+function deleteGoal(id){
+
+  state.goals=
+    state.goals.filter(
+      goal=>goal.id!==id
+    );
+
+  saveState();
+  renderGoals();
 }
 
 function renderGoals(){
- const total=data.goals.length;
- const avg=total?Math.round(data.goals.reduce((a,b)=>a+Number(b.progress||0),0)/total):0;
- const completed=data.goals.filter(g=>Number(g.progress)>=100).length;
 
- $("goalStats").innerHTML=`
-  <div class="card"><div class="stat-label">TOTAL GOALS</div><div class="stat-value">${total}</div></div>
-  <div class="card"><div class="stat-label">AVERAGE PROGRESS</div><div class="stat-value">${avg}%</div></div>
-  <div class="card"><div class="stat-label">COMPLETED</div><div class="stat-value">${completed}</div></div>
- `;
+  const box=$("goalRecords");
 
- if(!total){
-   $("goalList").innerHTML='<div class="empty">No goals yet. Create a goal to start.</div>';
-   return;
- }
+  if(!state.goals.length){
 
- $("goalList").innerHTML=data.goals.map((g,i)=>`
-  <div class="list-item">
-   <div class="list-main" style="flex:1">
-    <div class="row" style="justify-content:space-between">
-      <div class="list-title">${esc(g.name)}</div>
-      <span class="badge">${esc(g.category)}</span>
-    </div>
-    <div class="progress"><div style="width:${g.progress}%"></div></div>
-    <div class="list-meta">${g.progress}% complete</div>
-   </div>
-   <div class="row">
-    <button class="btn small light" onclick="changeGoal(${i})">Update</button>
-    <button class="btn small danger" onclick="deleteGoal(${i})">Delete</button>
-   </div>
-  </div>
- `).join("");
+    box.innerHTML=`
+      <div class="muted">
+        Goal မရှိသေးပါ
+      </div>
+    `;
+
+    return;
+  }
+
+  box.innerHTML=
+    state.goals.map(goal=>`
+
+      <div class="record">
+
+        <div class="check-row">
+
+          <input
+            type="checkbox"
+            ${goal.completed?"checked":""}
+            onchange="toggleGoal('${goal.id}',this.checked)"
+          >
+
+          <div style="flex:1">
+
+            <strong
+              style="${goal.completed?"text-decoration:line-through;color:#777":""}">
+              ${escapeHTML(goal.name)}
+            </strong>
+
+            ${
+              goal.date
+              ?
+              `<div class="muted">${escapeHTML(goal.date)}</div>`
+              :
+              ""
+            }
+
+          </div>
+
+          <button
+            class="danger"
+            onclick="deleteGoal('${goal.id}')">
+            ×
+          </button>
+
+        </div>
+
+      </div>
+
+    `).join("");
 }
 
-function openGoalModal(){
- $("goalName").value="";
- $("goalProgress").value=0;
- $("goalModal").style.display="flex";
+
+/* =========================================================
+   IMPORTANT DAYS
+   ========================================================= */
+
+function addImportant(){
+
+  const name=$("importantName").value.trim();
+  const date=$("importantDate").value;
+
+  if(!name || !date){
+
+    toast("Name နဲ့ date ထည့်ပါ");
+    return;
+  }
+
+  state.importantDays.push({
+    id:uid(),
+    name,
+    date
+  });
+
+  state.importantDays.sort(
+    (a,b)=>a.date.localeCompare(b.date)
+  );
+
+  saveState();
+
+  $("importantName").value="";
+  $("importantDate").value="";
+
+  renderImportant();
+
+  toast("Important Day ထည့်ပြီးပါပြီ");
 }
 
-function addGoal(){
- const name=$("goalName").value.trim();
- if(!name){toast("Enter a goal");return}
- data.goals.unshift({
-   id:Date.now(),name,
-   category:$("goalCategory").value,
-   progress:Math.max(0,Math.min(100,Number($("goalProgress").value)||0))
- });
- save();
- closeModal("goalModal");
- render();
- toast("Goal added");
+function deleteImportant(id){
+
+  state.importantDays=
+    state.importantDays.filter(
+      item=>item.id!==id
+    );
+
+  saveState();
+  renderImportant();
 }
 
-function changeGoal(i){
- let p=prompt("Enter progress %",data.goals[i].progress);
- if(p===null)return;
- p=Number(p);
- if(isNaN(p))return;
- data.goals[i].progress=Math.max(0,Math.min(100,p));
- save();render();toast("Goal updated");
+function renderImportant(){
+
+  const box=$("importantRecords");
+
+  if(!state.importantDays.length){
+
+    box.innerHTML=`
+      <div class="muted">
+        Important Day မရှိသေးပါ
+      </div>
+    `;
+
+    return;
+  }
+
+  box.innerHTML=
+    state.importantDays.map(item=>`
+
+      <div class="record">
+
+        <div class="record-top">
+
+          <div>
+            <strong>
+              ${escapeHTML(item.name)}
+            </strong>
+
+            <div class="muted">
+              ${escapeHTML(item.date)}
+            </div>
+          </div>
+
+          <button
+            class="danger"
+            onclick="deleteImportant('${item.id}')">
+            Delete
+          </button>
+
+        </div>
+
+      </div>
+
+    `).join("");
 }
 
-function deleteGoal(i){
- if(!confirm("Delete this goal?"))return;
- data.goals.splice(i,1);save();render();toast("Goal deleted");
-}
 
-function renderHabits(){
- const total=data.habits.length;
- const done=data.habits.filter(h=>h.completedToday).length;
- const percent=total?Math.round(done/total*100):0;
-
- $("habitToday").textContent=percent+"%";
- $("habitCount").textContent=total;
- $("habitDone").textContent=done;
- $("bestStreak").textContent=total?Math.max(...data.habits.map(h=>h.streak||0)):0;
-
- if(!total){
-   $("habitList").innerHTML='<div class="empty">No habits yet. Add your first daily habit.</div>';
-   return;
- }
-
- $("habitList").innerHTML=data.habits.map((h,i)=>`
-  <div class="list-item">
-   <div class="row" style="flex:1">
-    <button class="check ${h.completedToday?"done":""}" onclick="toggleHabit(${i})">
-      ${h.completedToday?"✓":""}
-    </button>
-    <div class="list-main">
-      <div class="list-title">${esc(h.name)}</div>
-      <div class="list-meta">🔥 ${h.streak||0} day streak</div>
-    </div>
-   </div>
-   <button class="btn small danger" onclick="deleteHabit(${i})">Delete</button>
-  </div>
- `).join("");
-}
-
-function habitPercent(){
- const total=data.habits.length;
- if(!total)return 0;
- return Math.round(data.habits.filter(h=>h.completedToday).length/total*100);
-}
-
-function openHabitModal(){
- $("habitName").value="";
- $("habitModal").style.display="flex";
-}
-
-function addHabit(){
- const name=$("habitName").value.trim();
- if(!name){toast("Enter a habit");return}
- data.habits.push({
-   id:Date.now(),name,completedToday:false,streak:0,lastCompleted:""
- });
- save();closeModal("habitModal");render();toast("Habit added");
-}
-
-function toggleHabit(i){
- const h=data.habits[i];
- const today=localDate();
-
- if(h.completedToday){
-   h.completedToday=false;
- }else{
-   h.completedToday=true;
-   if(h.lastCompleted!==today)h.streak=(h.streak||0)+1;
-   h.lastCompleted=today;
- }
- save();render();toast(h.completedToday?"Habit completed":"Habit unchecked");
-}
-
-function deleteHabit(i){
- if(!confirm("Delete this habit?"))return;
- data.habits.splice(i,1);save();render();toast("Habit deleted");
-}
-
-function localDate(){
- const d=new Date();
- const y=d.getFullYear();
- const m=String(d.getMonth()+1).padStart(2,"0");
- const day=String(d.getDate()).padStart(2,"0");
- return `${y}-${m}-${day}`;
-}
-
-function renderDays(){
- const events=[...data.days].sort((a,b)=>a.date.localeCompare(b.date));
-
- renderCalendar();
-
- if(!events.length){
-   $("dayList").innerHTML='<div class="empty">No important days added yet.</div>';
-   return;
- }
-
- $("dayList").innerHTML=events.map((d,i)=>{
-   const original=data.days.indexOf(d);
-   return `
-   <div class="list-item">
-    <div class="list-main">
-     <div class="list-title">${esc(d.name)}</div>
-     <div class="list-meta">${formatDate(d.date)} • ${esc(d.category)}</div>
-    </div>
-    <div class="row">
-     <span class="badge">${daysUntil(d.date)} days</span>
-     <button class="btn small danger" onclick="deleteDay(${original})">Delete</button>
-    </div>
-   </div>`;
- }).join("");
-}
-
-function openDayModal(){
- $("dayName").value="";
- $("dayDate").value="";
- $("dayModal").style.display="flex";
-}
-
-function addImportantDay(){
- const name=$("dayName").value.trim();
- const date=$("dayDate").value;
- if(!name||!date){toast("Enter event and date");return}
- data.days.push({
-   id:Date.now(),name,date,category:$("dayCategory").value
- });
- save();closeModal("dayModal");render();toast("Important day added");
-}
-
-function deleteDay(i){
- if(!confirm("Delete this important day?"))return;
- data.days.splice(i,1);save();render();toast("Deleted");
-}
-
-function daysUntil(dateStr){
- const now=new Date();
- now.setHours(0,0,0,0);
-
- const d=new Date(dateStr+"T00:00:00");
- let diff=Math.ceil((d-now)/86400000);
-
- if(diff<0){
-   const next=new Date(d);
-   next.setFullYear(now.getFullYear()+1);
-   diff=Math.ceil((next-now)/86400000);
- }
- return diff;
-}
-
-function getUpcoming(){
- return [...data.days]
- .map(d=>({...d,_days:daysUntil(d.date)}))
- .sort((a,b)=>a._days-b._days);
-}
-
-function renderCalendar(){
- const el=$("calendar");
- const now=new Date();
- const y=now.getFullYear();
- const m=now.getMonth();
- const first=new Date(y,m,1);
- const last=new Date(y,m+1,0);
-
- const names=data.language==="my"
- ?["တနင်္ဂနွေ","တနင်္လာ","အင်္ဂါ","ဗုဒ္ဓဟူး","ကြာသပတေး","သောကြာ","စနေ"]
- :["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-
- let html=names.map(n=>`<div class="cal-head">${n}</div>`).join("");
-
- for(let i=0;i<first.getDay();i++)html+="<div></div>";
-
- for(let day=1;day<=last.getDate();day++){
-   const ds=`${y}-${String(m+1).padStart(2,"0")}-${String(day).padStart(2,"0")}`;
-   const ev=data.days.filter(x=>x.date===ds);
-   const today=ds===localDate();
-
-   html+=`
-    <div class="day ${today?"today":""} ${ev.length?"has-event":""}">
-      <b>${day}</b>
-      ${ev.slice(0,2).map(e=>`<div class="event-dot">• ${esc(e.name)}</div>`).join("")}
-    </div>`;
- }
- el.innerHTML=html;
-}
-
-function renderMoney(){
- const income=Number(data.money.income)||0;
- const expense=Number(data.money.expense)||0;
- const saving=Math.max(0,income-expense);
- const rate=income?Math.round(saving/income*100):0;
-
- $("incomeStat").textContent=formatMoney(income);
- $("expenseStat").textContent=formatMoney(expense);
- $("savingStat").textContent=formatMoney(saving);
- $("savingRate").textContent=rate+"%";
-
- $("incomeInput").value=income||"";
- $("expenseInput").value=expense||"";
- $("savingTarget").value=data.money.savingTarget||"";
- $("savingCurrent").value=data.money.savingCurrent||"";
-}
-
-function formatMoney(n){
- return Number(n||0).toLocaleString()+" Ks";
-}
-
-function saveMoney(){
- data.money.income=Math.max(0,Number($("incomeInput").value)||0);
- data.money.expense=Math.max(0,Number($("expenseInput").value)||0);
- save();render();toast("Money updated");
-}
-
-function saveSaving(){
- data.money.savingTarget=Math.max(0,Number($("savingTarget").value)||0);
- data.money.savingCurrent=Math.max(0,Number($("savingCurrent").value)||0);
- save();render();toast("Savings updated");
-}
-
-function savingPercent(){
- const target=Number(data.money.savingTarget)||0;
- const current=Number(data.money.savingCurrent)||0;
- if(!target)return 0;
- return Math.min(100,Math.round(current/target*100));
-}
-
-function renderJournal(){
- const j=data.journals[localDate()]||{};
- $("journalWin").value=j.win||"";
- $("journalGratitude").value=j.gratitude||"";
- $("journalLesson").value=j.lesson||"";
- $("journalFocus").value=j.focus||"";
-}
+/* =========================================================
+   JOURNAL
+   ========================================================= */
 
 function saveJournal(){
- data.journals[localDate()]={
-   win:$("journalWin").value,
-   gratitude:$("journalGratitude").value,
-   lesson:$("journalLesson").value,
-   focus:$("journalFocus").value
- };
- save();toast("Today's journal saved");
+
+  const today=
+    new Date().toISOString().slice(0,10);
+
+  state.journal[today]=
+    state.journal[today] || {};
+
+  state.journal[today].text=
+    $("journalText").value;
+
+  saveState();
+
+  toast("Journal saved");
 }
 
-function renderInsights(){
- const l=calculateLife();
- const lp=l?Number(l.percent.toFixed(1)):0;
+function saveJournalWin(){
 
- const gp=data.goals.length?
- Math.round(data.goals.reduce((a,b)=>a+Number(b.progress||0),0)/data.goals.length):0;
+  const today=
+    new Date().toISOString().slice(0,10);
 
- const hp=habitPercent();
+  state.journal[today]=
+    state.journal[today] || {};
 
- $("insightLife").textContent=lp+"%";
- $("insightGoal").textContent=gp+"%";
- $("insightHabit").textContent=hp+"%";
+  state.journal[today].win=
+    $("journalWin").value;
 
- $("insightLifeBar").style.width=Math.min(100,lp)+"%";
- $("insightGoalBar").style.width=gp+"%";
- $("insightHabitBar").style.width=hp+"%";
+  saveState();
+
+  toast("Today's Win saved");
 }
 
-function renderSettings(){
- $("nameInput").value=data.name||"";
- $("birthInput").value=data.birth||"";
+function loadJournal(){
+
+  const today=
+    new Date().toISOString().slice(0,10);
+
+  const data=
+    state.journal[today] || {};
+
+  $("journalText").value=
+    data.text || "";
+
+  $("journalWin").value=
+    data.win || "";
 }
+
+
+/* =========================================================
+   MONEY
+   ========================================================= */
+
+function calculateMoney(){
+
+  const income=
+    Number($("income").value || 0);
+
+  const expense=
+    Number($("expense").value || 0);
+
+  const saving=
+    income-expense;
+
+  const rate=
+    income>0
+    ?
+    saving/income*100
+    :
+    0;
+
+  state.money={
+    income,
+    expense
+  };
+
+  saveState();
+
+  $("savingValue").textContent=
+    saving.toLocaleString();
+
+  $("savingRate").textContent=
+    rate.toFixed(1)+"%";
+
+  toast("Money updated");
+}
+
+function loadMoney(){
+
+  $("income").value=
+    state.money.income || "";
+
+  $("expense").value=
+    state.money.expense || "";
+
+  calculateMoney();
+}
+
+
+/* =========================================================
+   PROFILE
+   ========================================================= */
 
 function saveProfile(){
- data.name=$("nameInput").value.trim();
- data.birth=$("birthInput").value;
- save();render();toast("Profile saved");
+
+  state.profile.name=
+    $("profileName").value.trim();
+
+  state.profile.dob=
+    $("profileDob").value;
+
+  saveState();
+
+  updateProfileUI();
+  updateClock();
+
+  toast("Profile saved");
 }
 
-function setLanguage(lang){
- data.language=lang;
- save();render();toast(lang==="my"?"ဘာသာစကားပြောင်းပြီးပါပြီ":"Language changed");
+function updateProfileUI(){
+
+  const name=
+    state.profile.name ||
+    "My Life";
+
+  $("miniName").textContent=
+    name;
+
+  if(state.profile.dob){
+
+    const age=
+      calculateCalendarAge(
+        state.profile.dob,
+        new Date()
+      );
+
+    if(age){
+
+      $("miniAge").textContent=
+        `Age ${age.years} years ${age.months} months`;
+
+    }
+
+  }else{
+
+    $("miniAge").textContent=
+      "DOB not set";
+
+  }
+
+  $("profileName").value=
+    state.profile.name || "";
+
+  $("profileDob").value=
+    state.profile.dob || "";
 }
 
-function applyLanguage(){
- const lang=data.language||"en";
- document.querySelectorAll("[data-i18n]").forEach(el=>{
-   const key=el.dataset.i18n;
-   if(translations[lang]&&translations[lang][key]){
-     el.textContent=translations[lang][key];
-   }
- });
-}
+
+/* =========================================================
+   EXPORT / RESET
+   ========================================================= */
 
 function exportData(){
- const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
- const a=document.createElement("a");
- a.href=URL.createObjectURL(blob);
- a.download="life75-backup.json";
- a.click();
- URL.revokeObjectURL(a.href);
- toast("Backup exported");
+
+  const data={
+    ...state,
+    exportedAt:new Date().toISOString()
+  };
+
+  const blob=new Blob(
+    [JSON.stringify(data,null,2)],
+    {
+      type:"application/json"
+    }
+  );
+
+  const url=
+    URL.createObjectURL(blob);
+
+  const a=
+    document.createElement("a");
+
+  a.href=url;
+  a.download=
+    "life75-backup.json";
+
+  a.click();
+
+  URL.revokeObjectURL(url);
+
+  toast("Backup exported");
 }
 
-function resetData(){
- if(!confirm("Reset all LIFE 75 data? This cannot be undone."))return;
- localStorage.removeItem(KEY);
- location.reload();
+function resetApp(){
+
+  const ok=
+    confirm(
+      "LIFE 75 ရဲ့ local data အားလုံးကို ဖျက်မလား"
+    );
+
+  if(!ok) return;
+
+  localStorage.removeItem(STORAGE_KEY);
+
+  state=
+    structuredClone(defaultState);
+
+  location.reload();
 }
 
-function closeModal(id){
- $(id).style.display="none";
+
+/* =========================================================
+   INITIALIZE
+   ========================================================= */
+
+function init(){
+
+  updateProfileUI();
+
+  updateClock();
+
+  renderConditions();
+  renderHealth();
+  renderDoctorAdvice();
+  renderGoals();
+  renderImportant();
+
+  loadJournal();
+  loadMoney();
+
+  setInterval(
+    updateClock,
+    1000
+  );
 }
 
-document.querySelectorAll(".modal").forEach(modal=>{
- modal.addEventListener("click",e=>{
-   if(e.target===modal)modal.style.display="none";
- });
-});
+init();
 
-function esc(value){
- return String(value??"")
- .replace(/&/g,"&amp;")
- .replace(/</g,"&lt;")
- .replace(/>/g,"&gt;")
- .replace(/"/g,"&quot;")
- .replace(/'/g,"&#039;");
-}
-
-load();
-render();
 </script>
 
 </body>
