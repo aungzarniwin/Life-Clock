@@ -1,1999 +1,1788 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="my">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<meta name="theme-color" content="#0b0b0d">
-<title>LIFE 75 V8</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0d0c0b">
+<title>LIFE 75 — Time Edition</title>
 
 <style>
 :root{
-  --bg:#0b0b0d;
-  --panel:#111114;
-  --card:#17171b;
-  --card2:#1d1d22;
-  --border:#2b2b31;
-  --gold:#d4af37;
-  --gold2:#f1d16b;
-  --text:#f6f3eb;
-  --muted:#99989f;
-  --green:#72c98a;
-  --red:#df7070;
-  --orange:#d99b55;
-  --sidebar:260px;
+  --bg:#0b0a09;
+  --panel:#141210;
+  --panel2:#191613;
+  --panel3:#201b16;
+  --gold:#d6a84f;
+  --gold2:#f0c96a;
+  --cream:#f5efe2;
+  --muted:#9c9387;
+  --line:rgba(255,255,255,.08);
+  --success:#78c69b;
+  --danger:#df7777;
+  --sidebar:250px;
+  --radius:18px;
+  --shadow:0 18px 50px rgba(0,0,0,.35);
 }
 
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
+*{
+  box-sizing:border-box;
   margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  padding:0;
 }
-button,input,select,textarea{font:inherit}
-button{cursor:pointer}
-.hidden{display:none!important}
 
-/* SIDEBAR */
+html{
+  scroll-behavior:smooth;
+  background:var(--bg);
+}
+
+body{
+  min-height:100vh;
+  width:100%;
+  overflow-x:hidden;
+  background:
+    radial-gradient(circle at 80% -10%,rgba(214,168,79,.09),transparent 35%),
+    var(--bg);
+  color:var(--cream);
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Noto Sans Myanmar",
+    "Noto Sans",
+    Arial,
+    sans-serif;
+}
+
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.hidden{
+  display:none!important;
+}
+
+/* =========================
+   APP SHELL
+========================= */
+
+.app{
+  min-height:100vh;
+  width:100%;
+}
+
 .sidebar{
   position:fixed;
-  left:0;
-  top:0;
-  bottom:0;
+  inset:0 auto 0 0;
   width:var(--sidebar);
-  background:#101012;
-  border-right:1px solid var(--border);
-  z-index:1000;
-  padding:20px 14px;
+  background:rgba(15,13,11,.96);
+  border-right:1px solid var(--line);
+  z-index:100;
   display:flex;
   flex-direction:column;
+  padding:22px 14px;
 }
+
 .brand{
-  padding:4px 12px 20px;
-  border-bottom:1px solid var(--border);
-  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:4px 10px 24px;
 }
-.brand-title{
-  color:var(--gold2);
-  font-size:25px;
+
+.brand-mark{
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  background:linear-gradient(145deg,var(--gold2),var(--gold));
+  color:#18120a;
+  display:grid;
+  place-items:center;
   font-weight:900;
-  letter-spacing:2px;
+  font-size:16px;
+  box-shadow:0 8px 25px rgba(214,168,79,.18);
 }
-.brand-sub{
+
+.brand-text strong{
+  display:block;
+  font-size:15px;
+  letter-spacing:.5px;
+}
+
+.brand-text span{
+  display:block;
+  margin-top:2px;
   color:var(--muted);
-  font-size:10px;
-  letter-spacing:1.4px;
-  margin-top:5px;
+  font-size:11px;
 }
+
 .nav{
-  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:5px;
   overflow:auto;
+  padding-right:2px;
 }
+
+.nav::-webkit-scrollbar{
+  width:0;
+}
+
 .nav-btn{
   width:100%;
   border:0;
   background:transparent;
-  color:#aaa9b0;
+  color:#aaa197;
+  min-height:46px;
   border-radius:12px;
-  padding:11px 12px;
-  margin:3px 0;
+  padding:0 12px;
   display:flex;
+  align-items:center;
   gap:11px;
-  align-items:center;
   text-align:left;
+  transition:.2s;
 }
+
 .nav-btn:hover{
-  background:#1b1b1f;
-  color:white;
+  background:rgba(255,255,255,.045);
+  color:var(--cream);
 }
+
 .nav-btn.active{
+  background:linear-gradient(
+    90deg,
+    rgba(214,168,79,.16),
+    rgba(214,168,79,.05)
+  );
   color:var(--gold2);
-  background:linear-gradient(135deg,#2b2618,#1c1a14);
-  border:1px solid #4d4122;
+  box-shadow:inset 2px 0 var(--gold);
 }
-.nav-icon{width:22px;text-align:center}
-.nav-label{font-size:13px;font-weight:700}
 
-.profile-mini{
-  border-top:1px solid var(--border);
-  padding:14px 7px 4px;
-  display:flex;
-  align-items:center;
-  gap:10px;
+.nav-icon{
+  width:22px;
+  text-align:center;
+  font-size:17px;
+  flex:0 0 22px;
 }
-.avatar{
-  width:38px;
-  height:38px;
-  border-radius:50%;
-  background:linear-gradient(135deg,var(--gold2),#80631a);
-  color:#111;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-weight:900;
-}
-.profile-name{font-size:13px;font-weight:800}
-.profile-role{font-size:10px;color:var(--muted);margin-top:3px}
 
-/* MAIN */
-.main{margin-left:var(--sidebar);min-height:100vh}
+.sidebar-bottom{
+  margin-top:auto;
+  padding-top:15px;
+  border-top:1px solid var(--line);
+}
+
+.main{
+  min-height:100vh;
+  margin-left:var(--sidebar);
+  width:calc(100% - var(--sidebar));
+}
+
 .topbar{
-  height:68px;
   position:sticky;
   top:0;
-  z-index:500;
-  background:rgba(11,11,13,.94);
-  backdrop-filter:blur(15px);
-  border-bottom:1px solid var(--border);
+  z-index:50;
+  height:72px;
   display:flex;
+  align-items:center;
   justify-content:space-between;
-  align-items:center;
+  gap:14px;
   padding:0 28px;
+  background:rgba(11,10,9,.88);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--line);
 }
-.top-title{
+
+.page-title{
+  min-width:0;
+}
+
+.page-title strong{
+  display:block;
   font-size:19px;
-  font-weight:850;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
-.top-left{
+
+.page-title span{
+  display:block;
+  margin-top:3px;
+  font-size:11px;
+  color:var(--muted);
+}
+
+.top-actions{
   display:flex;
   align-items:center;
+  gap:8px;
+  flex-shrink:0;
 }
-.mobile-menu{
-  display:none;
+
+.icon-btn,
+.menu-btn{
   width:40px;
   height:40px;
-  margin-right:10px;
-  background:#17171b;
-  color:white;
-  border:1px solid var(--border);
-  border-radius:10px;
-}
-.top-actions{display:flex;gap:8px}
-.top-btn{
-  background:#17171b;
-  border:1px solid var(--border);
-  color:#ddd;
-  border-radius:10px;
-  padding:8px 11px;
+  border:1px solid var(--line);
+  background:var(--panel);
+  color:var(--cream);
+  border-radius:12px;
+  display:grid;
+  place-items:center;
 }
 
-.page{
+.menu-btn{
   display:none;
-  padding:27px;
-  max-width:1450px;
-  margin:auto;
 }
-.page.active{display:block}
 
-.page-head{margin-bottom:22px}
-.page-title{
-  font-size:29px;
-  font-weight:900;
-  letter-spacing:-.5px;
+.content{
+  width:100%;
+  max-width:1450px;
+  margin:0 auto;
+  padding:28px;
 }
-.page-desc{
+
+/* =========================
+   COMMON
+========================= */
+
+.section{
+  display:none;
+}
+
+.section.active{
+  display:block;
+}
+
+.section-head{
+  margin-bottom:20px;
+}
+
+.section-head h1{
+  font-size:28px;
+  line-height:1.2;
+  letter-spacing:-.4px;
+}
+
+.section-head p{
+  margin-top:7px;
   color:var(--muted);
   font-size:13px;
-  margin-top:6px;
-  line-height:1.55;
+  line-height:1.6;
 }
 
-.card{
-  background:linear-gradient(145deg,var(--card),#141417);
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:19px;
-  box-shadow:0 12px 35px rgba(0,0,0,.18);
-}
 .grid{
   display:grid;
   gap:14px;
 }
-.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
-.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
-.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
-.g6{grid-template-columns:repeat(6,minmax(0,1fr))}
 
-.section-title{
-  font-size:18px;
-  font-weight:850;
-  margin:27px 0 13px;
-}
-.muted{color:var(--muted)}
-.gold{color:var(--gold2)}
-.green{color:var(--green)}
-.red{color:var(--red)}
-.orange{color:var(--orange)}
-
-.btn{
-  border:1px solid var(--border);
-  background:#19191d;
-  color:#eee;
-  border-radius:10px;
-  padding:10px 14px;
-  font-weight:700;
-}
-.btn:hover{border-color:#69582a}
-.btn-primary{
-  border:0;
-  color:#14120a;
-  background:linear-gradient(135deg,#efd16a,#a47f1e);
-}
-.btn-danger{
-  color:#ef8989;
-  border-color:#522d2d;
-}
-.actions{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
+.grid-2{
+  grid-template-columns:repeat(2,minmax(0,1fr));
 }
 
-.input,.select,.textarea{
-  width:100%;
-  background:#0e0e11;
-  border:1px solid var(--border);
-  color:white;
-  padding:11px 12px;
-  border-radius:10px;
-  outline:none;
-}
-.input:focus,.select:focus,.textarea:focus{
-  border-color:#806b2d;
-}
-.textarea{min-height:120px;resize:vertical}
-.form-group{margin-bottom:13px}
-.form-label{
-  display:block;
-  color:#c9c7c0;
-  font-size:12px;
-  font-weight:750;
-  margin-bottom:6px;
+.grid-3{
+  grid-template-columns:repeat(3,minmax(0,1fr));
 }
 
-/* TIME */
-.time-hero{
+.grid-4{
+  grid-template-columns:repeat(4,minmax(0,1fr));
+}
+
+.card{
+  min-width:0;
   background:
-    radial-gradient(circle at 82% 20%,rgba(212,175,55,.14),transparent 35%),
-    linear-gradient(145deg,#1b1912,#111113 70%);
-  border:1px solid #4d4021;
-  border-radius:23px;
-  padding:24px;
-}
-.eyebrow{
-  color:var(--gold2);
-  font-size:10px;
-  font-weight:850;
-  letter-spacing:2px;
-  text-transform:uppercase;
-}
-.age-main{
-  font-size:46px;
-  line-height:1;
-  font-weight:950;
-  margin-top:8px;
-  letter-spacing:-2px;
-}
-.age-detail{
-  color:#aaa8a0;
-  margin-top:7px;
-  font-size:13px;
-}
-.time-grid{
-  display:grid;
-  grid-template-columns:repeat(7,1fr);
-  gap:9px;
-  margin-top:22px;
-}
-.time-box{
-  background:#0e0e10;
-  border:1px solid #302e26;
-  border-radius:13px;
-  padding:14px 7px;
-  text-align:center;
-}
-.time-number{
-  color:var(--gold2);
-  font-size:25px;
-  font-weight:950;
-}
-.time-label{
-  color:#89888f;
-  font-size:9px;
-  margin-top:6px;
-  text-transform:uppercase;
-  letter-spacing:.6px;
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.025),
+      rgba(255,255,255,.01)
+    ),
+    var(--panel);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
 }
 
-.countdown-card{
-  margin-top:15px;
-  background:linear-gradient(145deg,#1c1910,#121214);
-  border:1px solid #4d4021;
-  border-radius:21px;
+.card-pad{
   padding:20px;
 }
-.count-title{
+
+.card-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:16px;
+}
+
+.card-title h2{
+  font-size:15px;
+}
+
+.card-title span{
+  color:var(--muted);
+  font-size:11px;
+}
+
+.gold{
+  color:var(--gold2);
+}
+
+.muted{
+  color:var(--muted);
+}
+
+.btn{
+  min-height:42px;
+  padding:0 15px;
+  border-radius:11px;
+  border:1px solid var(--line);
+  background:var(--panel2);
+  color:var(--cream);
+  transition:.2s;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+}
+
+.btn-primary{
+  border-color:rgba(214,168,79,.4);
+  background:linear-gradient(145deg,var(--gold2),var(--gold));
+  color:#171109;
+  font-weight:800;
+}
+
+.btn-danger{
+  color:#ffaaaa;
+  border-color:rgba(223,119,119,.2);
+}
+
+.btn-small{
+  min-height:34px;
+  padding:0 11px;
+  font-size:12px;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:6px 9px;
+  border-radius:999px;
+  background:rgba(214,168,79,.1);
+  color:var(--gold2);
+  font-size:10px;
+  border:1px solid rgba(214,168,79,.16);
+}
+
+.empty{
+  padding:28px 15px;
+  text-align:center;
+  color:var(--muted);
+  font-size:13px;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  background:#100e0c;
+  border:1px solid var(--line);
+  border-radius:11px;
+  color:var(--cream);
+  outline:none;
+  padding:12px 13px;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+  border-color:rgba(214,168,79,.5);
+  box-shadow:0 0 0 3px rgba(214,168,79,.07);
+}
+
+textarea{
+  min-height:100px;
+  resize:vertical;
+}
+
+label{
+  display:block;
+  margin-bottom:7px;
+  color:#b8afa3;
+  font-size:11px;
+}
+
+.form-group{
+  margin-bottom:14px;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:13px;
+}
+
+.form-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:18px;
+}
+
+/* =========================
+   LIVE CLOCK
+========================= */
+
+.live-clock-card{
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(
+      circle at 90% 0%,
+      rgba(214,168,79,.15),
+      transparent 40%
+    ),
+    linear-gradient(145deg,#191510,#100e0c);
+  border-color:rgba(214,168,79,.18);
+}
+
+.live-clock-card::after{
+  content:"";
+  position:absolute;
+  width:180px;
+  height:180px;
+  border-radius:50%;
+  right:-90px;
+  bottom:-100px;
+  border:1px solid rgba(214,168,79,.1);
+}
+
+.live-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.live-label{
+  display:flex;
+  align-items:center;
+  gap:8px;
   color:var(--gold2);
   font-size:11px;
-  font-weight:850;
-  letter-spacing:1.5px;
-  text-transform:uppercase;
+  font-weight:800;
+  letter-spacing:1px;
 }
-.count-grid{
-  display:grid;
-  grid-template-columns:repeat(6,1fr);
-  gap:8px;
-  margin-top:13px;
-}
-.count-box{
-  background:#0d0d0f;
-  border:1px solid #2e2b22;
-  border-radius:12px;
-  padding:14px 5px;
-  text-align:center;
-}
-.count-num{font-size:28px;font-weight:950}
-.count-label{
-  color:var(--muted);
-  font-size:8px;
-  margin-top:5px;
-}
-.live{
-  margin-top:14px;
-  font-size:12px;
-  color:var(--muted);
-}
+
 .live-dot{
   width:8px;
   height:8px;
-  background:var(--green);
-  display:inline-block;
   border-radius:50%;
-  margin-right:6px;
-  box-shadow:0 0 12px rgba(114,201,138,.7);
+  background:#72c795;
+  box-shadow:0 0 0 5px rgba(114,199,149,.08);
+  animation:pulse 1.5s infinite;
 }
 
-.progress-line{
+@keyframes pulse{
+  50%{opacity:.45}
+}
+
+.clock{
+  margin-top:13px;
+  font-size:clamp(38px,7vw,72px);
+  line-height:1;
+  font-weight:800;
+  letter-spacing:-2px;
+  color:#fff7e8;
+  font-variant-numeric:tabular-nums;
+  white-space:nowrap;
+}
+
+.clock-ampm{
+  font-size:16px;
+  color:var(--gold2);
+  margin-left:5px;
+  letter-spacing:0;
+}
+
+.date-line{
+  margin-top:13px;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.timezone-line{
+  margin-top:5px;
+  color:#70685f;
+  font-size:10px;
+}
+
+/* =========================
+   TIME SYSTEM
+========================= */
+
+.time-section{
+  margin-top:15px;
+}
+
+.time-card{
+  padding:18px;
+}
+
+.time-card .label{
+  color:var(--muted);
+  font-size:11px;
+}
+
+.time-number{
+  margin-top:9px;
+  font-size:27px;
+  font-weight:800;
+  font-variant-numeric:tabular-nums;
+  color:#fff4df;
+}
+
+.time-number small{
+  color:var(--gold2);
+  font-size:11px;
+  font-weight:600;
+}
+
+.progress-wrap{
+  margin-top:17px;
+}
+
+.progress-head{
   display:flex;
   justify-content:space-between;
   color:var(--muted);
   font-size:11px;
-  margin:14px 0 7px;
-}
-.progress{
-  height:9px;
-  background:#0d0d10;
-  border:1px solid #292929;
-  border-radius:99px;
-  overflow:hidden;
-}
-.progress-fill{
-  height:100%;
-  width:0;
-  background:linear-gradient(90deg,#9a781e,var(--gold2));
-  transition:width .4s;
+  margin-bottom:8px;
 }
 
-/* LIFE GRID */
+.progress{
+  width:100%;
+  height:8px;
+  background:#28231d;
+  border-radius:999px;
+  overflow:hidden;
+}
+
+.progress > span{
+  display:block;
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+  border-radius:inherit;
+  transition:width .4s ease;
+}
+
+.countdown{
+  margin-top:14px;
+  padding:14px;
+  border-radius:12px;
+  background:rgba(214,168,79,.06);
+  border:1px solid rgba(214,168,79,.1);
+  color:var(--gold2);
+  font-size:13px;
+  line-height:1.7;
+}
+
+/* =========================
+   LIFE GRID
+========================= */
+
 .life-grid{
   display:grid;
-  grid-template-columns:repeat(15,1fr);
-  gap:4px;
-  margin-top:14px;
+  grid-template-columns:repeat(15,minmax(0,1fr));
+  gap:5px;
 }
+
 .life-cell{
   aspect-ratio:1;
+  min-width:0;
   border-radius:4px;
-  background:#24242a;
-  border:1px solid #303037;
-  font-size:7px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#777;
+  background:#27221c;
+  border:1px solid rgba(255,255,255,.03);
 }
-.life-cell.lived{
-  background:#80691f;
-  border-color:#a98b2c;
-  color:#151209;
+
+.life-cell.done{
+  background:#8c6a31;
 }
+
 .life-cell.current{
   background:var(--gold2);
-  color:#111;
+  box-shadow:0 0 0 2px rgba(240,201,106,.25);
 }
+
+.life-cell.future{
+  background:#1d1915;
+}
+
 .month-grid{
   display:grid;
-  grid-template-columns:repeat(30,1fr);
-  gap:2px;
-  max-height:420px;
-  overflow:hidden;
-  margin-top:14px;
+  grid-template-columns:repeat(30,minmax(0,1fr));
+  gap:3px;
 }
+
 .month-cell{
   aspect-ratio:1;
   border-radius:2px;
-  background:#27272d;
+  background:#24201b;
 }
-.month-cell.lived{background:#80691f}
-.month-cell.current{background:var(--gold2)}
 
-.legend{
+.month-cell.done{
+  background:#72562a;
+}
+
+.month-cell.current{
+  background:var(--gold2);
+}
+
+/* =========================
+   HEALTH
+========================= */
+
+.health-banner{
+  padding:20px;
+  border-radius:var(--radius);
+  border:1px solid rgba(120,198,155,.14);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(120,198,155,.07),
+      rgba(255,255,255,.015)
+    ),
+    var(--panel);
+}
+
+.health-icon{
+  width:48px;
+  height:48px;
+  border-radius:15px;
+  background:rgba(120,198,155,.1);
+  display:grid;
+  place-items:center;
+  font-size:22px;
+}
+
+.health-actions{
   display:flex;
   flex-wrap:wrap;
-  gap:14px;
-  margin-top:10px;
-  color:var(--muted);
-  font-size:10px;
-}
-.legend-dot{
-  display:inline-block;
-  width:8px;
-  height:8px;
-  border-radius:2px;
-  margin-right:5px;
+  gap:8px;
+  margin-top:15px;
 }
 
-/* HEALTH */
-.health-hero{
-  background:
-    radial-gradient(circle at 85% 20%,rgba(212,175,55,.13),transparent 35%),
-    linear-gradient(145deg,#181711,#111113);
-  border:1px solid #4c4022;
-}
-.health-score{
-  font-size:48px;
-  font-weight:950;
-  color:var(--gold2);
-}
-.health-note{
-  color:var(--muted);
-  font-size:12px;
-  margin-top:3px;
+.stat-card{
+  padding:17px;
 }
 
-.health-stat{
-  min-height:105px;
-}
-.stat-icon{font-size:20px}
 .stat-value{
-  font-size:25px;
-  font-weight:900;
-  margin-top:9px;
+  margin-top:8px;
+  font-size:26px;
+  font-weight:800;
 }
+
 .stat-label{
-  font-size:11px;
   color:var(--muted);
-  margin-top:4px;
+  font-size:11px;
 }
 
-.warning{
-  border:1px solid #6a3c3c;
-  background:#211416;
-  color:#efb0b0;
-  padding:14px;
-  border-radius:13px;
-  line-height:1.5;
-  font-size:12px;
-}
-.info{
-  border:1px solid #4a4024;
-  background:#1b1810;
-  color:#cfc5a5;
-  padding:13px;
-  border-radius:12px;
-  font-size:12px;
-  line-height:1.5;
-}
-
-/* LIST */
 .list{
   display:flex;
   flex-direction:column;
   gap:9px;
 }
+
 .list-item{
+  padding:13px;
+  border-radius:12px;
+  background:#100e0c;
+  border:1px solid var(--line);
+}
+
+.list-main{
+  min-width:0;
+}
+
+.list-title{
+  font-size:13px;
+  font-weight:700;
+}
+
+.list-meta{
+  color:var(--muted);
+  font-size:10px;
+  margin-top:4px;
+  line-height:1.6;
+}
+
+.list-actions{
   display:flex;
+  gap:6px;
+  margin-top:10px;
+  flex-wrap:wrap;
+}
+
+.check-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.check-item{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:11px;
+  border-radius:11px;
+  background:#100e0c;
+  border:1px solid var(--line);
+  color:#c7bfb4;
+  font-size:12px;
+  line-height:1.6;
+}
+
+.check-item input{
+  width:17px;
+  height:17px;
+  accent-color:var(--gold);
+  flex:0 0 auto;
+  margin-top:2px;
+}
+
+/* =========================
+   SIMPLE MODULES
+========================= */
+
+.hero{
+  padding:24px;
+  margin-bottom:15px;
+}
+
+.hero h2{
+  font-size:25px;
+  line-height:1.25;
+}
+
+.hero p{
+  color:var(--muted);
+  margin-top:9px;
+  line-height:1.7;
+  font-size:13px;
+}
+
+.kpi{
+  padding:18px;
+}
+
+.kpi-number{
+  font-size:29px;
+  font-weight:800;
+  margin-top:7px;
+}
+
+.kpi-label{
+  font-size:11px;
+  color:var(--muted);
+}
+
+.item-row{
+  display:flex;
+  align-items:center;
   justify-content:space-between;
   gap:12px;
+  padding:13px 0;
+  border-bottom:1px solid var(--line);
+}
+
+.item-row:last-child{
+  border-bottom:0;
+}
+
+.item-row > div:first-child{
+  min-width:0;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal-backdrop{
+  position:fixed;
+  inset:0;
+  z-index:500;
+  background:rgba(0,0,0,.7);
+  backdrop-filter:blur(8px);
+  display:none;
   align-items:center;
-  background:#111114;
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:13px;
-}
-.list-title{font-weight:800;font-size:13px}
-.list-sub{font-size:11px;color:var(--muted);margin-top:4px}
-.badge{
-  color:var(--gold2);
-  background:#1c1910;
-  border:1px solid #4b4024;
-  border-radius:99px;
-  padding:5px 8px;
-  font-size:9px;
-  font-weight:800;
-  white-space:nowrap;
+  justify-content:center;
+  padding:18px;
 }
 
-/* DOCTOR ADVICE */
-.advice-box{
-  background:#111114;
-  border:1px solid var(--border);
-  border-radius:15px;
-  padding:17px;
-}
-.advice-heading{
-  color:var(--gold2);
-  font-size:14px;
-  font-weight:850;
-  margin-bottom:8px;
-}
-.advice-text{
-  color:#d0ced0;
-  line-height:1.65;
-  font-size:13px;
-  white-space:pre-line;
-}
-.advice-list{
-  padding-left:18px;
-  color:#c6c4c7;
-  line-height:1.7;
-  font-size:12px;
-}
-
-/* CALENDAR */
-.calendar-head{
+.modal-backdrop.show{
   display:flex;
-  justify-content:space-between;
+}
+
+.modal{
+  width:min(560px,100%);
+  max-height:min(90vh,760px);
+  overflow:auto;
+  background:#15120f;
+  border:1px solid var(--line);
+  border-radius:20px;
+  box-shadow:0 30px 100px rgba(0,0,0,.55);
+}
+
+.modal-head{
+  position:sticky;
+  top:0;
+  z-index:2;
+  display:flex;
   align-items:center;
-  margin-bottom:12px;
-}
-.calendar-title{font-weight:850}
-.calendar{
-  display:grid;
-  grid-template-columns:repeat(7,1fr);
-  gap:4px;
-}
-.weekday{
-  text-align:center;
-  color:var(--muted);
-  font-size:9px;
-  padding:5px;
-}
-.day{
-  min-height:52px;
-  background:#111114;
-  border:1px solid var(--border);
-  border-radius:8px;
-  padding:6px;
-  position:relative;
-}
-.day.today{border-color:var(--gold2)}
-.day.event-day{background:#201c10}
-.day-num{font-size:10px}
-.event-dot{
-  position:absolute;
-  width:5px;
-  height:5px;
-  border-radius:50%;
-  background:var(--gold2);
-  bottom:6px;
-  right:6px;
+  justify-content:space-between;
+  padding:17px 18px;
+  background:#15120f;
+  border-bottom:1px solid var(--line);
 }
 
-/* EMPTY */
-.empty{
-  text-align:center;
-  padding:28px 12px;
-  color:var(--muted);
+.modal-head h3{
+  font-size:16px;
+}
+
+.modal-body{
+  padding:18px;
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:25px;
+  z-index:800;
+  transform:translate(-50%,20px);
+  opacity:0;
+  pointer-events:none;
+  max-width:calc(100vw - 30px);
+  padding:12px 16px;
+  border-radius:12px;
+  background:#201b16;
+  border:1px solid rgba(214,168,79,.2);
+  color:var(--cream);
   font-size:12px;
+  transition:.25s;
+  text-align:center;
 }
 
-/* MOBILE */
-.overlay{display:none}
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
 
-@media(max-width:900px){
+/* =========================
+   MOBILE DRAWER
+========================= */
+
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  z-index:90;
+  display:none;
+}
+
+.overlay.show{
+  display:block;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1000px){
+  .grid-4{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .life-grid{
+    grid-template-columns:repeat(15,minmax(0,1fr));
+  }
+}
+
+@media(max-width:760px){
+
+  :root{
+    --sidebar:0px;
+  }
+
   .sidebar{
-    transform:translateX(-105%);
-    transition:.25s;
-    box-shadow:20px 0 60px rgba(0,0,0,.55);
+    width:270px;
+    transform:translateX(-100%);
+    transition:transform .25s ease;
+    box-shadow:20px 0 60px rgba(0,0,0,.5);
   }
-  .sidebar.open{transform:translateX(0)}
-  .overlay.show{
-    display:block;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.62);
-    z-index:900;
+
+  .sidebar.open{
+    transform:translateX(0);
   }
-  .main{margin-left:0}
-  .mobile-menu{display:block}
-  .topbar{padding:0 15px}
-  .page{padding:18px 14px 80px}
-  .g4{grid-template-columns:repeat(2,1fr)}
-  .g3{grid-template-columns:repeat(2,1fr)}
-  .g2{grid-template-columns:1fr}
-  .time-grid{grid-template-columns:repeat(4,1fr)}
-  .count-grid{grid-template-columns:repeat(3,1fr)}
-  .age-main{font-size:38px}
+
+  .main{
+    margin-left:0;
+    width:100%;
+    min-width:0;
+  }
+
+  .topbar{
+    height:64px;
+    padding:0 14px;
+  }
+
+  .menu-btn{
+    display:grid;
+  }
+
+  .page-title strong{
+    font-size:16px;
+  }
+
+  .page-title span{
+    font-size:10px;
+  }
+
+  .content{
+    padding:18px 14px 35px;
+  }
+
+  .section-head h1{
+    font-size:24px;
+  }
+
+  .grid-2,
+  .grid-3,
+  .grid-4{
+    grid-template-columns:1fr;
+  }
+
+  .clock{
+    font-size:clamp(34px,12vw,56px);
+    letter-spacing:-1.5px;
+  }
+
+  .life-grid{
+    grid-template-columns:repeat(15,minmax(0,1fr));
+    gap:3px;
+  }
+
+  .month-grid{
+    grid-template-columns:repeat(20,minmax(0,1fr));
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .card-pad{
+    padding:16px;
+  }
+
+  .modal-backdrop{
+    padding:10px;
+    align-items:flex-end;
+  }
+
+  .modal{
+    max-height:92vh;
+    border-radius:20px 20px 12px 12px;
+  }
 }
 
-@media(max-width:520px){
-  .topbar{height:62px}
-  .top-title{font-size:16px}
-  .page-title{font-size:25px}
-  .card{padding:15px}
-  .time-hero{padding:18px}
-  .time-grid{grid-template-columns:repeat(2,1fr)}
-  .count-grid{grid-template-columns:repeat(2,1fr)}
-  .g4,.g3{grid-template-columns:1fr}
-  .life-grid{grid-template-columns:repeat(10,1fr)}
-  .month-grid{grid-template-columns:repeat(10,1fr)}
-  .age-main{font-size:34px}
+@media(max-width:420px){
+
+  .content{
+    padding-left:11px;
+    padding-right:11px;
+  }
+
+  .clock{
+    font-size:34px;
+  }
+
+  .clock-ampm{
+    font-size:13px;
+  }
+
+  .live-top{
+    align-items:flex-start;
+  }
+
+  .life-grid{
+    gap:2px;
+  }
+
+  .month-grid{
+    grid-template-columns:repeat(15,minmax(0,1fr));
+  }
+
+  .health-actions .btn{
+    flex:1 1 100%;
+  }
+
+  .form-actions{
+    flex-direction:column-reverse;
+  }
+
+  .form-actions .btn{
+    width:100%;
+  }
+}
+
+/* Prevent accidental horizontal overflow */
+img,
+svg,
+canvas,
+video{
+  max-width:100%;
+}
+
+table{
+  max-width:100%;
+}
+
+pre{
+  max-width:100%;
+  overflow:auto;
 }
 </style>
 </head>
 
 <body>
 
-<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
-
-<aside class="sidebar" id="sidebar">
-
-  <div class="brand">
-    <div class="brand-title">LIFE 75</div>
-    <div class="brand-sub" data-t="brandSub">YOUR LIFE • YOUR TIME</div>
-  </div>
-
-  <nav class="nav">
-
-    <button class="nav-btn active" data-page="dashboard">
-      <span class="nav-icon">⌂</span>
-      <span class="nav-label" data-t="dashboard">Dashboard</span>
-    </button>
-
-    <button class="nav-btn" data-page="life">
-      <span class="nav-icon">⏳</span>
-      <span class="nav-label" data-t="myLife">My Life 75</span>
-    </button>
-
-    <button class="nav-btn" data-page="health">
-      <span class="nav-icon">♥</span>
-      <span class="nav-label" data-t="health">Health</span>
-    </button>
-
-    <button class="nav-btn" data-page="doctor">
-      <span class="nav-icon">⚕</span>
-      <span class="nav-label" data-t="doctorAdvice">Doctor Advice</span>
-    </button>
-
-    <button class="nav-btn" data-page="conditions">
-      <span class="nav-icon">✚</span>
-      <span class="nav-label" data-t="conditions">My Conditions</span>
-    </button>
-
-    <button class="nav-btn" data-page="medications">
-      <span class="nav-icon">▣</span>
-      <span class="nav-label" data-t="medications">Medications</span>
-    </button>
-
-    <button class="nav-btn" data-page="goals">
-      <span class="nav-icon">◎</span>
-      <span class="nav-label" data-t="goals">Goals</span>
-    </button>
-
-    <button class="nav-btn" data-page="habits">
-      <span class="nav-icon">✓</span>
-      <span class="nav-label" data-t="habits">Habits</span>
-    </button>
-
-    <button class="nav-btn" data-page="important">
-      <span class="nav-icon">★</span>
-      <span class="nav-label" data-t="important">Important Days</span>
-    </button>
-
-    <button class="nav-btn" data-page="money">
-      <span class="nav-icon">◈</span>
-      <span class="nav-label" data-t="money">Money</span>
-    </button>
-
-    <button class="nav-btn" data-page="journal">
-      <span class="nav-icon">▤</span>
-      <span class="nav-label" data-t="journal">Journal</span>
-    </button>
-
-    <button class="nav-btn" data-page="lifeCard">
-      <span class="nav-icon">▰</span>
-      <span class="nav-label" data-t="lifeCard">Life Card</span>
-    </button>
-
-    <button class="nav-btn" data-page="settings">
-      <span class="nav-icon">⚙</span>
-      <span class="nav-label" data-t="settings">Settings</span>
-    </button>
-
-  </nav>
-
-  <div class="profile-mini">
-    <div class="avatar">L75</div>
-    <div>
-      <div class="profile-name" id="profileNameMini">LIFE 75 User</div>
-      <div class="profile-role" data-t="personalLife">Personal Life</div>
-    </div>
-  </div>
-</aside>
-
-<main class="main">
-
-<header class="topbar">
-  <div class="top-left">
-    <button class="mobile-menu" onclick="openSidebar()">☰</button>
-    <div class="top-title" id="topTitle">LIFE 75</div>
-  </div>
-
-  <div class="top-actions">
-    <button class="top-btn" onclick="toggleLanguage()" id="langBtn">MM</button>
-  </div>
-</header>
-
-
-<!-- DASHBOARD -->
-<section class="page active" id="page-dashboard">
-
-  <div class="page-head">
-    <div class="page-title" data-t="dashboard">Dashboard</div>
-    <div class="page-desc" data-t="dashboardDesc">
-      Your life, your time, your health and your future
-    </div>
-  </div>
-
-  <div id="dobSetupDashboard" class="card hidden">
-    <div class="section-title" style="margin-top:0" data-t="setupLife">Set Your Date of Birth</div>
-    <div class="page-desc" data-t="dobHelp">
-      Add your date of birth to activate the complete LIFE 75 time system
-    </div>
-    <br>
-    <input class="input" type="date" id="dobDash">
-    <br><br>
-    <button class="btn btn-primary" onclick="saveDOBFromDashboard()" data-t="saveDOB">
-      Save Date of Birth
-    </button>
-  </div>
-
-  <div id="dashboardContent">
-
-    <div class="time-hero">
-
-      <div class="time-hero-top">
-        <div>
-          <div class="eyebrow" data-t="yourLifeTime">YOUR LIFE TIME</div>
-          <div class="age-main" id="dashAge">--</div>
-          <div class="age-detail" id="dashAgeDetail">--</div>
-        </div>
-
-        <div>
-          <span class="live-dot"></span>
-          <span class="muted" data-t="live">LIVE</span>
-        </div>
-      </div>
-
-      <div class="time-grid">
-
-        <div class="time-box">
-          <div class="time-number" id="lYears">0</div>
-          <div class="time-label" data-t="years">Years</div>
-        </div>
-
-        <div class="time-box">
-          <div class="time-number" id="lMonths">0</div>
-          <div class="time-label" data-t="months">Months</div>
-        </div>
-
-        <div class="time-box">
-          <div class="time-number" id="lWeeks">0</div>
-          <div class="time-label" data-t="weeks">Weeks</div>
-        </div>
-
-        <div class="time-box">
-          <div class="time-number" id="lDays">0</div>
-          <div class="time-label" data-t="days">Days</div>
-        </div>
-
-        <div class="time-box">
-          <div class="time-number" id="lHours">0</div>
-          <div class="time-label" data-t="hours">Hours</div>
-        </div>
-
-        <div class="time-box">
-          <div class="time-number" id="lMinutes">0</div>
-          <div class="time-label" data-t="minutes">Minutes</div>
-        </div>
-
-        <div class="time-box">
-          <div class="time-number" id="lSeconds">0</div>
-          <div class="time-label" data-t="seconds">Seconds</div>
-        </div>
-
-      </div>
-
-      <div class="progress-line">
-        <span data-t="lifeProgress">Life Progress</span>
-        <strong class="gold" id="lifeProgressText">0%</strong>
-      </div>
-
-      <div class="progress">
-        <div class="progress-fill" id="lifeProgressBar"></div>
-      </div>
-
-    </div>
-
-
-    <div class="countdown-card">
-
-      <div class="count-title" data-t="timeRemaining">
-        TIME REMAINING TO AGE 75
-      </div>
-
-      <div class="count-grid">
-
-        <div class="count-box">
-          <div class="count-num gold" id="rYears">0</div>
-          <div class="count-label" data-t="years">YEARS</div>
-        </div>
-
-        <div class="count-box">
-          <div class="count-num gold" id="rMonths">0</div>
-          <div class="count-label" data-t="months">MONTHS</div>
-        </div>
-
-        <div class="count-box">
-          <div class="count-num gold" id="rWeeks">0</div>
-          <div class="count-label" data-t="weeks">WEEKS</div>
-        </div>
-
-        <div class="count-box">
-          <div class="count-num gold" id="rDays">0</div>
-          <div class="count-label" data-t="days">DAYS</div>
-        </div>
-
-        <div class="count-box">
-          <div class="count-num gold" id="rHours">0</div>
-          <div class="count-label" data-t="hours">HOURS</div>
-        </div>
-
-        <div class="count-box">
-          <div class="count-num gold" id="rMinutes">0</div>
-          <div class="count-label" data-t="minutes">MINUTES</div>
-        </div>
-
-        <div class="count-box">
-          <div class="count-num gold" id="rSeconds">0</div>
-          <div class="count-label" data-t="seconds">SECONDS</div>
-        </div>
-
-      </div>
-
-      <div class="live">
-        <span class="live-dot"></span>
-        <span data-t="liveCountdown">Live Countdown</span>
-        :
-        <strong id="liveCountdownText" class="gold">--</strong>
-      </div>
-
-    </div>
-
-
-    <div class="section-title" data-t="quickHealth">Health Overview</div>
-
-    <div class="grid g4">
-
-      <div class="card health-stat">
-        <div class="stat-icon">♥</div>
-        <div class="stat-value gold" id="dashConditions">0</div>
-        <div class="stat-label" data-t="activeConditions">Active Conditions</div>
-      </div>
-
-      <div class="card health-stat">
-        <div class="stat-icon">▣</div>
-        <div class="stat-value gold" id="dashMeds">0</div>
-        <div class="stat-label" data-t="medications">Medications</div>
-      </div>
-
-      <div class="card health-stat">
-        <div class="stat-icon">⚖</div>
-        <div class="stat-value" id="dashWeight">--</div>
-        <div class="stat-label" data-t="weight">Weight</div>
-      </div>
-
-      <div class="card health-stat">
-        <div class="stat-icon">♥</div>
-        <div class="stat-value" id="dashBP">--</div>
-        <div class="stat-label" data-t="bloodPressure">Blood Pressure</div>
-      </div>
-
-    </div>
-
-  </div>
-</section>
-
-
-<!-- MY LIFE -->
-<section class="page" id="page-life">
-
-  <div class="page-head">
-    <div class="page-title" data-t="myLife">My Life 75</div>
-    <div class="page-desc" data-t="lifeDesc">
-      See your life in years, months and time
-    </div>
-  </div>
-
-  <div class="time-hero">
-
-    <div class="eyebrow" data-t="yourLifeTime">YOUR LIFE TIME</div>
-
-    <div class="age-main" id="lifeAge">--</div>
-
-    <div class="age-detail" id="lifeAgeDetail">--</div>
-
-    <div class="time-grid">
-
-      <div class="time-box">
-        <div class="time-number" id="mlYears">0</div>
-        <div class="time-label">Years</div>
-      </div>
-
-      <div class="time-box">
-        <div class="time-number" id="mlMonths">0</div>
-        <div class="time-label">Months</div>
-      </div>
-
-      <div class="time-box">
-        <div class="time-number" id="mlWeeks">0</div>
-        <div class="time-label">Weeks</div>
-      </div>
-
-      <div class="time-box">
-        <div class="time-number" id="mlDays">0</div>
-        <div class="time-label">Days</div>
-      </div>
-
-      <div class="time-box">
-        <div class="time-number" id="mlHours">0</div>
-        <div class="time-label">Hours</div>
-      </div>
-
-      <div class="time-box">
-        <div class="time-number" id="mlMinutes">0</div>
-        <div class="time-label">Minutes</div>
-      </div>
-
-      <div class="time-box">
-        <div class="time-number" id="mlSeconds">0</div>
-        <div class="time-label">Seconds</div>
-      </div>
-
-    </div>
-  </div>
-
-
-  <div class="section-title" data-t="yearGrid">75-Year Life Grid</div>
-
-  <div class="card">
-    <div id="yearGrid" class="life-grid"></div>
-
-    <div class="legend">
-      <span><i class="legend-dot" style="background:#80691f"></i> Lived</span>
-      <span><i class="legend-dot" style="background:#f1d16b"></i> Current</span>
-      <span><i class="legend-dot" style="background:#24242a"></i> Future</span>
-    </div>
-  </div>
-
-
-  <div class="section-title" data-t="monthGrid">900-Month Life Grid</div>
-
-  <div class="card">
-    <div id="monthGrid" class="month-grid"></div>
-  </div>
-
-</section>
-
-
-<!-- HEALTH -->
-<section class="page" id="page-health">
-
-  <div class="page-head">
-    <div class="page-title" data-t="health">Health</div>
-    <div class="page-desc" data-t="healthDesc">
-      Track your health information and daily measurements
-    </div>
-  </div>
-
-  <div class="grid g3">
-
-    <div class="card health-hero">
-      <div class="eyebrow" data-t="healthOverview">HEALTH OVERVIEW</div>
-      <div class="health-score" id="healthScore">--</div>
-      <div class="health-note" data-t="healthScoreNote">
-        Tracking score, not a medical diagnosis
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+      <div class="brand-mark">75</div>
+      <div class="brand-text">
+        <strong>LIFE 75</strong>
+        <span>Time • Life • Purpose</span>
       </div>
     </div>
 
-    <div class="card">
-      <div class="muted" data-t="weight">Weight</div>
-      <div class="metric-value" id="healthWeight">--</div>
-      <div class="metric-sub">kg</div>
-    </div>
-
-    <div class="card">
-      <div class="muted" data-t="bloodPressure">Blood Pressure</div>
-      <div class="metric-value" id="healthBP">--</div>
-      <div class="metric-sub">mmHg</div>
-    </div>
-
-  </div>
-
-
-  <div class="section-title" data-t="recordHealth">Record Health</div>
-
-  <div class="card">
-
-    <div class="grid g3">
-
-      <div class="form-group">
-        <label class="form-label" data-t="weight">Weight kg</label>
-        <input class="input" type="number" id="healthWeightInput" step="0.1">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" data-t="bloodPressure">Blood Pressure</label>
-        <input class="input" id="healthBPInput" placeholder="120/80">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" data-t="heartRate">Heart Rate</label>
-        <input class="input" type="number" id="healthHRInput">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" data-t="bloodSugar">Blood Sugar</label>
-        <input class="input" type="number" step="0.1" id="healthSugarInput">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" data-t="sleep">Sleep Hours</label>
-        <input class="input" type="number" step="0.1" id="healthSleepInput">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" data-t="exercise">Exercise Minutes</label>
-        <input class="input" type="number" id="healthExerciseInput">
-      </div>
-
-    </div>
-
-    <button class="btn btn-primary" onclick="saveHealth()" data-t="saveHealth">
-      Save Health Record
-    </button>
-
-  </div>
-
-
-  <div class="section-title" data-t="healthHistory">Health History</div>
-
-  <div class="card">
-    <div id="healthHistoryList" class="list"></div>
-  </div>
-
-</section>
-
-
-<!-- CONDITIONS -->
-<section class="page" id="page-conditions">
-
-  <div class="page-head">
-    <div class="page-title" data-t="conditions">My Conditions</div>
-    <div class="page-desc" data-t="conditionsDesc">
-      Keep a personal record of health conditions and medical history
-    </div>
-  </div>
-
-  <div class="card">
-
-    <div class="grid g2">
-
-      <div class="form-group">
-        <label class="form-label" data-t="conditionName">Condition / Disease</label>
-        <input class="input" id="conditionName" placeholder="Example: Hypertension">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" data-t="conditionDate">Known Since</label>
-        <input class="input" type="date" id="conditionDate">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" data-t="conditionStatus">Status</label>
-        <select class="select" id="conditionStatus">
-          <option value="Active">Active</option>
-          <option value="Controlled">Controlled</option>
-          <option value="Past">Past</option>
-          <option value="Unknown">Unknown</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" data-t="conditionMedicine">Related Medication</label>
-        <input class="input" id="conditionMedicine">
-      </div>
-
-    </div>
-
-    <div class="form-group">
-      <label class="form-label" data-t="notes">Notes</label>
-      <textarea class="textarea" id="conditionNotes"></textarea>
-    </div>
-
-    <button class="btn btn-primary" onclick="addCondition()" data-t="addCondition">
-      Add Condition
-    </button>
-
-  </div>
-
-  <div class="section-title" data-t="conditionHistory">Condition History</div>
-
-  <div class="card">
-    <div id="conditionList" class="list"></div>
-  </div>
-
-</section>
-
-
-<!-- MEDICATIONS -->
-<section class="page" id="page-medications">
-
-  <div class="page-head">
-    <div class="page-title" data-t="medications">Medications</div>
-    <div class="page-desc" data-t="medicationsDesc">
-      Keep track of medicines and schedules
-    </div>
-  </div>
-
-  <div class="card">
-
-    <div class="grid g3">
-
-      <div class="form-group">
-        <label class="form-label" data-t="medicineName">Medicine Name</label>
-        <input class="input" id="medicineName">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" data-t="dose">Dose</label>
-        <input class="input" id="medicineDose" placeholder="Example: 500 mg">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" data-t="frequency">Frequency</label>
-        <select class="select" id="medicineFrequency">
-          <option>Once daily</option>
-          <option>Twice daily</option>
-          <option>Three times daily</option>
-          <option>As needed</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" data-t="time">Time</label>
-        <input class="input" type="time" id="medicineTime">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" data-t="startDate">Start Date</label>
-        <input class="input" type="date" id="medicineStart">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" data-t="endDate">End Date</label>
-        <input class="input" type="date" id="medicineEnd">
-      </div>
-
-    </div>
-
-    <button class="btn btn-primary" onclick="addMedication()" data-t="addMedication">
-      Add Medication
-    </button>
-
-  </div>
-
-  <div class="section-title" data-t="medicationList">Medication List</div>
-
-  <div class="card">
-    <div id="medicationList" class="list"></div>
-  </div>
-
-</section>
-
-
-<!-- DOCTOR ADVICE -->
-<section class="page" id="page-doctor">
-
-  <div class="page-head">
-    <div class="page-title" data-t="doctorAdvice">Doctor Advice</div>
-    <div class="page-desc" data-t="doctorDesc">
-      General health information and preparation for a medical consultation
-    </div>
-  </div>
-
-  <div class="warning">
-    <strong data-t="medicalNoticeTitle">Medical Notice</strong><br>
-    <span data-t="medicalNotice">
-      This feature provides general health information and does not diagnose disease or replace a qualified healthcare professional
-    </span>
-  </div>
-
-  <br>
-
-  <div class="card">
-
-    <div class="section-title" style="margin-top:0" data-t="symptomChecker">
-      Symptom Guide
-    </div>
-
-    <div class="grid g2">
-
-      <div class="form-group">
-        <label class="form-label" data-t="symptoms">Symptoms</label>
-        <textarea class="textarea" id="doctorSymptoms"
-        placeholder="Example: headache, fever, cough..."></textarea>
-      </div>
-
-      <div>
-
-        <div class="form-group">
-          <label class="form-label" data-t="duration">How long?</label>
-          <input class="input" id="doctorDuration" placeholder="Example: 2 days">
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" data-t="severity">Severity</label>
-          <select class="select" id="doctorSeverity">
-            <option value="mild">Mild</option>
-            <option value="moderate">Moderate</option>
-            <option value="severe">Severe</option>
-          </select>
-        </div>
-
-        <button class="btn btn-primary" onclick="getDoctorAdvice()" data-t="getAdvice">
-          Get Guidance
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <div id="doctorResult" class="hidden">
-
-    <div class="section-title" data-t="guidance">Guidance</div>
-
-    <div class="grid g2">
-
-      <div class="advice-box">
-        <div class="advice-heading" data-t="possibleCauses">
-          Possible Considerations
-        </div>
-        <div class="advice-text" id="possibleCausesText"></div>
-      </div>
-
-      <div class="advice-box">
-        <div class="advice-heading" data-t="whatToDo">
-          What To Do
-        </div>
-        <div class="advice-text" id="whatToDoText"></div>
-      </div>
-
-    </div>
-
-    <br>
-
-    <div id="doctorRedFlag" class="warning hidden"></div>
-
-  </div>
-
-
-  <div class="section-title" data-t="doctorVisit">
-    Doctor Visit Summary
-  </div>
-
-  <div class="card">
-
-    <div class="grid g2">
-
-      <div>
-        <div class="form-label" data-t="conditions">Known Conditions</div>
-        <div id="doctorKnownConditions" class="list"></div>
-      </div>
-
-      <div>
-        <div class="form-label" data-t="medications">Current Medications</div>
-        <div id="doctorCurrentMeds" class="list"></div>
-      </div>
-
-    </div>
-
-    <br>
-
-    <button class="btn btn-primary" onclick="copyDoctorSummary()" data-t="copySummary">
-      Copy Doctor Visit Summary
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- GOALS -->
-<section class="page" id="page-goals">
-
-  <div class="page-head">
-    <div class="page-title" data-t="goals">Goals</div>
-    <div class="page-desc" data-t="goalsDesc">Build the future you want</div>
-  </div>
-
-  <div class="card">
-
-    <div class="grid g3">
-
-      <div class="form-group">
-        <label class="form-label" data-t="goalName">Goal</label>
-        <input class="input" id="goalName">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" data-t="targetDate">Target Date</label>
-        <input class="input" type="date" id="goalDate">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" data-t="goalProgress">Progress %</label>
-        <input class="input" type="number" min="0" max="100" id="goalProgress">
-      </div>
-
-    </div>
-
-    <button class="btn btn-primary" onclick="addGoal()" data-t="addGoal">Add Goal</button>
-
-  </div>
-
-  <br>
-
-  <div class="card">
-    <div id="goalList" class="list"></div>
-  </div>
-
-</section>
-
-
-<!-- HABITS -->
-<section class="page" id="page-habits">
-
-  <div class="page-head">
-    <div class="page-title" data-t="habits">Habits</div>
-    <div class="page-desc" data-t="habitsDesc">Small actions, repeated consistently</div>
-  </div>
-
-  <div class="card">
-
-    <div class="grid g2">
-
-      <div class="form-group">
-        <label class="form-label" data-t="habitName">Habit</label>
-        <input class="input" id="habitName">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" data-t="habitTarget">Daily Target</label>
-        <input class="input" id="habitTarget" placeholder="Example: 30 min">
-      </div>
-
-    </div>
-
-    <button class="btn btn-primary" onclick="addHabit()" data-t="addHabit">Add Habit</button>
-
-  </div>
-
-  <br>
-
-  <div class="card">
-    <div id="habitList" class="list"></div>
-  </div>
-
-</section>
-
-
-<!-- IMPORTANT DAYS -->
-<section class="page" id="page-important">
-
-  <div class="page-head">
-    <div class="page-title" data-t="important">Important Days</div>
-    <div class="page-desc" data-t="importantDesc">
-      Remember the dates that matter
-    </div>
-  </div>
-
-  <div class="card">
-
-    <div class="grid g3">
-
-      <div class="form-group">
-        <label class="form-label" data-t="eventName">Event Name</label>
-        <input class="input" id="eventName">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" data-t="eventDate">Date</label>
-        <input class="input" type="date" id="eventDate">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" data-t="eventType">Type</label>
-        <select class="select" id="eventType">
-          <option>Birthday</option>
-          <option>Anniversary</option>
-          <option>Family</option>
-          <option>Work</option>
-          <option>Other</option>
-        </select>
-      </div>
-
-    </div>
-
-    <div class="form-group">
-      <label class="form-label" data-t="notes">Notes</label>
-      <textarea class="textarea" id="eventNotes"></textarea>
-    </div>
-
-    <button class="btn btn-primary" onclick="addEvent()" data-t="addEvent">Add Important Day</button>
-
-  </div>
-
-  <br>
-
-  <div class="card">
-    <div id="eventList" class="list"></div>
-  </div>
-
-</section>
-
-
-<!-- MONEY -->
-<section class="page" id="page-money">
-
-  <div class="page-head">
-    <div class="page-title" data-t="money">Money</div>
-    <div class="page-desc" data-t="moneyDesc">
-      Track your savings and financial goals
-    </div>
-  </div>
-
-  <div class="grid g3">
-
-    <div class="card">
-      <div class="muted" data-t="monthlyIncome">Monthly Income</div>
-      <div class="metric-value gold" id="moneyIncome">0</div>
-    </div>
-
-    <div class="card">
-      <div class="muted" data-t="monthlySaving">Monthly Saving</div>
-      <div class="metric-value gold" id="moneySaving">0</div>
-    </div>
-
-    <div class="card">
-      <div class="muted" data-t="savingRate">Saving Rate</div>
-      <div class="metric-value gold" id="moneyRate">0%</div>
-    </div>
-
-  </div>
-
-  <br>
-
-  <div class="card">
-
-    <div class="grid g2">
-
-      <div class="form-group">
-        <label class="form-label" data-t="monthlyIncome">Monthly Income</label>
-        <input class="input" type="number" id="incomeInput">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" data-t="monthlyExpense">Monthly Expense</label>
-        <input class="input" type="number" id="expenseInput">
-      </div>
-
-    </div>
-
-    <button class="btn btn-primary" onclick="saveMoney()" data-t="save">Save</button>
-
-  </div>
-
-</section>
-
-
-<!-- JOURNAL -->
-<section class="page" id="page-journal">
-
-  <div class="page-head">
-    <div class="page-title" data-t="journal">Journal</div>
-    <div class="page-desc" data-t="journalDesc">
-      Capture thoughts, memories and lessons
-    </div>
-  </div>
-
-  <div class="card">
-
-    <div class="form-group">
-      <label class="form-label" data-t="journalTitle">Title</label>
-      <input class="input" id="journalTitle">
-    </div>
-
-    <div class="form-group">
-      <label class="form-label" data-t="journalText">Journal</label>
-      <textarea class="textarea" id="journalText"></textarea>
-    </div>
-
-    <button class="btn btn-primary" onclick="addJournal()" data-t="saveJournal">
-      Save Journal
-    </button>
-
-  </div>
-
-  <br>
-
-  <div class="card">
-    <div id="journalList" class="list"></div>
-  </div>
-
-</section>
-
-
-<!-- LIFE CARD -->
-<section class="page" id="page-lifeCard">
-
-  <div class="page-head">
-    <div class="page-title" data-t="lifeCard">Life Card</div>
-    <div class="page-desc" data-t="lifeCardDesc">
-      Your personal LIFE 75 snapshot
-    </div>
-  </div>
-
-  <div class="card time-hero">
-
-    <div class="eyebrow">LIFE 75</div>
-
-    <div class="age-main" id="cardAge">--</div>
-
-    <div class="age-detail">
-      <span data-t="lifeProgress">Life Progress</span>:
-      <strong id="cardProgress" class="gold">0%</strong>
-    </div>
-
-    <br>
-
-    <div class="grid g3">
-
-      <div>
-        <div class="muted" data-t="daysLived">Days Lived</div>
-        <div class="metric-value" id="cardDays">0</div>
-      </div>
-
-      <div>
-        <div class="muted" data-t="daysRemaining">Days Remaining</div>
-        <div class="metric-value" id="cardRemainingDays">0</div>
-      </div>
-
-      <div>
-        <div class="muted" data-t="important">Important Days</div>
-        <div class="metric-value" id="cardEvents">0</div>
-      </div>
-
-    </div>
-
-    <br>
-
-    <div class="info">
-      <strong>LIFE 75</strong><br>
-      <span data-t="lifeCardMessage">
-        Time is limited. Make the remaining years meaningful
-      </span>
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- SETTINGS -->
-<section class="page" id="page-settings">
-
-  <div class="page-head">
-    <div class="page-title" data-t="settings">Settings</div>
-    <div class="page-desc" data-t="settingsDesc">
-      Personalize your LIFE 75 experience
-    </div>
-  </div>
-
-  <div class="card">
-
-    <div class="form-group">
-      <label class="form-label" data-t="name">Your Name</label>
-      <input class="input" id="userName">
-    </div>
-
-    <div class="form-group">
-      <label class="form-label" data-t="dateOfBirth">Date of Birth</label>
-      <input class="input" type="date" id="dobSettings">
-    </div>
-
-    <div class="form-group">
-      <label class="form-label" data-t="language">Language</label>
-      <select class="select" id="languageSelect" onchange="setLanguage(this.value)">
-        <option value="en">English</option>
-        <option value="mm">မြန်မာ</option>
-      </select>
-    </div>
-
-    <div class="actions">
-
-      <button class="btn btn-primary" onclick="saveSettings()" data-t="saveSettings">
-        Save Settings
+    <nav class="nav">
+
+      <button class="nav-btn active" data-section="dashboard">
+        <span class="nav-icon">⌂</span>
+        <span>Dashboard</span>
       </button>
 
-      <button class="btn" onclick="exportData()" data-t="exportData">
-        Export Data
+      <button class="nav-btn" data-section="time">
+        <span class="nav-icon">◷</span>
+        <span>Time System</span>
       </button>
 
-      <button class="btn btn-danger" onclick="resetData()" data-t="resetData">
-        Reset All Data
+      <button class="nav-btn" data-section="health">
+        <span class="nav-icon">♡</span>
+        <span>Health</span>
       </button>
+
+      <button class="nav-btn" data-section="goals">
+        <span class="nav-icon">◎</span>
+        <span>Goals</span>
+      </button>
+
+      <button class="nav-btn" data-section="important">
+        <span class="nav-icon">◆</span>
+        <span>Important Days</span>
+      </button>
+
+      <button class="nav-btn" data-section="life">
+        <span class="nav-icon">▦</span>
+        <span>My Life 75</span>
+      </button>
+
+      <button class="nav-btn" data-section="settings">
+        <span class="nav-icon">⚙</span>
+        <span>Settings</span>
+      </button>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="badge">● LIFE 75 V7</div>
+    </div>
+
+  </aside>
+
+  <div class="overlay" id="overlay"></div>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <header class="topbar">
+
+      <div style="display:flex;align-items:center;gap:10px;min-width:0">
+
+        <button class="menu-btn" id="menuBtn" aria-label="Menu">☰</button>
+
+        <div class="page-title">
+          <strong id="pageTitle">Dashboard</strong>
+          <span id="pageSubtitle">Your life, measured in time</span>
+        </div>
+
+      </div>
+
+      <div class="top-actions">
+        <button class="icon-btn" id="topClockBtn" title="Current Time">◷</button>
+      </div>
+
+    </header>
+
+    <div class="content">
+
+      <!-- ================= DASHBOARD ================= -->
+
+      <section class="section active" id="dashboard">
+
+        <div class="section-head">
+          <h1>Good day</h1>
+          <p>Your life is happening now, not someday</p>
+        </div>
+
+        <div class="card live-clock-card card-pad">
+
+          <div class="live-top">
+            <div class="live-label">
+              <span class="live-dot"></span>
+              LIVE NOW
+            </div>
+
+            <span class="badge" id="todayBadge">TODAY</span>
+          </div>
+
+          <div class="clock" id="liveClock">
+            00:00:00
+            <span class="clock-ampm" id="clockAmPm"></span>
+          </div>
+
+          <div class="date-line" id="liveDate">
+            Loading date...
+          </div>
+
+          <div class="timezone-line" id="timezoneText">
+            Device local time
+          </div>
+
+        </div>
+
+        <div class="grid grid-4 time-section">
+
+          <div class="card time-card">
+            <div class="label">AGE</div>
+            <div class="time-number" id="ageYears">—</div>
+          </div>
+
+          <div class="card time-card">
+            <div class="label">LIFE PROGRESS</div>
+            <div class="time-number">
+              <span id="lifePercent">0</span><small>%</small>
+            </div>
+          </div>
+
+          <div class="card time-card">
+            <div class="label">YEARS LIVED</div>
+            <div class="time-number" id="yearsLived">0</div>
+          </div>
+
+          <div class="card time-card">
+            <div class="label">YEARS TO 75</div>
+            <div class="time-number" id="yearsRemaining">75</div>
+          </div>
+
+        </div>
+
+        <div class="grid grid-2 time-section">
+
+          <div class="card card-pad">
+
+            <div class="card-title">
+              <h2>Time Remaining to 75</h2>
+              <span>LIVE</span>
+            </div>
+
+            <div class="countdown" id="dashboardRemaining">
+              Enter your date of birth in Settings
+            </div>
+
+            <div class="progress-wrap">
+
+              <div class="progress-head">
+                <span>Life Progress</span>
+                <span id="dashboardProgressText">0%</span>
+              </div>
+
+              <div class="progress">
+                <span id="dashboardProgress"></span>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="card card-pad">
+
+            <div class="card-title">
+              <h2>Health Snapshot</h2>
+              <button class="btn btn-small" onclick="showSection('health')">
+                Open
+              </button>
+            </div>
+
+            <div class="grid grid-2">
+
+              <div class="kpi">
+                <div class="kpi-label">Conditions</div>
+                <div class="kpi-number" id="dashConditions">0</div>
+              </div>
+
+              <div class="kpi">
+                <div class="kpi-label">Appointments</div>
+                <div class="kpi-number" id="dashAppointments">0</div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="card card-pad time-section">
+
+          <div class="card-title">
+            <h2>Life 75 — Years</h2>
+            <span>75 YEARS</span>
+          </div>
+
+          <div class="life-grid" id="dashboardLifeGrid"></div>
+
+          <div style="display:flex;gap:15px;flex-wrap:wrap;margin-top:12px;font-size:10px;color:var(--muted)">
+            <span>■ Lived</span>
+            <span style="color:var(--gold2)">■ Current</span>
+            <span>■ Future</span>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ================= TIME ================= -->
+
+      <section class="section" id="time">
+
+        <div class="section-head">
+          <h1>Time System</h1>
+          <p>See your current time, lived time and remaining time separately</p>
+        </div>
+
+        <div class="card live-clock-card card-pad">
+
+          <div class="live-label">
+            <span class="live-dot"></span>
+            CURRENT TIME
+          </div>
+
+          <div class="clock" id="timePageClock">
+            00:00:00
+            <span class="clock-ampm" id="timePageAmPm"></span>
+          </div>
+
+          <div class="date-line" id="timePageDate"></div>
+
+        </div>
+
+        <div class="grid grid-3 time-section">
+
+          <div class="card time-card">
+            <div class="label">YEARS LIVED</div>
+            <div class="time-number" id="livedYears">0</div>
+          </div>
+
+          <div class="card time-card">
+            <div class="label">MONTHS LIVED</div>
+            <div class="time-number" id="livedMonths">0</div>
+          </div>
+
+          <div class="card time-card">
+            <div class="label">WEEKS LIVED</div>
+            <div class="time-number" id="livedWeeks">0</div>
+          </div>
+
+          <div class="card time-card">
+            <div class="label">DAYS LIVED</div>
+            <div class="time-number" id="livedDays">0</div>
+          </div>
+
+          <div class="card time-card">
+            <div class="label">HOURS LIVED</div>
+            <div class="time-number" id="livedHours">0</div>
+          </div>
+
+          <div class="card time-card">
+            <div class="label">MINUTES LIVED</div>
+            <div class="time-number" id="livedMinutes">0</div>
+          </div>
+
+        </div>
+
+        <div class="grid grid-2 time-section">
+
+          <div class="card card-pad">
+
+            <div class="card-title">
+              <h2>Remaining Time</h2>
+              <span>UNTIL AGE 75</span>
+            </div>
+
+            <div class="countdown" id="remainingFull">
+              Enter DOB
+            </div>
+
+          </div>
+
+          <div class="card card-pad">
+
+            <div class="card-title">
+              <h2>Life Progress</h2>
+              <span id="timeProgressPercent">0%</span>
+            </div>
+
+            <div class="progress" style="height:12px">
+              <span id="timeProgressBar"></span>
+            </div>
+
+            <div class="muted" style="margin-top:12px;font-size:11px;line-height:1.6">
+              This percentage is an approximate time-progress calculation based on age 75
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="card card-pad time-section">
+
+          <div class="card-title">
+            <h2>900 Month Life Grid</h2>
+            <span>75 × 12</span>
+          </div>
+
+          <div class="month-grid" id="monthGrid"></div>
+
+        </div>
+
+      </section>
+
+      <!-- ================= HEALTH ================= -->
+
+      <section class="section" id="health">
+
+        <div class="section-head">
+          <h1>Health</h1>
+          <p>Keep your health information organised and ready for your next check-up</p>
+        </div>
+
+        <div class="health-banner">
+
+          <div style="display:flex;gap:14px;align-items:flex-start">
+
+            <div class="health-icon">♡</div>
+
+            <div style="min-width:0">
+              <h2 style="font-size:18px">Health Center</h2>
+              <p class="muted" style="font-size:11px;line-height:1.7;margin-top:5px">
+                Record your existing health conditions, appointments and your doctor's instructions in one place
+              </p>
+            </div>
+
+          </div>
+
+          <div class="health-actions">
+            <button class="btn btn-primary" onclick="openConditionModal()">
+              + Add Condition
+            </button>
+
+            <button class="btn" onclick="openAdviceModal()">
+              + Doctor Advice
+            </button>
+
+            <button class="btn" onclick="openAppointmentModal()">
+              + Appointment
+            </button>
+          </div>
+
+        </div>
+
+        <div class="grid grid-4 time-section">
+
+          <div class="card stat-card">
+            <div class="stat-label">ACTIVE CONDITIONS</div>
+            <div class="stat-value" id="healthConditionCount">0</div>
+          </div>
+
+          <div class="card stat-card">
+            <div class="stat-label">DOCTOR NOTES</div>
+            <div class="stat-value" id="healthAdviceCount">0</div>
+          </div>
+
+          <div class="card stat-card">
+            <div class="stat-label">APPOINTMENTS</div>
+            <div class="stat-value" id="healthAppointmentCount">0</div>
+          </div>
+
+          <div class="card stat-card">
+            <div class="stat-label">MEDICATIONS</div>
+            <div class="stat-value" id="healthMedicationCount">0</div>
+          </div>
+
+        </div>
+
+        <div class="grid grid-2 time-section">
+
+          <div class="card card-pad">
+
+            <div class="card-title">
+              <h2>Existing Conditions</h2>
+              <button class="btn btn-small" onclick="openConditionModal()">Add</button>
+            </div>
+
+            <div class="list" id="conditionList"></div>
+
+          </div>
+
+          <div class="card card-pad">
+
+            <div class="card-title">
+              <h2>Doctor Advice</h2>
+              <button class="btn btn-small" onclick="openAdviceModal()">Add</button>
+            </div>
+
+            <div class="list" id="adviceList"></div>
+
+          </div>
+
+        </div>
+
+        <div class="grid grid-2 time-section">
+
+          <div class="card card-pad">
+
+            <div class="card-title">
+              <h2>Health Actions</h2>
+              <span>GENERAL</span>
+            </div>
+
+            <div class="check-list">
+
+              <label class="check-item">
+                <input type="checkbox" data-health-check="medicine">
+                <span>Take prescribed medicine according to your clinician's instructions</span>
+              </label>
+
+              <label class="check-item">
+                <input type="checkbox" data-health-check="followup">
+                <span>Keep your scheduled follow-up appointments</span>
+              </label>
+
+              <label class="check-item">
+                <input type="checkbox" data-health-check="measure">
+                <span>Record measurements when your clinician has asked you to monitor them</span>
+              </label>
+
+              <label class="check-item">
+                <input type="checkbox" data-health-check="symptom">
+                <span>Record unusual symptoms or medication side effects</span>
+              </label>
+
+            </div>
+
+          </div>
+
+          <div class="card card-pad">
+
+            <div class="card-title">
+              <h2>Appointments</h2>
+              <button class="btn btn-small" onclick="openAppointmentModal()">Add</button>
+            </div>
+
+            <div class="list" id="appointmentList"></div>
+
+          </div>
+
+        </div>
+
+        <div class="card card-pad time-section">
+
+          <div class="card-title">
+            <h2>Health Safety</h2>
+            <span>IMPORTANT</span>
+          </div>
+
+          <div style="padding:14px;border-radius:12px;background:rgba(223,119,119,.06);border:1px solid rgba(223,119,119,.12);font-size:12px;line-height:1.8;color:#cfc4b8">
+            This section is for organising your own health records and your clinician's advice
+            It does not diagnose disease or replace professional medical care
+            For severe chest pain, serious breathing difficulty, fainting, signs of stroke, severe allergic reaction, uncontrolled bleeding, or another medical emergency, seek emergency medical care immediately
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ================= GOALS ================= -->
+
+      <section class="section" id="goals">
+
+        <div class="section-head">
+          <h1>Goals</h1>
+          <p>Use the time you have for things that matter</p>
+        </div>
+
+        <div class="card card-pad">
+
+          <div class="card-title">
+            <h2>My Goals</h2>
+            <button class="btn btn-primary btn-small" onclick="openGoalModal()">+ Add Goal</button>
+          </div>
+
+          <div class="list" id="goalList"></div>
+
+        </div>
+
+      </section>
+
+      <!-- ================= IMPORTANT DAYS ================= -->
+
+      <section class="section" id="important">
+
+        <div class="section-head">
+          <h1>Important Days</h1>
+          <p>Keep meaningful dates visible</p>
+        </div>
+
+        <div class="card card-pad">
+
+          <div class="card-title">
+            <h2>My Important Days</h2>
+            <button class="btn btn-primary btn-small" onclick="openImportantModal()">+ Add Day</button>
+          </div>
+
+          <div class="list" id="importantList"></div>
+
+        </div>
+
+      </section>
+
+      <!-- ================= MY LIFE ================= -->
+
+      <section class="section" id="life">
+
+        <div class="section-head">
+          <h1>My Life 75</h1>
+          <p>A visual reminder that every year is limited</p>
+        </div>
+
+        <div class="card card-pad">
+
+          <div class="card-title">
+            <h2>75 Years</h2>
+            <span id="lifeGridLabel">0 / 75</span>
+          </div>
+
+          <div class="life-grid" id="lifePageGrid"></div>
+
+        </div>
+
+        <div class="card card-pad time-section">
+
+          <div class="card-title">
+            <h2>Life Principle</h2>
+          </div>
+
+          <div style="font-size:20px;line-height:1.5;color:#f7e9cf">
+            “Time is not waiting for us
+            Use today intentionally”
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ================= SETTINGS ================= -->
+
+      <section class="section" id="settings">
+
+        <div class="section-head">
+          <h1>Settings</h1>
+          <p>Set the basic information used by LIFE 75</p>
+        </div>
+
+        <div class="card card-pad">
+
+          <div class="card-title">
+            <h2>Profile</h2>
+          </div>
+
+          <div class="form-grid">
+
+            <div class="form-group">
+              <label>Your Name</label>
+              <input id="profileName" type="text" placeholder="Enter your name">
+            </div>
+
+            <div class="form-group">
+              <label>Date of Birth</label>
+              <input id="profileDob" type="date">
+            </div>
+
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" onclick="saveProfile()">
+              Save Profile
+            </button>
+          </div>
+
+        </div>
+
+        <div class="card card-pad time-section">
+
+          <div class="card-title">
+            <h2>Data</h2>
+          </div>
+
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+
+            <button class="btn" onclick="exportData()">
+              Export Data
+            </button>
+
+            <button class="btn btn-danger" onclick="resetData()">
+              Reset LIFE 75
+            </button>
+
+          </div>
+
+        </div>
+
+      </section>
 
     </div>
 
+  </main>
+
+</div>
+
+<!-- ================= MODAL ================= -->
+
+<div class="modal-backdrop" id="modalBackdrop">
+
+  <div class="modal">
+
+    <div class="modal-head">
+
+      <h3 id="modalTitle">Add</h3>
+
+      <button class="icon-btn" onclick="closeModal()">×</button>
+
+    </div>
+
+    <div class="modal-body" id="modalBody"></div>
+
   </div>
 
-</section>
+</div>
 
-</main>
-
+<div class="toast" id="toast"></div>
 
 <script>
+/* =========================================================
+   LIFE 75 V7 — TIME EDITION
+========================================================= */
 
-/* ================= DATA ================= */
+const STORAGE_KEY = "life75_v7_time";
 
-const STORAGE_KEY="life75_v8_data";
-
-let data={
-  dob:"",
-  name:"",
-  language:"en",
-
-  health:{
-    weight:"",
-    bp:"",
-    hr:"",
-    sugar:"",
-    sleep:"",
-    exercise:"",
-    history:[]
+const defaultState = {
+  profile:{
+    name:"",
+    dob:""
   },
 
   conditions:[],
-  medications:[],
+  doctorAdvice:[],
+  appointments:[],
   goals:[],
-  habits:[],
-  events:[],
-  journals:[],
+  importantDays:[],
 
-  money:{
-    income:0,
-    expense:0
+  healthChecks:{
+    medicine:false,
+    followup:false,
+    measure:false,
+    symptom:false
   }
 };
 
-let timer=null;
+let state = loadState();
 
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
 
-/* ================= TRANSLATIONS ================= */
+    if(!raw){
+      return structuredClone(defaultState);
+    }
 
-const T={
+    const parsed = JSON.parse(raw);
 
-en:{
-  brandSub:"YOUR LIFE • YOUR TIME",
-  dashboard:"Dashboard",
-  myLife:"My Life 75",
-  health:"Health",
-  doctorAdvice:"Doctor Advice",
-  conditions:"My Conditions",
-  medications:"Medications",
-  goals:"Goals",
-  habits:"Habits",
-  important:"Important Days",
-  money:"Money",
-  journal:"Journal",
-  lifeCard:"Life Card",
-  settings:"Settings",
-  personalLife:"Personal Life",
+    return {
+      ...structuredClone(defaultState),
+      ...parsed,
+      profile:{
+        ...defaultState.profile,
+        ...(parsed.profile || {})
+      },
+      healthChecks:{
+        ...defaultState.healthChecks,
+        ...(parsed.healthChecks || {})
+      }
+    };
 
-  dashboardDesc:"Your life, your time, your health and your future",
-  setupLife:"Set Your Date of Birth",
-  dobHelp:"Add your date of birth to activate the complete LIFE 75 time system",
-  saveDOB:"Save Date of Birth",
-
-  yourLifeTime:"YOUR LIFE TIME",
-  live:"LIVE",
-  years:"Years",
-  months:"Months",
-  weeks:"Weeks",
-  days:"Days",
-  hours:"Hours",
-  minutes:"Minutes",
-  seconds:"Seconds",
-  lifeProgress:"Life Progress",
-  timeRemaining:"TIME REMAINING TO AGE 75",
-  liveCountdown:"Live Countdown",
-
-  quickHealth:"Health Overview",
-  activeConditions:"Active Conditions",
-  weight:"Weight",
-  bloodPressure:"Blood Pressure",
-
-  lifeDesc:"See your life in years, months and time",
-  yearGrid:"75-Year Life Grid",
-  monthGrid:"900-Month Life Grid",
-
-  healthDesc:"Track your health information and daily measurements",
-  healthOverview:"HEALTH OVERVIEW",
-  healthScoreNote:"Tracking score, not a medical diagnosis",
-  recordHealth:"Record Health",
-  heartRate:"Heart Rate",
-  bloodSugar:"Blood Sugar",
-  sleep:"Sleep Hours",
-  exercise:"Exercise Minutes",
-  saveHealth:"Save Health Record",
-  healthHistory:"Health History",
-
-  conditionsDesc:"Keep a personal record of health conditions and medical history",
-  conditionName:"Condition / Disease",
-  conditionDate:"Known Since",
-  conditionStatus:"Status",
-  conditionMedicine:"Related Medication",
-  notes:"Notes",
-  addCondition:"Add Condition",
-  conditionHistory:"Condition History",
-
-  medicationsDesc:"Keep track of medicines and schedules",
-  medicineName:"Medicine Name",
-  dose:"Dose",
-  frequency:"Frequency",
-  time:"Time",
-  startDate:"Start Date",
-  endDate:"End Date",
-  addMedication:"Add Medication",
-  medicationList:"Medication List",
-
-  doctorDesc:"General health information and preparation for a medical consultation",
-  medicalNoticeTitle:"Medical Notice",
-  medicalNotice:"This feature provides general health information and does not diagnose disease or replace a qualified healthcare professional",
-  symptomChecker:"Symptom Guide",
-  symptoms:"Symptoms",
-  duration:"How long?",
-  severity:"Severity",
-  getAdvice:"Get Guidance",
-  guidance:"Guidance",
-  possibleCauses:"Possible Considerations",
-  whatToDo:"What To Do",
-  doctorVisit:"Doctor Visit Summary",
-  copySummary:"Copy Doctor Visit Summary",
-
-  goalsDesc:"Build the future you want",
-  goalName:"Goal",
-  targetDate:"Target Date",
-  goalProgress:"Progress %",
-  addGoal:"Add Goal",
-
-  habitsDesc:"Small actions, repeated consistently",
-  habitName:"Habit",
-  habitTarget:"Daily Target",
-  addHabit:"Add Habit",
-
-  importantDesc:"Remember the dates that matter",
-  eventName:"Event Name",
-  eventDate:"Date",
-  eventType:"Type",
-  addEvent:"Add Important Day",
-
-  moneyDesc:"Track your savings and financial goals",
-  monthlyIncome:"Monthly Income",
-  monthlyExpense:"Monthly Expense",
-  monthlySaving:"Monthly Saving",
-  savingRate:"Saving Rate",
-  save:"Save",
-
-  journalDesc:"Capture thoughts, memories and lessons",
-  journalTitle:"Title",
-  journalText:"Journal",
-  saveJournal:"Save Journal",
-
-  lifeCardDesc:"Your personal LIFE 75 snapshot",
-  daysLived:"Days Lived",
-  daysRemaining:"Days Remaining",
-  lifeCardMessage:"Time is limited. Make the remaining years meaningful",
-
-  settingsDesc:"Personalize your LIFE 75 experience",
-  name:"Your Name",
-  dateOfBirth:"Date of Birth",
-  language:"Language",
-  saveSettings:"Save Settings",
-  exportData:"Export Data",
-  resetData:"Reset All Data",
-
-  noData:"No data yet",
-  deleted:"Deleted",
-  saved:"Saved"
-},
-
-mm:{
-  brandSub:"သင့်ဘဝ • သင့်အချိန်",
-  dashboard:"ပင်မစာမျက်နှာ",
-  myLife:"ကျွန်ုပ်၏ LIFE 75",
-  health:"ကျန်းမာရေး",
-  doctorAdvice:"ဆရာဝန်အကြံပေး",
-  conditions:"ရှိနေသောရောဂါများ",
-  medications:"ဆေးဝါးများ",
-  goals:"ရည်မှန်းချက်များ",
-  habits:"အလေ့အကျင့်များ",
-  important:"အရေးကြီးရက်များ",
-  money:"ငွေကြေး",
-  journal:"မှတ်တမ်း",
-  lifeCard:"Life Card",
-  settings:"ဆက်တင်များ",
-  personalLife:"ကိုယ်ပိုင်ဘဝ",
-
-  dashboardDesc:"သင့်ဘဝ၊ သင့်အချိန်၊ သင့်ကျန်းမာရေးနဲ့ သင့်အနာဂတ်",
-  setupLife:"မွေးသက္ကရာဇ်ထည့်ပါ",
-  dobHelp:"LIFE 75 ရဲ့ အချိန်စနစ်အပြည့်အဝ အသုံးပြုရန် မွေးသက္ကရာဇ်ထည့်ပါ",
-  saveDOB:"မွေးသက္ကရာဇ်သိမ်းမည်",
-
-  yourLifeTime:"သင်နေထိုင်ပြီးသောအချိန်",
-  live:"တိုက်ရိုက်",
-  years:"နှစ်",
-  months:"လ",
-  weeks:"ပတ်",
-  days:"ရက်",
-  hours:"နာရီ",
-  minutes:"မိနစ်",
-  seconds:"စက္ကန့်",
-
-  lifeProgress:"ဘဝတိုးတက်မှု",
-  timeRemaining:"၇၅ နှစ်ပြည့်ရန် ကျန်ရှိသောအချိန်",
-  liveCountdown:"တိုက်ရိုက် Countdown",
-
-  quickHealth:"ကျန်းမာရေးအခြေအနေ",
-  activeConditions:"ရှိနေသောရောဂါ",
-  weight:"ကိုယ်အလေးချိန်",
-  bloodPressure:"သွေးပေါင်",
-
-  lifeDesc:"သင့်ဘဝကို နှစ်၊ လနဲ့ အချိန်အလိုက် ကြည့်ရှုပါ",
-  yearGrid:"၇၅ နှစ် ဘဝဇယား",
-  monthGrid:"၉၀၀ လ ဘဝဇယား",
-
-  healthDesc:"သင့်ကျန်းမာရေးအချက်အလက်နဲ့ နေ့စဉ်တိုင်းတာချက်တွေ မှတ်တမ်းတင်ပါ",
-  healthOverview:"ကျန်းမာရေးအကျဉ်းချုပ်",
-  healthScoreNote:"Tracking Score သာဖြစ်ပြီး ဆေးဘက်ဆိုင်ရာ Diagnosis မဟုတ်ပါ",
-  recordHealth:"ကျန်းမာရေးမှတ်တမ်းထည့်ရန်",
-  heartRate:"နှလုံးခုန်နှုန်း",
-  bloodSugar:"သွေးတွင်းသကြား",
-  sleep:"အိပ်ချိန် နာရီ",
-  exercise:"လေ့ကျင့်ခန်း မိနစ်",
-  saveHealth:"ကျန်းမာရေးမှတ်တမ်းသိမ်းမည်",
-  healthHistory:"ကျန်းမာရေးမှတ်တမ်း",
-
-  conditionsDesc:"ရှိနေသောရောဂါနဲ့ ကျန်းမာရေးမှတ်တမ်းများကို သိမ်းထားပါ",
-  conditionName:"ရောဂါ / ကျန်းမာရေးအခြေအနေ",
-  conditionDate:"စတင်သိရှိသည့်နေ့",
-  conditionStatus:"အခြေအနေ",
-  conditionMedicine:"သက်ဆိုင်သောဆေး",
-  notes:"မှတ်ချက်",
-  addCondition:"ရောဂါထည့်မည်",
-  conditionHistory:"ရောဂါမှတ်တမ်း",
-
-  medicationsDesc:"သောက်နေသောဆေးနဲ့ အချိန်ဇယားကို မှတ်ထားပါ",
-  medicineName:"ဆေးအမည်",
-  dose:"ပမာဏ",
-  frequency:"အကြိမ်ရေ",
-  time:"အချိန်",
-  startDate:"စတင်ရက်",
-  endDate:"ပြီးဆုံးရက်",
-  addMedication:"ဆေးထည့်မည်",
-  medicationList:"ဆေးစာရင်း",
-
-  doctorDesc:"အထွေထွေကျန်းမာရေးအချက်အလက်နဲ့ ဆရာဝန်တွေ့ရန် ပြင်ဆင်ခြင်း",
-  medicalNoticeTitle:"ဆေးဘက်ဆိုင်ရာအသိပေးချက်",
-  medicalNotice:"ဤလုပ်ဆောင်ချက်သည် အထွေထွေကျန်းမာရေးအချက်အလက်အတွက်သာဖြစ်ပြီး ရောဂါ Diagnosis ပြုလုပ်ခြင်း သို့မဟုတ် ဆရာဝန်အစားထိုးခြင်း မပြုပါ",
-  symptomChecker:"လက္ခဏာလမ်းညွှန်",
-  symptoms:"လက္ခဏာများ",
-  duration:"ဘယ်လောက်ကြာပြီလဲ",
-  severity:"ပြင်းထန်မှု",
-  getAdvice:"လမ်းညွှန်ရယူမည်",
-  guidance:"လမ်းညွှန်ချက်",
-  possibleCauses:"ဖြစ်နိုင်ခြေရှိသောအချက်များ",
-  whatToDo:"ယခုဘာလုပ်သင့်လဲ",
-  doctorVisit:"ဆရာဝန်တွေ့ရန် အကျဉ်းချုပ်",
-  copySummary:"ဆရာဝန်အကျဉ်းချုပ် Copy ကူးမည်",
-
-  goalsDesc:"သင်လိုချင်တဲ့အနာဂတ်အတွက် ရည်မှန်းချက်တည်ဆောက်ပါ",
-  goalName:"ရည်မှန်းချက်",
-  targetDate:"သတ်မှတ်ရက်",
-  goalProgress:"တိုးတက်မှု %",
-  addGoal:"ရည်မှန်းချက်ထည့်မည်",
-
-  habitsDesc:"သေးငယ်တဲ့လုပ်ဆောင်ချက်တွေကို ပုံမှန်လုပ်ဆောင်ပါ",
-  habitName:"အလေ့အကျင့်",
-  habitTarget:"နေ့စဉ်ပန်းတိုင်",
-  addHabit:"အလေ့အကျင့်ထည့်မည်",
-
-  importantDesc:"အရေးကြီးတဲ့ရက်တွေကို မမေ့အောင် မှတ်ထားပါ",
-  eventName:"အမည်",
-  eventDate:"ရက်စွဲ",
-  eventType:"အမျိုးအစား",
-  addEvent:"အရေးကြီးရက်ထည့်မည်",
-
-  moneyDesc:"စုဆောင်းငွေနဲ့ ငွေကြေးရည်မှန်းချက်တွေကို စောင့်ကြည့်ပါ",
-  monthlyIncome:"လစဉ်ဝင်ငွေ",
-  monthlyExpense:"လစဉ်အသုံးစရိတ်",
-  monthlySaving:"လစဉ်စုငွေ",
-  savingRate:"စုဆောင်းနှုန်း",
-  save:"သိမ်းမည်",
-
-  journalDesc:"အတွေးတွေ၊ အမှတ်တရတွေနဲ့ သင်ခန်းစာတွေကို မှတ်တမ်းတင်ပါ",
-  journalTitle:"ခေါင်းစဉ်",
-  journalText:"မှတ်တမ်း",
-  saveJournal:"မှတ်တမ်းသိမ်းမည်",
-
-  lifeCardDesc:"သင့် LIFE 75 ကို အကျဉ်းချုပ်ပြသထားသော Card",
-  daysLived:"နေထိုင်ပြီးသောရက်",
-  daysRemaining:"ကျန်ရှိသောရက်",
-  lifeCardMessage:"အချိန်ကန့်သတ်ထားပါတယ်။ ကျန်ရှိတဲ့နှစ်တွေကို အဓိပ္ပါယ်ရှိရှိ အသုံးချပါ",
-
-  settingsDesc:"LIFE 75 ကို သင့်စိတ်ကြိုက်ပြင်ဆင်ပါ",
-  name:"သင့်အမည်",
-  dateOfBirth:"မွေးသက္ကရာဇ်",
-  language:"ဘာသာစကား",
-  saveSettings:"ဆက်တင်သိမ်းမည်",
-  exportData:"Data Export",
-  resetData:"Data အားလုံးဖျက်မည်",
-
-  noData:"မှတ်တမ်းမရှိသေးပါ",
-  deleted:"ဖျက်ပြီးပါပြီ",
-  saved:"သိမ်းပြီးပါပြီ"
+  }catch(error){
+    console.error(error);
+    return structuredClone(defaultState);
+  }
 }
 
-};
+function saveState(){
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+}
 
-
-/* ================= HELPERS ================= */
+/* =========================================================
+   HELPERS
+========================================================= */
 
 function $(id){
   return document.getElementById(id);
 }
 
-function uid(){
-  return Date.now().toString(36)+Math.random().toString(36).slice(2,7);
-}
-
-function esc(value){
-  return String(value??"")
+function escapeHTML(value){
+  return String(value ?? "")
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;")
@@ -2001,68 +1790,92 @@ function esc(value){
     .replace(/'/g,"&#039;");
 }
 
-function saveData(){
-  localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
+function uid(){
+  return Date.now().toString(36)+Math.random().toString(36).slice(2,8);
 }
 
-function loadData(){
+function showToast(message){
+  const toast=$("toast");
 
-  try{
-    const raw=localStorage.getItem(STORAGE_KEY);
+  toast.textContent=message;
+  toast.classList.add("show");
 
-    if(raw){
-      const parsed=JSON.parse(raw);
+  clearTimeout(showToast.timer);
 
-      data={
-        ...data,
-        ...parsed,
-        health:{
-          ...data.health,
-          ...(parsed.health||{})
-        },
-        money:{
-          ...data.money,
-          ...(parsed.money||{})
-        }
-      };
-    }
-
-  }catch(e){
-    console.log("Data load error",e);
-  }
+  showToast.timer=setTimeout(()=>{
+    toast.classList.remove("show");
+  },2200);
 }
 
+function formatNumber(value){
+  return Math.floor(value || 0).toLocaleString();
+}
 
-/* ================= LANGUAGE ================= */
+function formatDate(date){
+  if(!date) return "—";
 
-function setLanguage(lang){
+  const d=new Date(date+"T00:00:00");
 
-  if(!T[lang]) lang="en";
+  if(Number.isNaN(d.getTime())) return date;
 
-  data.language=lang;
+  return d.toLocaleDateString(undefined,{
+    year:"numeric",
+    month:"short",
+    day:"numeric"
+  });
+}
 
-  document.documentElement.lang=lang==="mm"?"my":"en";
+/* =========================================================
+   NAVIGATION
+========================================================= */
 
-  document.querySelectorAll("[data-t]").forEach(el=>{
-    const key=el.getAttribute("data-t");
-    if(T[lang][key]!==undefined){
-      el.textContent=T[lang][key];
-    }
+const titles={
+  dashboard:["Dashboard","Your life, measured in time"],
+  time:["Time System","Current time • lived time • remaining time"],
+  health:["Health","Your health information"],
+  goals:["Goals","What matters to you"],
+  important:["Important Days","Dates worth remembering"],
+  life:["My Life 75","75 years at a glance"],
+  settings:["Settings","Your LIFE 75 profile"]
+};
+
+function showSection(id){
+
+  document.querySelectorAll(".section").forEach(section=>{
+    section.classList.remove("active");
   });
 
-  $("langBtn").textContent=lang==="en"?"MM":"EN";
-  $("languageSelect").value=lang;
+  const target=$(id);
 
-  saveData();
-  renderAll();
+  if(target){
+    target.classList.add("active");
+  }
+
+  document.querySelectorAll(".nav-btn").forEach(btn=>{
+    btn.classList.toggle(
+      "active",
+      btn.dataset.section===id
+    );
+  });
+
+  if(titles[id]){
+    $("pageTitle").textContent=titles[id][0];
+    $("pageSubtitle").textContent=titles[id][1];
+  }
+
+  closeSidebar();
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 }
 
-function toggleLanguage(){
-  setLanguage(data.language==="en"?"mm":"en");
-}
-
-
-/* ================= SIDEBAR ================= */
+document.querySelectorAll(".nav-btn").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    showSection(btn.dataset.section);
+  });
+});
 
 function openSidebar(){
   $("sidebar").classList.add("open");
@@ -2074,128 +1887,155 @@ function closeSidebar(){
   $("overlay").classList.remove("show");
 }
 
+$("menuBtn").addEventListener("click",openSidebar);
+$("overlay").addEventListener("click",closeSidebar);
 
-/* ================= NAVIGATION ================= */
-
-document.querySelectorAll(".nav-btn").forEach(btn=>{
-
-  btn.addEventListener("click",()=>{
-
-    const page=btn.dataset.page;
-
-    document.querySelectorAll(".nav-btn").forEach(x=>{
-      x.classList.remove("active");
-    });
-
-    btn.classList.add("active");
-
-    document.querySelectorAll(".page").forEach(x=>{
-      x.classList.remove("active");
-    });
-
-    const target=$("page-"+page);
-
-    if(target){
-      target.classList.add("active");
-    }
-
-    $("topTitle").textContent=pageTitle(page);
-
-    closeSidebar();
-
-    renderAll();
-
-    window.scrollTo({top:0,behavior:"smooth"});
-  });
-
+$("topClockBtn").addEventListener("click",()=>{
+  showSection("time");
 });
 
-function pageTitle(page){
+/* =========================================================
+   CURRENT LIVE CLOCK
+========================================================= */
 
-  const lang=data.language;
-  const map={
-    dashboard:"dashboard",
-    life:"myLife",
-    health:"health",
-    doctor:"doctorAdvice",
-    conditions:"conditions",
-    medications:"medications",
-    goals:"goals",
-    habits:"habits",
-    important:"important",
-    money:"money",
-    journal:"journal",
-    lifeCard:"lifeCard",
-    settings:"settings"
-  };
+function updateClock(){
 
-  return T[lang][map[page]]||"LIFE 75";
+  const now=new Date();
+
+  const hours=now.getHours();
+  const minutes=String(now.getMinutes()).padStart(2,"0");
+  const seconds=String(now.getSeconds()).padStart(2,"0");
+
+  const isPM=hours>=12;
+  const displayHour=(hours%12)||12;
+
+  const timeString=
+    String(displayHour).padStart(2,"0")+":"+
+    minutes+":"+
+    seconds;
+
+  const ampm=isPM?"PM":"AM";
+
+  $("liveClock").childNodes[0].nodeValue=timeString+" ";
+
+  $("clockAmPm").textContent=ampm;
+
+  $("timePageClock").childNodes[0].nodeValue=timeString+" ";
+
+  $("timePageAmPm").textContent=ampm;
+
+  const dateText=now.toLocaleDateString(undefined,{
+    weekday:"long",
+    year:"numeric",
+    month:"long",
+    day:"numeric"
+  });
+
+  $("liveDate").textContent=dateText;
+  $("timePageDate").textContent=dateText;
+
+  const tz=Intl.DateTimeFormat().resolvedOptions().timeZone || "Local Time";
+
+  $("timezoneText").textContent="Device local time • "+tz;
+
+  $("todayBadge").textContent=
+    now.toLocaleDateString(undefined,{
+      month:"short",
+      day:"numeric"
+    }).toUpperCase();
+
+  updateLifeTime(now);
 }
 
-
-/* ================= DOB / TIME ENGINE ================= */
+/* =========================================================
+   DATE CALCULATIONS
+========================================================= */
 
 function parseDOB(){
 
-  if(!data.dob) return null;
+  if(!state.profile.dob) return null;
 
-  const p=data.dob.split("-").map(Number);
+  const d=new Date(state.profile.dob+"T00:00:00");
 
-  if(p.length!==3) return null;
-
-  const d=new Date(p[0],p[1]-1,p[2],0,0,0,0);
-
-  if(isNaN(d.getTime())) return null;
+  if(Number.isNaN(d.getTime())) return null;
 
   return d;
-}
-
-function ageParts(birth,now){
-
-  if(!birth) return null;
-
-  let years=now.getFullYear()-birth.getFullYear();
-  let months=now.getMonth()-birth.getMonth();
-  let days=now.getDate()-birth.getDate();
-
-  if(days<0){
-    months--;
-
-    const prevMonth=new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      0
-    );
-
-    days+=prevMonth.getDate();
-  }
-
-  if(months<0){
-    years--;
-    months+=12;
-  }
-
-  if(years<0) return null;
-
-  return {years,months,days};
 }
 
 function addYears(date,years){
-  const d=new Date(date.getTime());
 
-  const originalMonth=d.getMonth();
-  d.setFullYear(d.getFullYear()+years);
+  const result=new Date(date);
 
-  if(d.getMonth()!==originalMonth){
-    d.setDate(0);
+  const month=result.getMonth();
+  const day=result.getDate();
+
+  result.setFullYear(
+    result.getFullYear()+years
+  );
+
+  /*
+    Handle Feb 29 when target year isn't leap year
+  */
+  if(
+    result.getMonth()!==month ||
+    result.getDate()!==day
+  ){
+    result.setMonth(month+1,0);
   }
 
-  return d;
+  return result;
 }
 
-function exactDuration(from,to){
+function calculateCalendarAge(dob,now){
 
-  if(!from || !to) return null;
+  let years=now.getFullYear()-dob.getFullYear();
+
+  let test=new Date(dob);
+
+  test.setFullYear(
+    dob.getFullYear()+years
+  );
+
+  if(test>now){
+    years--;
+    test=new Date(dob);
+    test.setFullYear(
+      dob.getFullYear()+years
+    );
+  }
+
+  let months=0;
+
+  while(true){
+
+    const next=new Date(test);
+    next.setMonth(next.getMonth()+1);
+
+    if(next<=now){
+      test=next;
+      months++;
+    }else{
+      break;
+    }
+
+    if(months>11){
+      break;
+    }
+  }
+
+  const diffMs=now-test;
+  const days=Math.floor(
+    diffMs/(1000*60*60*24)
+  );
+
+  return {
+    years,
+    months,
+    days
+  };
+}
+
+function diffParts(from,to){
 
   if(to<=from){
     return {
@@ -2204,41 +2044,46 @@ function exactDuration(from,to){
       days:0,
       hours:0,
       minutes:0,
-      seconds:0,
-      totalMs:0
+      seconds:0
     };
   }
 
   let years=to.getFullYear()-from.getFullYear();
 
-  let cursor=addYears(from,years);
+  let cursor=new Date(from);
+
+  cursor.setFullYear(
+    cursor.getFullYear()+years
+  );
 
   if(cursor>to){
     years--;
-    cursor=addYears(from,years);
+    cursor=new Date(from);
+    cursor.setFullYear(
+      cursor.getFullYear()+years
+    );
   }
 
   let months=to.getMonth()-cursor.getMonth();
-
-  if(to.getDate()<cursor.getDate()){
-    months--;
-  }
 
   if(months<0){
     months+=12;
   }
 
-  let monthCursor=new Date(cursor.getTime());
-
-  monthCursor.setMonth(monthCursor.getMonth()+months);
+  let monthCursor=new Date(cursor);
+  monthCursor.setMonth(
+    monthCursor.getMonth()+months
+  );
 
   if(monthCursor>to){
     months--;
-    monthCursor=new Date(cursor.getTime());
-    monthCursor.setMonth(monthCursor.getMonth()+months);
+    monthCursor=new Date(cursor);
+    monthCursor.setMonth(
+      monthCursor.getMonth()+months
+    );
   }
 
-  let remainder=to.getTime()-monthCursor.getTime();
+  let remainder=to-monthCursor;
 
   const dayMs=86400000;
   const hourMs=3600000;
@@ -2246,12 +2091,15 @@ function exactDuration(from,to){
   const secondMs=1000;
 
   const days=Math.floor(remainder/dayMs);
+
   remainder-=days*dayMs;
 
   const hours=Math.floor(remainder/hourMs);
+
   remainder-=hours*hourMs;
 
   const minutes=Math.floor(remainder/minuteMs);
+
   remainder-=minutes*minuteMs;
 
   const seconds=Math.floor(remainder/secondMs);
@@ -2262,804 +2110,977 @@ function exactDuration(from,to){
     days,
     hours,
     minutes,
-    seconds,
-    totalMs:to.getTime()-from.getTime()
+    seconds
   };
 }
 
-function totalTimeLived(birth,now){
+function updateLifeTime(now){
 
-  const ms=Math.max(0,now.getTime()-birth.getTime());
+  const dob=parseDOB();
 
-  const second=Math.floor(ms/1000);
-  const minute=Math.floor(second/60);
-  const hour=Math.floor(minute/60);
-  const day=Math.floor(hour/24);
-  const week=Math.floor(day/7);
+  if(!dob){
 
-  const age=ageParts(birth,now);
+    $("ageYears").textContent="—";
+    $("yearsLived").textContent="0";
+    $("yearsRemaining").textContent="75";
+    $("lifePercent").textContent="0";
 
-  return {
-    years:age?age.years:0,
-    months:age?age.years*12+age.months:0,
-    weeks:week,
-    days:day,
-    hours:hour,
-    minutes:minute,
-    seconds:second
-  };
-}
+    $("dashboardRemaining").textContent=
+      "Enter your date of birth in Settings";
 
-function remainingTime(birth,now){
+    $("remainingFull").textContent=
+      "Enter your date of birth in Settings";
 
-  const end=addYears(birth,75);
+    $("livedYears").textContent="0";
+    $("livedMonths").textContent="0";
+    $("livedWeeks").textContent="0";
+    $("livedDays").textContent="0";
+    $("livedHours").textContent="0";
+    $("livedMinutes").textContent="0";
 
-  if(now>=end){
-    return {
-      years:0,
-      months:0,
-      weeks:0,
-      days:0,
-      hours:0,
-      minutes:0,
-      seconds:0,
-      totalDays:0,
-      end
-    };
-  }
+    $("dashboardProgress").style.width="0%";
+    $("timeProgressBar").style.width="0%";
 
-  const exact=exactDuration(now,end);
+    renderLifeGrids(0);
 
-  const ms=end.getTime()-now.getTime();
-
-  const totalSeconds=Math.floor(ms/1000);
-  const totalMinutes=Math.floor(totalSeconds/60);
-  const totalHours=Math.floor(totalMinutes/60);
-  const totalDays=Math.floor(totalHours/24);
-  const weeks=Math.floor(totalDays/7);
-
-  return {
-    years:exact.years,
-    months:exact.years*12+exact.months,
-    weeks,
-    days:totalDays,
-    hours:totalHours,
-    minutes:totalMinutes,
-    seconds:totalSeconds,
-    totalDays,
-    end
-  };
-}
-
-function updateTime(){
-
-  const birth=parseDOB();
-
-  if(!birth){
-    $("dashboardContent").classList.add("hidden");
-    $("dobSetupDashboard").classList.remove("hidden");
     return;
   }
 
-  $("dashboardContent").classList.remove("hidden");
-  $("dobSetupDashboard").classList.add("hidden");
+  const age=calculateCalendarAge(dob,now);
 
-  const now=new Date();
+  const end=addYears(dob,75);
 
-  const age=ageParts(birth,now);
-  const lived=totalTimeLived(birth,now);
-  const remaining=remainingTime(birth,now);
+  const totalSpan=end-dob;
+  const elapsed=now-dob;
 
-  if(!age) return;
+  const progress=Math.min(
+    100,
+    Math.max(
+      0,
+      elapsed/totalSpan*100
+    )
+  );
 
+  const livedMs=Math.max(0,elapsed);
 
-  /* AGE */
+  const livedSeconds=Math.floor(livedMs/1000);
+  const livedMinutes=Math.floor(livedSeconds/60);
+  const livedHours=Math.floor(livedMinutes/60);
+  const livedDays=Math.floor(livedHours/24);
+  const livedWeeks=Math.floor(livedDays/7);
 
-  const ageText=
-    `${age.years} Years ${age.months} Months ${age.days} Days`;
+  const livedMonths=
+    age.years*12+age.months;
 
-  $("dashAge").textContent=ageText;
-  $("lifeAge").textContent=ageText;
-  $("cardAge").textContent=ageText;
+  $("ageYears").textContent=
+    `${age.years}y ${age.months}m ${age.days}d`;
 
-  const detail=
-    `Born ${data.dob} • Age 75 target ${remaining.end.toISOString().slice(0,10)}`;
+  $("yearsLived").textContent=
+    formatNumber(age.years);
 
-  $("dashAgeDetail").textContent=detail;
-  $("lifeAgeDetail").textContent=detail;
+  $("yearsRemaining").textContent=
+    formatNumber(Math.max(0,75-age.years));
 
+  $("lifePercent").textContent=
+    progress.toFixed(2);
 
-  /* LIVED */
+  $("livedYears").textContent=
+    formatNumber(age.years);
 
-  setText("lYears",lived.years);
-  setText("lMonths",lived.months.toLocaleString());
-  setText("lWeeks",lived.weeks.toLocaleString());
-  setText("lDays",lived.days.toLocaleString());
-  setText("lHours",lived.hours.toLocaleString());
-  setText("lMinutes",lived.minutes.toLocaleString());
-  setText("lSeconds",lived.seconds.toLocaleString());
+  $("livedMonths").textContent=
+    formatNumber(livedMonths);
 
-  setText("mlYears",lived.years);
-  setText("mlMonths",lived.months.toLocaleString());
-  setText("mlWeeks",lived.weeks.toLocaleString());
-  setText("mlDays",lived.days.toLocaleString());
-  setText("mlHours",lived.hours.toLocaleString());
-  setText("mlMinutes",lived.minutes.toLocaleString());
-  setText("mlSeconds",lived.seconds.toLocaleString());
+  $("livedWeeks").textContent=
+    formatNumber(livedWeeks);
 
+  $("livedDays").textContent=
+    formatNumber(livedDays);
 
-  /* REMAINING */
+  $("livedHours").textContent=
+    formatNumber(livedHours);
 
-  setText("rYears",remaining.years);
-  setText("rMonths",remaining.months.toLocaleString());
-  setText("rWeeks",remaining.weeks.toLocaleString());
-  setText("rDays",remaining.days.toLocaleString());
-  setText("rHours",remaining.hours.toLocaleString());
-  setText("rMinutes",remaining.minutes.toLocaleString());
-  setText("rSeconds",remaining.seconds.toLocaleString());
+  $("livedMinutes").textContent=
+    formatNumber(livedMinutes);
 
-  const countdown=
-    `${remaining.years}Y : `+
-    `${String(remaining.months%12).padStart(2,"0")}M : `+
-    `${String(remaining.days).padStart(2,"0")}D : `+
-    `${String(remaining.hours).padStart(2,"0")}H : `+
-    `${String(remaining.minutes).padStart(2,"0")}M : `+
-    `${String(remaining.seconds).padStart(2,"0")}S`;
+  const remaining=diffParts(now,end);
 
-  $("liveCountdownText").textContent=countdown;
+  const remainingText=
+    `${remaining.years} years • `+
+    `${remaining.months} months • `+
+    `${remaining.days} days • `+
+    `${remaining.hours} hours • `+
+    `${remaining.minutes} minutes • `+
+    `${remaining.seconds} seconds`;
 
+  $("dashboardRemaining").textContent=
+    remainingText;
 
-  /* PROGRESS */
+  $("remainingFull").textContent=
+    remainingText;
 
-  const end=remaining.end;
+  $("dashboardProgress").style.width=
+    progress.toFixed(3)+"%";
 
-  const total= end.getTime()-birth.getTime();
-  const elapsed=now.getTime()-birth.getTime();
+  $("timeProgressBar").style.width=
+    progress.toFixed(3)+"%";
 
-  let pct=(elapsed/total)*100;
+  $("dashboardProgressText").textContent=
+    progress.toFixed(2)+"%";
 
-  pct=Math.max(0,Math.min(100,pct));
+  $("timeProgressPercent").textContent=
+    progress.toFixed(2)+"%";
 
-  $("lifeProgressText").textContent=pct.toFixed(4)+"%";
-  $("lifeProgressBar").style.width=pct+"%";
-
-  $("cardProgress").textContent=pct.toFixed(2)+"%";
-
-  $("cardDays").textContent=lived.days.toLocaleString();
-  $("cardRemainingDays").textContent=remaining.totalDays.toLocaleString();
+  renderLifeGrids(
+    Math.min(75,Math.max(0,age.years)),
+    age
+  );
 }
 
-function setText(id,value){
-  const el=$(id);
-  if(el) el.textContent=value;
-}
+/* =========================================================
+   LIFE GRIDS
+========================================================= */
 
+function renderLifeGrids(completedYears,age={years:0}){
 
-/* ================= LIFE GRIDS ================= */
+  const grids=[
+    $("dashboardLifeGrid"),
+    $("lifePageGrid")
+  ];
 
-function renderYearGrid(){
+  grids.forEach(grid=>{
+    if(!grid) return;
 
-  const birth=parseDOB();
+    grid.innerHTML="";
 
-  if(!birth){
-    $("yearGrid").innerHTML="";
-    $("monthGrid").innerHTML="";
-    return;
-  }
+    for(let year=1;year<=75;year++){
 
-  const now=new Date();
+      const cell=document.createElement("div");
 
-  const age=ageParts(birth,now);
+      cell.className="life-cell";
 
-  let html="";
+      if(year<=completedYears){
+        cell.classList.add("done");
+      }
 
-  for(let i=0;i<75;i++){
+      if(
+        year===completedYears+1 &&
+        age.years<75
+      ){
+        cell.classList.add("current");
+      }
 
-    let cls="future";
+      if(year>completedYears+1){
+        cell.classList.add("future");
+      }
 
-    if(age && i<age.years) cls="lived";
+      cell.title=`Year ${year}`;
 
-    if(age && i===age.years) cls="current";
-
-    html+=`
-      <div class="life-cell ${cls}" title="Year ${i+1}">
-        ${i+1}
-      </div>
-    `;
-  }
-
-  $("yearGrid").innerHTML=html;
-
-
-  const lived=totalTimeLived(birth,now);
-
-  let monthsLived=lived.months;
-
-  let monthHtml="";
-
-  for(let i=0;i<900;i++){
-
-    let cls="";
-
-    if(i<monthsLived) cls="lived";
-    if(i===monthsLived) cls="current";
-
-    monthHtml+=`
-      <div
-        class="month-cell ${cls}"
-        title="Month ${i+1}">
-      </div>
-    `;
-  }
-
-  $("monthGrid").innerHTML=monthHtml;
-}
-
-
-/* ================= HEALTH ================= */
-
-function saveHealth(){
-
-  const h=data.health;
-
-  h.weight=$("healthWeightInput").value;
-  h.bp=$("healthBPInput").value.trim();
-  h.hr=$("healthHRInput").value;
-  h.sugar=$("healthSugarInput").value;
-  h.sleep=$("healthSleepInput").value;
-  h.exercise=$("healthExerciseInput").value;
-
-  h.history.unshift({
-    id:uid(),
-    date:new Date().toISOString(),
-    ...h
+      grid.appendChild(cell);
+    }
   });
 
-  if(h.history.length>100){
-    h.history=h.history.slice(0,100);
+  const label=$("lifeGridLabel");
+
+  if(label){
+    label.textContent=
+      `${Math.min(completedYears,75)} / 75`;
   }
 
-  saveData();
-  renderAll();
+  const monthGrid=$("monthGrid");
 
-  alert(T[data.language].saved);
+  if(!monthGrid) return;
+
+  monthGrid.innerHTML="";
+
+  let livedMonths=
+    age.years*12+age.months;
+
+  livedMonths=Math.min(
+    900,
+    Math.max(0,livedMonths)
+  );
+
+  for(let i=1;i<=900;i++){
+
+    const cell=document.createElement("div");
+
+    cell.className="month-cell";
+
+    if(i<=livedMonths){
+      cell.classList.add("done");
+    }
+
+    if(
+      i===livedMonths+1 &&
+      livedMonths<900
+    ){
+      cell.classList.add("current");
+    }
+
+    monthGrid.appendChild(cell);
+  }
 }
 
-function calculateHealthScore(){
+/* =========================================================
+   PROFILE
+========================================================= */
 
-  let score=50;
+function loadProfile(){
 
-  const h=data.health;
+  $("profileName").value=
+    state.profile.name || "";
 
-  if(h.sleep){
-    const sleep=Number(h.sleep);
+  $("profileDob").value=
+    state.profile.dob || "";
+}
 
-    if(sleep>=7 && sleep<=9) score+=12;
-    else if(sleep>=6) score+=5;
-  }
+function saveProfile(){
 
-  if(h.exercise){
-    const ex=Number(h.exercise);
+  const name=$("profileName").value.trim();
+  const dob=$("profileDob").value;
 
-    if(ex>=30) score+=12;
-    else if(ex>=15) score+=6;
-  }
+  if(dob){
 
-  if(h.weight) score+=8;
+    const d=new Date(dob+"T00:00:00");
 
-  if(h.bp){
-    const m=h.bp.match(/^(\d+)\s*\/\s*(\d+)$/);
+    if(Number.isNaN(d.getTime())){
+      showToast("Please enter a valid date");
+      return;
+    }
 
-    if(m){
-      const sys=Number(m[1]);
-      const dia=Number(m[2]);
-
-      if(sys<120 && dia<80) score+=12;
-      else if(sys<140 && dia<90) score+=5;
+    if(d>new Date()){
+      showToast("Date of birth cannot be in the future");
+      return;
     }
   }
 
-  return Math.max(0,Math.min(100,score));
+  state.profile.name=name;
+  state.profile.dob=dob;
+
+  saveState();
+
+  updateLifeTime(new Date());
+
+  showToast("Profile saved");
 }
 
-function renderHealth(){
+/* =========================================================
+   MODAL
+========================================================= */
 
-  const h=data.health;
+function openModal(title,html){
 
-  $("healthWeight").textContent=h.weight||"--";
-  $("healthBP").textContent=h.bp||"--";
+  $("modalTitle").textContent=title;
+  $("modalBody").innerHTML=html;
+  $("modalBackdrop").classList.add("show");
+}
 
-  $("healthWeightInput").value=h.weight||"";
-  $("healthBPInput").value=h.bp||"";
-  $("healthHRInput").value=h.hr||"";
-  $("healthSugarInput").value=h.sugar||"";
-  $("healthSleepInput").value=h.sleep||"";
-  $("healthExerciseInput").value=h.exercise||"";
+function closeModal(){
 
-  $("healthScore").textContent=calculateHealthScore();
+  $("modalBackdrop").classList.remove("show");
+  $("modalBody").innerHTML="";
+}
 
-  const history=h.history||[];
+$("modalBackdrop").addEventListener("click",e=>{
+  if(e.target===$("modalBackdrop")){
+    closeModal();
+  }
+});
 
-  if(!history.length){
-    $("healthHistoryList").innerHTML=
-      `<div class="empty">${T[data.language].noData}</div>`;
-  }else{
+/* =========================================================
+   CONDITIONS
+========================================================= */
 
-    $("healthHistoryList").innerHTML=history.slice(0,20).map(item=>`
+function openConditionModal(id=null){
 
-      <div class="list-item">
+  const item=
+    state.conditions.find(x=>x.id===id);
 
-        <div class="list-main">
+  openModal(
+    id ? "Edit Condition" : "Add Existing Condition",
+    `
+      <form onsubmit="saveCondition(event,'${id||""}')">
 
-          <div class="list-title">
-            ${new Date(item.date).toLocaleDateString()}
+        <div class="form-group">
+          <label>Condition / Disease Name</label>
+          <input
+            id="conditionName"
+            required
+            value="${escapeHTML(item?.name||"")}"
+            placeholder="Example: Hypertension"
+          >
+        </div>
+
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label>Category</label>
+            <select id="conditionCategory">
+              <option value="General">General</option>
+              <option value="Heart">Heart</option>
+              <option value="Metabolic">Metabolic</option>
+              <option value="Respiratory">Respiratory</option>
+              <option value="Digestive">Digestive</option>
+              <option value="Musculoskeletal">Musculoskeletal</option>
+              <option value="Other">Other</option>
+            </select>
           </div>
 
-          <div class="list-sub">
-            Weight: ${esc(item.weight||"--")} kg
-            • BP: ${esc(item.bp||"--")}
-            • HR: ${esc(item.hr||"--")}
-            • Sleep: ${esc(item.sleep||"--")}h
+          <div class="form-group">
+            <label>Status</label>
+            <select id="conditionStatus">
+              <option>Active</option>
+              <option>Controlled</option>
+              <option>In remission</option>
+              <option>Resolved</option>
+            </select>
           </div>
 
         </div>
 
-        <button
-          class="btn btn-danger"
-          onclick="deleteHealth('${item.id}')">
-          ×
-        </button>
+        <div class="form-group">
+          <label>Diagnosis Date</label>
+          <input
+            id="conditionDate"
+            type="date"
+            value="${escapeHTML(item?.date||"")}"
+          >
+        </div>
 
-      </div>
+        <div class="form-group">
+          <label>Doctor / Clinic</label>
+          <input
+            id="conditionDoctor"
+            value="${escapeHTML(item?.doctor||"")}"
+            placeholder="Doctor or clinic name"
+          >
+        </div>
 
-    `).join("");
+        <div class="form-group">
+          <label>Notes</label>
+          <textarea
+            id="conditionNotes"
+            placeholder="Your own record or clinician's notes"
+          >${escapeHTML(item?.notes||"")}</textarea>
+        </div>
+
+        <div style="font-size:10px;color:var(--muted);line-height:1.7">
+          Enter information from your own medical records or clinician
+          This app does not diagnose or determine treatment
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn" onclick="closeModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+
+      </form>
+    `
+  );
+
+  if(item){
+
+    $("conditionCategory").value=
+      item.category||"General";
+
+    $("conditionStatus").value=
+      item.status||"Active";
   }
-
-  $("dashWeight").textContent=h.weight?h.weight+" kg":"--";
-  $("dashBP").textContent=h.bp||"--";
 }
 
-function deleteHealth(id){
+function saveCondition(event,id){
 
-  data.health.history=
-    data.health.history.filter(x=>x.id!==id);
+  event.preventDefault();
 
-  saveData();
-  renderAll();
-}
+  const item={
+    id:id||uid(),
+    name:$("conditionName").value.trim(),
+    category:$("conditionCategory").value,
+    status:$("conditionStatus").value,
+    date:$("conditionDate").value,
+    doctor:$("conditionDoctor").value.trim(),
+    notes:$("conditionNotes").value.trim()
+  };
 
-
-/* ================= CONDITIONS ================= */
-
-function addCondition(){
-
-  const name=$("conditionName").value.trim();
-
-  if(!name){
-    alert("Please enter condition name");
+  if(!item.name){
+    showToast("Enter the condition name");
     return;
   }
 
-  data.conditions.unshift({
-    id:uid(),
-    name,
-    date:$("conditionDate").value,
-    status:$("conditionStatus").value,
-    medicine:$("conditionMedicine").value.trim(),
-    notes:$("conditionNotes").value.trim()
-  });
+  if(id){
 
-  saveData();
+    const index=
+      state.conditions.findIndex(x=>x.id===id);
 
-  $("conditionName").value="";
-  $("conditionDate").value="";
-  $("conditionMedicine").value="";
-  $("conditionNotes").value="";
+    if(index>=0){
+      state.conditions[index]=item;
+    }
 
-  renderAll();
+  }else{
+    state.conditions.unshift(item);
+  }
+
+  saveState();
+  closeModal();
+  renderHealth();
+  showToast("Condition saved");
 }
 
 function deleteCondition(id){
 
-  data.conditions=
-    data.conditions.filter(x=>x.id!==id);
+  if(!confirm("Delete this condition record?")){
+    return;
+  }
 
-  saveData();
-  renderAll();
+  state.conditions=
+    state.conditions.filter(x=>x.id!==id);
+
+  saveState();
+  renderHealth();
+  showToast("Condition deleted");
 }
 
-function renderConditions(){
+/* =========================================================
+   DOCTOR ADVICE
+========================================================= */
 
-  const list=$("conditionList");
+function openAdviceModal(id=null){
 
-  if(!data.conditions.length){
-    list.innerHTML=
-      `<div class="empty">${T[data.language].noData}</div>`;
-  }else{
+  const item=
+    state.doctorAdvice.find(x=>x.id===id);
 
-    list.innerHTML=data.conditions.map(x=>`
+  openModal(
+    id ? "Edit Doctor Advice" : "Add Doctor Advice",
+    `
+      <form onsubmit="saveAdvice(event,'${id||""}')">
 
-      <div class="list-item">
+        <div class="form-grid">
 
-        <div class="list-main">
-
-          <div class="list-title">
-            ${esc(x.name)}
+          <div class="form-group">
+            <label>Doctor Name</label>
+            <input
+              id="adviceDoctor"
+              value="${escapeHTML(item?.doctor||"")}"
+              placeholder="Doctor name"
+            >
           </div>
 
-          <div class="list-sub">
-            ${esc(x.date||"--")}
-            • ${esc(x.status)}
-            ${x.medicine?" • "+esc(x.medicine):""}
+          <div class="form-group">
+            <label>Date</label>
+            <input
+              id="adviceDate"
+              type="date"
+              value="${escapeHTML(item?.date||"")}"
+            >
           </div>
-
-          ${x.notes?`
-            <div class="list-sub">${esc(x.notes)}</div>
-          `:""}
 
         </div>
 
-        <button
-          class="btn btn-danger"
-          onclick="deleteCondition('${x.id}')">
-          ×
-        </button>
+        <div class="form-group">
+          <label>Doctor's Advice</label>
+          <textarea
+            id="adviceText"
+            required
+            placeholder="Record the advice exactly as given by your doctor"
+          >${escapeHTML(item?.text||"")}</textarea>
+        </div>
 
-      </div>
+        <div class="form-group">
+          <label>Next Review Date</label>
+          <input
+            id="adviceNext"
+            type="date"
+            value="${escapeHTML(item?.next||"")}"
+          >
+        </div>
 
-    `).join("");
+        <div class="form-actions">
+          <button type="button" class="btn" onclick="closeModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Advice</button>
+        </div>
+
+      </form>
+    `
+  );
+}
+
+function saveAdvice(event,id){
+
+  event.preventDefault();
+
+  const item={
+    id:id||uid(),
+    doctor:$("adviceDoctor").value.trim(),
+    date:$("adviceDate").value,
+    text:$("adviceText").value.trim(),
+    next:$("adviceNext").value
+  };
+
+  if(!item.text){
+    showToast("Enter the doctor's advice");
+    return;
   }
+
+  if(id){
+
+    const index=
+      state.doctorAdvice.findIndex(x=>x.id===id);
+
+    if(index>=0){
+      state.doctorAdvice[index]=item;
+    }
+
+  }else{
+    state.doctorAdvice.unshift(item);
+  }
+
+  saveState();
+  closeModal();
+  renderHealth();
+  showToast("Doctor advice saved");
+}
+
+function deleteAdvice(id){
+
+  if(!confirm("Delete this doctor advice record?")){
+    return;
+  }
+
+  state.doctorAdvice=
+    state.doctorAdvice.filter(x=>x.id!==id);
+
+  saveState();
+  renderHealth();
+  showToast("Doctor advice deleted");
+}
+
+/* =========================================================
+   APPOINTMENTS
+========================================================= */
+
+function openAppointmentModal(id=null){
+
+  const item=
+    state.appointments.find(x=>x.id===id);
+
+  openModal(
+    id ? "Edit Appointment" : "Add Appointment",
+    `
+      <form onsubmit="saveAppointment(event,'${id||""}')">
+
+        <div class="form-group">
+          <label>Doctor / Clinic</label>
+          <input
+            id="appointmentDoctor"
+            required
+            value="${escapeHTML(item?.doctor||"")}"
+          >
+        </div>
+
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label>Date</label>
+            <input
+              id="appointmentDate"
+              type="date"
+              required
+              value="${escapeHTML(item?.date||"")}"
+            >
+          </div>
+
+          <div class="form-group">
+            <label>Time</label>
+            <input
+              id="appointmentTime"
+              type="time"
+              value="${escapeHTML(item?.time||"")}"
+            >
+          </div>
+
+        </div>
+
+        <div class="form-group">
+          <label>Purpose</label>
+          <input
+            id="appointmentPurpose"
+            value="${escapeHTML(item?.purpose||"")}"
+            placeholder="Check-up / follow-up / test"
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Notes</label>
+          <textarea id="appointmentNotes">${escapeHTML(item?.notes||"")}</textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn" onclick="closeModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+
+      </form>
+    `
+  );
+}
+
+function saveAppointment(event,id){
+
+  event.preventDefault();
+
+  const item={
+    id:id||uid(),
+    doctor:$("appointmentDoctor").value.trim(),
+    date:$("appointmentDate").value,
+    time:$("appointmentTime").value,
+    purpose:$("appointmentPurpose").value.trim(),
+    notes:$("appointmentNotes").value.trim()
+  };
+
+  if(!item.doctor||!item.date){
+    showToast("Doctor and date are required");
+    return;
+  }
+
+  if(id){
+
+    const index=
+      state.appointments.findIndex(x=>x.id===id);
+
+    if(index>=0){
+      state.appointments[index]=item;
+    }
+
+  }else{
+    state.appointments.push(item);
+  }
+
+  state.appointments.sort(
+    (a,b)=>
+      `${a.date} ${a.time||""}`.localeCompare(
+        `${b.date} ${b.time||""}`
+      )
+  );
+
+  saveState();
+  closeModal();
+  renderHealth();
+  showToast("Appointment saved");
+}
+
+function deleteAppointment(id){
+
+  if(!confirm("Delete this appointment?")){
+    return;
+  }
+
+  state.appointments=
+    state.appointments.filter(x=>x.id!==id);
+
+  saveState();
+  renderHealth();
+  showToast("Appointment deleted");
+}
+
+/* =========================================================
+   HEALTH RENDER
+========================================================= */
+
+function renderHealth(){
+
+  const conditionCount=
+    state.conditions.filter(
+      x=>x.status!=="Resolved"
+    ).length;
+
+  $("healthConditionCount").textContent=
+    conditionCount;
+
+  $("healthAdviceCount").textContent=
+    state.doctorAdvice.length;
+
+  $("healthAppointmentCount").textContent=
+    state.appointments.length;
+
+  $("healthMedicationCount").textContent="0";
 
   $("dashConditions").textContent=
-    data.conditions.filter(x=>x.status!=="Past").length;
-}
+    conditionCount;
 
+  $("dashAppointments").textContent=
+    state.appointments.length;
 
-/* ================= MEDICATIONS ================= */
+  /* Conditions */
 
-function addMedication(){
+  const conditionList=$("conditionList");
 
-  const name=$("medicineName").value.trim();
+  if(!state.conditions.length){
 
-  if(!name){
-    alert("Please enter medicine name");
-    return;
-  }
+    conditionList.innerHTML=
+      `<div class="empty">No health conditions recorded yet</div>`;
 
-  data.medications.unshift({
-    id:uid(),
-    name,
-    dose:$("medicineDose").value.trim(),
-    frequency:$("medicineFrequency").value,
-    time:$("medicineTime").value,
-    start:$("medicineStart").value,
-    end:$("medicineEnd").value
-  });
-
-  saveData();
-
-  $("medicineName").value="";
-  $("medicineDose").value="";
-  $("medicineTime").value="";
-  $("medicineStart").value="";
-  $("medicineEnd").value="";
-
-  renderAll();
-}
-
-function deleteMedication(id){
-
-  data.medications=
-    data.medications.filter(x=>x.id!==id);
-
-  saveData();
-  renderAll();
-}
-
-function renderMedications(){
-
-  const list=$("medicationList");
-
-  if(!data.medications.length){
-    list.innerHTML=
-      `<div class="empty">${T[data.language].noData}</div>`;
   }else{
 
-    list.innerHTML=data.medications.map(x=>`
+    conditionList.innerHTML=
+      state.conditions.map(item=>`
 
-      <div class="list-item">
+        <div class="list-item">
 
-        <div class="list-main">
+          <div class="list-main">
+
+            <div class="list-title">
+              ${escapeHTML(item.name)}
+            </div>
+
+            <div class="list-meta">
+              ${escapeHTML(item.category||"General")}
+              • ${escapeHTML(item.status||"Active")}
+              ${item.date ? ` • ${formatDate(item.date)}` : ""}
+              ${item.doctor ? ` • ${escapeHTML(item.doctor)}` : ""}
+            </div>
+
+            ${
+              item.notes
+              ? `<div style="margin-top:7px;font-size:11px;color:#bdb3a7;line-height:1.6">${escapeHTML(item.notes)}</div>`
+              : ""
+            }
+
+          </div>
+
+          <div class="list-actions">
+
+            <button
+              class="btn btn-small"
+              onclick="openConditionModal('${item.id}')"
+            >
+              Edit
+            </button>
+
+            <button
+              class="btn btn-small btn-danger"
+              onclick="deleteCondition('${item.id}')"
+            >
+              Delete
+            </button>
+
+          </div>
+
+        </div>
+
+      `).join("");
+  }
+
+  /* Advice */
+
+  const adviceList=$("adviceList");
+
+  if(!state.doctorAdvice.length){
+
+    adviceList.innerHTML=
+      `<div class="empty">No doctor advice recorded yet</div>`;
+
+  }else{
+
+    adviceList.innerHTML=
+      state.doctorAdvice.map(item=>`
+
+        <div class="list-item">
 
           <div class="list-title">
-            ${esc(x.name)}
+            ${escapeHTML(item.doctor||"Doctor")}
           </div>
 
-          <div class="list-sub">
-            ${esc(x.dose||"--")}
-            • ${esc(x.frequency)}
-            ${x.time?" • "+esc(x.time):""}
+          <div class="list-meta">
+            ${item.date ? formatDate(item.date) : "Date not added"}
+            ${
+              item.next
+              ? ` • Next review ${formatDate(item.next)}`
+              : ""
+            }
           </div>
 
-          <div class="list-sub">
-            ${esc(x.start||"--")} → ${esc(x.end||"--")}
+          <div style="margin-top:8px;font-size:12px;line-height:1.7;color:#cfc5b8">
+            ${escapeHTML(item.text)}
+          </div>
+
+          <div class="list-actions">
+
+            <button
+              class="btn btn-small"
+              onclick="openAdviceModal('${item.id}')"
+            >
+              Edit
+            </button>
+
+            <button
+              class="btn btn-small btn-danger"
+              onclick="deleteAdvice('${item.id}')"
+            >
+              Delete
+            </button>
+
           </div>
 
         </div>
 
-        <button
-          class="btn btn-danger"
-          onclick="deleteMedication('${x.id}')">
-          ×
-        </button>
-
-      </div>
-
-    `).join("");
+      `).join("");
   }
 
-  $("dashMeds").textContent=data.medications.length;
+  /* Appointments */
+
+  const appointmentList=$("appointmentList");
+
+  if(!state.appointments.length){
+
+    appointmentList.innerHTML=
+      `<div class="empty">No appointments recorded yet</div>`;
+
+  }else{
+
+    const today=new Date();
+    today.setHours(0,0,0,0);
+
+    appointmentList.innerHTML=
+      state.appointments.map(item=>{
+
+        const d=new Date(
+          item.date+"T00:00:00"
+        );
+
+        const upcoming=d>=today;
+
+        return `
+
+          <div class="list-item">
+
+            <div class="list-title">
+              ${escapeHTML(item.doctor)}
+            </div>
+
+            <div class="list-meta">
+              ${formatDate(item.date)}
+              ${item.time ? ` • ${escapeHTML(item.time)}` : ""}
+              •
+              <span style="color:${upcoming?"var(--success)":"var(--muted)"}">
+                ${upcoming?"Upcoming":"Past"}
+              </span>
+            </div>
+
+            ${
+              item.purpose
+              ? `<div style="margin-top:6px;font-size:11px;color:#bbb1a5">${escapeHTML(item.purpose)}</div>`
+              : ""
+            }
+
+            <div class="list-actions">
+
+              <button
+                class="btn btn-small"
+                onclick="openAppointmentModal('${item.id}')"
+              >
+                Edit
+              </button>
+
+              <button
+                class="btn btn-small btn-danger"
+                onclick="deleteAppointment('${item.id}')"
+              >
+                Delete
+              </button>
+
+            </div>
+
+          </div>
+
+        `;
+      }).join("");
+  }
 }
 
+/* =========================================================
+   GOALS
+========================================================= */
 
-/* ================= DOCTOR ADVICE ================= */
+function openGoalModal(id=null){
 
-function getDoctorAdvice(){
+  const item=
+    state.goals.find(x=>x.id===id);
 
-  const symptoms=$("doctorSymptoms").value.trim().toLowerCase();
-  const duration=$("doctorDuration").value.trim();
-  const severity=$("doctorSeverity").value;
+  openModal(
+    id?"Edit Goal":"Add Goal",
+    `
+      <form onsubmit="saveGoal(event,'${id||""}')">
 
-  if(!symptoms){
-    alert("Please enter symptoms");
+        <div class="form-group">
+          <label>Goal</label>
+          <input
+            id="goalName"
+            required
+            value="${escapeHTML(item?.name||"")}"
+            placeholder="What do you want to achieve?"
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Target Date</label>
+          <input
+            id="goalDate"
+            type="date"
+            value="${escapeHTML(item?.date||"")}"
+          >
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn" onclick="closeModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Goal</button>
+        </div>
+
+      </form>
+    `
+  );
+}
+
+function saveGoal(event,id){
+
+  event.preventDefault();
+
+  const item={
+    id:id||uid(),
+    name:$("goalName").value.trim(),
+    date:$("goalDate").value
+  };
+
+  if(!item.name){
     return;
   }
 
-  let considerations=[];
-  let actions=[];
-  let redFlags=[];
+  if(id){
 
-  const has=(word)=>symptoms.includes(word);
+    const index=
+      state.goals.findIndex(x=>x.id===id);
 
-  if(
-    has("chest pain") ||
-    has("ရင်ဘတ်") ||
-    has("difficulty breathing") ||
-    has("အသက်ရှူမဝ") ||
-    has("shortness of breath")
-  ){
-    redFlags.push(
-      "Chest pain or significant breathing difficulty can require urgent medical assessment"
-    );
-  }
-
-  if(
-    has("stroke") ||
-    has("face droop") ||
-    has("weakness one side") ||
-    has("စကားမပြော") ||
-    has("လက်တစ်ဖက်")
-  ){
-    redFlags.push(
-      "Sudden facial weakness, one-sided weakness or difficulty speaking can be an emergency"
-    );
-  }
-
-  if(
-    has("severe headache") ||
-    has("အရမ်းခေါင်းကိုက်")
-  ){
-    considerations.push(
-      "Headache can have many causes including dehydration, sleep problems, stress, infection or migraine"
-    );
-  }
-
-  if(
-    has("fever") ||
-    has("ဖျား")
-  ){
-    considerations.push(
-      "Fever commonly occurs with infections, but the cause depends on accompanying symptoms and duration"
-    );
-  }
-
-  if(
-    has("cough") ||
-    has("ချောင်းဆိုး")
-  ){
-    considerations.push(
-      "Cough may occur with viral respiratory infections, allergies, irritation or other respiratory conditions"
-    );
-  }
-
-  if(
-    has("stomach") ||
-    has("ဗိုက်") ||
-    has("abdominal")
-  ){
-    considerations.push(
-      "Abdominal symptoms can have many causes, including digestive problems and infections"
-    );
-  }
-
-  if(
-    has("dizziness") ||
-    has("မူး")
-  ){
-    considerations.push(
-      "Dizziness can have different causes including dehydration, low blood pressure, medication effects or inner-ear problems"
-    );
-  }
-
-  if(!considerations.length){
-    considerations.push(
-      "The symptom description alone is not enough to identify a specific cause. A healthcare professional may need more information and an examination"
-    );
-  }
-
-  actions.push(
-    "Record when the symptom started and whether it is getting better or worse"
-  );
-
-  actions.push(
-    "Keep track of temperature, blood pressure or other relevant measurements when appropriate"
-  );
-
-  actions.push(
-    "Review your current medicines and recent changes with a healthcare professional"
-  );
-
-  if(duration){
-    actions.push("Reported duration: "+duration);
-  }
-
-  if(severity==="severe"){
-    actions.push(
-      "Because you marked the symptom as severe, consider contacting a healthcare professional promptly"
-    );
-  }
-
-  $("possibleCausesText").textContent=
-    considerations.join("\n\n");
-
-  $("whatToDoText").textContent=
-    actions.join("\n\n");
-
-  if(redFlags.length || severity==="severe"){
-
-    $("doctorRedFlag").classList.remove("hidden");
-
-    $("doctorRedFlag").innerHTML=`
-      <strong>⚠ Medical Attention</strong><br><br>
-      ${redFlags.length
-        ? redFlags.map(x=>esc(x)).join("<br><br>")
-        : "Severe symptoms may need prompt professional medical assessment"
-      }
-      <br><br>
-      If symptoms are severe, rapidly worsening, or feel life-threatening,
-      seek urgent medical care or contact local emergency services
-    `;
+    if(index>=0){
+      state.goals[index]=item;
+    }
 
   }else{
-    $("doctorRedFlag").classList.add("hidden");
-    $("doctorRedFlag").innerHTML="";
+    state.goals.unshift(item);
   }
 
-  $("doctorResult").classList.remove("hidden");
-}
-
-function renderDoctorSummary(){
-
-  const c=$("doctorKnownConditions");
-  const m=$("doctorCurrentMeds");
-
-  if(!data.conditions.length){
-    c.innerHTML=`<div class="empty">${T[data.language].noData}</div>`;
-  }else{
-    c.innerHTML=data.conditions.map(x=>`
-      <div class="list-item">
-        <div>
-          <div class="list-title">${esc(x.name)}</div>
-          <div class="list-sub">${esc(x.status)}</div>
-        </div>
-      </div>
-    `).join("");
-  }
-
-  if(!data.medications.length){
-    m.innerHTML=`<div class="empty">${T[data.language].noData}</div>`;
-  }else{
-    m.innerHTML=data.medications.map(x=>`
-      <div class="list-item">
-        <div>
-          <div class="list-title">${esc(x.name)}</div>
-          <div class="list-sub">${esc(x.dose||"--")} • ${esc(x.frequency)}</div>
-        </div>
-      </div>
-    `).join("");
-  }
-}
-
-function copyDoctorSummary(){
-
-  const h=data.health;
-
-  let text=
-`LIFE 75 — DOCTOR VISIT SUMMARY
-
-Date: ${new Date().toLocaleDateString()}
-
-Known Conditions:
-${data.conditions.length
-  ? data.conditions.map(x=>"- "+x.name+" ("+x.status+")").join("\n")
-  : "- None recorded"}
-
-Current Medications:
-${data.medications.length
-  ? data.medications.map(x=>"- "+x.name+" "+(x.dose||"")).join("\n")
-  : "- None recorded"}
-
-Latest Health Information:
-Weight: ${h.weight||"--"} kg
-Blood Pressure: ${h.bp||"--"}
-Heart Rate: ${h.hr||"--"}
-Blood Sugar: ${h.sugar||"--"}
-Sleep: ${h.sleep||"--"} hours
-Exercise: ${h.exercise||"--"} minutes
-
-Symptoms:
-${$("doctorSymptoms").value||"--"}
-
-Duration:
-${$("doctorDuration").value||"--"}
-
-Severity:
-${$("doctorSeverity").value||"--"}
-
-Note:
-This summary is for discussion with a qualified healthcare professional
-`;
-
-  if(navigator.clipboard){
-    navigator.clipboard.writeText(text)
-      .then(()=>alert("Summary copied"));
-  }else{
-    prompt("Copy this summary:",text);
-  }
-}
-
-
-/* ================= GOALS ================= */
-
-function addGoal(){
-
-  const name=$("goalName").value.trim();
-
-  if(!name){
-    alert("Please enter goal");
-    return;
-  }
-
-  data.goals.unshift({
-    id:uid(),
-    name,
-    date:$("goalDate").value,
-    progress:Number($("goalProgress").value||0)
-  });
-
-  saveData();
-
-  $("goalName").value="";
-  $("goalDate").value="";
-  $("goalProgress").value="";
-
+  saveState();
+  closeModal();
   renderGoals();
+  showToast("Goal saved");
 }
 
 function deleteGoal(id){
 
-  data.goals=data.goals.filter(x=>x.id!==id);
-  saveData();
+  if(!confirm("Delete this goal?")) return;
+
+  state.goals=
+    state.goals.filter(x=>x.id!==id);
+
+  saveState();
   renderGoals();
 }
 
@@ -3067,394 +3088,236 @@ function renderGoals(){
 
   const list=$("goalList");
 
-  if(!data.goals.length){
-    list.innerHTML=`<div class="empty">${T[data.language].noData}</div>`;
+  if(!state.goals.length){
+
+    list.innerHTML=
+      `<div class="empty">No goals yet</div>`;
+
     return;
   }
 
-  list.innerHTML=data.goals.map(x=>`
+  list.innerHTML=
+    state.goals.map(item=>`
 
-    <div class="list-item">
-
-      <div class="list-main">
-
-        <div class="list-title">${esc(x.name)}</div>
-
-        <div class="list-sub">
-          ${esc(x.date||"--")} • ${x.progress}%
-        </div>
-
-        <div class="progress-wrap">
-          <div class="progress">
-            <div class="progress-fill" style="width:${Math.max(0,Math.min(100,x.progress))}%"></div>
-          </div>
-        </div>
-
-      </div>
-
-      <button
-        class="btn btn-danger"
-        onclick="deleteGoal('${x.id}')">
-        ×
-      </button>
-
-    </div>
-
-  `).join("");
-}
-
-
-/* ================= HABITS ================= */
-
-function addHabit(){
-
-  const name=$("habitName").value.trim();
-
-  if(!name){
-    alert("Please enter habit");
-    return;
-  }
-
-  data.habits.unshift({
-    id:uid(),
-    name,
-    target:$("habitTarget").value.trim(),
-    streak:0
-  });
-
-  saveData();
-
-  $("habitName").value="";
-  $("habitTarget").value="";
-
-  renderHabits();
-}
-
-function completeHabit(id){
-
-  const item=data.habits.find(x=>x.id===id);
-
-  if(!item) return;
-
-  item.streak=(item.streak||0)+1;
-
-  saveData();
-  renderHabits();
-}
-
-function deleteHabit(id){
-
-  data.habits=data.habits.filter(x=>x.id!==id);
-
-  saveData();
-  renderHabits();
-}
-
-function renderHabits(){
-
-  const list=$("habitList");
-
-  if(!data.habits.length){
-    list.innerHTML=`<div class="empty">${T[data.language].noData}</div>`;
-    return;
-  }
-
-  list.innerHTML=data.habits.map(x=>`
-
-    <div class="list-item">
-
-      <div>
-        <div class="list-title">${esc(x.name)}</div>
-        <div class="list-sub">
-          Target: ${esc(x.target||"--")}
-          • Streak: ${x.streak||0}
-        </div>
-      </div>
-
-      <div class="actions">
-
-        <button
-          class="btn btn-primary"
-          onclick="completeHabit('${x.id}')">
-          ✓
-        </button>
-
-        <button
-          class="btn btn-danger"
-          onclick="deleteHabit('${x.id}')">
-          ×
-        </button>
-
-      </div>
-
-    </div>
-
-  `).join("");
-}
-
-
-/* ================= IMPORTANT DAYS ================= */
-
-function addEvent(){
-
-  const name=$("eventName").value.trim();
-
-  if(!name){
-    alert("Please enter event name");
-    return;
-  }
-
-  data.events.push({
-    id:uid(),
-    name,
-    date:$("eventDate").value,
-    type:$("eventType").value,
-    notes:$("eventNotes").value.trim()
-  });
-
-  data.events.sort((a,b)=>
-    String(a.date).localeCompare(String(b.date))
-  );
-
-  saveData();
-
-  $("eventName").value="";
-  $("eventDate").value="";
-  $("eventNotes").value="";
-
-  renderEvents();
-}
-
-function deleteEvent(id){
-
-  data.events=data.events.filter(x=>x.id!==id);
-
-  saveData();
-  renderEvents();
-}
-
-function daysUntil(dateString){
-
-  if(!dateString) return "";
-
-  const now=new Date();
-  const target=new Date(dateString+"T00:00:00");
-
-  const diff=Math.ceil(
-    (target.setHours(23,59,59,999)-now.getTime())/86400000
-  );
-
-  return diff;
-}
-
-function renderEvents(){
-
-  const list=$("eventList");
-
-  if(!data.events.length){
-    list.innerHTML=`<div class="empty">${T[data.language].noData}</div>`;
-  }else{
-
-    list.innerHTML=data.events.map(x=>{
-
-      const d=daysUntil(x.date);
-
-      return `
-        <div class="list-item">
-
-          <div>
-
-            <div class="list-title">
-              ${esc(x.name)}
-            </div>
-
-            <div class="list-sub">
-              ${esc(x.date||"--")}
-              • ${esc(x.type)}
-            </div>
-
-            ${x.notes?
-              `<div class="list-sub">${esc(x.notes)}</div>`:""
-            }
-
-          </div>
-
-          <div class="actions">
-
-            <span class="badge">
-              ${d>=0?d+" days":"Passed"}
-            </span>
-
-            <button
-              class="btn btn-danger"
-              onclick="deleteEvent('${x.id}')">
-              ×
-            </button>
-
-          </div>
-
-        </div>
-      `;
-
-    }).join("");
-  }
-
-  $("cardEvents").textContent=data.events.length;
-}
-
-
-/* ================= MONEY ================= */
-
-function saveMoney(){
-
-  data.money.income=Number($("incomeInput").value||0);
-  data.money.expense=Number($("expenseInput").value||0);
-
-  saveData();
-  renderMoney();
-
-  alert(T[data.language].saved);
-}
-
-function renderMoney(){
-
-  const income=Number(data.money.income||0);
-  const expense=Number(data.money.expense||0);
-  const saving=income-expense;
-  const rate=income>0?(saving/income)*100:0;
-
-  $("moneyIncome").textContent=income.toLocaleString();
-  $("moneySaving").textContent=saving.toLocaleString();
-  $("moneyRate").textContent=rate.toFixed(1)+"%";
-
-  $("incomeInput").value=income||"";
-  $("expenseInput").value=expense||"";
-}
-
-
-/* ================= JOURNAL ================= */
-
-function addJournal(){
-
-  const title=$("journalTitle").value.trim();
-  const text=$("journalText").value.trim();
-
-  if(!text){
-    alert("Please write something");
-    return;
-  }
-
-  data.journals.unshift({
-    id:uid(),
-    title:title||"Journal",
-    text,
-    date:new Date().toISOString()
-  });
-
-  saveData();
-
-  $("journalTitle").value="";
-  $("journalText").value="";
-
-  renderJournals();
-}
-
-function deleteJournal(id){
-
-  data.journals=data.journals.filter(x=>x.id!==id);
-
-  saveData();
-  renderJournals();
-}
-
-function renderJournals(){
-
-  const list=$("journalList");
-
-  if(!data.journals.length){
-    list.innerHTML=`<div class="empty">${T[data.language].noData}</div>`;
-    return;
-  }
-
-  list.innerHTML=data.journals.map(x=>`
-
-    <div class="list-item">
-
-      <div>
+      <div class="list-item">
 
         <div class="list-title">
-          ${esc(x.title)}
+          ${escapeHTML(item.name)}
         </div>
 
-        <div class="list-sub">
-          ${new Date(x.date).toLocaleDateString()}
+        <div class="list-meta">
+          ${item.date ? "Target: "+formatDate(item.date) : "No target date"}
         </div>
 
-        <div class="list-sub">
-          ${esc(x.text).slice(0,180)}
+        <div class="list-actions">
+
+          <button
+            class="btn btn-small"
+            onclick="openGoalModal('${item.id}')"
+          >
+            Edit
+          </button>
+
+          <button
+            class="btn btn-small btn-danger"
+            onclick="deleteGoal('${item.id}')"
+          >
+            Delete
+          </button>
+
         </div>
 
       </div>
 
-      <button
-        class="btn btn-danger"
-        onclick="deleteJournal('${x.id}')">
-        ×
-      </button>
-
-    </div>
-
-  `).join("");
+    `).join("");
 }
 
+/* =========================================================
+   IMPORTANT DAYS
+========================================================= */
 
-/* ================= SETTINGS ================= */
+function openImportantModal(id=null){
 
-function renderSettings(){
+  const item=
+    state.importantDays.find(x=>x.id===id);
 
-  $("userName").value=data.name||"";
-  $("dobSettings").value=data.dob||"";
-  $("languageSelect").value=data.language||"";
+  openModal(
+    id?"Edit Important Day":"Add Important Day",
+    `
+      <form onsubmit="saveImportant(event,'${id||""}')">
 
-  $("profileNameMini").textContent=
-    data.name||"LIFE 75 User";
+        <div class="form-group">
+          <label>Name</label>
+          <input
+            id="importantName"
+            required
+            value="${escapeHTML(item?.name||"")}"
+            placeholder="Birthday, anniversary, milestone..."
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Date</label>
+          <input
+            id="importantDate"
+            type="date"
+            required
+            value="${escapeHTML(item?.date||"")}"
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Note</label>
+          <textarea id="importantNote">${escapeHTML(item?.note||"")}</textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn" onclick="closeModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+
+      </form>
+    `
+  );
 }
 
-function saveSettings(){
+function saveImportant(event,id){
 
-  data.name=$("userName").value.trim();
-  data.dob=$("dobSettings").value;
-  data.language=$("languageSelect").value;
+  event.preventDefault();
 
-  saveData();
+  const item={
+    id:id||uid(),
+    name:$("importantName").value.trim(),
+    date:$("importantDate").value,
+    note:$("importantNote").value.trim()
+  };
 
-  setLanguage(data.language);
-
-  alert(T[data.language].saved);
-}
-
-function saveDOBFromDashboard(){
-
-  const dob=$("dobDash").value;
-
-  if(!dob){
-    alert("Please select your date of birth");
+  if(!item.name||!item.date){
     return;
   }
 
-  data.dob=dob;
+  if(id){
 
-  saveData();
-  renderAll();
+    const index=
+      state.importantDays.findIndex(x=>x.id===id);
+
+    if(index>=0){
+      state.importantDays[index]=item;
+    }
+
+  }else{
+    state.importantDays.push(item);
+  }
+
+  state.importantDays.sort(
+    (a,b)=>a.date.localeCompare(b.date)
+  );
+
+  saveState();
+  closeModal();
+  renderImportant();
+  showToast("Important day saved");
 }
 
+function deleteImportant(id){
 
-/* ================= EXPORT / RESET ================= */
+  if(!confirm("Delete this important day?")) return;
+
+  state.importantDays=
+    state.importantDays.filter(x=>x.id!==id);
+
+  saveState();
+  renderImportant();
+}
+
+function renderImportant(){
+
+  const list=$("importantList");
+
+  if(!state.importantDays.length){
+
+    list.innerHTML=
+      `<div class="empty">No important days yet</div>`;
+
+    return;
+  }
+
+  list.innerHTML=
+    state.importantDays.map(item=>`
+
+      <div class="list-item">
+
+        <div class="list-title">
+          ${escapeHTML(item.name)}
+        </div>
+
+        <div class="list-meta">
+          ${formatDate(item.date)}
+        </div>
+
+        ${
+          item.note
+          ? `<div style="margin-top:6px;font-size:11px;color:#aaa">${escapeHTML(item.note)}</div>`
+          : ""
+        }
+
+        <div class="list-actions">
+
+          <button
+            class="btn btn-small"
+            onclick="openImportantModal('${item.id}')"
+          >
+            Edit
+          </button>
+
+          <button
+            class="btn btn-small btn-danger"
+            onclick="deleteImportant('${item.id}')"
+          >
+            Delete
+          </button>
+
+        </div>
+
+      </div>
+
+    `).join("");
+}
+
+/* =========================================================
+   HEALTH CHECKS
+========================================================= */
+
+document.querySelectorAll("[data-health-check]").forEach(input=>{
+
+  const key=input.dataset.healthCheck;
+
+  input.checked=!!state.healthChecks[key];
+
+  input.addEventListener("change",()=>{
+
+    state.healthChecks[key]=input.checked;
+
+    saveState();
+
+  });
+
+});
+
+/* =========================================================
+   EXPORT
+========================================================= */
 
 function exportData(){
 
+  const data=JSON.stringify(
+    state,
+    null,
+    2
+  );
+
   const blob=new Blob(
-    [JSON.stringify(data,null,2)],
+    [data],
     {type:"application/json"}
   );
 
@@ -3463,92 +3326,70 @@ function exportData(){
   const a=document.createElement("a");
 
   a.href=url;
-  a.download="life75-backup.json";
+
+  a.download=
+    "life75-backup-"+new Date()
+      .toISOString()
+      .slice(0,10)+".json";
 
   document.body.appendChild(a);
+
   a.click();
+
   a.remove();
 
   URL.revokeObjectURL(url);
+
+  showToast("Backup exported");
 }
+
+/* =========================================================
+   RESET
+========================================================= */
 
 function resetData(){
 
   const ok=confirm(
-    "Reset all LIFE 75 data?"
+    "Reset all LIFE 75 data on this device?"
   );
 
   if(!ok) return;
 
   localStorage.removeItem(STORAGE_KEY);
 
-  location.reload();
-}
+  state=structuredClone(defaultState);
 
+  loadProfile();
 
-/* ================= DASHBOARD ================= */
-
-function renderDashboard(){
-
-  $("profileNameMini").textContent=
-    data.name||"LIFE 75 User";
-
-  if(!data.dob){
-    $("dobSetupDashboard").classList.remove("hidden");
-    $("dashboardContent").classList.add("hidden");
-    return;
-  }
-
-  $("dobSetupDashboard").classList.add("hidden");
-  $("dashboardContent").classList.remove("hidden");
-}
-
-
-/* ================= ALL RENDER ================= */
-
-function renderAll(){
-
-  renderDashboard();
   renderHealth();
-  renderConditions();
-  renderMedications();
-  renderDoctorSummary();
   renderGoals();
-  renderHabits();
-  renderEvents();
-  renderMoney();
-  renderJournals();
-  renderSettings();
-  renderYearGrid();
+  renderImportant();
+  updateLifeTime(new Date());
 
-  updateTime();
+  showToast("LIFE 75 has been reset");
 }
 
+/* =========================================================
+   INITIALIZE
+========================================================= */
 
-/* ================= INIT ================= */
+function initialize(){
 
-function init(){
+  loadProfile();
 
-  loadData();
+  renderHealth();
+  renderGoals();
+  renderImportant();
 
-  setLanguage(data.language||"en");
+  updateClock();
 
-  renderAll();
-
-  if(timer){
-    clearInterval(timer);
-  }
-
-  timer=setInterval(()=>{
-
-    updateTime();
-
-    /* refresh countdown and time every second */
-
-  },1000);
+  setInterval(
+    updateClock,
+    1000
+  );
 }
 
-init();
+initialize();
 
 </script>
 
