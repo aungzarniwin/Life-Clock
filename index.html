@@ -1,910 +1,543 @@
 <!DOCTYPE html>
-<html lang="my">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
-<meta name="theme-color" content="#0b0b0c">
+<meta name="theme-color" content="#0b0b0d">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>LIFE 75 V8.1 — Health Pro</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
 :root{
-  --bg:#09090b;
-  --panel:#111113;
-  --panel2:#151518;
-  --panel3:#1a1a1e;
-  --border:#28282d;
-  --gold:#d9ad52;
-  --gold2:#f0cb78;
-  --text:#f5f3ee;
-  --muted:#9b9ba3;
-  --green:#55c58a;
-  --red:#e87575;
-  --orange:#e5a75a;
-  --purple:#9d8bea;
-  --shadow:0 18px 45px rgba(0,0,0,.28);
+  --bg:#08090b;
+  --panel:#101216;
+  --panel2:#15171c;
+  --panel3:#1b1e24;
+  --border:#282c34;
+  --text:#f4f1e8;
+  --muted:#969ca7;
+  --gold:#d8ad55;
+  --gold2:#f0cb79;
+  --green:#55c98b;
+  --red:#ef6b6b;
+  --orange:#e6a45c;
+  --purple:#9d8cf2;
+  --shadow:0 18px 50px rgba(0,0,0,.35);
+  --radius:18px;
 }
-
-html,body{
-  width:100%;
-  min-height:100%;
-  overflow-x:hidden;
-}
-
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;width:100%;min-height:100%;overflow-x:hidden}
 body{
   background:
-    radial-gradient(circle at 80% -10%,rgba(217,173,82,.10),transparent 32%),
+    radial-gradient(circle at 80% 0%,rgba(216,173,85,.08),transparent 28%),
     var(--bg);
   color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-  line-height:1.5;
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
-
-button,input,select,textarea{
-  font:inherit;
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.45;cursor:not-allowed}
+input,select,textarea{
+  width:100%;
+  border:1px solid var(--border);
+  background:#0c0e12;
+  color:var(--text);
+  border-radius:12px;
+  padding:12px 13px;
+  outline:none;
 }
-
-button{
-  cursor:pointer;
+input:focus,select:focus,textarea:focus{
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(216,173,85,.09);
 }
-
-.app{
-  min-height:100vh;
-  display:flex;
-}
-
+textarea{min-height:100px;resize:vertical}
+.app{display:flex;min-height:100vh}
 .sidebar{
-  width:270px;
-  flex:0 0 270px;
-  min-height:100vh;
-  background:rgba(13,13,15,.96);
-  border-right:1px solid var(--border);
-  padding:22px 16px;
   position:fixed;
+  z-index:50;
   left:0;
   top:0;
   bottom:0;
-  z-index:100;
+  width:270px;
+  background:rgba(14,15,18,.97);
+  border-right:1px solid var(--border);
+  padding:22px 15px;
+  display:flex;
+  flex-direction:column;
   overflow-y:auto;
 }
-
 .brand{
-  padding:8px 10px 24px;
+  padding:5px 10px 22px;
   border-bottom:1px solid var(--border);
-  margin-bottom:18px;
+  margin-bottom:15px;
 }
-
-.brand-title{
+.brand-name{
   font-size:21px;
   font-weight:900;
-  letter-spacing:.5px;
+  letter-spacing:.8px;
 }
-
-.brand-title span{
-  color:var(--gold2);
-}
-
 .brand-sub{
   color:var(--muted);
   font-size:11px;
   margin-top:5px;
 }
-
 .profile-mini{
   display:flex;
-  gap:11px;
   align-items:center;
-  padding:12px;
+  gap:10px;
   background:var(--panel);
   border:1px solid var(--border);
-  border-radius:16px;
-  margin-bottom:18px;
+  border-radius:15px;
+  padding:11px;
+  margin-bottom:15px;
 }
-
 .avatar{
-  width:42px;
-  height:42px;
-  border-radius:14px;
-  background:linear-gradient(135deg,var(--gold),#8e6826);
-  color:#17130a;
-  display:grid;
-  place-items:center;
-  font-weight:900;
+  width:40px;height:40px;border-radius:13px;
+  display:grid;place-items:center;
+  background:linear-gradient(145deg,#e8c875,#a9792d);
+  color:#15110a;font-weight:900;
 }
-
-.profile-name{
-  font-size:13px;
-  font-weight:800;
-}
-
-.profile-role{
-  font-size:11px;
-  color:var(--muted);
-}
-
-.nav-group{
-  margin-top:17px;
-}
-
-.nav-label{
-  color:#686870;
+.profile-mini strong{display:block;font-size:13px}
+.profile-mini span{font-size:11px;color:var(--muted)}
+.nav-title{
   font-size:10px;
+  color:#666d78;
+  letter-spacing:1.5px;
   font-weight:800;
-  letter-spacing:1.3px;
-  padding:0 10px 8px;
-  text-transform:uppercase;
+  padding:10px 10px 7px;
 }
-
 .nav-btn{
   width:100%;
   border:0;
   background:transparent;
-  color:#aaaab1;
+  color:#aeb3bc;
+  padding:12px 12px;
+  border-radius:12px;
+  text-align:left;
   display:flex;
   align-items:center;
   gap:11px;
-  padding:11px 12px;
-  border-radius:12px;
   margin-bottom:3px;
-  text-align:left;
-  transition:.2s;
 }
-
-.nav-btn:hover{
-  background:#17171a;
-  color:#fff;
-}
-
+.nav-btn:hover{background:#181a20;color:#fff}
 .nav-btn.active{
-  background:rgba(217,173,82,.13);
+  background:linear-gradient(90deg,rgba(216,173,85,.16),rgba(216,173,85,.04));
   color:var(--gold2);
-  border:1px solid rgba(217,173,82,.18);
 }
-
-.nav-icon{
-  width:22px;
-  text-align:center;
-  font-size:16px;
-}
-
+.nav-icon{width:22px;text-align:center;font-size:16px}
+.sidebar-bottom{margin-top:auto}
 .main{
   width:calc(100% - 270px);
   margin-left:270px;
   min-width:0;
-  padding:24px;
 }
-
-.mobile-top{
+.topbar{
+  height:68px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+  position:sticky;
+  top:0;
+  z-index:30;
+  background:rgba(8,9,11,.86);
+  backdrop-filter:blur(16px);
+}
+.top-title{font-weight:800;font-size:15px}
+.top-time{font-variant-numeric:tabular-nums;color:var(--gold2);font-size:13px}
+.menu-btn{
   display:none;
+  border:1px solid var(--border);
+  background:var(--panel);
+  color:#fff;
+  border-radius:10px;
+  width:40px;height:40px;
 }
-
-.overlay{
-  display:none;
+.content{
+  max-width:1500px;
+  margin:auto;
+  padding:28px;
 }
-
-.page{
-  display:none;
-}
-
-.page.active{
-  display:block;
-}
-
-.page-header{
+.section{display:none}
+.section.active{display:block}
+.page-head{
   display:flex;
   justify-content:space-between;
-  align-items:flex-start;
+  align-items:flex-end;
   gap:18px;
-  margin-bottom:24px;
+  margin-bottom:22px;
 }
-
 .eyebrow{
-  color:var(--gold2);
+  color:var(--gold);
   font-size:11px;
-  font-weight:900;
+  font-weight:800;
   letter-spacing:1.5px;
   text-transform:uppercase;
-  margin-bottom:5px;
 }
-
-h1{
-  font-size:29px;
-  line-height:1.15;
-  letter-spacing:-.6px;
-}
-
-.page-desc{
-  color:var(--muted);
-  font-size:13px;
-  margin-top:7px;
-}
-
-.card{
-  background:linear-gradient(180deg,rgba(22,22,25,.96),rgba(15,15,17,.96));
-  border:1px solid var(--border);
-  border-radius:19px;
-  box-shadow:var(--shadow);
-  padding:19px;
-  min-width:0;
-}
-
-.card-title{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  margin-bottom:15px;
-}
-
-.card-title h3{
-  font-size:15px;
-}
-
-.card-title small{
-  color:var(--muted);
-  font-size:11px;
-}
-
+h1{font-size:30px;line-height:1.1;margin:7px 0}
+h2{font-size:19px;margin:0 0 14px}
+h3{font-size:14px;margin:0 0 8px}
+.page-desc{color:var(--muted);font-size:13px;line-height:1.6}
 .grid{
   display:grid;
-  gap:15px;
-  min-width:0;
-}
-
-.grid-2{
-  grid-template-columns:repeat(2,minmax(0,1fr));
-}
-
-.grid-3{
-  grid-template-columns:repeat(3,minmax(0,1fr));
-}
-
-.grid-4{
   grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
 }
-
-.stat{
-  padding:17px;
-  border-radius:17px;
-  background:var(--panel2);
-  border:1px solid var(--border);
+.grid-2{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+.grid-3{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+}
+.card{
   min-width:0;
+  background:linear-gradient(145deg,var(--panel),#0d0f12);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:18px;
+  box-shadow:var(--shadow);
 }
-
 .stat-label{
   color:var(--muted);
   font-size:11px;
-  margin-bottom:8px;
+  text-transform:uppercase;
+  letter-spacing:1px;
 }
-
 .stat-value{
-  font-size:24px;
+  margin-top:7px;
+  font-size:25px;
   font-weight:900;
-  letter-spacing:-.5px;
-  word-break:break-word;
 }
-
-.stat-unit{
-  color:var(--muted);
-  font-size:11px;
-  margin-left:3px;
-}
-
-.gold{
-  color:var(--gold2);
-}
-
-.green{
-  color:var(--green);
-}
-
-.red{
-  color:var(--red);
-}
-
-.orange{
-  color:var(--orange);
-}
-
-.muted{
-  color:var(--muted);
-}
-
+.stat-small{font-size:11px;color:var(--muted);margin-top:5px}
+.gold{color:var(--gold2)}
+.green{color:var(--green)}
+.red{color:var(--red)}
+.orange{color:var(--orange)}
+.purple{color:var(--purple)}
 .progress{
   height:8px;
-  background:#242429;
-  border-radius:20px;
+  background:#252830;
+  border-radius:99px;
   overflow:hidden;
 }
-
-.progress > div{
+.progress > span{
+  display:block;
   height:100%;
-  border-radius:20px;
-  background:linear-gradient(90deg,#a67a2d,var(--gold2));
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+  border-radius:inherit;
 }
-
 .btn{
   border:1px solid var(--border);
-  background:#19191d;
-  color:#eee;
+  background:#17191e;
+  color:#fff;
   border-radius:11px;
-  padding:9px 13px;
-  font-weight:750;
-  font-size:12px;
-  transition:.2s;
+  padding:10px 14px;
+  font-weight:700;
 }
-
-.btn:hover{
-  border-color:#4b4b52;
-  transform:translateY(-1px);
-}
-
+.btn:hover{border-color:#555b66}
 .btn-primary{
-  background:linear-gradient(135deg,#e0b75d,#a47a2d);
-  border-color:#d8ac52;
-  color:#17130a;
+  background:linear-gradient(135deg,#e3bb69,#b68534);
+  border-color:#e3bb69;
+  color:#171208;
 }
-
 .btn-danger{
-  color:#ff9a9a;
-  border-color:rgba(232,117,117,.25);
+  background:rgba(239,107,107,.1);
+  border-color:rgba(239,107,107,.3);
+  color:#ff9999;
 }
-
-.btn-small{
-  padding:7px 10px;
-  font-size:11px;
-}
-
-.actions{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-}
-
+.btn-small{padding:7px 10px;font-size:11px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
 .form-grid{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
   gap:12px;
 }
-
-.form-group{
-  min-width:0;
-}
-
-.form-group.full{
-  grid-column:1/-1;
-}
-
-label{
+.field label{
   display:block;
-  color:#b4b4bc;
   font-size:11px;
-  font-weight:700;
-  margin-bottom:6px;
-}
-
-input,select,textarea{
-  width:100%;
-  border:1px solid var(--border);
-  background:#0d0d10;
-  color:#f4f4f5;
-  border-radius:11px;
-  padding:11px 12px;
-  outline:none;
-}
-
-input:focus,select:focus,textarea:focus{
-  border-color:rgba(217,173,82,.7);
-  box-shadow:0 0 0 3px rgba(217,173,82,.08);
-}
-
-textarea{
-  resize:vertical;
-  min-height:88px;
-}
-
-.section-space{
-  margin-top:16px;
-}
-
-.empty{
-  text-align:center;
-  padding:30px 15px;
   color:var(--muted);
-  font-size:12px;
+  margin:0 0 6px;
 }
-
-.list{
-  display:grid;
-  gap:9px;
-}
-
-.list-item{
+.full{grid-column:1/-1}
+.section-gap{margin-top:18px}
+.divider{height:1px;background:var(--border);margin:16px 0}
+.item{
   border:1px solid var(--border);
-  background:#101013;
-  border-radius:13px;
-  padding:12px;
+  background:#0d0f13;
+  border-radius:14px;
+  padding:13px;
+  margin-bottom:9px;
 }
-
-.list-main{
+.item:last-child{margin-bottom:0}
+.item-head{
   display:flex;
   justify-content:space-between;
-  gap:12px;
+  gap:10px;
   align-items:flex-start;
 }
-
-.item-title{
-  font-weight:800;
-  font-size:13px;
-}
-
-.item-meta{
-  color:var(--muted);
-  font-size:11px;
-  margin-top:3px;
-}
-
+.item-title{font-weight:800;font-size:14px}
+.item-meta{color:var(--muted);font-size:11px;margin-top:4px;line-height:1.5}
 .badge{
   display:inline-flex;
   align-items:center;
-  border:1px solid var(--border);
-  background:#19191c;
-  color:#bbb;
-  border-radius:30px;
+  border-radius:999px;
   padding:4px 8px;
   font-size:10px;
-  white-space:nowrap;
+  font-weight:800;
+  background:#1a1d23;
+  border:1px solid var(--border);
+  color:#c8cbd0;
 }
-
-.badge.gold{
-  border-color:rgba(217,173,82,.28);
-  background:rgba(217,173,82,.08);
-}
-
-.badge.green{
-  border-color:rgba(85,197,138,.25);
-  background:rgba(85,197,138,.08);
-}
-
-.badge.red{
-  border-color:rgba(232,117,117,.25);
-  background:rgba(232,117,117,.08);
-}
-
-.hero{
-  padding:24px;
-  background:
-    radial-gradient(circle at 100% 0%,rgba(217,173,82,.16),transparent 35%),
-    linear-gradient(135deg,#171512,#101011 55%);
-  border:1px solid rgba(217,173,82,.22);
-  border-radius:22px;
-  margin-bottom:16px;
-}
-
-.hero-row{
-  display:flex;
-  justify-content:space-between;
-  gap:20px;
-  align-items:center;
-}
-
-.hero-clock{
-  font-size:42px;
-  font-weight:900;
-  letter-spacing:-1.5px;
-}
-
-.hero-date{
+.badge.gold-b{color:var(--gold2);border-color:rgba(216,173,85,.25);background:rgba(216,173,85,.08)}
+.badge.green-b{color:#77e2a6;border-color:rgba(85,201,139,.25);background:rgba(85,201,139,.08)}
+.badge.red-b{color:#ff9b9b;border-color:rgba(239,107,107,.25);background:rgba(239,107,107,.08)}
+.empty{
+  padding:28px 12px;
+  text-align:center;
   color:var(--muted);
   font-size:12px;
-  margin-top:3px;
 }
-
-.hero-zone{
-  color:#777780;
-  font-size:10px;
-  margin-top:6px;
+.kpi-row{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin-top:12px;
 }
-
-.hero-side{
-  text-align:right;
+.kpi{
+  background:#0c0e12;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:10px 12px;
+  min-width:100px;
 }
-
-.hero-side .big{
-  font-size:30px;
-  font-weight:900;
-  color:var(--gold2);
-}
-
-.kpi-ring{
-  width:105px;
-  height:105px;
-  border-radius:50%;
-  display:grid;
-  place-items:center;
+.kpi b{display:block;font-size:16px}
+.kpi span{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+.clock-card{
   background:
-    radial-gradient(circle at center,#111114 58%,transparent 59%),
-    conic-gradient(var(--gold2) var(--pct,50%),#29292e 0);
-  margin:auto;
+    radial-gradient(circle at 80% 20%,rgba(216,173,85,.15),transparent 35%),
+    linear-gradient(145deg,#16130e,#0d0f12);
 }
-
-.kpi-ring span{
-  font-size:18px;
+.big-clock{
+  font-size:46px;
   font-weight:900;
+  letter-spacing:2px;
+  font-variant-numeric:tabular-nums;
 }
-
+.date-line{color:var(--muted);margin-top:5px}
 .life-grid{
   display:grid;
   grid-template-columns:repeat(15,minmax(0,1fr));
   gap:4px;
 }
-
 .life-cell{
   aspect-ratio:1;
-  border-radius:4px;
-  background:#28282d;
-  border:1px solid #303035;
+  border-radius:3px;
+  background:#262a31;
 }
-
-.life-cell.lived{
-  background:linear-gradient(135deg,#a67a2d,var(--gold2));
-  border-color:#d2a74f;
-}
-
+.life-cell.lived{background:var(--gold)}
 .life-cell.current{
   outline:2px solid #fff;
   outline-offset:1px;
 }
-
 .month-grid{
   display:grid;
-  grid-template-columns:repeat(25,minmax(0,1fr));
+  grid-template-columns:repeat(30,minmax(0,1fr));
   gap:3px;
 }
-
 .month-cell{
   aspect-ratio:1;
-  border-radius:3px;
-  background:#25252a;
+  border-radius:2px;
+  background:#242830;
 }
-
-.month-cell.lived{
-  background:#a67a2d;
-}
-
-.month-cell.current{
-  background:var(--gold2);
-}
-
-.health-banner{
-  border:1px solid rgba(85,197,138,.18);
-  background:rgba(85,197,138,.055);
-  border-radius:15px;
-  padding:13px;
-  color:#c7ead8;
-  font-size:11px;
-  margin-bottom:16px;
-}
-
-.med-card{
-  border:1px solid var(--border);
-  background:#101013;
-  border-radius:15px;
-  padding:14px;
-}
-
-.med-top{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-}
-
-.med-name{
-  font-weight:850;
-}
-
-.med-dose{
-  color:var(--muted);
-  font-size:11px;
-  margin-top:3px;
-}
-
-.med-times{
-  display:flex;
-  flex-wrap:wrap;
-  gap:5px;
-  margin-top:10px;
-}
-
-.time-pill{
-  border:1px solid #34343a;
-  border-radius:20px;
-  padding:4px 8px;
-  font-size:10px;
-  color:#bdbdc5;
-}
-
-.vital-table{
-  width:100%;
-  border-collapse:collapse;
-  font-size:11px;
-}
-
-.vital-table th{
-  color:#7d7d85;
-  font-weight:700;
-  text-align:left;
-  padding:8px;
-  border-bottom:1px solid var(--border);
-}
-
-.vital-table td{
-  padding:9px 8px;
-  border-bottom:1px solid #202025;
-}
-
-.trend{
-  display:flex;
-  align-items:flex-end;
-  gap:7px;
-  height:150px;
-  padding:15px 5px 5px;
-}
-
-.bar-wrap{
-  flex:1;
-  height:100%;
-  display:flex;
-  align-items:flex-end;
-  justify-content:center;
-  min-width:0;
-}
-
-.bar{
-  width:100%;
-  max-width:28px;
-  min-height:4px;
-  background:linear-gradient(180deg,var(--gold2),#79571e);
-  border-radius:7px 7px 3px 3px;
-}
-
-.bar-label{
-  font-size:8px;
-  color:#696970;
-  margin-top:5px;
-}
-
-.check-list{
-  display:grid;
-  gap:7px;
-}
-
+.month-cell.lived{background:#927033}
+.month-cell.current{background:var(--gold2)}
 .check-row{
   display:flex;
-  gap:9px;
   align-items:center;
-  padding:9px;
-  border:1px solid var(--border);
-  background:#101013;
-  border-radius:11px;
-}
-
-.check-row input{
-  width:auto;
-  accent-color:var(--gold2);
-}
-
-.warning{
-  border:1px solid rgba(232,117,117,.28);
-  background:rgba(232,117,117,.07);
-  color:#f0b0b0;
-  border-radius:13px;
-  padding:11px;
-  font-size:11px;
-}
-
-.guide-box{
-  padding:13px;
-  border-radius:13px;
-  border:1px solid var(--border);
-  background:#101013;
-}
-
-.guide-box h4{
+  gap:9px;
+  padding:10px 0;
+  border-bottom:1px solid #202329;
   font-size:12px;
-  margin-bottom:8px;
 }
-
-.guide-box ul{
-  padding-left:17px;
-  color:#bdbdc4;
-  font-size:11px;
-}
-
-.guide-box li{
-  margin-bottom:5px;
-}
-
+.check-row:last-child{border-bottom:0}
+.check-row input{width:17px;height:17px;accent-color:var(--gold)}
 .timeline{
   position:relative;
   padding-left:20px;
 }
-
 .timeline:before{
   content:"";
   position:absolute;
   left:5px;
-  top:4px;
-  bottom:4px;
+  top:5px;
+  bottom:5px;
   width:1px;
-  background:#38383e;
+  background:var(--border);
 }
-
 .timeline-item{
   position:relative;
   margin-bottom:13px;
 }
-
 .timeline-item:before{
   content:"";
   position:absolute;
   left:-18px;
   top:5px;
-  width:7px;
-  height:7px;
+  width:7px;height:7px;
   border-radius:50%;
-  background:var(--gold2);
+  background:var(--gold);
+  box-shadow:0 0 0 3px rgba(216,173,85,.12);
 }
-
-.footer-note{
-  color:#62626a;
-  font-size:10px;
-  margin-top:20px;
+.meter-label{
+  display:flex;
+  justify-content:space-between;
+  font-size:11px;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+.alert{
+  padding:12px;
+  border-radius:12px;
+  font-size:11px;
+  line-height:1.6;
+  border:1px solid var(--border);
+  background:#0d0f12;
+}
+.alert-warning{
+  border-color:rgba(230,164,92,.3);
+  background:rgba(230,164,92,.06);
+  color:#e9c58d;
+}
+.alert-danger{
+  border-color:rgba(239,107,107,.3);
+  background:rgba(239,107,107,.06);
+  color:#ffadad;
+}
+.toast{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  z-index:100;
+  background:#17191e;
+  border:1px solid var(--border);
+  color:#fff;
+  padding:12px 15px;
+  border-radius:12px;
+  box-shadow:var(--shadow);
+  transform:translateY(20px);
+  opacity:0;
+  pointer-events:none;
+  transition:.25s;
+  font-size:12px;
+}
+.toast.show{transform:translateY(0);opacity:1}
+.overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  z-index:45;
+}
+.chart{
+  height:190px;
+  display:flex;
+  align-items:flex-end;
+  gap:6px;
+  padding:12px 4px 0;
+  border-bottom:1px solid var(--border);
+}
+.bar-wrap{
+  flex:1;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  gap:5px;
+  min-width:0;
+}
+.bar{
+  width:100%;
+  min-height:3px;
+  border-radius:5px 5px 0 0;
+  background:linear-gradient(180deg,var(--gold2),#80612c);
+}
+.bar-label{
+  font-size:8px;
+  color:var(--muted);
   text-align:center;
-  padding-bottom:20px;
 }
-
-@media(max-width:1050px){
-  .grid-4{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-  }
-  .grid-3{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-  }
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:80;
+  background:rgba(0,0,0,.72);
+  padding:20px;
+  align-items:center;
+  justify-content:center;
 }
-
+.modal.show{display:flex}
+.modal-box{
+  width:min(560px,100%);
+  max-height:90vh;
+  overflow-y:auto;
+  background:#111318;
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:20px;
+}
+.modal-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:16px;
+}
+.close{
+  width:34px;height:34px;border-radius:9px;
+  background:#1b1e24;border:1px solid var(--border);color:#fff;
+}
+footer{
+  padding:30px 0 10px;
+  text-align:center;
+  color:#5e636c;
+  font-size:10px;
+}
+@media(max-width:1100px){
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grid-3{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .life-grid{grid-template-columns:repeat(15,minmax(0,1fr))}
+}
 @media(max-width:800px){
   .sidebar{
     transform:translateX(-105%);
-    transition:.25s ease;
+    transition:.25s;
     box-shadow:20px 0 50px rgba(0,0,0,.5);
   }
-
-  .sidebar.open{
-    transform:translateX(0);
-  }
-
-  .main{
-    width:100%;
-    margin-left:0;
-    padding:14px;
-    padding-top:72px;
-  }
-
-  .mobile-top{
-    position:fixed;
-    display:flex;
-    left:0;
-    right:0;
-    top:0;
-    height:58px;
-    background:rgba(10,10,12,.95);
-    backdrop-filter:blur(14px);
-    border-bottom:1px solid var(--border);
-    z-index:80;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 14px;
-  }
-
-  .mobile-brand{
-    font-size:16px;
-    font-weight:900;
-  }
-
-  .mobile-brand span{
-    color:var(--gold2);
-  }
-
-  .menu-btn{
-    border:1px solid var(--border);
-    background:#151518;
-    color:#fff;
-    width:38px;
-    height:38px;
-    border-radius:11px;
-  }
-
-  .overlay.show{
-    display:block;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.62);
-    z-index:90;
-  }
-
-  .page-header{
-    flex-direction:column;
-  }
-
-  .hero-row{
-    flex-direction:column;
-    align-items:flex-start;
-  }
-
-  .hero-side{
-    text-align:left;
-  }
-
-  .hero-clock{
-    font-size:35px;
-  }
-
-  .grid-2,
-  .grid-3,
-  .grid-4{
-    grid-template-columns:1fr;
-  }
-
-  .form-grid{
-    grid-template-columns:1fr;
-  }
-
-  .form-group.full{
-    grid-column:auto;
-  }
-
-  .life-grid{
-    grid-template-columns:repeat(15,minmax(0,1fr));
-  }
-
-  .month-grid{
-    grid-template-columns:repeat(20,minmax(0,1fr));
-  }
+  .sidebar.open{transform:translateX(0)}
+  .overlay.show{display:block}
+  .main{width:100%;margin-left:0}
+  .menu-btn{display:block}
+  .topbar{padding:0 15px}
+  .content{padding:18px 14px}
+  .page-head{align-items:flex-start;flex-direction:column}
+  .grid,.grid-2,.grid-3{grid-template-columns:1fr}
+  .form-grid{grid-template-columns:1fr}
+  .full{grid-column:auto}
+  .big-clock{font-size:34px}
+  .life-grid{grid-template-columns:repeat(15,minmax(0,1fr))}
 }
-
-@media(max-width:430px){
-  .main{
-    padding:12px;
-    padding-top:68px;
-  }
-
-  .card{
-    padding:14px;
-    border-radius:16px;
-  }
-
-  h1{
-    font-size:24px;
-  }
-
-  .life-grid{
-    gap:3px;
-  }
-
-  .month-grid{
-    gap:2px;
-  }
-
-  .hero{
-    padding:17px;
-  }
+@media(max-width:480px){
+  h1{font-size:25px}
+  .card{padding:14px}
+  .stat-value{font-size:22px}
+  .month-grid{grid-template-columns:repeat(20,minmax(0,1fr))}
+  .actions .btn{flex:1}
 }
 </style>
 </head>
@@ -913,1262 +546,957 @@ textarea{
 
 <div class="app">
 
-  <aside class="sidebar" id="sidebar">
-    <div class="brand">
-      <div class="brand-title">LIFE <span>75</span></div>
-      <div class="brand-sub">Professional Life & Health OS V8.1</div>
-    </div>
-
-    <div class="profile-mini">
-      <div class="avatar" id="sideAvatar">L</div>
-      <div>
-        <div class="profile-name" id="sideName">My Life</div>
-        <div class="profile-role">Life 75 Member</div>
-      </div>
-    </div>
-
-    <div class="nav-group">
-      <div class="nav-label">Life</div>
-
-      <button class="nav-btn active" data-page="dashboard">
-        <span class="nav-icon">⌂</span>
-        <span>Dashboard</span>
-      </button>
-
-      <button class="nav-btn" data-page="time">
-        <span class="nav-icon">◷</span>
-        <span>Time Center</span>
-      </button>
-
-      <button class="nav-btn" data-page="health">
-        <span class="nav-icon">♡</span>
-        <span>Health Center</span>
-      </button>
-
-      <button class="nav-btn" data-page="medications">
-        <span class="nav-icon">✚</span>
-        <span>Medications</span>
-      </button>
-
-      <button class="nav-btn" data-page="vitals">
-        <span class="nav-icon">⌁</span>
-        <span>Vitals & Trends</span>
-      </button>
-
-      <button class="nav-btn" data-page="symptoms">
-        <span class="nav-icon">◉</span>
-        <span>Symptoms</span>
-      </button>
-    </div>
-
-    <div class="nav-group">
-      <div class="nav-label">Care</div>
-
-      <button class="nav-btn" data-page="conditions">
-        <span class="nav-icon">+</span>
-        <span>Conditions</span>
-      </button>
-
-      <button class="nav-btn" data-page="doctor">
-        <span class="nav-icon">⚕</span>
-        <span>Doctor Visits</span>
-      </button>
-
-      <button class="nav-btn" data-page="goals">
-        <span class="nav-icon">◇</span>
-        <span>Goals</span>
-      </button>
-
-      <button class="nav-btn" data-page="journal">
-        <span class="nav-icon">▤</span>
-        <span>Journal</span>
-      </button>
-    </div>
-
-    <div class="nav-group">
-      <div class="nav-label">System</div>
-
-      <button class="nav-btn" data-page="important">
-        <span class="nav-icon">★</span>
-        <span>Important Days</span>
-      </button>
-
-      <button class="nav-btn" data-page="settings">
-        <span class="nav-icon">⚙</span>
-        <span>Settings</span>
-      </button>
-    </div>
-  </aside>
-
-  <div class="overlay" id="overlay"></div>
-
-  <div class="mobile-top">
-    <button class="menu-btn" id="menuBtn">☰</button>
-    <div class="mobile-brand">LIFE <span>75</span></div>
-    <div style="width:38px"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="brand-name">LIFE 75</div>
+    <div class="brand-sub">Personal Life & Health OS · V8.1</div>
   </div>
 
-  <main class="main">
+  <div class="profile-mini">
+    <div class="avatar" id="sideAvatar">L</div>
+    <div>
+      <strong id="sideName">My Life</strong>
+      <span>Life & Health</span>
+    </div>
+  </div>
+
+  <div class="nav-title">LIFE</div>
+  <button class="nav-btn active" data-section="dashboard"><span class="nav-icon">⌂</span>Dashboard</button>
+  <button class="nav-btn" data-section="time"><span class="nav-icon">◷</span>Time Center</button>
+  <button class="nav-btn" data-section="goals"><span class="nav-icon">◎</span>Goals</button>
+  <button class="nav-btn" data-section="important"><span class="nav-icon">★</span>Important Days</button>
+  <button class="nav-btn" data-section="journal"><span class="nav-icon">✎</span>Journal</button>
+  <button class="nav-btn" data-section="money"><span class="nav-icon">◈</span>Money</button>
+
+  <div class="nav-title">HEALTH</div>
+  <button class="nav-btn" data-section="health"><span class="nav-icon">♥</span>Health Center</button>
+  <button class="nav-btn" data-section="medications"><span class="nav-icon">✚</span>Medications</button>
+  <button class="nav-btn" data-section="vitals"><span class="nav-icon">⌁</span>Vitals</button>
+  <button class="nav-btn" data-section="symptoms"><span class="nav-icon">◉</span>Symptoms</button>
+  <button class="nav-btn" data-section="labs"><span class="nav-icon">◇</span>Lab Results</button>
+  <button class="nav-btn" data-section="doctor"><span class="nav-icon">⚕</span>Doctor Center</button>
+  <button class="nav-btn" data-section="emergency"><span class="nav-icon">!</span>Emergency Card</button>
+
+  <div class="nav-title">SYSTEM</div>
+  <button class="nav-btn" data-section="settings"><span class="nav-icon">⚙</span>Settings</button>
+
+  <div class="sidebar-bottom">
+    <div class="alert alert-warning">
+      Health records are stored locally in this browser. Export a backup regularly
+    </div>
+  </div>
+</aside>
+
+<div class="overlay" id="overlay"></div>
+
+<main class="main">
+  <header class="topbar">
+    <div style="display:flex;align-items:center;gap:10px">
+      <button class="menu-btn" id="menuBtn">☰</button>
+      <div class="top-title" id="topTitle">Dashboard</div>
+    </div>
+    <div class="top-time" id="topTime">--:--:--</div>
+  </header>
+
+  <div class="content">
 
     <!-- DASHBOARD -->
-    <section class="page active" id="page-dashboard">
-      <div class="page-header">
+    <section class="section active" id="dashboard">
+      <div class="page-head">
         <div>
-          <div class="eyebrow">Life OS</div>
-          <h1>My Life Dashboard</h1>
-          <div class="page-desc">အချိန်၊ ကျန်းမာရေးနဲ့ ကိုယ်ပိုင်ဘဝကို တစ်နေရာတည်းက စောင့်ကြည့်ရန်</div>
+          <div class="eyebrow">PERSONAL LIFE OS</div>
+          <h1>Good day, <span id="dashName">My Life</span></h1>
+          <div class="page-desc">Your time, health, goals and personal records in one place</div>
         </div>
         <div class="actions">
-          <button class="btn btn-primary" onclick="goPage('health')">Health Center</button>
+          <button class="btn btn-primary" onclick="showSection('health')">Health Center</button>
+          <button class="btn" onclick="showSection('time')">Time Center</button>
         </div>
       </div>
 
-      <div class="hero">
-        <div class="hero-row">
-          <div>
-            <div class="eyebrow">Current Time</div>
-            <div class="hero-clock" id="dashboardClock">--:--:--</div>
-            <div class="hero-date" id="dashboardDate">Loading...</div>
-            <div class="hero-zone" id="dashboardZone">Local Device Time</div>
-          </div>
-
-          <div class="hero-side">
-            <div class="stat-label">Life Progress to 75</div>
-            <div class="big" id="dashLifeProgress">0%</div>
-            <div class="progress" style="width:180px">
-              <div id="dashLifeBar" style="width:0%"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="grid grid-4">
-        <div class="stat">
-          <div class="stat-label">Current Age</div>
-          <div class="stat-value gold" id="dashAge">—</div>
-        </div>
-
-        <div class="stat">
-          <div class="stat-label">Years Lived</div>
-          <div class="stat-value" id="dashLived">—</div>
-        </div>
-
-        <div class="stat">
-          <div class="stat-label">Years to 75</div>
-          <div class="stat-value" id="dashRemaining">—</div>
-        </div>
-
-        <div class="stat">
-          <div class="stat-label">Health Records</div>
-          <div class="stat-value green" id="dashHealthRecords">0</div>
-        </div>
-      </div>
-
-      <div class="grid grid-2 section-space">
-
+      <div class="grid">
         <div class="card">
-          <div class="card-title">
-            <h3>❤️ Health Snapshot</h3>
-            <button class="btn btn-small" onclick="goPage('health')">Open</button>
-          </div>
+          <div class="stat-label">Age</div>
+          <div class="stat-value gold" id="dAge">—</div>
+          <div class="stat-small" id="dDob">Set your date of birth</div>
+        </div>
+        <div class="card">
+          <div class="stat-label">Life Progress</div>
+          <div class="stat-value" id="dLife">—</div>
+          <div class="progress" style="margin-top:10px"><span id="dLifeBar" style="width:0%"></span></div>
+        </div>
+        <div class="card">
+          <div class="stat-label">Years Remaining</div>
+          <div class="stat-value" id="dRemaining">—</div>
+          <div class="stat-small">Target age 75</div>
+        </div>
+        <div class="card">
+          <div class="stat-label">Today's Progress</div>
+          <div class="stat-value" id="dToday">—</div>
+          <div class="progress" style="margin-top:10px"><span id="dTodayBar" style="width:0%"></span></div>
+        </div>
+      </div>
 
-          <div class="grid grid-2">
-            <div class="stat">
-              <div class="stat-label">Conditions</div>
-              <div class="stat-value" id="dashConditions">0</div>
-            </div>
-
-            <div class="stat">
-              <div class="stat-label">Medications</div>
-              <div class="stat-value" id="dashMeds">0</div>
-            </div>
-
-            <div class="stat">
-              <div class="stat-label">Symptoms</div>
-              <div class="stat-value" id="dashSymptoms">0</div>
-            </div>
-
-            <div class="stat">
-              <div class="stat-label">Doctor Visits</div>
-              <div class="stat-value" id="dashVisits">0</div>
-            </div>
+      <div class="grid-2 section-gap">
+        <div class="card clock-card">
+          <div class="eyebrow">LIVE TIME</div>
+          <div class="big-clock" id="dashClock">--:--:--</div>
+          <div class="date-line" id="dashDate">—</div>
+          <div class="kpi-row">
+            <div class="kpi"><b id="dashDay">—</b><span>DAY</span></div>
+            <div class="kpi"><b id="dashMonth">—</b><span>MONTH</span></div>
+            <div class="kpi"><b id="dashYear">—</b><span>YEAR</span></div>
           </div>
         </div>
 
         <div class="card">
-          <div class="card-title">
-            <h3>📊 Latest Vitals</h3>
-            <button class="btn btn-small" onclick="goPage('vitals')">View Trends</button>
+          <h2>Health Snapshot</h2>
+          <div class="grid" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+            <div class="kpi"><b id="dashWeight">—</b><span>WEIGHT</span></div>
+            <div class="kpi"><b id="dashBP">—</b><span>BLOOD PRESSURE</span></div>
+            <div class="kpi"><b id="dashSugar">—</b><span>BLOOD SUGAR</span></div>
+            <div class="kpi"><b id="dashHR">—</b><span>HEART RATE</span></div>
           </div>
-
-          <div class="grid grid-2">
-            <div class="stat">
-              <div class="stat-label">Blood Pressure</div>
-              <div class="stat-value" id="dashBP">—</div>
-              <div class="stat-unit">mmHg</div>
-            </div>
-
-            <div class="stat">
-              <div class="stat-label">Blood Sugar</div>
-              <div class="stat-value" id="dashSugar">—</div>
-              <div class="stat-unit">mg/dL</div>
-            </div>
-
-            <div class="stat">
-              <div class="stat-label">Weight</div>
-              <div class="stat-value" id="dashWeight">—</div>
-              <div class="stat-unit">kg</div>
-            </div>
-
-            <div class="stat">
-              <div class="stat-label">Heart Rate</div>
-              <div class="stat-value" id="dashHR">—</div>
-              <div class="stat-unit">bpm</div>
-            </div>
+          <div style="margin-top:12px">
+            <button class="btn btn-small" onclick="showSection('vitals')">Open Vitals</button>
+            <button class="btn btn-small" onclick="showSection('medications')">Medications</button>
           </div>
         </div>
-
       </div>
 
-      <div class="grid grid-2 section-space">
-
+      <div class="grid-3 section-gap">
         <div class="card">
-          <div class="card-title">
-            <h3>💊 Today's Medication</h3>
-            <button class="btn btn-small" onclick="goPage('medications')">Manage</button>
-          </div>
-          <div id="dashMedicationList"></div>
+          <h2>Medication Today</h2>
+          <div id="dashMeds"></div>
         </div>
-
         <div class="card">
-          <div class="card-title">
-            <h3>⚕ Next Follow-up</h3>
-            <button class="btn btn-small" onclick="goPage('doctor')">Doctor Visits</button>
-          </div>
-          <div id="dashNextVisit"></div>
+          <h2>Upcoming</h2>
+          <div id="dashUpcoming"></div>
         </div>
-
-      </div>
-
-      <div class="card section-space">
-        <div class="card-title">
-          <h3>75-Year Life Grid</h3>
-          <small>Each cell = 1 year</small>
+        <div class="card">
+          <h2>Goals</h2>
+          <div id="dashGoals"></div>
         </div>
-        <div class="life-grid" id="dashLifeGrid"></div>
       </div>
     </section>
 
-
     <!-- TIME -->
-    <section class="page" id="page-time">
-      <div class="page-header">
+    <section class="section" id="time">
+      <div class="page-head">
         <div>
-          <div class="eyebrow">Time System</div>
-          <h1>Time Center</h1>
-          <div class="page-desc">လက်ရှိအချိန်နဲ့ အသက်တာအချိန်ကို တိုက်ရိုက်တွက်ချက်ထားခြင်း</div>
+          <div class="eyebrow">TIME CENTER</div>
+          <h1>Your Life in Time</h1>
+          <div class="page-desc">See your current clock time and the time you have lived</div>
         </div>
       </div>
 
-      <div class="hero">
-        <div class="hero-row">
-          <div>
-            <div class="eyebrow">Your Current Local Time</div>
-            <div class="hero-clock" id="timeClock">--:--:--</div>
-            <div class="hero-date" id="timeDate">—</div>
-            <div class="hero-zone" id="timeZone">—</div>
-          </div>
-          <div class="hero-side">
-            <div class="stat-label">Today Progress</div>
-            <div class="big" id="todayProgress">0%</div>
-          </div>
+      <div class="grid-3">
+        <div class="card clock-card">
+          <div class="stat-label">Current Time</div>
+          <div class="big-clock" id="timeClock">--:--:--</div>
+          <div class="date-line" id="timeDate">—</div>
+          <div class="stat-small" id="timezone">Timezone: —</div>
         </div>
-      </div>
-
-      <div class="grid grid-4">
-        <div class="stat">
+        <div class="card">
           <div class="stat-label">Calendar Age</div>
           <div class="stat-value gold" id="timeAge">—</div>
+          <div class="stat-small">Years · Months · Days</div>
         </div>
-
-        <div class="stat">
-          <div class="stat-label">Time Lived</div>
-          <div class="stat-value" id="timeLived">—</div>
-        </div>
-
-        <div class="stat">
-          <div class="stat-label">Time Remaining to 75</div>
-          <div class="stat-value green" id="timeRemaining">—</div>
-        </div>
-
-        <div class="stat">
+        <div class="card">
           <div class="stat-label">Life Progress</div>
-          <div class="stat-value gold" id="timeLifeProgress">—</div>
+          <div class="stat-value" id="timeLifeProgress">—</div>
+          <div class="progress" style="margin-top:10px"><span id="timeLifeBar" style="width:0%"></span></div>
         </div>
       </div>
 
-      <div class="grid grid-3 section-space">
-        <div class="stat">
-          <div class="stat-label">Today</div>
-          <div class="stat-value" id="todayPct">—</div>
-          <div class="progress" style="margin-top:9px">
-            <div id="todayBar"></div>
+      <div class="grid-2 section-gap">
+        <div class="card">
+          <h2>Time Lived</h2>
+          <div class="grid" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+            <div class="kpi"><b id="lYears">—</b><span>YEARS</span></div>
+            <div class="kpi"><b id="lMonths">—</b><span>MONTHS</span></div>
+            <div class="kpi"><b id="lWeeks">—</b><span>WEEKS</span></div>
+            <div class="kpi"><b id="lDays">—</b><span>DAYS</span></div>
+            <div class="kpi"><b id="lHours">—</b><span>HOURS</span></div>
+            <div class="kpi"><b id="lMinutes">—</b><span>MINUTES</span></div>
           </div>
         </div>
-
-        <div class="stat">
-          <div class="stat-label">This Month</div>
-          <div class="stat-value" id="monthPct">—</div>
-          <div class="progress" style="margin-top:9px">
-            <div id="monthBar"></div>
-          </div>
-        </div>
-
-        <div class="stat">
-          <div class="stat-label">This Year</div>
-          <div class="stat-value" id="yearPct">—</div>
-          <div class="progress" style="margin-top:9px">
-            <div id="yearBar"></div>
+        <div class="card">
+          <h2>Time Remaining to 75</h2>
+          <div class="grid" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+            <div class="kpi"><b id="rYears">—</b><span>YEARS</span></div>
+            <div class="kpi"><b id="rMonths">—</b><span>MONTHS</span></div>
+            <div class="kpi"><b id="rDays">—</b><span>DAYS</span></div>
+            <div class="kpi"><b id="rHours">—</b><span>HOURS</span></div>
+            <div class="kpi"><b id="rMinutes">—</b><span>MINUTES</span></div>
+            <div class="kpi"><b id="rSeconds">—</b><span>SECONDS</span></div>
           </div>
         </div>
       </div>
 
-      <div class="card section-space">
-        <div class="card-title">
-          <h3>75-Year Life Grid</h3>
-          <small>Lived / Current / Remaining</small>
-        </div>
-        <div class="life-grid" id="timeLifeGrid"></div>
+      <div class="card section-gap">
+        <h2>75 Year Life Grid</h2>
+        <div class="page-desc" style="margin-bottom:12px">Gold = completed year · outlined = current year</div>
+        <div class="life-grid" id="lifeGrid"></div>
       </div>
 
-      <div class="card section-space">
-        <div class="card-title">
-          <h3>900-Month Life Grid</h3>
-          <small>75 years × 12 months</small>
-        </div>
+      <div class="card section-gap">
+        <h2>900 Month Grid</h2>
+        <div class="page-desc" style="margin-bottom:12px">Each square represents one month of a 75-year life</div>
         <div class="month-grid" id="monthGrid"></div>
       </div>
     </section>
 
-
     <!-- HEALTH -->
-    <section class="page" id="page-health">
-      <div class="page-header">
+    <section class="section" id="health">
+      <div class="page-head">
         <div>
-          <div class="eyebrow">Health OS</div>
-          <h1>Health Center</h1>
-          <div class="page-desc">ကျန်းမာရေး record တွေကို တစ်နေရာတည်းမှာ စနစ်တကျ သိမ်းထားရန်</div>
+          <div class="eyebrow">HEALTH CENTER</div>
+          <h1>Health Record</h1>
+          <div class="page-desc">Keep your conditions, care notes and daily health records organized</div>
         </div>
+        <button class="btn btn-primary" onclick="openModal('conditionModal')">+ Add Condition</button>
       </div>
 
-      <div class="health-banner">
-        Health Center သည် tracking, record keeping နဲ့ doctor discussion အတွက်သာ ဖြစ်ပါတယ်
-        ဆေးပမာဏ၊ diagnosis သို့မဟုတ် treatment ကို အလိုအလျောက် မသတ်မှတ်ပါ
+      <div class="grid">
+        <div class="card"><div class="stat-label">Conditions</div><div class="stat-value" id="healthConditionCount">0</div></div>
+        <div class="card"><div class="stat-label">Medications</div><div class="stat-value" id="healthMedicationCount">0</div></div>
+        <div class="card"><div class="stat-label">Vitals Records</div><div class="stat-value" id="healthVitalCount">0</div></div>
+        <div class="card"><div class="stat-label">Symptoms</div><div class="stat-value" id="healthSymptomCount">0</div></div>
       </div>
 
-      <div class="grid grid-4">
-        <div class="stat">
-          <div class="stat-label">Conditions</div>
-          <div class="stat-value gold" id="healthConditionCount">0</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">Medications</div>
-          <div class="stat-value" id="healthMedicationCount">0</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">Vital Records</div>
-          <div class="stat-value" id="healthVitalCount">0</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">Symptoms</div>
-          <div class="stat-value" id="healthSymptomCount">0</div>
-        </div>
-      </div>
-
-      <div class="grid grid-2 section-space">
-
+      <div class="grid-2 section-gap">
         <div class="card">
-          <div class="card-title">
-            <h3>Current Conditions</h3>
-            <button class="btn btn-primary btn-small" onclick="goPage('conditions')">Add Condition</button>
-          </div>
-          <div id="healthConditions"></div>
+          <h2>My Conditions</h2>
+          <div id="conditionsList"></div>
         </div>
-
         <div class="card">
-          <div class="card-title">
-            <h3>Health Checklist</h3>
-            <small>Today</small>
-          </div>
-          <div class="check-list" id="healthChecklist"></div>
+          <h2>Health Checklist</h2>
+          <div id="healthChecklist"></div>
         </div>
-
       </div>
 
-      <div class="card section-space">
-        <div class="card-title">
-          <h3>Common Care Plan</h3>
-          <small>For multiple conditions</small>
-        </div>
-        <div id="healthCarePlan"></div>
-      </div>
-
-      <div class="grid grid-2 section-space">
-
-        <div class="card">
-          <div class="card-title">
-            <h3>Latest Symptoms</h3>
-            <button class="btn btn-small" onclick="goPage('symptoms')">Add</button>
-          </div>
-          <div id="healthSymptoms"></div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">
-            <h3>Latest Doctor Visit</h3>
-            <button class="btn btn-small" onclick="goPage('doctor')">Manage</button>
-          </div>
-          <div id="healthDoctor"></div>
-        </div>
-
+      <div class="card section-gap">
+        <h2>Latest Health Records</h2>
+        <div id="healthLatest"></div>
       </div>
     </section>
-
 
     <!-- MEDICATIONS -->
-    <section class="page" id="page-medications">
-      <div class="page-header">
+    <section class="section" id="medications">
+      <div class="page-head">
         <div>
-          <div class="eyebrow">Medication Record</div>
-          <h1>Medications</h1>
-          <div class="page-desc">ဆရာဝန်ညွှန်ကြားထားသော ဆေးများနှင့် သောက်ချိန်များကို record လုပ်ရန်</div>
+          <div class="eyebrow">MEDICATIONS</div>
+          <h1>Medication Tracker</h1>
+          <div class="page-desc">Record medication instructions provided by your healthcare professional</div>
         </div>
+        <button class="btn btn-primary" onclick="openModal('medModal')">+ Add Medication</button>
       </div>
 
-      <div class="grid grid-2">
-
-        <div class="card">
-          <div class="card-title">
-            <h3>Add Medication</h3>
-            <small>Doctor-prescribed data only</small>
-          </div>
-
-          <form id="medForm" class="form-grid">
-            <div class="form-group">
-              <label>Medicine Name</label>
-              <input id="medName" required placeholder="ဥပမာ — Doctor မှညွှန်ကြားထားသော ဆေးအမည်">
-            </div>
-
-            <div class="form-group">
-              <label>Dose / Strength</label>
-              <input id="medDose" placeholder="ဥပမာ — Doctor မှပြောထားသည့် dose">
-            </div>
-
-            <div class="form-group">
-              <label>Schedule</label>
-              <select id="medSchedule">
-                <option value="Morning">Morning</option>
-                <option value="Morning / Evening">Morning / Evening</option>
-                <option value="Morning / Afternoon / Evening">Morning / Afternoon / Evening</option>
-                <option value="Bedtime">Bedtime</option>
-                <option value="As prescribed">As prescribed</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label>Reminder Time</label>
-              <input id="medTime" type="time">
-            </div>
-
-            <div class="form-group full">
-              <label>Doctor / Notes</label>
-              <textarea id="medNotes" placeholder="ဆရာဝန်ညွှန်ကြားချက်၊ side effect note စသည်"></textarea>
-            </div>
-
-            <div class="form-group full actions">
-              <button class="btn btn-primary" type="submit">Save Medication</button>
-            </div>
-          </form>
-        </div>
-
-        <div class="card">
-          <div class="card-title">
-            <h3>Medication Safety</h3>
-          </div>
-
-          <div class="guide-box">
-            <h4>Record only</h4>
-            <ul>
-              <li>ဆရာဝန် သို့မဟုတ် healthcare professional ညွှန်ကြားထားသော medication information ကိုသာ ထည့်ပါ</li>
-              <li>App ထဲက reminder ကို ဆေး dose ပြောင်းရန် အကြောင်းပြချက်အဖြစ် မသုံးပါနှင့်</li>
-              <li>ဆေးရပ်ခြင်း၊ dose ပြောင်းခြင်း မလုပ်ခင် ဆရာဝန်ကို မေးမြန်းပါ</li>
-            </ul>
-          </div>
-        </div>
-
+      <div class="grid">
+        <div class="card"><div class="stat-label">Active Medications</div><div class="stat-value" id="medActiveCount">0</div></div>
+        <div class="card"><div class="stat-label">Today's Taken</div><div class="stat-value green" id="medTakenCount">0</div></div>
+        <div class="card"><div class="stat-label">Today's Missed</div><div class="stat-value red" id="medMissedCount">0</div></div>
+        <div class="card"><div class="stat-label">Adherence</div><div class="stat-value gold" id="medAdherence">—</div></div>
       </div>
 
-      <div class="card section-space">
-        <div class="card-title">
-          <h3>My Medications</h3>
-          <small id="medCountLabel">0 records</small>
+      <div class="card section-gap">
+        <h2>Active Medication</h2>
+        <div id="medList"></div>
+      </div>
+
+      <div class="card section-gap">
+        <h2>Medication Safety Note</h2>
+        <div class="alert alert-warning">
+          Enter medication names, doses and schedules exactly as prescribed or instructed by your healthcare professional. LIFE 75 does not prescribe medication or calculate doses
         </div>
-        <div class="grid grid-2" id="medicationList"></div>
       </div>
     </section>
-
 
     <!-- VITALS -->
-    <section class="page" id="page-vitals">
-      <div class="page-header">
+    <section class="section" id="vitals">
+      <div class="page-head">
         <div>
-          <div class="eyebrow">Vitals</div>
+          <div class="eyebrow">VITALS CENTER</div>
           <h1>Vitals & Trends</h1>
-          <div class="page-desc">သွေးပေါင်၊ သွေးချို၊ ကိုယ်အလေးချိန်၊ နှလုံးခုန်နှုန်းတို့ကို record လုပ်ရန်</div>
+          <div class="page-desc">Record measurements and review your personal history</div>
         </div>
+        <button class="btn btn-primary" onclick="openModal('vitalModal')">+ Add Vitals</button>
       </div>
 
-      <div class="grid grid-4">
-        <div class="stat">
-          <div class="stat-label">Latest BP</div>
-          <div class="stat-value gold" id="vitalLatestBP">—</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">Latest Sugar</div>
-          <div class="stat-value" id="vitalLatestSugar">—</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">Latest Weight</div>
-          <div class="stat-value" id="vitalLatestWeight">—</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">Latest Heart Rate</div>
-          <div class="stat-value" id="vitalLatestHR">—</div>
-        </div>
+      <div class="grid">
+        <div class="card"><div class="stat-label">Latest Weight</div><div class="stat-value" id="vWeight">—</div></div>
+        <div class="card"><div class="stat-label">Latest BP</div><div class="stat-value" id="vBP">—</div></div>
+        <div class="card"><div class="stat-label">Latest Sugar</div><div class="stat-value" id="vSugar">—</div></div>
+        <div class="card"><div class="stat-label">Latest Heart Rate</div><div class="stat-value" id="vHR">—</div></div>
       </div>
 
-      <div class="grid grid-2 section-space">
-
+      <div class="grid-2 section-gap">
         <div class="card">
-          <div class="card-title">
-            <h3>Add Vital Record</h3>
-            <small>Manual entry</small>
-          </div>
-
-          <form id="vitalForm" class="form-grid">
-
-            <div class="form-group">
-              <label>Date & Time</label>
-              <input id="vitalDate" type="datetime-local" required>
-            </div>
-
-            <div class="form-group">
-              <label>Type</label>
-              <select id="vitalType">
-                <option value="bp">Blood Pressure</option>
-                <option value="sugar">Blood Sugar</option>
-                <option value="weight">Weight</option>
-                <option value="hr">Heart Rate</option>
-              </select>
-            </div>
-
-            <div class="form-group" id="bpFields">
-              <label>Systolic</label>
-              <input id="vitalSys" type="number" min="40" max="300" placeholder="mmHg">
-            </div>
-
-            <div class="form-group" id="bpFields2">
-              <label>Diastolic</label>
-              <input id="vitalDia" type="number" min="20" max="200" placeholder="mmHg">
-            </div>
-
-            <div class="form-group hidden-vital-field" id="sugarField">
-              <label>Blood Sugar</label>
-              <input id="vitalSugar" type="number" step="0.1" placeholder="mg/dL">
-            </div>
-
-            <div class="form-group hidden-vital-field" id="weightField">
-              <label>Weight</label>
-              <input id="vitalWeight" type="number" step="0.1" placeholder="kg">
-            </div>
-
-            <div class="form-group hidden-vital-field" id="hrField">
-              <label>Heart Rate</label>
-              <input id="vitalHR" type="number" min="20" max="250" placeholder="bpm">
-            </div>
-
-            <div class="form-group">
-              <label>Context</label>
-              <select id="vitalContext">
-                <option>Routine</option>
-                <option>Before meal</option>
-                <option>After meal</option>
-                <option>Morning</option>
-                <option>Evening</option>
-                <option>After exercise</option>
-                <option>After medication</option>
-              </select>
-            </div>
-
-            <div class="form-group full">
-              <label>Note</label>
-              <textarea id="vitalNote" placeholder="ဥပမာ — အစာစားပြီး ၂ နာရီ၊ လမ်းလျှောက်ပြီး စသည်"></textarea>
-            </div>
-
-            <div class="form-group full">
-              <button class="btn btn-primary" type="submit">Save Vital</button>
-            </div>
-          </form>
+          <h2>Weight Trend</h2>
+          <div class="chart" id="weightChart"></div>
         </div>
-
         <div class="card">
-          <div class="card-title">
-            <h3>Trend Overview</h3>
-            <small>Latest records</small>
-          </div>
-
-          <div class="stat">
-            <div class="stat-label">Blood Pressure Trend</div>
-            <div class="trend" id="bpTrend"></div>
-          </div>
-
-          <div class="stat section-space">
-            <div class="stat-label">Weight Trend</div>
-            <div class="trend" id="weightTrend"></div>
-          </div>
+          <h2>Heart Rate Trend</h2>
+          <div class="chart" id="hrChart"></div>
         </div>
-
       </div>
 
-      <div class="card section-space">
-        <div class="card-title">
-          <h3>Vital History</h3>
-          <small id="vitalHistoryCount">0 records</small>
-        </div>
-        <div style="overflow-x:auto">
-          <table class="vital-table">
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Type</th>
-                <th>Reading</th>
-                <th>Context</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="vitalHistory"></tbody>
-          </table>
-        </div>
+      <div class="card section-gap">
+        <h2>Vital History</h2>
+        <div id="vitalList"></div>
       </div>
     </section>
-
 
     <!-- SYMPTOMS -->
-    <section class="page" id="page-symptoms">
-      <div class="page-header">
+    <section class="section" id="symptoms">
+      <div class="page-head">
         <div>
-          <div class="eyebrow">Health Diary</div>
-          <h1>Symptoms Tracker</h1>
-          <div class="page-desc">လက္ခဏာ၊ အချိန်၊ ပြင်းထန်မှုနဲ့ note တွေကို record လုပ်ရန်</div>
+          <div class="eyebrow">SYMPTOM TIMELINE</div>
+          <h1>Symptoms</h1>
+          <div class="page-desc">Record what you experience so you can discuss patterns with your healthcare professional</div>
         </div>
+        <button class="btn btn-primary" onclick="openModal('symptomModal')">+ Add Symptom</button>
       </div>
 
-      <div class="grid grid-2">
-
-        <div class="card">
-          <div class="card-title">
-            <h3>Add Symptom</h3>
-          </div>
-
-          <form id="symptomForm" class="form-grid">
-
-            <div class="form-group">
-              <label>Date & Time</label>
-              <input id="symDate" type="datetime-local" required>
-            </div>
-
-            <div class="form-group">
-              <label>Symptom</label>
-              <input id="symName" required placeholder="ဥပမာ — Headache">
-            </div>
-
-            <div class="form-group">
-              <label>Severity</label>
-              <select id="symSeverity">
-                <option value="Mild">Mild</option>
-                <option value="Moderate">Moderate</option>
-                <option value="Severe">Severe</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label>Possible Context</label>
-              <input id="symContext" placeholder="Food / activity / sleep / other">
-            </div>
-
-            <div class="form-group full">
-              <label>Details</label>
-              <textarea id="symDetails" placeholder="ဖြစ်ပေါ်လာပုံ၊ ဘယ်လောက်ကြာ၊ ဘာနဲ့ဆက်စပ်သလဲ"></textarea>
-            </div>
-
-            <div class="form-group full">
-              <button class="btn btn-primary" type="submit">Save Symptom</button>
-            </div>
-
-          </form>
-        </div>
-
-        <div class="card">
-          <div class="card-title">
-            <h3>Symptom Summary</h3>
-          </div>
-          <div id="symptomSummary"></div>
-        </div>
-
-      </div>
-
-      <div class="card section-space">
-        <div class="card-title">
-          <h3>Symptom History</h3>
-          <small id="symptomCount">0 records</small>
-        </div>
-        <div class="list" id="symptomList"></div>
+      <div class="card">
+        <h2>Timeline</h2>
+        <div class="timeline" id="symptomTimeline"></div>
       </div>
     </section>
 
-
-    <!-- CONDITIONS -->
-    <section class="page" id="page-conditions">
-      <div class="page-header">
+    <!-- LABS -->
+    <section class="section" id="labs">
+      <div class="page-head">
         <div>
-          <div class="eyebrow">Care Plan</div>
-          <h1>Conditions</h1>
-          <div class="page-desc">ကိုယ်တိုင် record လုပ်ထားသော health conditions နဲ့ general care guide</div>
+          <div class="eyebrow">LAB RESULTS</div>
+          <h1>Lab Result Center</h1>
+          <div class="page-desc">Store your reported test results, units and doctor notes</div>
         </div>
+        <button class="btn btn-primary" onclick="openModal('labModal')">+ Add Result</button>
       </div>
 
-      <div class="grid grid-2">
-
-        <div class="card">
-          <div class="card-title">
-            <h3>Add Condition</h3>
-            <small>Choose only confirmed conditions</small>
-          </div>
-
-          <form id="conditionForm" class="form-grid">
-
-            <div class="form-group">
-              <label>Condition</label>
-              <select id="conditionType">
-                <option value="diabetes">Diabetes</option>
-                <option value="hypertension">Hypertension</option>
-                <option value="highCholesterol">High Cholesterol</option>
-                <option value="heartDisease">Heart Disease</option>
-                <option value="kidneyDisease">Kidney Disease</option>
-                <option value="fattyLiver">Fatty Liver</option>
-                <option value="gastritis">Gastritis</option>
-                <option value="asthma">Asthma</option>
-                <option value="arthritis">Arthritis</option>
-                <option value="custom">Custom</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label>Display Name</label>
-              <input id="conditionName" placeholder="Custom ဖြစ်ရင် အမည်ထည့်ပါ">
-            </div>
-
-            <div class="form-group full">
-              <label>Personal Note</label>
-              <textarea id="conditionNote" placeholder="Diagnosis date, doctor, notes စသည်"></textarea>
-            </div>
-
-            <div class="form-group full">
-              <button class="btn btn-primary" type="submit">Save Condition</button>
-            </div>
-
-          </form>
-        </div>
-
-        <div class="card">
-          <div class="card-title">
-            <h3>Important</h3>
-          </div>
-          <div class="guide-box">
-            <h4>General health guidance</h4>
-            <ul>
-              <li>Condition-specific guide ကို general educational reference အဖြစ်သာ သုံးပါ</li>
-              <li>ကိုယ်ပိုင် diagnosis သို့မဟုတ် treatment အဖြစ် မယူဆပါနှင့်</li>
-              <li>ကိုယ်ပိုင်အခြေအနေအလိုက် ဆရာဝန်ညွှန်ကြားချက်ကို ဦးစားပေးပါ</li>
-            </ul>
-          </div>
-        </div>
-
+      <div class="grid">
+        <div class="card"><div class="stat-label">Total Results</div><div class="stat-value" id="labCount">0</div></div>
+        <div class="card"><div class="stat-label">Latest Test</div><div class="stat-value" id="latestLab" style="font-size:17px">—</div></div>
+        <div class="card"><div class="stat-label">Doctor Visits</div><div class="stat-value" id="doctorCount">0</div></div>
+        <div class="card"><div class="stat-label">Follow-ups</div><div class="stat-value gold" id="followCount">0</div></div>
       </div>
 
-      <div class="card section-space">
-        <div class="card-title">
-          <h3>My Conditions</h3>
-        </div>
-        <div id="conditionList"></div>
-      </div>
-
-      <div class="card section-space">
-        <div class="card-title">
-          <h3>Selected Condition Guide</h3>
-        </div>
-        <div id="conditionGuide"></div>
+      <div class="card section-gap">
+        <h2>Results</h2>
+        <div id="labList"></div>
       </div>
     </section>
-
 
     <!-- DOCTOR -->
-    <section class="page" id="page-doctor">
-      <div class="page-header">
+    <section class="section" id="doctor">
+      <div class="page-head">
         <div>
-          <div class="eyebrow">Medical History</div>
+          <div class="eyebrow">DOCTOR CENTER</div>
           <h1>Doctor Visits</h1>
-          <div class="page-desc">ဆရာဝန်တွေ့ဆုံမှု၊ စစ်ဆေးချက်နဲ့ follow-up ကို record လုပ်ရန်</div>
+          <div class="page-desc">Prepare questions, record visit notes and keep follow-up dates</div>
+        </div>
+        <button class="btn btn-primary" onclick="openModal('doctorModal')">+ Add Visit</button>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h2>Before Your Visit</h2>
+          <div class="check-row"><input type="checkbox" id="visitQ1"><span>List current symptoms</span></div>
+          <div class="check-row"><input type="checkbox" id="visitQ2"><span>Review current medications</span></div>
+          <div class="check-row"><input type="checkbox" id="visitQ3"><span>Bring recent measurements</span></div>
+          <div class="check-row"><input type="checkbox" id="visitQ4"><span>Write down questions</span></div>
+        </div>
+        <div class="card">
+          <h2>Next Follow-up</h2>
+          <div id="nextDoctorVisit"></div>
         </div>
       </div>
 
-      <div class="grid grid-2">
-
-        <div class="card">
-          <div class="card-title">
-            <h3>Add Doctor Visit</h3>
-          </div>
-
-          <form id="doctorForm" class="form-grid">
-
-            <div class="form-group">
-              <label>Visit Date</label>
-              <input id="doctorDate" type="date" required>
-            </div>
-
-            <div class="form-group">
-              <label>Doctor / Clinic</label>
-              <input id="doctorName" placeholder="ဆရာဝန် / ဆေးခန်း">
-            </div>
-
-            <div class="form-group full">
-              <label>Reason / Symptoms</label>
-              <textarea id="doctorReason"></textarea>
-            </div>
-
-            <div class="form-group full">
-              <label>Doctor Advice</label>
-              <textarea id="doctorAdvice"></textarea>
-            </div>
-
-            <div class="form-group">
-              <label>Tests / Results</label>
-              <input id="doctorTests">
-            </div>
-
-            <div class="form-group">
-              <label>Next Visit</label>
-              <input id="doctorNext" type="date">
-            </div>
-
-            <div class="form-group full">
-              <label>Personal Notes</label>
-              <textarea id="doctorNotes"></textarea>
-            </div>
-
-            <div class="form-group full">
-              <button class="btn btn-primary" type="submit">Save Doctor Visit</button>
-            </div>
-
-          </form>
-        </div>
-
-        <div class="card">
-          <div class="card-title">
-            <h3>Next Follow-up</h3>
-          </div>
-          <div id="nextVisitCard"></div>
-        </div>
-
-      </div>
-
-      <div class="card section-space">
-        <div class="card-title">
-          <h3>Doctor Visit History</h3>
-        </div>
-        <div class="timeline" id="doctorHistory"></div>
+      <div class="card section-gap">
+        <h2>Visit History</h2>
+        <div id="doctorList"></div>
       </div>
     </section>
 
+    <!-- EMERGENCY -->
+    <section class="section" id="emergency">
+      <div class="page-head">
+        <div>
+          <div class="eyebrow">EMERGENCY HEALTH CARD</div>
+          <h1>Emergency Information</h1>
+          <div class="page-desc">Keep essential information ready for situations where quick access matters</div>
+        </div>
+        <button class="btn btn-primary" onclick="saveEmergency()">Save Card</button>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h2>Personal Medical ID</h2>
+          <div class="form-grid">
+            <div class="field"><label>Name</label><input id="emName"></div>
+            <div class="field"><label>Blood Type</label><input id="emBlood" placeholder="e.g. O+"></div>
+            <div class="field full"><label>Allergies</label><textarea id="emAllergy" placeholder="Enter known allergies"></textarea></div>
+            <div class="field full"><label>Conditions</label><textarea id="emConditions" placeholder="Important conditions"></textarea></div>
+            <div class="field full"><label>Current Medications</label><textarea id="emMeds" placeholder="Current medications"></textarea></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Emergency Contacts</h2>
+          <div class="form-grid">
+            <div class="field"><label>Emergency Contact</label><input id="emContact"></div>
+            <div class="field"><label>Phone</label><input id="emPhone"></div>
+            <div class="field"><label>Doctor</label><input id="emDoctor"></div>
+            <div class="field"><label>Doctor Phone</label><input id="emDoctorPhone"></div>
+            <div class="field full"><label>Important Note</label><textarea id="emNote"></textarea></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card section-gap">
+        <div class="alert alert-danger">
+          Emergency Card is for quick information access only. In an emergency, contact local emergency medical services or seek urgent medical care
+        </div>
+      </div>
+    </section>
 
     <!-- GOALS -->
-    <section class="page" id="page-goals">
-      <div class="page-header">
+    <section class="section" id="goals">
+      <div class="page-head">
         <div>
-          <div class="eyebrow">Life Planning</div>
-          <h1>Goals</h1>
-          <div class="page-desc">ဘဝရည်မှန်းချက်တွေကို progress နဲ့ deadline အလိုက် စီမံရန်</div>
+          <div class="eyebrow">GOALS</div>
+          <h1>Life Goals</h1>
+          <div class="page-desc">Turn your remaining time into clear actions</div>
         </div>
+        <button class="btn btn-primary" onclick="openModal('goalModal')">+ Add Goal</button>
       </div>
-
-      <div class="grid grid-2">
-
-        <div class="card">
-          <div class="card-title">
-            <h3>Add Goal</h3>
-          </div>
-
-          <form id="goalForm" class="form-grid">
-
-            <div class="form-group">
-              <label>Goal</label>
-              <input id="goalName" required placeholder="My goal">
-            </div>
-
-            <div class="form-group">
-              <label>Category</label>
-              <select id="goalCategory">
-                <option>Life</option>
-                <option>Health</option>
-                <option>Money</option>
-                <option>Career</option>
-                <option>Family</option>
-                <option>Learning</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label>Deadline</label>
-              <input id="goalDeadline" type="date">
-            </div>
-
-            <div class="form-group">
-              <label>Progress %</label>
-              <input id="goalProgress" type="number" min="0" max="100" value="0">
-            </div>
-
-            <div class="form-group full">
-              <button class="btn btn-primary" type="submit">Save Goal</button>
-            </div>
-
-          </form>
-        </div>
-
-        <div class="card">
-          <div class="card-title">
-            <h3>Goal Progress</h3>
-          </div>
-          <div id="goalSummary"></div>
-        </div>
-
-      </div>
-
-      <div class="card section-space">
-        <div class="card-title">
-          <h3>My Goals</h3>
-        </div>
-        <div class="list" id="goalList"></div>
+      <div class="card">
+        <div id="goalList"></div>
       </div>
     </section>
 
+    <!-- IMPORTANT -->
+    <section class="section" id="important">
+      <div class="page-head">
+        <div>
+          <div class="eyebrow">IMPORTANT DAYS</div>
+          <h1>Important Days</h1>
+          <div class="page-desc">Birthdays, anniversaries, milestones and personal events</div>
+        </div>
+        <button class="btn btn-primary" onclick="openModal('importantModal')">+ Add Day</button>
+      </div>
+      <div class="card">
+        <div id="importantList"></div>
+      </div>
+    </section>
 
     <!-- JOURNAL -->
-    <section class="page" id="page-journal">
-      <div class="page-header">
+    <section class="section" id="journal">
+      <div class="page-head">
         <div>
-          <div class="eyebrow">Daily Reflection</div>
-          <h1>Journal</h1>
-          <div class="page-desc">ဒီနေ့ရဲ့ mood, gratitude, win နဲ့ lesson ကို မှတ်တမ်းတင်ရန်</div>
+          <div class="eyebrow">JOURNAL</div>
+          <h1>Life Journal</h1>
+          <div class="page-desc">Capture your wins, gratitude, lessons and future notes</div>
         </div>
+        <button class="btn btn-primary" onclick="openModal('journalModal')">+ Add Entry</button>
       </div>
-
-      <div class="grid grid-2">
-
-        <div class="card">
-          <div class="card-title">
-            <h3>Today's Journal</h3>
-          </div>
-
-          <form id="journalForm" class="form-grid">
-
-            <div class="form-group">
-              <label>Mood</label>
-              <select id="journalMood">
-                <option>Great</option>
-                <option>Good</option>
-                <option>Normal</option>
-                <option>Low</option>
-                <option>Very Low</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label>Date</label>
-              <input id="journalDate" type="date" required>
-            </div>
-
-            <div class="form-group full">
-              <label>Today's Win</label>
-              <textarea id="journalWin"></textarea>
-            </div>
-
-            <div class="form-group full">
-              <label>Gratitude</label>
-              <textarea id="journalGratitude"></textarea>
-            </div>
-
-            <div class="form-group full">
-              <label>Lesson Learned</label>
-              <textarea id="journalLesson"></textarea>
-            </div>
-
-            <div class="form-group full">
-              <label>Future Note</label>
-              <textarea id="journalFuture"></textarea>
-            </div>
-
-            <div class="form-group full">
-              <button class="btn btn-primary" type="submit">Save Journal</button>
-            </div>
-
-          </form>
-        </div>
-
-        <div class="card">
-          <div class="card-title">
-            <h3>Journal History</h3>
-          </div>
-          <div class="timeline" id="journalHistory"></div>
-        </div>
-
+      <div class="card">
+        <div id="journalList"></div>
       </div>
     </section>
 
-
-    <!-- IMPORTANT DAYS -->
-    <section class="page" id="page-important">
-      <div class="page-header">
+    <!-- MONEY -->
+    <section class="section" id="money">
+      <div class="page-head">
         <div>
-          <div class="eyebrow">Life Events</div>
-          <h1>Important Days</h1>
-          <div class="page-desc">မွေးနေ့၊ anniversary နဲ့ ကိုယ်ပိုင်အရေးကြီးနေ့များ</div>
+          <div class="eyebrow">MONEY</div>
+          <h1>Personal Money</h1>
+          <div class="page-desc">Track simple income, expenses and savings progress</div>
         </div>
+        <button class="btn btn-primary" onclick="openModal('moneyModal')">+ Add Record</button>
       </div>
 
-      <div class="grid grid-2">
-
-        <div class="card">
-          <div class="card-title">
-            <h3>Add Important Day</h3>
-          </div>
-
-          <form id="importantForm" class="form-grid">
-
-            <div class="form-group">
-              <label>Event Name</label>
-              <input id="importantName" required>
-            </div>
-
-            <div class="form-group">
-              <label>Category</label>
-              <select id="importantCategory">
-                <option>Birthday</option>
-                <option>Anniversary</option>
-                <option>Family</option>
-                <option>Milestone</option>
-                <option>Custom</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label>Date</label>
-              <input id="importantDate" type="date" required>
-            </div>
-
-            <div class="form-group">
-              <label>Repeat Yearly</label>
-              <select id="importantRepeat">
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-              </select>
-            </div>
-
-            <div class="form-group full">
-              <button class="btn btn-primary" type="submit">Save Event</button>
-            </div>
-
-          </form>
-        </div>
-
-        <div class="card">
-          <div class="card-title">
-            <h3>Upcoming</h3>
-          </div>
-          <div id="importantUpcoming"></div>
-        </div>
-
+      <div class="grid">
+        <div class="card"><div class="stat-label">Income</div><div class="stat-value green" id="moneyIncome">0</div></div>
+        <div class="card"><div class="stat-label">Expense</div><div class="stat-value red" id="moneyExpense">0</div></div>
+        <div class="card"><div class="stat-label">Balance</div><div class="stat-value gold" id="moneyBalance">0</div></div>
+        <div class="card"><div class="stat-label">Records</div><div class="stat-value" id="moneyCount">0</div></div>
       </div>
 
-      <div class="card section-space">
-        <div class="card-title">
-          <h3>Important Days</h3>
-        </div>
-        <div class="list" id="importantList"></div>
+      <div class="card section-gap">
+        <h2>Money Records</h2>
+        <div id="moneyList"></div>
       </div>
     </section>
-
 
     <!-- SETTINGS -->
-    <section class="page" id="page-settings">
-      <div class="page-header">
+    <section class="section" id="settings">
+      <div class="page-head">
         <div>
-          <div class="eyebrow">System</div>
+          <div class="eyebrow">SETTINGS & PRIVACY</div>
           <h1>Settings</h1>
-          <div class="page-desc">Profile, data backup နဲ့ app settings</div>
+          <div class="page-desc">Manage your profile and local LIFE 75 data</div>
         </div>
       </div>
 
-      <div class="grid grid-2">
-
+      <div class="grid-2">
         <div class="card">
-          <div class="card-title">
-            <h3>My Profile</h3>
+          <h2>Profile</h2>
+          <div class="form-grid">
+            <div class="field full"><label>Your Name</label><input id="setName"></div>
+            <div class="field"><label>Date of Birth</label><input type="date" id="setDob"></div>
+            <div class="field"><label>Life Target Age</label><input type="number" id="setTarget" min="1" max="120"></div>
+            <div class="field full"><label>Personal Note</label><textarea id="setNote"></textarea></div>
           </div>
-
-          <form id="profileForm" class="form-grid">
-
-            <div class="form-group">
-              <label>Name</label>
-              <input id="profileName">
-            </div>
-
-            <div class="form-group">
-              <label>Date of Birth</label>
-              <input id="profileDob" type="date">
-            </div>
-
-            <div class="form-group full">
-              <button class="btn btn-primary" type="submit">Save Profile</button>
-            </div>
-
-          </form>
+          <button class="btn btn-primary" style="margin-top:12px" onclick="saveSettings()">Save Profile</button>
         </div>
 
         <div class="card">
-          <div class="card-title">
-            <h3>Data Management</h3>
+          <h2>Privacy & Backup</h2>
+          <div class="alert">
+            LIFE 75 V8.1 stores records in your browser's local storage. Browser/device reset or clearing site data may remove records
           </div>
-
-          <div class="actions">
-            <button class="btn btn-primary" onclick="exportData()">Export Backup</button>
-            <button class="btn btn-danger" onclick="resetAllData()">Reset All Data</button>
-          </div>
-
-          <div class="guide-box section-space">
-            <h4>Local Storage</h4>
-            <ul>
-              <li>Data ကို browser localStorage ထဲမှာ သိမ်းထားပါတယ်</li>
-              <li>Browser data clear လုပ်ရင် record ပျောက်နိုင်ပါတယ်</li>
-              <li>အရေးကြီး data များအတွက် Export Backup ကို အသုံးပြုပါ</li>
-            </ul>
+          <div class="actions" style="margin-top:14px">
+            <button class="btn" onclick="exportData()">Export Backup</button>
+            <button class="btn" onclick="document.getElementById('importFile').click()">Import Backup</button>
+            <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
+            <button class="btn btn-danger" onclick="resetData()">Reset All Data</button>
           </div>
         </div>
-
       </div>
 
-      <div class="card section-space">
-        <div class="card-title">
-          <h3>LIFE 75 V8.1</h3>
-        </div>
-        <div class="muted" style="font-size:12px">
-          Professional Life & Health OS
+      <div class="card section-gap">
+        <h2>About LIFE 75</h2>
+        <div class="page-desc">
+          LIFE 75 is a personal time, health and life-management tool. It is not a medical diagnostic system and does not replace professional medical care
         </div>
       </div>
     </section>
 
-    <div class="footer-note">
-      LIFE 75 V8.1 • Personal Life & Health Tracking System
-    </div>
-
-  </main>
+    <footer>LIFE 75 V8.1 · Personal Life & Health OS</footer>
+  </div>
+</main>
 </div>
 
+<div class="toast" id="toast"></div>
+
+<!-- CONDITION MODAL -->
+<div class="modal" id="conditionModal">
+<div class="modal-box">
+  <div class="modal-head"><h2>Add Health Condition</h2><button class="close" onclick="closeModal('conditionModal')">×</button></div>
+  <div class="form-grid">
+    <div class="field"><label>Condition</label>
+      <select id="conditionName">
+        <option value="">Select</option>
+        <option>Diabetes</option>
+        <option>Hypertension</option>
+        <option>High Cholesterol</option>
+        <option>Heart Disease</option>
+        <option>Kidney Disease</option>
+        <option>Fatty Liver</option>
+        <option>Gastritis</option>
+        <option>Asthma</option>
+        <option>Arthritis</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="field"><label>Since</label><input type="date" id="conditionSince"></div>
+    <div class="field full"><label>Condition / Doctor Note</label><textarea id="conditionNote"></textarea></div>
+  </div>
+  <div class="actions" style="margin-top:14px">
+    <button class="btn" onclick="closeModal('conditionModal')">Cancel</button>
+    <button class="btn btn-primary" onclick="addCondition()">Save Condition</button>
+  </div>
+</div>
+</div>
+
+<!-- MED MODAL -->
+<div class="modal" id="medModal">
+<div class="modal-box">
+  <div class="modal-head"><h2>Add Medication</h2><button class="close" onclick="closeModal('medModal')">×</button></div>
+  <div class="form-grid">
+    <div class="field"><label>Medication Name</label><input id="medName"></div>
+    <div class="field"><label>Dose</label><input id="medDose" placeholder="As prescribed"></div>
+    <div class="field"><label>Frequency</label>
+      <select id="medFrequency">
+        <option>Once daily</option>
+        <option>Twice daily</option>
+        <option>Three times daily</option>
+        <option>As prescribed</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="field"><label>Time</label><input type="time" id="medTime"></div>
+    <div class="field"><label>Start Date</label><input type="date" id="medStart"></div>
+    <div class="field"><label>End Date</label><input type="date" id="medEnd"></div>
+    <div class="field"><label>Before / After Meal</label>
+      <select id="medMeal">
+        <option>Not specified</option>
+        <option>Before meal</option>
+        <option>After meal</option>
+        <option>With meal</option>
+      </select>
+    </div>
+    <div class="field"><label>Refill Date</label><input type="date" id="medRefill"></div>
+    <div class="field full"><label>Notes</label><textarea id="medNote"></textarea></div>
+  </div>
+  <div class="actions" style="margin-top:14px">
+    <button class="btn" onclick="closeModal('medModal')">Cancel</button>
+    <button class="btn btn-primary" onclick="addMedication()">Save Medication</button>
+  </div>
+</div>
+</div>
+
+<!-- VITAL MODAL -->
+<div class="modal" id="vitalModal">
+<div class="modal-box">
+  <div class="modal-head"><h2>Add Vitals</h2><button class="close" onclick="closeModal('vitalModal')">×</button></div>
+  <div class="form-grid">
+    <div class="field"><label>Date</label><input type="date" id="vitalDate"></div>
+    <div class="field"><label>Time</label><input type="time" id="vitalTime"></div>
+    <div class="field"><label>Weight (kg)</label><input type="number" step="0.1" id="vitalWeight"></div>
+    <div class="field"><label>Heart Rate (bpm)</label><input type="number" id="vitalHR"></div>
+    <div class="field"><label>Blood Pressure</label><input id="vitalBP" placeholder="e.g. 120/80"></div>
+    <div class="field"><label>Blood Sugar</label><input id="vitalSugar"></div>
+    <div class="field"><label>SpO₂ (%)</label><input type="number" id="vitalSpO2"></div>
+    <div class="field"><label>Temperature</label><input type="number" step="0.1" id="vitalTemp"></div>
+    <div class="field"><label>Respiratory Rate</label><input type="number" id="vitalResp"></div>
+    <div class="field full"><label>Note</label><textarea id="vitalNote"></textarea></div>
+  </div>
+  <div class="actions" style="margin-top:14px">
+    <button class="btn" onclick="closeModal('vitalModal')">Cancel</button>
+    <button class="btn btn-primary" onclick="addVital()">Save Vitals</button>
+  </div>
+</div>
+</div>
+
+<!-- SYMPTOM MODAL -->
+<div class="modal" id="symptomModal">
+<div class="modal-box">
+  <div class="modal-head"><h2>Add Symptom</h2><button class="close" onclick="closeModal('symptomModal')">×</button></div>
+  <div class="form-grid">
+    <div class="field"><label>Symptom</label>
+      <select id="symptomName">
+        <option>Headache</option>
+        <option>Dizziness</option>
+        <option>Cough</option>
+        <option>Fever</option>
+        <option>Stomach pain</option>
+        <option>Chest discomfort</option>
+        <option>Fatigue</option>
+        <option>Sleep problem</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="field"><label>Severity 1–10</label><input type="number" min="1" max="10" id="symptomSeverity"></div>
+    <div class="field"><label>Date</label><input type="date" id="symptomDate"></div>
+    <div class="field"><label>Time</label><input type="time" id="symptomTime"></div>
+    <div class="field full"><label>Notes / What happened</label><textarea id="symptomNote"></textarea></div>
+  </div>
+  <div class="actions" style="margin-top:14px">
+    <button class="btn" onclick="closeModal('symptomModal')">Cancel</button>
+    <button class="btn btn-primary" onclick="addSymptom()">Save Symptom</button>
+  </div>
+</div>
+</div>
+
+<!-- LAB MODAL -->
+<div class="modal" id="labModal">
+<div class="modal-box">
+  <div class="modal-head"><h2>Add Lab Result</h2><button class="close" onclick="closeModal('labModal')">×</button></div>
+  <div class="form-grid">
+    <div class="field"><label>Test</label>
+      <select id="labTest">
+        <option>Blood Sugar</option>
+        <option>HbA1c</option>
+        <option>Total Cholesterol</option>
+        <option>LDL</option>
+        <option>HDL</option>
+        <option>Triglycerides</option>
+        <option>Creatinine</option>
+        <option>Uric Acid</option>
+        <option>Liver Function</option>
+        <option>Kidney Function</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="field"><label>Result</label><input id="labResult"></div>
+    <div class="field"><label>Unit</label><input id="labUnit" placeholder="mg/dL, %, etc"></div>
+    <div class="field"><label>Date</label><input type="date" id="labDate"></div>
+    <div class="field full"><label>Doctor / Lab Note</label><textarea id="labNote"></textarea></div>
+  </div>
+  <div class="actions" style="margin-top:14px">
+    <button class="btn" onclick="closeModal('labModal')">Cancel</button>
+    <button class="btn btn-primary" onclick="addLab()">Save Result</button>
+  </div>
+</div>
+</div>
+
+<!-- DOCTOR MODAL -->
+<div class="modal" id="doctorModal">
+<div class="modal-box">
+  <div class="modal-head"><h2>Add Doctor Visit</h2><button class="close" onclick="closeModal('doctorModal')">×</button></div>
+  <div class="form-grid">
+    <div class="field"><label>Doctor</label><input id="doctorName"></div>
+    <div class="field"><label>Specialty</label><input id="doctorSpecialty"></div>
+    <div class="field"><label>Visit Date</label><input type="date" id="doctorDate"></div>
+    <div class="field"><label>Next Follow-up</label><input type="date" id="doctorFollow"></div>
+    <div class="field full"><label>Questions / Symptoms</label><textarea id="doctorQuestions"></textarea></div>
+    <div class="field full"><label>Doctor Advice</label><textarea id="doctorAdvice"></textarea></div>
+    <div class="field full"><label>Tests / Changes / Notes</label><textarea id="doctorNotes"></textarea></div>
+  </div>
+  <div class="actions" style="margin-top:14px">
+    <button class="btn" onclick="closeModal('doctorModal')">Cancel</button>
+    <button class="btn btn-primary" onclick="addDoctorVisit()">Save Visit</button>
+  </div>
+</div>
+</div>
+
+<!-- GOAL MODAL -->
+<div class="modal" id="goalModal">
+<div class="modal-box">
+  <div class="modal-head"><h2>Add Goal</h2><button class="close" onclick="closeModal('goalModal')">×</button></div>
+  <div class="form-grid">
+    <div class="field full"><label>Goal</label><input id="goalName"></div>
+    <div class="field"><label>Category</label>
+      <select id="goalCategory">
+        <option>Life</option>
+        <option>Health</option>
+        <option>Career</option>
+        <option>Money</option>
+        <option>Family</option>
+        <option>Personal</option>
+      </select>
+    </div>
+    <div class="field"><label>Progress %</label><input type="number" min="0" max="100" id="goalProgress" value="0"></div>
+    <div class="field"><label>Deadline</label><input type="date" id="goalDeadline"></div>
+    <div class="field full"><label>Note</label><textarea id="goalNote"></textarea></div>
+  </div>
+  <div class="actions" style="margin-top:14px">
+    <button class="btn" onclick="closeModal('goalModal')">Cancel</button>
+    <button class="btn btn-primary" onclick="addGoal()">Save Goal</button>
+  </div>
+</div>
+</div>
+
+<!-- IMPORTANT MODAL -->
+<div class="modal" id="importantModal">
+<div class="modal-box">
+  <div class="modal-head"><h2>Add Important Day</h2><button class="close" onclick="closeModal('importantModal')">×</button></div>
+  <div class="form-grid">
+    <div class="field full"><label>Event</label><input id="importantName"></div>
+    <div class="field"><label>Type</label>
+      <select id="importantType">
+        <option>Birthday</option>
+        <option>Anniversary</option>
+        <option>Family</option>
+        <option>Milestone</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="field"><label>Date</label><input type="date" id="importantDate"></div>
+    <div class="field full"><label>Note</label><textarea id="importantNote"></textarea></div>
+  </div>
+  <div class="actions" style="margin-top:14px">
+    <button class="btn" onclick="closeModal('importantModal')">Cancel</button>
+    <button class="btn btn-primary" onclick="addImportant()">Save Day</button>
+  </div>
+</div>
+</div>
+
+<!-- JOURNAL MODAL -->
+<div class="modal" id="journalModal">
+<div class="modal-box">
+  <div class="modal-head"><h2>New Journal Entry</h2><button class="close" onclick="closeModal('journalModal')">×</button></div>
+  <div class="form-grid">
+    <div class="field"><label>Date</label><input type="date" id="journalDate"></div>
+    <div class="field"><label>Mood 1–10</label><input type="number" min="1" max="10" id="journalMood"></div>
+    <div class="field full"><label>Today's Win</label><textarea id="journalWin"></textarea></div>
+    <div class="field full"><label>Gratitude</label><textarea id="journalGratitude"></textarea></div>
+    <div class="field full"><label>Lesson Learned</label><textarea id="journalLesson"></textarea></div>
+    <div class="field full"><label>Future Note</label><textarea id="journalFuture"></textarea></div>
+  </div>
+  <div class="actions" style="margin-top:14px">
+    <button class="btn" onclick="closeModal('journalModal')">Cancel</button>
+    <button class="btn btn-primary" onclick="addJournal()">Save Entry</button>
+  </div>
+</div>
+</div>
+
+<!-- MONEY MODAL -->
+<div class="modal" id="moneyModal">
+<div class="modal-box">
+  <div class="modal-head"><h2>Add Money Record</h2><button class="close" onclick="closeModal('moneyModal')">×</button></div>
+  <div class="form-grid">
+    <div class="field"><label>Type</label>
+      <select id="moneyType"><option>Income</option><option>Expense</option></select>
+    </div>
+    <div class="field"><label>Amount</label><input type="number" step="0.01" id="moneyAmount"></div>
+    <div class="field"><label>Date</label><input type="date" id="moneyDate"></div>
+    <div class="field"><label>Category</label><input id="moneyCategory" placeholder="Salary, Food, etc"></div>
+    <div class="field full"><label>Note</label><textarea id="moneyNote"></textarea></div>
+  </div>
+  <div class="actions" style="margin-top:14px">
+    <button class="btn" onclick="closeModal('moneyModal')">Cancel</button>
+    <button class="btn btn-primary" onclick="addMoney()">Save Record</button>
+  </div>
+</div>
+</div>
 
 <script>
-"use strict";
-
-/* =========================================================
-   LIFE 75 V8.1
-   Single-file Local Health & Life OS
-========================================================= */
-
 const STORAGE_KEY = "life75_v81_health_pro";
+
+const HEALTH_GUIDES = {
+  "Diabetes":{
+    avoid:["Excess sugary drinks and foods","Skipping prescribed care or monitoring","Self-changing medication doses"],
+    do:["Follow the care plan given by your healthcare professional","Track glucose as instructed","Keep regular appointments"],
+    foods:["Use a balanced eating pattern appropriate for your care plan","Prefer vegetables, fiber-rich foods and appropriate portions"],
+    monitor:"Blood glucose and HbA1c according to your clinician's advice",
+    warning:"Seek urgent medical help for severe symptoms or a serious glucose-related emergency"
+  },
+  "Hypertension":{
+    avoid:["Excess sodium","Stopping prescribed medication without medical advice","Ignoring repeated high readings"],
+    do:["Monitor blood pressure as advised","Follow prescribed treatment","Discuss repeated abnormal readings with your clinician"],
+    foods:["Emphasize a balanced diet with vegetables and appropriate portions"],
+    monitor:"Blood pressure readings and follow-up schedule",
+    warning:"Severe symptoms with very abnormal blood pressure require urgent medical assessment"
+  },
+  "High Cholesterol":{
+    avoid:["Ignoring follow-up testing","Stopping prescribed treatment without medical advice"],
+    do:["Follow your clinician's plan","Track lipid tests when requested","Maintain regular physical activity if appropriate"],
+    foods:["A balanced eating pattern with vegetables, fiber-rich foods and appropriate fats"],
+    monitor:"Lipid panel according to your clinician's schedule",
+    warning:"Urgent chest pain, severe breathing difficulty or other emergency symptoms need immediate care"
+  },
+  "Heart Disease":{
+    avoid:["Ignoring new or worsening symptoms","Stopping prescribed treatment without medical advice"],
+    do:["Follow your cardiology/care plan","Attend follow-up appointments","Know your personal emergency instructions"],
+    foods:["Follow the eating plan recommended for your condition"],
+    monitor:"Vitals and follow-up testing according to your care plan",
+    warning:"Severe chest discomfort, severe shortness of breath, fainting or other emergency symptoms require urgent care"
+  },
+  "Kidney Disease":{
+    avoid:["Self-starting supplements or medicines without checking with a clinician","Ignoring changes in urine or swelling"],
+    do:["Follow the kidney-care plan","Attend recommended blood and urine testing","Ask before changing diet or medicines"],
+    foods:["Follow the individualized nutrition plan provided by your healthcare team"],
+    monitor:"Kidney function and other tests according to clinician advice",
+    warning:"Severe breathing difficulty, confusion, severe weakness or other serious symptoms need urgent medical care"
+  },
+  "Fatty Liver":{
+    avoid:["Excess alcohol if your clinician has advised avoidance","Unsupervised supplements or medication changes"],
+    do:["Follow the treatment and lifestyle plan recommended by your clinician","Attend follow-up testing"],
+    foods:["Use a balanced eating pattern with appropriate portions"],
+    monitor:"Liver-related tests according to your care plan",
+    warning:"Yellowing of skin/eyes, severe abdominal symptoms or other serious symptoms need medical assessment"
+  },
+  "Gastritis":{
+    avoid:["Foods or drinks that clearly worsen your symptoms","Self-changing prescribed medication"],
+    do:["Follow the treatment plan","Record symptom triggers","Discuss persistent symptoms with your clinician"],
+    foods:["Choose foods that you personally tolerate and that fit your care plan"],
+    monitor:"Symptoms, triggers and follow-up if persistent",
+    warning:"Vomiting blood, black stools, severe pain or fainting require urgent medical attention"
+  },
+  "Asthma":{
+    avoid:["Known personal triggers","Ignoring worsening breathing symptoms"],
+    do:["Follow your asthma action plan","Keep prescribed rescue/treatment medicines available as instructed","Track triggers and symptoms"],
+    foods:["No universal special diet; follow your clinician's advice"],
+    monitor:"Symptoms, triggers and peak flow if your clinician has recommended it",
+    warning:"Severe difficulty breathing or inability to speak normally because of breathing difficulty requires emergency care"
+  },
+  "Arthritis":{
+    avoid:["Overloading a painful joint","Ignoring significant swelling or injury"],
+    do:["Follow your clinician's activity and treatment plan","Use appropriate movement as advised","Track pain and function"],
+    foods:["Maintain a balanced eating pattern appropriate for your health needs"],
+    monitor:"Pain, function and flare patterns",
+    warning:"Sudden severe joint symptoms with fever or serious illness need prompt medical assessment"
+  }
+};
 
 const defaultState = {
   profile:{
     name:"",
-    dob:""
+    dob:"",
+    targetAge:75,
+    note:""
   },
-
   conditions:[],
   medications:[],
   vitals:[],
   symptoms:[],
+  labs:[],
   doctorVisits:[],
   goals:[],
-  journals:[],
   importantDays:[],
-
-  healthChecks:{
-    medication:false,
-    hydration:false,
+  journals:[],
+  money:[],
+  emergency:{
+    name:"",
+    blood:"",
+    allergy:"",
+    conditions:"",
+    meds:"",
+    contact:"",
+    phone:"",
+    doctor:"",
+    doctorPhone:"",
+    note:""
+  },
+  checklist:{
+    meds:false,
+    water:false,
     food:false,
     activity:false,
-    symptoms:false
-  },
-
-  selectedCondition:null
+    symptoms:false,
+    sleep:false
+  }
 };
 
 let state = loadState();
 
+function clone(obj){
+  return JSON.parse(JSON.stringify(obj));
+}
+
 function loadState(){
   try{
     const raw = localStorage.getItem(STORAGE_KEY);
-
-    if(!raw){
-      return JSON.parse(JSON.stringify(defaultState));
-    }
-
+    if(!raw) return clone(defaultState);
     const parsed = JSON.parse(raw);
-
-    return {
-      ...JSON.parse(JSON.stringify(defaultState)),
-      ...parsed,
-      profile:{
-        ...defaultState.profile,
-        ...(parsed.profile || {})
-      },
-      healthChecks:{
-        ...defaultState.healthChecks,
-        ...(parsed.healthChecks || {})
-      }
-    };
-  }catch(error){
-    console.error(error);
-    return JSON.parse(JSON.stringify(defaultState));
+    return mergeDeep(clone(defaultState),parsed);
+  }catch(e){
+    return clone(defaultState);
   }
 }
 
-function saveState(){
+function mergeDeep(base,extra){
+  Object.keys(extra || {}).forEach(k=>{
+    if(
+      base[k] &&
+      typeof base[k]==="object" &&
+      !Array.isArray(base[k]) &&
+      typeof extra[k]==="object" &&
+      !Array.isArray(extra[k])
+    ){
+      base[k]=mergeDeep(base[k],extra[k]);
+    }else{
+      base[k]=extra[k];
+    }
+  });
+  return base;
+}
+
+function save(){
   localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+  renderAll();
 }
 
 function uid(){
   return Date.now().toString(36)+Math.random().toString(36).slice(2,8);
 }
 
-function escapeHTML(value){
+function esc(value){
   return String(value ?? "")
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
@@ -2178,1948 +1506,1038 @@ function escapeHTML(value){
 }
 
 function todayISO(){
-  const d = new Date();
-  return localDateInput(d);
+  const d=new Date();
+  const y=d.getFullYear();
+  const m=String(d.getMonth()+1).padStart(2,"0");
+  const day=String(d.getDate()).padStart(2,"0");
+  return `${y}-${m}-${day}`;
 }
 
-function localDateInput(d){
-  const year = d.getFullYear();
-  const month = String(d.getMonth()+1).padStart(2,"0");
-  const day = String(d.getDate()).padStart(2,"0");
-
-  return `${year}-${month}-${day}`;
+function nowTime(){
+  const d=new Date();
+  return `${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}`;
 }
 
-function localDateTimeInput(d){
-  const year = d.getFullYear();
-  const month = String(d.getMonth()+1).padStart(2,"0");
-  const day = String(d.getDate()).padStart(2,"0");
-  const hours = String(d.getHours()).padStart(2,"0");
-  const minutes = String(d.getMinutes()).padStart(2,"0");
-
-  return `${year}-${month}-${day}T${hours}:${minutes}`;
+function formatDate(value){
+  if(!value) return "—";
+  const d=new Date(value+"T00:00:00");
+  if(isNaN(d)) return value;
+  return d.toLocaleDateString(undefined,{year:"numeric",month:"short",day:"numeric"});
 }
 
-function formatDate(dateString){
-  if(!dateString) return "—";
+function formatMoney(value){
+  return Number(value||0).toLocaleString(undefined,{maximumFractionDigits:2});
+}
 
-  const d = new Date(dateString+"T00:00:00");
+function showToast(msg){
+  const t=document.getElementById("toast");
+  t.textContent=msg;
+  t.classList.add("show");
+  clearTimeout(window.__toast);
+  window.__toast=setTimeout(()=>t.classList.remove("show"),2200);
+}
 
-  if(Number.isNaN(d.getTime())){
-    return escapeHTML(dateString);
-  }
+function openModal(id){
+  const m=document.getElementById(id);
+  if(m) m.classList.add("show");
 
-  return d.toLocaleDateString(undefined,{
-    year:"numeric",
-    month:"short",
-    day:"numeric"
+  const dateInputs=m?.querySelectorAll('input[type="date"]') || [];
+  dateInputs.forEach(input=>{
+    if(!input.value) input.value=todayISO();
+  });
+
+  const timeInputs=m?.querySelectorAll('input[type="time"]') || [];
+  timeInputs.forEach(input=>{
+    if(!input.value) input.value=nowTime();
   });
 }
 
-function formatDateTime(dateString){
-  if(!dateString) return "—";
+function closeModal(id){
+  const m=document.getElementById(id);
+  if(m) m.classList.remove("show");
+}
 
-  const d = new Date(dateString);
-
-  if(Number.isNaN(d.getTime())){
-    return escapeHTML(dateString);
-  }
-
-  return d.toLocaleString(undefined,{
-    year:"numeric",
-    month:"short",
-    day:"numeric",
-    hour:"numeric",
-    minute:"2-digit"
+function resetForm(ids){
+  ids.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.value="";
   });
 }
 
-function daysBetween(a,b){
-  const ms = 24*60*60*1000;
-  return Math.ceil((new Date(b)-new Date(a))/ms);
-}
+function showSection(id){
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+  const target=document.getElementById(id);
+  if(target) target.classList.add("active");
 
-function clamp(n,min,max){
-  return Math.min(max,Math.max(min,n));
-}
-
-function addYearsSafe(date,years){
-  const d = new Date(date);
-  const month = d.getMonth();
-  const day = d.getDate();
-
-  d.setFullYear(d.getFullYear()+years);
-
-  if(month === 1 && day === 29 && d.getMonth() !== 1){
-    d.setDate(0);
-  }
-
-  return d;
-}
-
-function calculateAge(dob){
-  if(!dob){
-    return null;
-  }
-
-  const birth = new Date(dob+"T00:00:00");
-  const now = new Date();
-
-  if(Number.isNaN(birth.getTime()) || birth>now){
-    return null;
-  }
-
-  let years = now.getFullYear()-birth.getFullYear();
-  let months = now.getMonth()-birth.getMonth();
-  let days = now.getDate()-birth.getDate();
-
-  if(days<0){
-    months--;
-
-    const prevMonth = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      0
-    );
-
-    days += prevMonth.getDate();
-  }
-
-  if(months<0){
-    years--;
-    months += 12;
-  }
-
-  return {
-    years,
-    months,
-    days,
-    birth,
-    now
-  };
-}
-
-function ageText(age){
-  if(!age) return "Set DOB";
-
-  return `${age.years}y ${age.months}m ${age.days}d`;
-}
-
-function diffLifeParts(dob){
-  if(!dob){
-    return null;
-  }
-
-  const birth = new Date(dob+"T00:00:00");
-  const target = addYearsSafe(birth,75);
-  const now = new Date();
-
-  if(now<=birth){
-    return null;
-  }
-
-  const age = calculateAge(dob);
-
-  if(!age){
-    return null;
-  }
-
-  const livedMs = Math.max(0,now-birth);
-  const remainMs = Math.max(0,target-now);
-
-  const livedSeconds = Math.floor(livedMs/1000);
-  const remainingSeconds = Math.floor(remainMs/1000);
-
-  return {
-    age,
-    target,
-    livedYears:age.years,
-    livedMonths:age.months,
-    livedDays:age.days,
-    livedHours:Math.floor(livedSeconds/3600),
-    livedMinutes:Math.floor(livedSeconds/60),
-    livedSeconds,
-
-    remainDays:Math.floor(remainingSeconds/86400),
-    remainHours:Math.floor((remainingSeconds%86400)/3600),
-    remainMinutes:Math.floor((remainingSeconds%3600)/60),
-    remainSeconds:remainingSeconds%60,
-
-    totalLivedSeconds:livedSeconds,
-    totalRemainingSeconds:remainingSeconds
-  };
-}
-
-function lifeProgress(dob){
-  const parts = diffLifeParts(dob);
-
-  if(!parts) return 0;
-
-  const total = parts.target - parts.age.birth;
-  const elapsed = Date.now()-parts.age.birth.getTime();
-
-  return clamp((elapsed/total)*100,0,100);
-}
-
-function currentDayProgress(){
-  const now = new Date();
-
-  const start = new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate()
-  );
-
-  const end = new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate()+1
-  );
-
-  return clamp(
-    ((now-start)/(end-start))*100,
-    0,
-    100
-  );
-}
-
-function currentMonthProgress(){
-  const now = new Date();
-
-  const start = new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    1
-  );
-
-  const end = new Date(
-    now.getFullYear(),
-    now.getMonth()+1,
-    1
-  );
-
-  return clamp(
-    ((now-start)/(end-start))*100,
-    0,
-    100
-  );
-}
-
-function currentYearProgress(){
-  const now = new Date();
-
-  const start = new Date(
-    now.getFullYear(),
-    0,
-    1
-  );
-
-  const end = new Date(
-    now.getFullYear()+1,
-    0,
-    1
-  );
-
-  return clamp(
-    ((now-start)/(end-start))*100,
-    0,
-    100
-  );
-}
-
-
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
-function goPage(page){
-  document.querySelectorAll(".page").forEach(p=>{
-    p.classList.remove("active");
+  document.querySelectorAll(".nav-btn").forEach(b=>{
+    b.classList.toggle("active",b.dataset.section===id);
   });
 
-  document.querySelectorAll(".nav-btn").forEach(btn=>{
-    btn.classList.toggle(
-      "active",
-      btn.dataset.page===page
-    );
-  });
+  const active=document.querySelector('.nav-btn[data-section="'+id+'"]');
+  document.getElementById("topTitle").textContent=active ? active.innerText.trim() : "Dashboard";
 
-  const target = document.getElementById("page-"+page);
+  document.getElementById("sidebar").classList.remove("open");
+  document.getElementById("overlay").classList.remove("show");
 
-  if(target){
-    target.classList.add("active");
-  }
-
-  closeSidebar();
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
+  window.scrollTo({top:0,behavior:"smooth"});
   renderAll();
 }
 
 document.querySelectorAll(".nav-btn").forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    goPage(btn.dataset.page);
-  });
+  btn.addEventListener("click",()=>showSection(btn.dataset.section));
 });
 
-const sidebar = document.getElementById("sidebar");
-const overlay = document.getElementById("overlay");
-const menuBtn = document.getElementById("menuBtn");
+document.getElementById("menuBtn").addEventListener("click",()=>{
+  document.getElementById("sidebar").classList.add("open");
+  document.getElementById("overlay").classList.add("show");
+});
 
-function openSidebar(){
-  sidebar.classList.add("open");
-  overlay.classList.add("show");
+document.getElementById("overlay").addEventListener("click",()=>{
+  document.getElementById("sidebar").classList.remove("open");
+  document.getElementById("overlay").classList.remove("show");
+});
+
+function addYears(date,years){
+  const d=new Date(date);
+  const target=new Date(d);
+  target.setFullYear(d.getFullYear()+years);
+  if(target.getMonth()!==d.getMonth()){
+    target.setDate(0);
+  }
+  return target;
 }
 
-function closeSidebar(){
-  sidebar.classList.remove("open");
-  overlay.classList.remove("show");
+function calendarAge(dob,now=new Date()){
+  if(!dob) return null;
+  const birth=new Date(dob+"T00:00:00");
+  if(isNaN(birth)) return null;
+  if(now<birth) return null;
+
+  let years=now.getFullYear()-birth.getFullYear();
+  let months=now.getMonth()-birth.getMonth();
+  let days=now.getDate()-birth.getDate();
+
+  if(days<0){
+    months--;
+    const prevMonth=new Date(now.getFullYear(),now.getMonth(),0);
+    days+=prevMonth.getDate();
+  }
+
+  if(months<0){
+    years--;
+    months+=12;
+  }
+
+  return {years,months,days};
 }
 
-menuBtn.addEventListener("click",openSidebar);
-overlay.addEventListener("click",closeSidebar);
+function exactDiff(from,to){
+  if(!from || !to || to<from) return null;
+  let years=to.getFullYear()-from.getFullYear();
+  let cursor=addYears(from,years);
 
+  if(cursor>to){
+    years--;
+    cursor=addYears(from,years);
+  }
 
-/* =========================================================
-   CLOCK
-========================================================= */
+  let months=to.getMonth()-cursor.getMonth();
+  if(months<0) months+=12;
+
+  let monthCursor=new Date(cursor);
+  monthCursor.setMonth(cursor.getMonth()+months);
+
+  if(monthCursor>to){
+    months--;
+    monthCursor=new Date(cursor);
+    monthCursor.setMonth(cursor.getMonth()+months);
+  }
+
+  const ms=to-monthCursor;
+  const days=Math.floor(ms/86400000);
+  const hours=Math.floor((ms%86400000)/3600000);
+  const minutes=Math.floor((ms%3600000)/60000);
+  const seconds=Math.floor((ms%60000)/1000);
+
+  return {years,months,days,hours,minutes,seconds};
+}
+
+function lifeProgress(now){
+  if(!state.profile.dob) return 0;
+  const birth=new Date(state.profile.dob+"T00:00:00");
+  const target=addYears(birth,Number(state.profile.targetAge||75));
+  const total=target-birth;
+  const used=Math.max(0,Math.min(total,now-birth));
+  return total>0 ? used/total*100 : 0;
+}
 
 function updateClock(){
-  const now = new Date();
-
-  const time = now.toLocaleTimeString([],{
+  const now=new Date();
+  const time=now.toLocaleTimeString([],{
     hour:"2-digit",
     minute:"2-digit",
-    second:"2-digit"
+    second:"2-digit",
+    hour12:false
   });
-
-  const date = now.toLocaleDateString(undefined,{
+  const date=now.toLocaleDateString(undefined,{
     weekday:"long",
     year:"numeric",
     month:"long",
     day:"numeric"
   });
 
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "Local Device";
+  document.getElementById("topTime").textContent=time;
+  document.getElementById("dashClock").textContent=time;
+  document.getElementById("timeClock").textContent=time;
+  document.getElementById("dashDate").textContent=date;
+  document.getElementById("timeDate").textContent=date;
+  document.getElementById("timezone").textContent="Timezone: "+Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  document.getElementById("dashboardClock").textContent = time;
-  document.getElementById("dashboardDate").textContent = date;
-  document.getElementById("dashboardZone").textContent = timezone;
+  document.getElementById("dashDay").textContent=String(now.getDate()).padStart(2,"0");
+  document.getElementById("dashMonth").textContent=String(now.getMonth()+1).padStart(2,"0");
+  document.getElementById("dashYear").textContent=now.getFullYear();
 
-  document.getElementById("timeClock").textContent = time;
-  document.getElementById("timeDate").textContent = date;
-  document.getElementById("timeZone").textContent = timezone;
+  const start=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  const end=new Date(now.getFullYear(),now.getMonth(),now.getDate()+1);
+  const dayPct=((now-start)/(end-start))*100;
+  document.getElementById("dToday").textContent=dayPct.toFixed(1)+"%";
+  document.getElementById("dTodayBar").style.width=Math.min(100,dayPct)+"%";
 
-  updateTimeStats();
+  updateLifeTime(now);
 }
 
-function updateTimeStats(){
-  const progress = lifeProgress(state.profile.dob);
-  const parts = diffLifeParts(state.profile.dob);
+function updateLifeTime(now=new Date()){
+  const age=calendarAge(state.profile.dob,now);
+  const p=lifeProgress(now);
 
-  const today = currentDayProgress();
-  const month = currentMonthProgress();
-  const year = currentYearProgress();
+  document.getElementById("dAge").textContent=age ? `${age.years}y ${age.months}m ${age.days}d` : "—";
+  document.getElementById("timeAge").textContent=age ? `${age.years}y ${age.months}m ${age.days}d` : "—";
+  document.getElementById("dDob").textContent=state.profile.dob ? formatDate(state.profile.dob) : "Set your date of birth";
 
-  document.getElementById("todayProgress").textContent = today.toFixed(1)+"%";
+  document.getElementById("dLife").textContent=p.toFixed(2)+"%";
+  document.getElementById("dLifeBar").style.width=Math.min(100,p)+"%";
+  document.getElementById("timeLifeProgress").textContent=p.toFixed(2)+"%";
+  document.getElementById("timeLifeBar").style.width=Math.min(100,p)+"%";
 
-  document.getElementById("todayPct").textContent = today.toFixed(1)+"%";
-  document.getElementById("monthPct").textContent = month.toFixed(1)+"%";
-  document.getElementById("yearPct").textContent = year.toFixed(1)+"%";
+  if(state.profile.dob){
+    const birth=new Date(state.profile.dob+"T00:00:00");
+    const target=addYears(birth,Number(state.profile.targetAge||75));
+    const lived=exactDiff(birth,now);
+    const remain=now<target ? exactDiff(now,target) : null;
 
-  document.getElementById("todayBar").style.width=today+"%";
-  document.getElementById("monthBar").style.width=month+"%";
-  document.getElementById("yearBar").style.width=year+"%";
+    document.getElementById("dRemaining").textContent=remain ? `${remain.years}y ${remain.months}m` : "0";
+    document.getElementById("lYears").textContent=lived ? lived.years : "—";
+    document.getElementById("lMonths").textContent=lived ? lived.years*12+lived.months : "—";
+    document.getElementById("lWeeks").textContent=Math.floor((now-birth)/604800000).toLocaleString();
+    document.getElementById("lDays").textContent=Math.floor((now-birth)/86400000).toLocaleString();
+    document.getElementById("lHours").textContent=Math.floor((now-birth)/3600000).toLocaleString();
+    document.getElementById("lMinutes").textContent=Math.floor((now-birth)/60000).toLocaleString();
 
-  document.getElementById("timeLifeProgress").textContent =
-    progress.toFixed(2)+"%";
-
-  if(parts){
-    document.getElementById("timeAge").textContent =
-      ageText(parts.age);
-
-    document.getElementById("timeLived").textContent =
-      `${parts.livedYears}y ${parts.livedMonths}m`;
-
-    document.getElementById("timeRemaining").textContent =
-      `${parts.remainDays}d ${parts.remainHours}h ${parts.remainMinutes}m`;
-
-    document.getElementById("dashAge").textContent =
-      ageText(parts.age);
-
-    document.getElementById("dashLived").textContent =
-      `${parts.livedYears}y ${parts.livedMonths}m`;
-
-    document.getElementById("dashRemaining").textContent =
-      `${Math.floor(parts.totalRemainingSeconds/31557600)}y`;
-
-    document.getElementById("dashLifeProgress").textContent =
-      progress.toFixed(2)+"%";
-
-    document.getElementById("dashLifeBar").style.width =
-      progress+"%";
+    document.getElementById("rYears").textContent=remain?.years ?? "0";
+    document.getElementById("rMonths").textContent=remain?.months ?? "0";
+    document.getElementById("rDays").textContent=remain?.days ?? "0";
+    document.getElementById("rHours").textContent=remain?.hours ?? "0";
+    document.getElementById("rMinutes").textContent=remain?.minutes ?? "0";
+    document.getElementById("rSeconds").textContent=remain?.seconds ?? "0";
   }else{
-    document.getElementById("timeAge").textContent="Set DOB";
-    document.getElementById("timeLived").textContent="—";
-    document.getElementById("timeRemaining").textContent="—";
-    document.getElementById("dashAge").textContent="Set DOB";
-    document.getElementById("dashLived").textContent="—";
-    document.getElementById("dashRemaining").textContent="—";
-    document.getElementById("dashLifeProgress").textContent="0%";
-    document.getElementById("dashLifeBar").style.width="0%";
+    ["lYears","lMonths","lWeeks","lDays","lHours","lMinutes","rYears","rMonths","rDays","rHours","rMinutes","rSeconds"].forEach(id=>{
+      document.getElementById(id).textContent="—";
+    });
   }
+
+  renderLifeGrids(now);
 }
 
+function renderLifeGrids(now=new Date()){
+  const life=document.getElementById("lifeGrid");
+  const months=document.getElementById("monthGrid");
+  if(!life || !months) return;
 
-/* =========================================================
-   LIFE GRIDS
-========================================================= */
+  life.innerHTML="";
+  months.innerHTML="";
 
-function renderLifeGrid(id){
-  const el = document.getElementById(id);
-
-  if(!el) return;
-
-  el.innerHTML="";
-
-  const age = calculateAge(state.profile.dob);
-  const currentAge = age ? age.years : -1;
+  let ageYears=0;
+  if(state.profile.dob){
+    const age=calendarAge(state.profile.dob,now);
+    ageYears=age ? age.years : 0;
+  }
 
   for(let i=0;i<75;i++){
-    const cell = document.createElement("div");
-
+    const cell=document.createElement("div");
     cell.className="life-cell";
-
-    if(i<currentAge){
-      cell.classList.add("lived");
-    }
-
-    if(i===currentAge){
-      cell.classList.add("current");
-    }
-
-    cell.title = `Age ${i}`;
-
-    el.appendChild(cell);
+    if(i<ageYears) cell.classList.add("lived");
+    if(i===ageYears && ageYears<75) cell.classList.add("current");
+    cell.title=`Year ${i+1}`;
+    life.appendChild(cell);
   }
-}
 
-function renderMonthGrid(){
-  const el = document.getElementById("monthGrid");
-
-  if(!el) return;
-
-  el.innerHTML="";
-
-  const age = calculateAge(state.profile.dob);
-
-  let livedMonths = 0;
-
-  if(age){
-    livedMonths =
-      age.years*12+
-      age.months;
+  let totalMonths=0;
+  if(state.profile.dob){
+    const age=calendarAge(state.profile.dob,now);
+    totalMonths=age ? age.years*12+age.months : 0;
   }
 
   for(let i=0;i<900;i++){
     const cell=document.createElement("div");
-
     cell.className="month-cell";
-
-    if(i<livedMonths){
-      cell.classList.add("lived");
-    }
-
-    if(i===livedMonths){
-      cell.classList.add("current");
-    }
-
-    el.appendChild(cell);
+    if(i<totalMonths) cell.classList.add("lived");
+    if(i===totalMonths && totalMonths<900) cell.classList.add("current");
+    cell.title=`Month ${i+1}`;
+    months.appendChild(cell);
   }
 }
 
+function latest(arr){
+  return [...arr].sort((a,b)=>{
+    const da=new Date((a.date||a.created||"1900-01-01")+"T00:00:00");
+    const db=new Date((b.date||b.created||"1900-01-01")+"T00:00:00");
+    return db-da;
+  })[0];
+}
 
-/* =========================================================
-   HEALTH GUIDES
-========================================================= */
+function latestVital(){
+  return [...state.vitals].sort((a,b)=>new Date(`${b.date||""}T${b.time||"00:00"}`)-new Date(`${a.date||""}T${a.time||"00:00"}`))[0];
+}
 
-const HEALTH_GUIDES = {
+function renderDashboard(){
+  document.getElementById("dashName").textContent=state.profile.name || "My Life";
+  document.getElementById("sideName").textContent=state.profile.name || "My Life";
+  document.getElementById("sideAvatar").textContent=(state.profile.name||"L").charAt(0).toUpperCase();
 
-  diabetes:{
-    name:"Diabetes",
-    avoid:[
-      "ဆရာဝန်က သတ်မှတ်ထားသော အစားအသောက် plan ကို မလိုက်နာခြင်း",
-      "အချိုဓာတ်များသော အစားအသောက်နှင့် အချိုရည်များကို အလွန်အကျွံသုံးခြင်း",
-      "သွေးချိုစောင့်ကြည့်ရန်လိုအပ်ပါက record မလုပ်ခြင်း"
-    ],
-    do:[
-      "ဆရာဝန်ညွှန်ကြားချက်အတိုင်း ဆေးနှင့် follow-up ကိုလိုက်နာပါ",
-      "အစားအသောက် pattern ကို စနစ်တကျမှတ်တမ်းတင်ပါ",
-      "သင့်အတွက် သင့်လျော်သော physical activity ကို healthcare professional နှင့်ညှိပါ"
-    ],
-    foods:[
-      "ဟင်းသီးဟင်းရွက်များ",
-      "အမျှင်ဓာတ်ပါသော အစားအစာများ",
-      "ကိုယ်ပိုင် dietary plan နှင့်ကိုက်ညီသော အစားအစာများ"
-    ],
-    monitor:[
-      "Blood sugar",
-      "Weight",
-      "Symptoms",
-      "Doctor follow-up"
-    ],
-    warning:[
-      "ပြင်းထန်သော မူးဝေခြင်း၊ သတိလစ်ခြင်း၊ အသက်ရှူခက်ခြင်း သို့မဟုတ် အရေးပေါ်လက္ခဏာရှိပါက အရေးပေါ်ကျန်းမာရေးဝန်ဆောင်မှုကို ရယူပါ"
-    ]
-  },
+  const v=latestVital();
+  document.getElementById("dashWeight").textContent=v?.weight ? v.weight+" kg" : "—";
+  document.getElementById("dashBP").textContent=v?.bp || "—";
+  document.getElementById("dashSugar").textContent=v?.sugar || "—";
+  document.getElementById("dashHR").textContent=v?.hr ? v.hr+" bpm" : "—";
 
-  hypertension:{
-    name:"Hypertension",
-    avoid:[
-      "ဆရာဝန်ညွှန်ကြားထားသော ဆေးကို ကိုယ်တိုင်ရပ်ခြင်း",
-      "ဆားဓာတ်များသော အစားအစာကို အလွန်အကျွံစားခြင်း",
-      "သွေးပေါင် record ကို လုံးဝမစောင့်ကြည့်ခြင်း"
-    ],
-    do:[
-      "သွေးပေါင်ကို သင့်ဆရာဝန်ညွှန်ကြားသည့်အတိုင်း စောင့်ကြည့်ပါ",
-      "သင့်အတွက်သင့်လျော်သော လှုပ်ရှားမှုကို ဆရာဝန်နှင့်ညှိပါ",
-      "ဆေးနှင့် follow-up schedule ကို မှတ်တမ်းတင်ထားပါ"
-    ],
-    foods:[
-      "ဟင်းသီးဟင်းရွက်များ",
-      "အမျှင်ဓာတ်ပါသော အစားအစာများ",
-      "ဆားလျှော့စားရန် ဆရာဝန်ကညွှန်ကြားထားပါက ထိုညွှန်ကြားချက်ကိုလိုက်နာပါ"
-    ],
-    monitor:[
-      "Blood pressure",
-      "Heart rate",
-      "Weight",
-      "Doctor follow-up"
-    ],
-    warning:[
-      "သွေးပေါင်အလွန်မြင့်ခြင်းနှင့်အတူ ရင်ဘတ်အောင့်ခြင်း၊ အသက်ရှူခက်ခြင်း၊ အာရုံကြောလက္ခဏာများ ဖြစ်ပါက အရေးပေါ်ကျန်းမာရေးဝန်ဆောင်မှုကို ရယူပါ"
-    ]
-  },
-
-  highCholesterol:{
-    name:"High Cholesterol",
-    avoid:[
-      "အဆီဓာတ်များသော အစားအစာများကို အလွန်အကျွံစားခြင်း",
-      "ဆရာဝန်ညွှန်ကြားထားသော lipid follow-up ကို လွတ်ခြင်း"
-    ],
-    do:[
-      "အစားအသောက်နဲ့ physical activity ကို healthcare professional နှင့်ညှိပါ",
-      "သတ်မှတ်ထားသော blood test follow-up ကို လုပ်ပါ",
-      "ဆေးရှိပါက ဆရာဝန်ညွှန်ကြားချက်အတိုင်းသာ သောက်ပါ"
-    ],
-    foods:[
-      "အမျှင်ဓာတ်ပါသော အစားအစာများ",
-      "ဟင်းသီးဟင်းရွက်များ",
-      "ကိုယ်ပိုင် dietary plan နှင့်ကိုက်ညီသော အစားအစာများ"
-    ],
-    monitor:[
-      "Cholesterol tests",
-      "Weight",
-      "Blood pressure",
-      "Doctor follow-up"
-    ],
-    warning:[
-      "ရင်ဘတ်အောင့်ခြင်း၊ အသက်ရှူခက်ခြင်း သို့မဟုတ် အရေးပေါ်လက္ခဏာရှိပါက အရေးပေါ်ကျန်းမာရေးဝန်ဆောင်မှုကို ရယူပါ"
-    ]
-  },
-
-  heartDisease:{
-    name:"Heart Disease",
-    avoid:[
-      "ရင်ဘတ်လက္ခဏာများကို လျစ်လျူရှုခြင်း",
-      "ဆေးကို ကိုယ်တိုင်ရပ်ခြင်း",
-      "မိမိအတွက် မသင့်လျော်သော အပြင်းအထန် activity ကို ဆရာဝန်နှင့်မညှိဘဲလုပ်ခြင်း"
-    ],
-    do:[
-      "ဆရာဝန်ညွှန်ကြားချက်အတိုင်း ဆေးနှင့် follow-up လုပ်ပါ",
-      "သင့်အတွက် သင့်လျော်သော activity plan ကို ဆရာဝန်နှင့်ညှိပါ",
-      "BP, heart rate နှင့် symptoms ကို record လုပ်ပါ"
-    ],
-    foods:[
-      "ဆရာဝန်/အာဟာရပညာရှင်ညွှန်ကြားသည့် heart-healthy dietary pattern",
-      "ဟင်းသီးဟင်းရွက်များ",
-      "အမျှင်ဓာတ်ပါသော အစားအစာများ"
-    ],
-    monitor:[
-      "Blood pressure",
-      "Heart rate",
-      "Symptoms",
-      "Doctor follow-up"
-    ],
-    warning:[
-      "ရင်ဘတ်ဖိအား/အောင့်ခြင်း၊ အသက်ရှူခက်ခြင်း၊ မူးဝေခြင်း သို့မဟုတ် သတိလစ်ခြင်းရှိပါက အရေးပေါ်ကျန်းမာရေးဝန်ဆောင်မှုကို ရယူပါ"
-    ]
-  },
-
-  kidneyDisease:{
-    name:"Kidney Disease",
-    avoid:[
-      "ရေ၊ ဆား၊ ပရိုတင်း သို့မဟုတ် အခြားအစားအစာ restriction ကို ကိုယ်တိုင်သတ်မှတ်ခြင်း",
-      "ဆေးများကို ကိုယ်တိုင်ပြောင်းခြင်း"
-    ],
-    do:[
-      "ကျောက်ကပ်အခြေအနေအလိုက် ဆရာဝန်ညွှန်ကြားချက်ကို ဦးစားပေးပါ",
-      "သတ်မှတ်ထားသော blood/urine tests ကို follow-up လုပ်ပါ",
-      "ဆေးစာရင်းကို doctor visit တိုင်း update လုပ်ပါ"
-    ],
-    foods:[
-      "သင့် kidney condition နှင့်ကိုက်ညီသော individualized diet ကို ဆရာဝန်/အာဟာရပညာရှင်နှင့်ညှိပါ"
-    ],
-    monitor:[
-      "Blood pressure",
-      "Weight",
-      "Blood tests",
-      "Urine tests",
-      "Doctor follow-up"
-    ],
-    warning:[
-      "အသက်ရှူခက်ခြင်း၊ ပြင်းထန်သော အားနည်းခြင်း၊ သတိပြောင်းလဲခြင်း သို့မဟုတ် အရေးပေါ်လက္ခဏာရှိပါက အရေးပေါ်ကျန်းမာရေးဝန်ဆောင်မှုကို ရယူပါ"
-    ]
-  },
-
-  fattyLiver:{
-    name:"Fatty Liver",
-    avoid:[
-      "အရက်သောက်ခြင်းကို ဆရာဝန်က ရှောင်ရန်ညွှန်ကြားထားပါက မလိုက်နာခြင်း",
-      "အလွန်အကျွံကယ်လိုရီစားခြင်း",
-      "ကိုယ်အလေးချိန်နဲ့ lifestyle ကို လုံးဝမစောင့်ကြည့်ခြင်း"
-    ],
-    do:[
-      "ကိုယ်အလေးချိန်နဲ့ lifestyle goal ကို healthcare professional နှင့်ညှိပါ",
-      "အစားအသောက် record ထားပါ",
-      "သတ်မှတ်ထားသော liver tests/follow-up ကိုလုပ်ပါ"
-    ],
-    foods:[
-      "ဟင်းသီးဟင်းရွက်များ",
-      "အမျှင်ဓာတ်ပါသော အစားအစာများ",
-      "သင့်အတွက် သင့်လျော်သော balanced diet"
-    ],
-    monitor:[
-      "Weight",
-      "Liver tests",
-      "Blood sugar",
-      "Cholesterol"
-    ],
-    warning:[
-      "အသားဝါခြင်း၊ ပြင်းထန်သောဗိုက်နာခြင်း သို့မဟုတ် အရေးပေါ်လက္ခဏာရှိပါက ဆေးဘက်ဆိုင်ရာအကူအညီရယူပါ"
-    ]
-  },
-
-  gastritis:{
-    name:"Gastritis",
-    avoid:[
-      "ကိုယ်တိုင်လက္ခဏာဖြစ်စေသည်ဟု သိထားသော အစားအစာ/အချိုရည်များ",
-      "ဆေးကို ကိုယ်တိုင်စတင်/ရပ်ခြင်း",
-      "ပြင်းထန်သော သို့မဟုတ် ဆက်တိုက်ဖြစ်နေသော လက္ခဏာကို လျစ်လျူရှုခြင်း"
-    ],
-    do:[
-      "လက္ခဏာဖြစ်စေသော အစားအစာများကို journal ထဲတွင် record လုပ်ပါ",
-      "ဆရာဝန်ညွှန်ကြားထားသော treatment ကို လိုက်နာပါ",
-      "symptom duration နဲ့ severity ကို မှတ်တမ်းတင်ပါ"
-    ],
-    foods:[
-      "ကိုယ်တိုင်ခံနိုင်ရည်ရှိသော balanced meals",
-      "ဆရာဝန်က သတ်မှတ်ပေးထားသော dietary plan"
-    ],
-    monitor:[
-      "Stomach pain",
-      "Nausea",
-      "Food triggers",
-      "Doctor follow-up"
-    ],
-    warning:[
-      "သွေးအန်ခြင်း၊ အမည်းရောင်ဝမ်းသွားခြင်း၊ ပြင်းထန်သောဗိုက်နာခြင်း သို့မဟုတ် အရေးပေါ်လက္ခဏာရှိပါက ချက်ချင်းဆေးဘက်ဆိုင်ရာအကူအညီရယူပါ"
-    ]
-  },
-
-  asthma:{
-    name:"Asthma",
-    avoid:[
-      "ကိုယ်တိုင်သိထားသော trigger များနှင့် ထိတွေ့ခြင်း",
-      "ဆရာဝန်ညွှန်ကြားထားသော inhaler/medication plan ကို ကိုယ်တိုင်ပြောင်းခြင်း",
-      "အသက်ရှူခက်ခြင်းကို လျစ်လျူရှုခြင်း"
-    ],
-    do:[
-      "Trigger တွေကို symptom journal ထဲမှာ မှတ်ပါ",
-      "ဆရာဝန်ညွှန်ကြားထားသော asthma action plan ကို လိုက်နာပါ",
-      "လက္ခဏာပြောင်းလဲမှုကို record လုပ်ပါ"
-    ],
-    foods:[
-      "အထူးကန့်သတ်ချက်မရှိပါက balanced diet",
-      "ကိုယ်တိုင် trigger ဖြစ်စေသောအရာရှိပါက record လုပ်ပါ"
-    ],
-    monitor:[
-      "Breathing symptoms",
-      "Trigger",
-      "Medication use",
-      "Doctor follow-up"
-    ],
-    warning:[
-      "အသက်ရှူမရလောက်အောင် ခက်ခဲခြင်း၊ စကားပြောရန်ခက်ခြင်း သို့မဟုတ် prescribed rescue plan မကူညီခြင်းရှိပါက အရေးပေါ်ကျန်းမာရေးဝန်ဆောင်မှုကို ရယူပါ"
-    ]
-  },
-
-  arthritis:{
-    name:"Arthritis",
-    avoid:[
-      "နာကျင်မှုကို တိုးစေသော activity ကို မိမိအခြေအနေမသိဘဲ ဆက်လုပ်ခြင်း",
-      "ဆေးကို ကိုယ်တိုင်ပြောင်းခြင်း"
-    ],
-    do:[
-      "သင့်အတွက် သင့်လျော်သော activity plan ကို healthcare professional နှင့်ညှိပါ",
-      "နာကျင်မှုနဲ့ mobility ကို record လုပ်ပါ",
-      "ဆရာဝန် follow-up ကိုလိုက်နာပါ"
-    ],
-    foods:[
-      "Balanced diet",
-      "ဟင်းသီးဟင်းရွက်များ",
-      "သင့်အတွက် သင့်လျော်သော အစားအစာများ"
-    ],
-    monitor:[
-      "Pain",
-      "Mobility",
-      "Weight",
-      "Doctor follow-up"
-    ],
-    warning:[
-      "အဆစ်အလွန်ရောင်ရမ်းခြင်း၊ ဖျားနာခြင်း သို့မဟုတ် ပြင်းထန်သော လက္ခဏာရှိပါက ဆေးဘက်ဆိုင်ရာအကူအညီရယူပါ"
-    ]
+  const medBox=document.getElementById("dashMeds");
+  const meds=state.medications.slice(0,4);
+  if(!meds.length){
+    medBox.innerHTML='<div class="empty">No medications recorded</div>';
+  }else{
+    medBox.innerHTML=meds.map(m=>`
+      <div class="item">
+        <div class="item-head">
+          <div>
+            <div class="item-title">${esc(m.name)}</div>
+            <div class="item-meta">${esc(m.dose||"Dose not entered")} · ${esc(m.frequency||"Schedule not entered")}</div>
+          </div>
+          <span class="badge gold-b">${esc(m.time||"—")}</span>
+        </div>
+      </div>
+    `).join("");
   }
-};
 
+  const upcoming=document.getElementById("dashUpcoming");
+  const events=[
+    ...state.importantDays.map(x=>({type:"Important",name:x.name,date:x.date})),
+    ...state.doctorVisits.filter(x=>x.follow).map(x=>({type:"Follow-up",name:x.doctor,date:x.follow}))
+  ].filter(x=>x.date && x.date>=todayISO()).sort((a,b)=>a.date.localeCompare(b.date)).slice(0,4);
 
-/* =========================================================
-   PROFILE
-========================================================= */
+  upcoming.innerHTML=events.length ? events.map(x=>`
+    <div class="item">
+      <div class="item-head">
+        <div><div class="item-title">${esc(x.name||"Event")}</div><div class="item-meta">${esc(x.type)}</div></div>
+        <span class="badge">${esc(formatDate(x.date))}</span>
+      </div>
+    </div>
+  `).join("") : '<div class="empty">No upcoming events</div>';
 
-document.getElementById("profileForm").addEventListener("submit",e=>{
-  e.preventDefault();
+  const goalBox=document.getElementById("dashGoals");
+  const goals=state.goals.filter(g=>Number(g.progress)<100).slice(0,4);
+  goalBox.innerHTML=goals.length ? goals.map(g=>`
+    <div style="margin-bottom:13px">
+      <div class="meter-label"><span>${esc(g.name)}</span><b>${Number(g.progress||0)}%</b></div>
+      <div class="progress"><span style="width:${Math.min(100,Number(g.progress||0))}%"></span></div>
+    </div>
+  `).join("") : '<div class="empty">No active goals</div>';
+}
 
-  state.profile.name =
-    document.getElementById("profileName").value.trim();
+function renderHealth(){
+  document.getElementById("healthConditionCount").textContent=state.conditions.length;
+  document.getElementById("healthMedicationCount").textContent=state.medications.length;
+  document.getElementById("healthVitalCount").textContent=state.vitals.length;
+  document.getElementById("healthSymptomCount").textContent=state.symptoms.length;
 
-  state.profile.dob =
-    document.getElementById("profileDob").value;
+  const list=document.getElementById("conditionsList");
+  if(!state.conditions.length){
+    list.innerHTML='<div class="empty">No conditions recorded yet</div>';
+  }else{
+    list.innerHTML=state.conditions.map(c=>{
+      const guide=HEALTH_GUIDES[c.name];
+      return `
+      <div class="item">
+        <div class="item-head">
+          <div>
+            <div class="item-title">${esc(c.name)}</div>
+            <div class="item-meta">${c.since ? "Since "+esc(formatDate(c.since)) : ""}</div>
+          </div>
+          <button class="btn btn-small btn-danger" onclick="deleteItem('conditions','${c.id}')">Delete</button>
+        </div>
+        ${c.note ? `<div class="item-meta" style="margin-top:9px">${esc(c.note)}</div>`:""}
+        ${guide ? `
+          <div class="divider"></div>
+          <div class="grid-2">
+            <div>
+              <span class="badge red-b">AVOID / WATCH</span>
+              <div class="item-meta">${guide.avoid.map(x=>"• "+esc(x)).join("<br>")}</div>
+            </div>
+            <div>
+              <span class="badge green-b">DO / DISCUSS</span>
+              <div class="item-meta">${guide.do.map(x=>"• "+esc(x)).join("<br>")}</div>
+            </div>
+          </div>
+        `:""}
+      </div>`;
+    }).join("");
+  }
 
-  saveState();
-  renderAll();
+  const checks=[
+    ["meds","Follow prescribed medication instructions"],
+    ["water","Hydration according to your care plan"],
+    ["food","Review today's food choices"],
+    ["activity","Suitable movement / activity"],
+    ["symptoms","Record important symptoms"],
+    ["sleep","Protect your sleep routine"]
+  ];
 
-  alert("Profile saved");
-});
+  document.getElementById("healthChecklist").innerHTML=checks.map(([key,text])=>`
+    <label class="check-row">
+      <input type="checkbox" ${state.checklist[key]?"checked":""} onchange="toggleCheck('${key}',this.checked)">
+      <span>${esc(text)}</span>
+    </label>
+  `).join("");
 
+  const latestRecords=[
+    ...state.vitals.map(x=>({type:"Vitals",date:x.date,note:x.bp||x.weight||x.sugar||"Vitals"})),
+    ...state.symptoms.map(x=>({type:"Symptom",date:x.date,note:x.name})),
+    ...state.labs.map(x=>({type:"Lab",date:x.date,note:x.test}))
+  ].sort((a,b)=>(b.date||"").localeCompare(a.date||"")).slice(0,6);
 
-/* =========================================================
-   MEDICATION
-========================================================= */
+  document.getElementById("healthLatest").innerHTML=latestRecords.length
+    ? latestRecords.map(x=>`
+      <div class="item">
+        <div class="item-head">
+          <div><div class="item-title">${esc(x.type)}</div><div class="item-meta">${esc(x.note)}</div></div>
+          <span class="badge">${esc(formatDate(x.date))}</span>
+        </div>
+      </div>
+    `).join("")
+    : '<div class="empty">No health records yet</div>';
+}
 
-document.getElementById("medForm").addEventListener("submit",e=>{
-  e.preventDefault();
+function addCondition(){
+  const name=document.getElementById("conditionName").value;
+  if(!name){
+    showToast("Select a condition");
+    return;
+  }
+
+  state.conditions.unshift({
+    id:uid(),
+    name,
+    since:document.getElementById("conditionSince").value,
+    note:document.getElementById("conditionNote").value,
+    created:new Date().toISOString()
+  });
+
+  save();
+  closeModal("conditionModal");
+  resetForm(["conditionName","conditionSince","conditionNote"]);
+  showToast("Condition saved");
+}
+
+function addMedication(){
+  const name=document.getElementById("medName").value.trim();
+  if(!name){
+    showToast("Enter medication name");
+    return;
+  }
 
   state.medications.unshift({
     id:uid(),
-    name:document.getElementById("medName").value.trim(),
+    name,
     dose:document.getElementById("medDose").value.trim(),
-    schedule:document.getElementById("medSchedule").value,
+    frequency:document.getElementById("medFrequency").value,
     time:document.getElementById("medTime").value,
-    notes:document.getElementById("medNotes").value.trim(),
-    createdAt:new Date().toISOString()
+    start:document.getElementById("medStart").value,
+    end:document.getElementById("medEnd").value,
+    meal:document.getElementById("medMeal").value,
+    refill:document.getElementById("medRefill").value,
+    note:document.getElementById("medNote").value,
+    takenDates:{},
+    created:new Date().toISOString()
   });
 
-  saveState();
+  save();
+  closeModal("medModal");
+  resetForm(["medName","medDose","medTime","medStart","medEnd","medRefill","medNote"]);
+  showToast("Medication saved");
+}
 
-  e.target.reset();
+function medicationActive(m){
+  const t=todayISO();
+  if(m.start && t<m.start) return false;
+  if(m.end && t>m.end) return false;
+  return true;
+}
 
-  renderAll();
-
-  alert("Medication saved");
-});
-
-function deleteMedication(id){
-  if(!confirm("ဒီ medication record ကိုဖျက်မလား")) return;
-
-  state.medications =
-    state.medications.filter(x=>x.id!==id);
-
-  saveState();
-  renderAll();
+function toggleMedication(id){
+  const m=state.medications.find(x=>x.id===id);
+  if(!m) return;
+  m.takenDates=m.takenDates||{};
+  const t=todayISO();
+  m.takenDates[t]=!m.takenDates[t];
+  save();
+  showToast(m.takenDates[t]?"Marked taken":"Marked not taken");
 }
 
 function renderMedications(){
-  const list = document.getElementById("medicationList");
-  const dash = document.getElementById("dashMedicationList");
+  const active=state.medications.filter(medicationActive);
+  document.getElementById("medActiveCount").textContent=active.length;
 
-  document.getElementById("medCountLabel").textContent =
-    state.medications.length+" records";
+  let taken=0,missed=0;
+  active.forEach(m=>{
+    if(m.takenDates?.[todayISO()]) taken++;
+  });
 
+  missed=Math.max(0,active.length-taken);
+  document.getElementById("medTakenCount").textContent=taken;
+  document.getElementById("medMissedCount").textContent=missed;
+
+  const totalHistory=state.medications.reduce((n,m)=>n+Object.values(m.takenDates||{}).filter(Boolean).length,0);
+  const possible=Math.max(1,state.medications.length*7);
+  document.getElementById("medAdherence").textContent=Math.min(100,totalHistory/possible*100).toFixed(0)+"%";
+
+  const list=document.getElementById("medList");
   if(!state.medications.length){
-    list.innerHTML='<div class="empty">Medication record မရှိသေးပါ</div>';
-    dash.innerHTML='<div class="empty">Today's medication မရှိသေးပါ</div>';
+    list.innerHTML='<div class="empty">No medication records</div>';
     return;
   }
 
-  list.innerHTML=state.medications.map(m=>`
-    <div class="med-card">
-      <div class="med-top">
-        <div>
-          <div class="med-name">${escapeHTML(m.name)}</div>
-          <div class="med-dose">${escapeHTML(m.dose || "Dose not entered")}</div>
-        </div>
-        <span class="badge gold">${escapeHTML(m.schedule)}</span>
-      </div>
-
-      <div class="med-times">
-        ${m.time ? `<span class="time-pill">⏰ ${escapeHTML(m.time)}</span>` : ""}
-      </div>
-
-      ${m.notes ? `<div class="item-meta" style="margin-top:9px">${escapeHTML(m.notes)}</div>` : ""}
-
-      <div class="actions" style="margin-top:10px">
-        <button class="btn btn-danger btn-small" onclick="deleteMedication('${m.id}')">Delete</button>
-      </div>
-    </div>
-  `).join("");
-
-  dash.innerHTML=state.medications.slice(0,4).map(m=>`
-    <div class="list-item">
-      <div class="list-main">
-        <div>
-          <div class="item-title">${escapeHTML(m.name)}</div>
-          <div class="item-meta">${escapeHTML(m.dose || "")}</div>
-        </div>
-        <span class="badge gold">${m.time ? escapeHTML(m.time) : escapeHTML(m.schedule)}</span>
-      </div>
-    </div>
-  `).join("");
-}
-
-
-/* =========================================================
-   VITALS
-========================================================= */
-
-function updateVitalFields(){
-  const type = document.getElementById("vitalType").value;
-
-  document.getElementById("bpFields").style.display =
-    type==="bp" ? "block":"none";
-
-  document.getElementById("bpFields2").style.display =
-    type==="bp" ? "block":"none";
-
-  document.getElementById("sugarField").style.display =
-    type==="sugar" ? "block":"none";
-
-  document.getElementById("weightField").style.display =
-    type==="weight" ? "block":"none";
-
-  document.getElementById("hrField").style.display =
-    type==="hr" ? "block":"none";
-}
-
-document.getElementById("vitalType").addEventListener(
-  "change",
-  updateVitalFields
-);
-
-document.getElementById("vitalForm").addEventListener("submit",e=>{
-  e.preventDefault();
-
-  const type =
-    document.getElementById("vitalType").value;
-
-  const item = {
-    id:uid(),
-    type,
-    date:document.getElementById("vitalDate").value,
-    context:document.getElementById("vitalContext").value,
-    note:document.getElementById("vitalNote").value.trim()
-  };
-
-  if(type==="bp"){
-    const sys = Number(document.getElementById("vitalSys").value);
-    const dia = Number(document.getElementById("vitalDia").value);
-
-    if(!sys || !dia){
-      alert("Systolic နဲ့ Diastolic ထည့်ပါ");
-      return;
-    }
-
-    item.sys=sys;
-    item.dia=dia;
-  }
-
-  if(type==="sugar"){
-    const value=Number(
-      document.getElementById("vitalSugar").value
-    );
-
-    if(!value){
-      alert("Blood sugar value ထည့်ပါ");
-      return;
-    }
-
-    item.value=value;
-    item.unit="mg/dL";
-  }
-
-  if(type==="weight"){
-    const value=Number(
-      document.getElementById("vitalWeight").value
-    );
-
-    if(!value){
-      alert("Weight ထည့်ပါ");
-      return;
-    }
-
-    item.value=value;
-    item.unit="kg";
-  }
-
-  if(type==="hr"){
-    const value=Number(
-      document.getElementById("vitalHR").value
-    );
-
-    if(!value){
-      alert("Heart rate ထည့်ပါ");
-      return;
-    }
-
-    item.value=value;
-    item.unit="bpm";
-  }
-
-  state.vitals.unshift(item);
-
-  saveState();
-
-  e.target.reset();
-
-  document.getElementById("vitalDate").value =
-    localDateTimeInput(new Date());
-
-  updateVitalFields();
-
-  renderAll();
-
-  alert("Vital record saved");
-});
-
-function deleteVital(id){
-  if(!confirm("ဒီ vital record ကိုဖျက်မလား")) return;
-
-  state.vitals =
-    state.vitals.filter(x=>x.id!==id);
-
-  saveState();
-  renderAll();
-}
-
-function getLatestVital(type){
-  return state.vitals
-    .filter(v=>v.type===type)
-    .sort((a,b)=>new Date(b.date)-new Date(a.date))[0];
-}
-
-function vitalReading(v){
-  if(!v) return "—";
-
-  if(v.type==="bp"){
-    return `${v.sys}/${v.dia}`;
-  }
-
-  return String(v.value);
-}
-
-function vitalTypeName(type){
-  return {
-    bp:"Blood Pressure",
-    sugar:"Blood Sugar",
-    weight:"Weight",
-    hr:"Heart Rate"
-  }[type] || type;
-}
-
-function renderVitals(){
-  const bp=getLatestVital("bp");
-  const sugar=getLatestVital("sugar");
-  const weight=getLatestVital("weight");
-  const hr=getLatestVital("hr");
-
-  document.getElementById("vitalLatestBP").textContent =
-    bp ? `${bp.sys}/${bp.dia}`:"—";
-
-  document.getElementById("vitalLatestSugar").textContent =
-    sugar ? sugar.value:"—";
-
-  document.getElementById("vitalLatestWeight").textContent =
-    weight ? weight.value:"—";
-
-  document.getElementById("vitalLatestHR").textContent =
-    hr ? hr.value:"—";
-
-  document.getElementById("dashBP").textContent =
-    bp ? `${bp.sys}/${bp.dia}`:"—";
-
-  document.getElementById("dashSugar").textContent =
-    sugar ? sugar.value:"—";
-
-  document.getElementById("dashWeight").textContent =
-    weight ? weight.value:"—";
-
-  document.getElementById("dashHR").textContent =
-    hr ? hr.value:"—";
-
-  const rows=[...state.vitals]
-    .sort((a,b)=>new Date(b.date)-new Date(a.date));
-
-  document.getElementById("vitalHistoryCount").textContent =
-    rows.length+" records";
-
-  document.getElementById("vitalHistory").innerHTML =
-    rows.length
-      ? rows.map(v=>`
-        <tr>
-          <td>${escapeHTML(formatDateTime(v.date))}</td>
-          <td>${escapeHTML(vitalTypeName(v.type))}</td>
-          <td>
-            <strong>
-              ${escapeHTML(vitalReading(v))}
-              ${v.unit ? " "+escapeHTML(v.unit):""}
-              ${v.type==="bp" ? " mmHg":""}
-            </strong>
-          </td>
-          <td>${escapeHTML(v.context || "")}</td>
-          <td>
-            <button class="btn btn-danger btn-small" onclick="deleteVital('${v.id}')">Delete</button>
-          </td>
-        </tr>
-      `).join("")
-      : `<tr><td colspan="5" style="text-align:center;color:#777">No records</td></tr>`;
-
-  renderTrend(
-    "bpTrend",
-    state.vitals
-      .filter(v=>v.type==="bp")
-      .sort((a,b)=>new Date(a.date)-new Date(b.date))
-      .slice(-8)
-      .map(v=>v.sys)
-  );
-
-  renderTrend(
-    "weightTrend",
-    state.vitals
-      .filter(v=>v.type==="weight")
-      .sort((a,b)=>new Date(a.date)-new Date(b.date))
-      .slice(-8)
-      .map(v=>v.value)
-  );
-}
-
-function renderTrend(id,values){
-  const el=document.getElementById(id);
-
-  if(!values.length){
-    el.innerHTML='<div class="empty" style="width:100%">Not enough data</div>';
-    return;
-  }
-
-  const min=Math.min(...values);
-  const max=Math.max(...values);
-
-  el.innerHTML=values.map((value,i)=>{
-    const height =
-      max===min
-        ? 45
-        : 15+((value-min)/(max-min))*75;
-
+  list.innerHTML=state.medications.map(m=>{
+    const activeNow=medicationActive(m);
+    const takenToday=!!m.takenDates?.[todayISO()];
     return `
-      <div class="bar-wrap" title="${value}">
-        <div style="width:100%;display:flex;flex-direction:column;align-items:center;height:100%;justify-content:flex-end">
-          <div class="bar" style="height:${height}%"></div>
-          <div class="bar-label">${escapeHTML(value)}</div>
+      <div class="item">
+        <div class="item-head">
+          <div>
+            <div class="item-title">${esc(m.name)}</div>
+            <div class="item-meta">${esc(m.dose||"Dose not entered")} · ${esc(m.frequency||"Schedule not entered")} · ${esc(m.meal||"")}</div>
+            ${m.note?`<div class="item-meta">${esc(m.note)}</div>`:""}
+          </div>
+          <span class="badge ${activeNow?"green-b":"red-b"}">${activeNow?"ACTIVE":"INACTIVE"}</span>
+        </div>
+        <div class="kpi-row">
+          <div class="kpi"><b>${esc(m.time||"—")}</b><span>TIME</span></div>
+          <div class="kpi"><b>${m.start?esc(formatDate(m.start)):"—"}</b><span>START</span></div>
+          <div class="kpi"><b>${m.refill?esc(formatDate(m.refill)):"—"}</b><span>REFILL</span></div>
+        </div>
+        <div class="actions" style="margin-top:10px">
+          <button class="btn btn-small ${takenToday?"btn-primary":""}" onclick="toggleMedication('${m.id}')">${takenToday?"✓ Taken Today":"Mark Taken Today"}</button>
+          <button class="btn btn-small btn-danger" onclick="deleteItem('medications','${m.id}')">Delete</button>
         </div>
       </div>
     `;
   }).join("");
 }
 
+function addVital(){
+  const hasAny=[
+    "vitalWeight","vitalHR","vitalBP","vitalSugar","vitalSpO2","vitalTemp","vitalResp"
+  ].some(id=>document.getElementById(id).value);
 
-/* =========================================================
-   SYMPTOMS
-========================================================= */
+  if(!hasAny){
+    showToast("Enter at least one measurement");
+    return;
+  }
 
-document.getElementById("symptomForm").addEventListener("submit",e=>{
-  e.preventDefault();
-
-  state.symptoms.unshift({
+  state.vitals.unshift({
     id:uid(),
-    date:document.getElementById("symDate").value,
-    name:document.getElementById("symName").value.trim(),
-    severity:document.getElementById("symSeverity").value,
-    context:document.getElementById("symContext").value.trim(),
-    details:document.getElementById("symDetails").value.trim()
+    date:document.getElementById("vitalDate").value||todayISO(),
+    time:document.getElementById("vitalTime").value||nowTime(),
+    weight:document.getElementById("vitalWeight").value,
+    hr:document.getElementById("vitalHR").value,
+    bp:document.getElementById("vitalBP").value,
+    sugar:document.getElementById("vitalSugar").value,
+    spo2:document.getElementById("vitalSpO2").value,
+    temp:document.getElementById("vitalTemp").value,
+    resp:document.getElementById("vitalResp").value,
+    note:document.getElementById("vitalNote").value
   });
 
-  saveState();
+  save();
+  closeModal("vitalModal");
+  resetForm(["vitalWeight","vitalHR","vitalBP","vitalSugar","vitalSpO2","vitalTemp","vitalResp","vitalNote"]);
+  showToast("Vitals saved");
+}
 
-  e.target.reset();
+function renderVitals(){
+  const v=latestVital();
+  document.getElementById("vWeight").textContent=v?.weight ? v.weight+" kg":"—";
+  document.getElementById("vBP").textContent=v?.bp||"—";
+  document.getElementById("vSugar").textContent=v?.sugar||"—";
+  document.getElementById("vHR").textContent=v?.hr ? v.hr+" bpm":"—";
 
-  document.getElementById("symDate").value =
-    localDateTimeInput(new Date());
+  const list=document.getElementById("vitalList");
+  const arr=[...state.vitals].sort((a,b)=>(`${b.date} ${b.time||""}`).localeCompare(`${a.date} ${a.time||""}`));
 
-  renderAll();
+  list.innerHTML=arr.length ? arr.map(v=>`
+    <div class="item">
+      <div class="item-head">
+        <div>
+          <div class="item-title">${esc(formatDate(v.date))} ${esc(v.time||"")}</div>
+          <div class="item-meta">${v.note?esc(v.note):"Health measurement"}</div>
+        </div>
+        <button class="btn btn-small btn-danger" onclick="deleteItem('vitals','${v.id}')">Delete</button>
+      </div>
+      <div class="kpi-row">
+        ${v.weight?`<div class="kpi"><b>${esc(v.weight)}</b><span>KG</span></div>`:""}
+        ${v.bp?`<div class="kpi"><b>${esc(v.bp)}</b><span>BP</span></div>`:""}
+        ${v.sugar?`<div class="kpi"><b>${esc(v.sugar)}</b><span>SUGAR</span></div>`:""}
+        ${v.hr?`<div class="kpi"><b>${esc(v.hr)}</b><span>BPM</span></div>`:""}
+        ${v.spo2?`<div class="kpi"><b>${esc(v.spo2)}%</b><span>SpO₂</span></div>`:""}
+        ${v.temp?`<div class="kpi"><b>${esc(v.temp)}</b><span>TEMP</span></div>`:""}
+      </div>
+    </div>
+  `).join(""):'<div class="empty">No vital records yet</div>';
 
-  alert("Symptom saved");
-});
+  renderChart("weightChart",arr.slice().reverse().slice(-12),"weight","kg");
+  renderChart("hrChart",arr.slice().reverse().slice(-12),"hr","bpm");
+}
 
-function deleteSymptom(id){
-  if(!confirm("ဒီ symptom record ကိုဖျက်မလား")) return;
+function renderChart(id,data,key,unit){
+  const el=document.getElementById(id);
+  if(!el) return;
 
-  state.symptoms =
-    state.symptoms.filter(x=>x.id!==id);
+  const vals=data.map(x=>Number(x[key])).filter(x=>Number.isFinite(x) && x>0);
+  if(!vals.length){
+    el.innerHTML='<div class="empty" style="width:100%">Not enough data</div>';
+    return;
+  }
 
-  saveState();
-  renderAll();
+  const max=Math.max(...vals);
+  const min=Math.min(...vals);
+  const range=Math.max(1,max-min);
+
+  el.innerHTML=data.map(x=>{
+    const val=Number(x[key]);
+    if(!Number.isFinite(val)||val<=0) return '<div class="bar-wrap"></div>';
+    const h=20+((val-min)/range)*75;
+    return `
+      <div class="bar-wrap">
+        <div class="bar" style="height:${h}%;" title="${esc(val+" "+unit)}"></div>
+        <div class="bar-label">${esc(String(val))}</div>
+      </div>
+    `;
+  }).join("");
+}
+
+function addSymptom(){
+  state.symptoms.unshift({
+    id:uid(),
+    name:document.getElementById("symptomName").value,
+    severity:Number(document.getElementById("symptomSeverity").value||1),
+    date:document.getElementById("symptomDate").value||todayISO(),
+    time:document.getElementById("symptomTime").value||nowTime(),
+    note:document.getElementById("symptomNote").value
+  });
+
+  save();
+  closeModal("symptomModal");
+  resetForm(["symptomSeverity","symptomDate","symptomTime","symptomNote"]);
+  showToast("Symptom saved");
 }
 
 function renderSymptoms(){
-  const rows=[...state.symptoms]
-    .sort((a,b)=>new Date(b.date)-new Date(a.date));
+  const box=document.getElementById("symptomTimeline");
+  const arr=[...state.symptoms].sort((a,b)=>(`${b.date} ${b.time||""}`).localeCompare(`${a.date} ${a.time||""}`));
 
-  document.getElementById("symptomCount").textContent =
-    rows.length+" records";
-
-  document.getElementById("symptomList").innerHTML =
-    rows.length
-      ? rows.map(s=>`
-        <div class="list-item">
-          <div class="list-main">
-            <div>
-              <div class="item-title">${escapeHTML(s.name)}</div>
-              <div class="item-meta">${escapeHTML(formatDateTime(s.date))}</div>
-            </div>
-
-            <span class="badge ${s.severity==="Severe" ? "red":s.severity==="Moderate" ? "gold":"green"}">
-              ${escapeHTML(s.severity)}
-            </span>
+  box.innerHTML=arr.length ? arr.map(s=>`
+    <div class="timeline-item">
+      <div class="item">
+        <div class="item-head">
+          <div>
+            <div class="item-title">${esc(s.name)}</div>
+            <div class="item-meta">${esc(formatDate(s.date))} ${esc(s.time||"")}</div>
           </div>
-
-          ${s.context ? `<div class="item-meta">Context: ${escapeHTML(s.context)}</div>`:""}
-
-          ${s.details ? `<div style="font-size:11px;color:#bbb;margin-top:8px">${escapeHTML(s.details)}</div>`:""}
-
-          <div class="actions" style="margin-top:9px">
-            <button class="btn btn-danger btn-small" onclick="deleteSymptom('${s.id}')">Delete</button>
-          </div>
+          <span class="badge ${Number(s.severity)>=7?"red-b":Number(s.severity)>=4?"gold-b":"green-b"}">Severity ${Number(s.severity)}/10</span>
         </div>
-      `).join("")
-      : '<div class="empty">Symptom record မရှိသေးပါ</div>';
-
-  const counts={};
-
-  state.symptoms.forEach(s=>{
-    counts[s.name]=(counts[s.name]||0)+1;
-  });
-
-  const top=Object.entries(counts)
-    .sort((a,b)=>b[1]-a[1])
-    .slice(0,5);
-
-  document.getElementById("symptomSummary").innerHTML =
-    top.length
-      ? top.map(([name,count])=>`
-        <div class="list-item">
-          <div class="list-main">
-            <div class="item-title">${escapeHTML(name)}</div>
-            <span class="badge">${count} times</span>
-          </div>
+        ${s.note?`<div class="item-meta" style="margin-top:9px">${esc(s.note)}</div>`:""}
+        <div style="margin-top:10px">
+          <button class="btn btn-small btn-danger" onclick="deleteItem('symptoms','${s.id}')">Delete</button>
         </div>
-      `).join("")
-      : '<div class="empty">Summary data မရှိသေးပါ</div>';
-
-  document.getElementById("healthSymptoms").innerHTML =
-    state.symptoms.length
-      ? state.symptoms.slice(0,3).map(s=>`
-        <div class="list-item">
-          <div class="list-main">
-            <div>
-              <div class="item-title">${escapeHTML(s.name)}</div>
-              <div class="item-meta">${escapeHTML(formatDateTime(s.date))}</div>
-            </div>
-            <span class="badge">${escapeHTML(s.severity)}</span>
-          </div>
-        </div>
-      `).join("")
-      : '<div class="empty">No symptoms recorded</div>';
+      </div>
+    </div>
+  `).join(""):'<div class="empty">No symptoms recorded</div>';
 }
 
+function addLab(){
+  const result=document.getElementById("labResult").value.trim();
+  if(!result){
+    showToast("Enter result");
+    return;
+  }
 
-/* =========================================================
-   CONDITIONS
-========================================================= */
-
-document.getElementById("conditionForm").addEventListener("submit",e=>{
-  e.preventDefault();
-
-  const type =
-    document.getElementById("conditionType").value;
-
-  const guide =
-    HEALTH_GUIDES[type];
-
-  const name =
-    document.getElementById("conditionName").value.trim() ||
-    (guide ? guide.name:"Custom Condition");
-
-  state.conditions.unshift({
+  state.labs.unshift({
     id:uid(),
-    type,
-    name,
-    note:document.getElementById("conditionNote").value.trim(),
-    date:todayISO()
+    test:document.getElementById("labTest").value,
+    result,
+    unit:document.getElementById("labUnit").value,
+    date:document.getElementById("labDate").value||todayISO(),
+    note:document.getElementById("labNote").value
   });
 
-  saveState();
-
-  e.target.reset();
-
-  renderAll();
-
-  alert("Condition saved");
-});
-
-function deleteCondition(id){
-  if(!confirm("ဒီ condition ကိုဖျက်မလား")) return;
-
-  state.conditions =
-    state.conditions.filter(x=>x.id!==id);
-
-  if(state.selectedCondition===id){
-    state.selectedCondition=null;
-  }
-
-  saveState();
-  renderAll();
+  save();
+  closeModal("labModal");
+  resetForm(["labResult","labUnit","labDate","labNote"]);
+  showToast("Lab result saved");
 }
 
-function selectCondition(id){
-  state.selectedCondition=id;
-  saveState();
-  renderAll();
-}
+function renderLabs(){
+  document.getElementById("labCount").textContent=state.labs.length;
+  const l=latest(state.labs);
+  document.getElementById("latestLab").textContent=l ? l.test : "—";
 
-function renderConditions(){
-  const list=document.getElementById("conditionList");
-
-  if(!state.conditions.length){
-    list.innerHTML='<div class="empty">Condition မထည့်ရသေးပါ</div>';
-
-    document.getElementById("healthConditions").innerHTML =
-      '<div class="empty">No conditions recorded</div>';
-
-    document.getElementById("conditionGuide").innerHTML =
-      '<div class="empty">Condition တစ်ခုထည့်ပြီး guide ကိုကြည့်နိုင်ပါတယ်</div>';
-
-    return;
-  }
-
-  if(!state.selectedCondition){
-    state.selectedCondition=state.conditions[0].id;
-  }
-
-  list.innerHTML=state.conditions.map(c=>`
-    <div class="list-item">
-      <div class="list-main">
+  const arr=[...state.labs].sort((a,b)=>(b.date||"").localeCompare(a.date||""));
+  document.getElementById("labList").innerHTML=arr.length ? arr.map(l=>`
+    <div class="item">
+      <div class="item-head">
         <div>
-          <div class="item-title">${escapeHTML(c.name)}</div>
-          <div class="item-meta">${escapeHTML(formatDate(c.date))}</div>
+          <div class="item-title">${esc(l.test)}</div>
+          <div class="item-meta">${esc(formatDate(l.date))} · ${esc(l.note||"")}</div>
         </div>
-
-        <span class="badge gold">
-          ${escapeHTML(
-            HEALTH_GUIDES[c.type]
-              ? HEALTH_GUIDES[c.type].name
-              : "Custom"
-          )}
-        </span>
-      </div>
-
-      ${c.note ? `<div class="item-meta">${escapeHTML(c.note)}</div>`:""}
-
-      <div class="actions" style="margin-top:9px">
-        <button class="btn btn-small btn-primary" onclick="selectCondition('${c.id}')">
-          View Guide
-        </button>
-
-        <button class="btn btn-small btn-danger" onclick="deleteCondition('${c.id}')">
-          Delete
-        </button>
-      </div>
-    </div>
-  `).join("");
-
-  document.getElementById("healthConditions").innerHTML =
-    state.conditions.map(c=>`
-      <div class="list-item">
-        <div class="list-main">
-          <div class="item-title">${escapeHTML(c.name)}</div>
-          <span class="badge gold">Active</span>
+        <div style="text-align:right">
+          <div class="item-title">${esc(l.result)} ${esc(l.unit||"")}</div>
+          <button class="btn btn-small btn-danger" style="margin-top:7px" onclick="deleteItem('labs','${l.id}')">Delete</button>
         </div>
       </div>
-    `).join("");
-
-  renderSelectedConditionGuide();
-}
-
-function renderSelectedConditionGuide(){
-  const c =
-    state.conditions.find(
-      x=>x.id===state.selectedCondition
-    );
-
-  const el=document.getElementById("conditionGuide");
-
-  if(!c){
-    el.innerHTML='<div class="empty">Select a condition</div>';
-    return;
-  }
-
-  const guide=HEALTH_GUIDES[c.type];
-
-  if(!guide){
-    el.innerHTML=`
-      <div class="guide-box">
-        <h4>${escapeHTML(c.name)}</h4>
-        <div class="muted">
-          Custom condition ဖြစ်သောကြောင့် built-in general guide မရှိပါ
-          ဆရာဝန်ညွှန်ကြားချက်ကို Personal Note ထဲတွင် သိမ်းထားနိုင်ပါတယ်
-        </div>
-      </div>
-    `;
-    return;
-  }
-
-  el.innerHTML=`
-    <div class="grid grid-2">
-
-      <div class="guide-box">
-        <h4>🚫 ရှောင်ရန် / သတိထားရန်</h4>
-        <ul>
-          ${guide.avoid.map(x=>`<li>${escapeHTML(x)}</li>`).join("")}
-        </ul>
-      </div>
-
-      <div class="guide-box">
-        <h4>✅ လုပ်ဆောင်ရန်</h4>
-        <ul>
-          ${guide.do.map(x=>`<li>${escapeHTML(x)}</li>`).join("")}
-        </ul>
-      </div>
-
-      <div class="guide-box">
-        <h4>🥗 အစားအသောက်</h4>
-        <ul>
-          ${guide.foods.map(x=>`<li>${escapeHTML(x)}</li>`).join("")}
-        </ul>
-      </div>
-
-      <div class="guide-box">
-        <h4>📊 Monitor</h4>
-        <ul>
-          ${guide.monitor.map(x=>`<li>${escapeHTML(x)}</li>`).join("")}
-        </ul>
-      </div>
-
-      <div class="warning" style="grid-column:1/-1">
-        <strong>⚠ Important warning</strong><br>
-        ${guide.warning.map(x=>escapeHTML(x)).join("<br>")}
-      </div>
-
     </div>
-  `;
+  `).join(""):'<div class="empty">No lab results yet</div>';
 }
 
-
-/* =========================================================
-   HEALTH CHECKLIST
-========================================================= */
-
-function renderHealthChecklist(){
-  const items=[
-    ["medication","💊 Medication / prescribed plan"],
-    ["hydration","💧 Hydration according to your medical advice"],
-    ["food","🥗 Food / meal awareness"],
-    ["activity","🚶 Suitable physical activity"],
-    ["symptoms","📝 Symptoms / health note"]
-  ];
-
-  document.getElementById("healthChecklist").innerHTML =
-    items.map(([key,label])=>`
-      <label class="check-row">
-        <input
-          type="checkbox"
-          ${state.healthChecks[key] ? "checked":""}
-          onchange="toggleHealthCheck('${key}',this.checked)"
-        >
-        <span>${escapeHTML(label)}</span>
-      </label>
-    `).join("");
-}
-
-function toggleHealthCheck(key,value){
-  state.healthChecks[key]=value;
-  saveState();
-}
-
-function renderCarePlan(){
-  const hasConditions=state.conditions.length>0;
-
-  if(!hasConditions){
-    document.getElementById("healthCarePlan").innerHTML=
-      '<div class="empty">Condition ထည့်ပြီး care plan ကို စတင်နိုင်ပါတယ်</div>';
+function addDoctorVisit(){
+  const doctor=document.getElementById("doctorName").value.trim();
+  if(!doctor){
+    showToast("Enter doctor name");
     return;
   }
-
-  const monitorSet=new Set();
-
-  state.conditions.forEach(c=>{
-    const guide=HEALTH_GUIDES[c.type];
-
-    if(guide){
-      guide.monitor.forEach(x=>monitorSet.add(x));
-    }
-  });
-
-  document.getElementById("healthCarePlan").innerHTML=`
-    <div class="grid grid-3">
-
-      <div class="guide-box">
-        <h4>Conditions</h4>
-        <ul>
-          ${state.conditions.map(c=>`
-            <li>${escapeHTML(c.name)}</li>
-          `).join("")}
-        </ul>
-      </div>
-
-      <div class="guide-box">
-        <h4>Recommended Records</h4>
-        <ul>
-          ${[...monitorSet].map(x=>`
-            <li>${escapeHTML(x)}</li>
-          `).join("")}
-        </ul>
-      </div>
-
-      <div class="guide-box">
-        <h4>Follow-up</h4>
-        <ul>
-          <li>Doctor visit records</li>
-          <li>Medication records</li>
-          <li>Symptoms journal</li>
-          <li>Vital trends</li>
-        </ul>
-      </div>
-
-    </div>
-  `;
-}
-
-
-/* =========================================================
-   DOCTOR VISITS
-========================================================= */
-
-document.getElementById("doctorForm").addEventListener("submit",e=>{
-  e.preventDefault();
 
   state.doctorVisits.unshift({
     id:uid(),
-    date:document.getElementById("doctorDate").value,
-    doctor:document.getElementById("doctorName").value.trim(),
-    reason:document.getElementById("doctorReason").value.trim(),
-    advice:document.getElementById("doctorAdvice").value.trim(),
-    tests:document.getElementById("doctorTests").value.trim(),
-    next:document.getElementById("doctorNext").value,
-    notes:document.getElementById("doctorNotes").value.trim()
+    doctor,
+    specialty:document.getElementById("doctorSpecialty").value,
+    date:document.getElementById("doctorDate").value||todayISO(),
+    follow:document.getElementById("doctorFollow").value,
+    questions:document.getElementById("doctorQuestions").value,
+    advice:document.getElementById("doctorAdvice").value,
+    notes:document.getElementById("doctorNotes").value
   });
 
-  saveState();
-
-  e.target.reset();
-
-  renderAll();
-
-  alert("Doctor visit saved");
-});
-
-function deleteDoctorVisit(id){
-  if(!confirm("ဒီ doctor visit record ကိုဖျက်မလား")) return;
-
-  state.doctorVisits =
-    state.doctorVisits.filter(x=>x.id!==id);
-
-  saveState();
-  renderAll();
+  save();
+  closeModal("doctorModal");
+  resetForm(["doctorName","doctorSpecialty","doctorDate","doctorFollow","doctorQuestions","doctorAdvice","doctorNotes"]);
+  showToast("Doctor visit saved");
 }
 
-function getNextVisit(){
-  const today=todayISO();
+function renderDoctors(){
+  document.getElementById("doctorCount").textContent=state.doctorVisits.length;
+  const follow=state.doctorVisits.filter(x=>x.follow && x.follow>=todayISO()).sort((a,b)=>a.follow.localeCompare(b.follow));
+  document.getElementById("followCount").textContent=follow.length;
 
-  return state.doctorVisits
-    .filter(v=>v.next && v.next>=today)
-    .sort((a,b)=>a.next.localeCompare(b.next))[0] || null;
+  const next=document.getElementById("nextDoctorVisit");
+  if(follow.length){
+    const x=follow[0];
+    next.innerHTML=`
+      <div class="item">
+        <div class="item-title">${esc(x.doctor)}</div>
+        <div class="item-meta">${esc(x.specialty||"Doctor visit")}</div>
+        <div class="kpi-row"><div class="kpi"><b>${esc(formatDate(x.follow))}</b><span>FOLLOW-UP</span></div></div>
+      </div>
+    `;
+  }else{
+    next.innerHTML='<div class="empty">No follow-up scheduled</div>';
+  }
+
+  const arr=[...state.doctorVisits].sort((a,b)=>(b.date||"").localeCompare(a.date||""));
+  document.getElementById("doctorList").innerHTML=arr.length ? arr.map(x=>`
+    <div class="item">
+      <div class="item-head">
+        <div>
+          <div class="item-title">${esc(x.doctor)}</div>
+          <div class="item-meta">${esc(x.specialty||"")} · ${esc(formatDate(x.date))}</div>
+        </div>
+        <button class="btn btn-small btn-danger" onclick="deleteItem('doctorVisits','${x.id}')">Delete</button>
+      </div>
+      ${x.questions?`<div class="item-meta" style="margin-top:9px"><b>Questions:</b> ${esc(x.questions)}</div>`:""}
+      ${x.advice?`<div class="item-meta" style="margin-top:6px"><b>Advice:</b> ${esc(x.advice)}</div>`:""}
+      ${x.notes?`<div class="item-meta" style="margin-top:6px"><b>Notes:</b> ${esc(x.notes)}</div>`:""}
+      ${x.follow?`<div style="margin-top:9px"><span class="badge gold-b">Follow-up ${esc(formatDate(x.follow))}</span></div>`:""}
+    </div>
+  `).join(""):'<div class="empty">No doctor visits recorded</div>';
 }
 
-function renderDoctor(){
-  const rows=[...state.doctorVisits]
-    .sort((a,b)=>new Date(b.date)-new Date(a.date));
-
-  const next=getNextVisit();
-
-  document.getElementById("nextVisitCard").innerHTML =
-    next
-      ? `
-        <div class="hero" style="margin:0">
-          <div class="eyebrow">Next Follow-up</div>
-          <div style="font-size:24px;font-weight:900">
-            ${escapeHTML(formatDate(next.next))}
-          </div>
-          <div class="item-meta">
-            ${escapeHTML(next.doctor || "Doctor / Clinic")}
-          </div>
-          <div style="margin-top:9px">
-            <span class="badge gold">
-              ${Math.max(0,daysBetween(todayISO(),next.next))} days
-            </span>
-          </div>
-        </div>
-      `
-      : '<div class="empty">Next follow-up မသတ်မှတ်ရသေးပါ</div>';
-
-  document.getElementById("doctorHistory").innerHTML =
-    rows.length
-      ? rows.map(v=>`
-        <div class="timeline-item">
-          <div class="list-item">
-            <div class="list-main">
-              <div>
-                <div class="item-title">
-                  ${escapeHTML(v.doctor || "Doctor Visit")}
-                </div>
-                <div class="item-meta">
-                  ${escapeHTML(formatDate(v.date))}
-                </div>
-              </div>
-
-              ${v.next
-                ? `<span class="badge gold">Next ${escapeHTML(formatDate(v.next))}</span>`
-                : ""}
-            </div>
-
-            ${v.reason
-              ? `<div class="item-meta">Reason: ${escapeHTML(v.reason)}</div>`
-              : ""}
-
-            ${v.advice
-              ? `<div style="font-size:11px;margin-top:7px">
-                   <strong>Advice:</strong>
-                   ${escapeHTML(v.advice)}
-                 </div>`
-              : ""}
-
-            ${v.tests
-              ? `<div class="item-meta">Tests: ${escapeHTML(v.tests)}</div>`
-              : ""}
-
-            <div class="actions" style="margin-top:9px">
-              <button class="btn btn-danger btn-small" onclick="deleteDoctorVisit('${v.id}')">
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      `).join("")
-      : '<div class="empty">Doctor visit record မရှိသေးပါ</div>';
-
-  document.getElementById("healthDoctor").innerHTML =
-    rows.length
-      ? `
-        <div class="list-item">
-          <div class="item-title">
-            ${escapeHTML(rows[0].doctor || "Doctor Visit")}
-          </div>
-          <div class="item-meta">${escapeHTML(formatDate(rows[0].date))}</div>
-          ${rows[0].advice
-            ? `<div style="font-size:11px;margin-top:7px">${escapeHTML(rows[0].advice)}</div>`
-            : ""}
-        </div>
-      `
-      : '<div class="empty">No doctor visits</div>';
-
-  document.getElementById("dashNextVisit").innerHTML =
-    next
-      ? `
-        <div class="list-item">
-          <div class="list-main">
-            <div>
-              <div class="item-title">${escapeHTML(next.doctor || "Doctor Visit")}</div>
-              <div class="item-meta">${escapeHTML(formatDate(next.next))}</div>
-            </div>
-            <span class="badge gold">${Math.max(0,daysBetween(todayISO(),next.next))}d</span>
-          </div>
-        </div>
-      `
-      : '<div class="empty">No upcoming follow-up</div>';
-}
-
-
-/* =========================================================
-   GOALS
-========================================================= */
-
-document.getElementById("goalForm").addEventListener("submit",e=>{
-  e.preventDefault();
+function addGoal(){
+  const name=document.getElementById("goalName").value.trim();
+  if(!name){
+    showToast("Enter goal");
+    return;
+  }
 
   state.goals.unshift({
     id:uid(),
-    name:document.getElementById("goalName").value.trim(),
+    name,
     category:document.getElementById("goalCategory").value,
+    progress:Math.min(100,Math.max(0,Number(document.getElementById("goalProgress").value||0))),
     deadline:document.getElementById("goalDeadline").value,
-    progress:clamp(
-      Number(document.getElementById("goalProgress").value)||0,
-      0,
-      100
-    )
+    note:document.getElementById("goalNote").value,
+    created:new Date().toISOString()
   });
 
-  saveState();
-
-  e.target.reset();
-
-  renderAll();
-
-  alert("Goal saved");
-});
-
-function deleteGoal(id){
-  if(!confirm("ဒီ goal ကိုဖျက်မလား")) return;
-
-  state.goals=state.goals.filter(x=>x.id!==id);
-
-  saveState();
-  renderAll();
+  save();
+  closeModal("goalModal");
+  resetForm(["goalName","goalProgress","goalDeadline","goalNote"]);
+  document.getElementById("goalProgress").value=0;
+  showToast("Goal saved");
 }
 
-function updateGoalProgress(id,value){
-  const goal=state.goals.find(x=>x.id===id);
-
-  if(!goal) return;
-
-  goal.progress=clamp(Number(value)||0,0,100);
-
-  saveState();
-  renderAll();
+function changeGoalProgress(id,value){
+  const g=state.goals.find(x=>x.id===id);
+  if(!g)return;
+  g.progress=Math.min(100,Math.max(0,Number(value)));
+  save();
 }
 
 function renderGoals(){
-  const total=state.goals.length;
+  const box=document.getElementById("goalList");
+  const arr=[...state.goals].sort((a,b)=>Number(b.progress)-Number(a.progress));
 
-  const avg=total
-    ? state.goals.reduce((sum,g)=>sum+g.progress,0)/total
-    : 0;
-
-  document.getElementById("goalSummary").innerHTML=`
-    <div class="stat">
-      <div class="stat-label">Average Progress</div>
-      <div class="stat-value gold">${avg.toFixed(0)}%</div>
-      <div class="progress" style="margin-top:10px">
-        <div style="width:${avg}%"></div>
+  box.innerHTML=arr.length ? arr.map(g=>`
+    <div class="item">
+      <div class="item-head">
+        <div>
+          <div class="item-title">${esc(g.name)}</div>
+          <div class="item-meta">${esc(g.category)} ${g.deadline?"· "+esc(formatDate(g.deadline)):""}</div>
+        </div>
+        <button class="btn btn-small btn-danger" onclick="deleteItem('goals','${g.id}')">Delete</button>
       </div>
+      <div style="margin-top:12px">
+        <div class="meter-label"><span>Progress</span><b>${Number(g.progress||0)}%</b></div>
+        <input type="range" min="0" max="100" value="${Number(g.progress||0)}" oninput="changeGoalProgress('${g.id}',this.value)">
+        <div class="progress" style="margin-top:5px"><span style="width:${Math.min(100,Number(g.progress||0))}%"></span></div>
+      </div>
+      ${g.note?`<div class="item-meta" style="margin-top:9px">${esc(g.note)}</div>`:""}
     </div>
-  `;
-
-  document.getElementById("goalList").innerHTML =
-    state.goals.length
-      ? state.goals.map(g=>`
-        <div class="list-item">
-          <div class="list-main">
-            <div>
-              <div class="item-title">${escapeHTML(g.name)}</div>
-              <div class="item-meta">
-                ${escapeHTML(g.category)}
-                ${g.deadline ? " • "+escapeHTML(formatDate(g.deadline)):""}
-              </div>
-            </div>
-
-            <span class="badge ${g.progress>=100 ? "green":"gold"}">
-              ${g.progress}%
-            </span>
-          </div>
-
-          <div class="progress" style="margin-top:10px">
-            <div style="width:${g.progress}%"></div>
-          </div>
-
-          <div class="actions" style="margin-top:10px">
-            <button class="btn btn-small" onclick="updateGoalProgress('${g.id}',${Math.min(100,g.progress+10)})">
-              +10%
-            </button>
-
-            <button class="btn btn-danger btn-small" onclick="deleteGoal('${g.id}')">
-              Delete
-            </button>
-          </div>
-        </div>
-      `).join("")
-      : '<div class="empty">Goal မရှိသေးပါ</div>';
+  `).join(""):'<div class="empty">No goals yet</div>';
 }
 
-
-/* =========================================================
-   JOURNAL
-========================================================= */
-
-document.getElementById("journalForm").addEventListener("submit",e=>{
-  e.preventDefault();
-
-  state.journals.unshift({
-    id:uid(),
-    date:document.getElementById("journalDate").value,
-    mood:document.getElementById("journalMood").value,
-    win:document.getElementById("journalWin").value.trim(),
-    gratitude:document.getElementById("journalGratitude").value.trim(),
-    lesson:document.getElementById("journalLesson").value.trim(),
-    future:document.getElementById("journalFuture").value.trim()
-  });
-
-  saveState();
-
-  e.target.reset();
-
-  document.getElementById("journalDate").value=todayISO();
-
-  renderAll();
-
-  alert("Journal saved");
-});
-
-function deleteJournal(id){
-  if(!confirm("ဒီ journal ကိုဖျက်မလား")) return;
-
-  state.journals=
-    state.journals.filter(x=>x.id!==id);
-
-  saveState();
-  renderAll();
-}
-
-function renderJournal(){
-  const rows=[...state.journals]
-    .sort((a,b)=>b.date.localeCompare(a.date));
-
-  document.getElementById("journalHistory").innerHTML =
-    rows.length
-      ? rows.map(j=>`
-        <div class="timeline-item">
-          <div class="list-item">
-            <div class="list-main">
-              <div class="item-title">${escapeHTML(j.date)}</div>
-              <span class="badge gold">${escapeHTML(j.mood)}</span>
-            </div>
-
-            ${j.win ? `<div style="font-size:11px;margin-top:7px"><strong>Win:</strong> ${escapeHTML(j.win)}</div>`:""}
-            ${j.gratitude ? `<div style="font-size:11px;margin-top:5px"><strong>Gratitude:</strong> ${escapeHTML(j.gratitude)}</div>`:""}
-            ${j.lesson ? `<div style="font-size:11px;margin-top:5px"><strong>Lesson:</strong> ${escapeHTML(j.lesson)}</div>`:""}
-
-            <div class="actions" style="margin-top:9px">
-              <button class="btn btn-danger btn-small" onclick="deleteJournal('${j.id}')">
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      `).join("")
-      : '<div class="empty">Journal မရှိသေးပါ</div>';
-}
-
-
-/* =========================================================
-   IMPORTANT DAYS
-========================================================= */
-
-document.getElementById("importantForm").addEventListener("submit",e=>{
-  e.preventDefault();
+function addImportant(){
+  const name=document.getElementById("importantName").value.trim();
+  const date=document.getElementById("importantDate").value;
+  if(!name||!date){
+    showToast("Enter event and date");
+    return;
+  }
 
   state.importantDays.push({
     id:uid(),
-    name:document.getElementById("importantName").value.trim(),
-    category:document.getElementById("importantCategory").value,
-    date:document.getElementById("importantDate").value,
-    repeat:document.getElementById("importantRepeat").value==="yes"
+    name,
+    type:document.getElementById("importantType").value,
+    date,
+    note:document.getElementById("importantNote").value
   });
 
-  saveState();
-
-  e.target.reset();
-
-  renderAll();
-
-  alert("Important day saved");
-});
-
-function deleteImportant(id){
-  if(!confirm("ဒီ event ကိုဖျက်မလား")) return;
-
-  state.importantDays=
-    state.importantDays.filter(x=>x.id!==id);
-
-  saveState();
-  renderAll();
+  save();
+  closeModal("importantModal");
+  resetForm(["importantName","importantDate","importantNote"]);
+  showToast("Important day saved");
 }
 
-function nextOccurrence(event){
-  const source=new Date(event.date+"T00:00:00");
-
-  if(!event.repeat){
-    return source;
-  }
-
-  const now=new Date();
-
-  let date=new Date(
-    now.getFullYear(),
-    source.getMonth(),
-    source.getDate()
-  );
-
-  if(date<new Date(now.getFullYear(),now.getMonth(),now.getDate())){
-    date.setFullYear(now.getFullYear()+1);
-  }
-
-  return date;
+function daysUntil(date){
+  const a=new Date(todayISO()+"T00:00:00");
+  const b=new Date(date+"T00:00:00");
+  return Math.ceil((b-a)/86400000);
 }
 
 function renderImportant(){
-  const rows=state.importantDays
-    .map(x=>({
-      ...x,
-      next:nextOccurrence(x)
-    }))
-    .sort((a,b)=>a.next-b.next);
-
-  document.getElementById("importantUpcoming").innerHTML =
-    rows.length
-      ? rows.slice(0,5).map(x=>`
-        <div class="list-item">
-          <div class="list-main">
-            <div>
-              <div class="item-title">${escapeHTML(x.name)}</div>
-              <div class="item-meta">${escapeHTML(x.category)}</div>
-            </div>
-            <span class="badge gold">${formatDate(localDateInput(x.next))}</span>
+  const arr=[...state.importantDays].sort((a,b)=>(a.date||"").localeCompare(b.date||""));
+  document.getElementById("importantList").innerHTML=arr.length ? arr.map(x=>{
+    const d=daysUntil(x.date);
+    return `
+      <div class="item">
+        <div class="item-head">
+          <div>
+            <div class="item-title">${esc(x.name)}</div>
+            <div class="item-meta">${esc(x.type)} · ${esc(formatDate(x.date))}</div>
           </div>
+          <span class="badge ${d<0?"":"gold-b"}">${d<0?"Passed":d===0?"Today":d+" days"}</span>
         </div>
-      `).join("")
-      : '<div class="empty">No upcoming events</div>';
+        ${x.note?`<div class="item-meta" style="margin-top:8px">${esc(x.note)}</div>`:""}
+        <div style="margin-top:9px"><button class="btn btn-small btn-danger" onclick="deleteItem('importantDays','${x.id}')">Delete</button></div>
+      </div>
+    `;
+  }).join(""):'<div class="empty">No important days</div>';
+}
 
-  document.getElementById("importantList").innerHTML =
-    rows.length
-      ? rows.map(x=>`
-        <div class="list-item">
-          <div class="list-main">
-            <div>
-              <div class="item-title">${escapeHTML(x.name)}</div>
-              <div class="item-meta">
-                ${escapeHTML(x.category)}
-                • ${escapeHTML(formatDate(x.date))}
-              </div>
-            </div>
+function addJournal(){
+  state.journals.unshift({
+    id:uid(),
+    date:document.getElementById("journalDate").value||todayISO(),
+    mood:Number(document.getElementById("journalMood").value||0),
+    win:document.getElementById("journalWin").value,
+    gratitude:document.getElementById("journalGratitude").value,
+    lesson:document.getElementById("journalLesson").value,
+    future:document.getElementById("journalFuture").value
+  });
 
-            <span class="badge ${x.repeat ? "gold":""}">
-              ${x.repeat ? "Yearly":"One-time"}
-            </span>
-          </div>
+  save();
+  closeModal("journalModal");
+  resetForm(["journalDate","journalMood","journalWin","journalGratitude","journalLesson","journalFuture"]);
+  showToast("Journal saved");
+}
 
-          <div class="item-meta">
-            Next: ${escapeHTML(formatDate(localDateInput(x.next)))}
-          </div>
-
-          <div class="actions" style="margin-top:9px">
-            <button class="btn btn-danger btn-small" onclick="deleteImportant('${x.id}')">
-              Delete
-            </button>
-          </div>
+function renderJournals(){
+  const arr=[...state.journals].sort((a,b)=>(b.date||"").localeCompare(a.date||""));
+  document.getElementById("journalList").innerHTML=arr.length ? arr.map(x=>`
+    <div class="item">
+      <div class="item-head">
+        <div class="item-title">${esc(formatDate(x.date))}</div>
+        <div>
+          ${x.mood?`<span class="badge gold-b">Mood ${esc(x.mood)}/10</span>`:""}
+          <button class="btn btn-small btn-danger" onclick="deleteItem('journals','${x.id}')">Delete</button>
         </div>
-      `).join("")
-      : '<div class="empty">Important day မရှိသေးပါ</div>';
+      </div>
+      ${x.win?`<div class="item-meta" style="margin-top:10px"><b>Win:</b> ${esc(x.win)}</div>`:""}
+      ${x.gratitude?`<div class="item-meta" style="margin-top:7px"><b>Gratitude:</b> ${esc(x.gratitude)}</div>`:""}
+      ${x.lesson?`<div class="item-meta" style="margin-top:7px"><b>Lesson:</b> ${esc(x.lesson)}</div>`:""}
+      ${x.future?`<div class="item-meta" style="margin-top:7px"><b>Future:</b> ${esc(x.future)}</div>`:""}
+    </div>
+  `).join(""):'<div class="empty">No journal entries</div>';
 }
 
+function addMoney(){
+  const amount=Number(document.getElementById("moneyAmount").value);
+  if(!amount||amount<0){
+    showToast("Enter amount");
+    return;
+  }
 
-/* =========================================================
-   DASHBOARD
-========================================================= */
+  state.money.unshift({
+    id:uid(),
+    type:document.getElementById("moneyType").value,
+    amount,
+    date:document.getElementById("moneyDate").value||todayISO(),
+    category:document.getElementById("moneyCategory").value,
+    note:document.getElementById("moneyNote").value
+  });
 
-function renderDashboard(){
-  document.getElementById("dashConditions").textContent =
-    state.conditions.length;
-
-  document.getElementById("dashMeds").textContent =
-    state.medications.length;
-
-  document.getElementById("dashSymptoms").textContent =
-    state.symptoms.length;
-
-  document.getElementById("dashVisits").textContent =
-    state.doctorVisits.length;
-
-  document.getElementById("dashHealthRecords").textContent =
-    state.conditions.length+
-    state.medications.length+
-    state.vitals.length+
-    state.symptoms.length+
-    state.doctorVisits.length;
-
-  renderLifeGrid("dashLifeGrid");
-  renderLifeGrid("timeLifeGrid");
-  renderMonthGrid();
+  save();
+  closeModal("moneyModal");
+  resetForm(["moneyAmount","moneyDate","moneyCategory","moneyNote"]);
+  showToast("Money record saved");
 }
 
+function renderMoney(){
+  const income=state.money.filter(x=>x.type==="Income").reduce((s,x)=>s+Number(x.amount||0),0);
+  const expense=state.money.filter(x=>x.type==="Expense").reduce((s,x)=>s+Number(x.amount||0),0);
+  document.getElementById("moneyIncome").textContent=formatMoney(income);
+  document.getElementById("moneyExpense").textContent=formatMoney(expense);
+  document.getElementById("moneyBalance").textContent=formatMoney(income-expense);
+  document.getElementById("moneyCount").textContent=state.money.length;
 
-/* =========================================================
-   SETTINGS
-========================================================= */
-
-function renderProfile(){
-  document.getElementById("profileName").value =
-    state.profile.name || "";
-
-  document.getElementById("profileDob").value =
-    state.profile.dob || "";
-
-  const name=state.profile.name || "My Life";
-
-  document.getElementById("sideName").textContent=name;
-
-  document.getElementById("sideAvatar").textContent =
-    name.charAt(0).toUpperCase();
+  const arr=[...state.money].sort((a,b)=>(b.date||"").localeCompare(a.date||""));
+  document.getElementById("moneyList").innerHTML=arr.length ? arr.map(x=>`
+    <div class="item">
+      <div class="item-head">
+        <div>
+          <div class="item-title">${esc(x.category||x.type)}</div>
+          <div class="item-meta">${esc(formatDate(x.date))} · ${esc(x.note||"")}</div>
+        </div>
+        <div style="text-align:right">
+          <div class="item-title ${x.type==="Income"?"green":"red"}">${x.type==="Income"?"+":"-"}${formatMoney(x.amount)}</div>
+          <button class="btn btn-small btn-danger" style="margin-top:7px" onclick="deleteItem('money','${x.id}')">Delete</button>
+        </div>
+      </div>
+    </div>
+  `).join(""):'<div class="empty">No money records</div>';
 }
 
+function toggleCheck(key,value){
+  state.checklist[key]=value;
+  save();
+}
 
-/* =========================================================
-   EXPORT
-========================================================= */
+function saveEmergency(){
+  state.emergency={
+    name:document.getElementById("emName").value,
+    blood:document.getElementById("emBlood").value,
+    allergy:document.getElementById("emAllergy").value,
+    conditions:document.getElementById("emConditions").value,
+    meds:document.getElementById("emMeds").value,
+    contact:document.getElementById("emContact").value,
+    phone:document.getElementById("emPhone").value,
+    doctor:document.getElementById("emDoctor").value,
+    doctorPhone:document.getElementById("emDoctorPhone").value,
+    note:document.getElementById("emNote").value
+  };
+  save();
+  showToast("Emergency Card saved");
+}
+
+function renderEmergency(){
+  const e=state.emergency;
+  document.getElementById("emName").value=e.name||state.profile.name||"";
+  document.getElementById("emBlood").value=e.blood||"";
+  document.getElementById("emAllergy").value=e.allergy||"";
+  document.getElementById("emConditions").value=e.conditions||"";
+  document.getElementById("emMeds").value=e.meds||"";
+  document.getElementById("emContact").value=e.contact||"";
+  document.getElementById("emPhone").value=e.phone||"";
+  document.getElementById("emDoctor").value=e.doctor||"";
+  document.getElementById("emDoctorPhone").value=e.doctorPhone||"";
+  document.getElementById("emNote").value=e.note||"";
+}
+
+function renderSettings(){
+  document.getElementById("setName").value=state.profile.name||"";
+  document.getElementById("setDob").value=state.profile.dob||"";
+  document.getElementById("setTarget").value=state.profile.targetAge||75;
+  document.getElementById("setNote").value=state.profile.note||"";
+}
+
+function saveSettings(){
+  const name=document.getElementById("setName").value.trim();
+  const dob=document.getElementById("setDob").value;
+  const target=Number(document.getElementById("setTarget").value||75);
+
+  if(target<1||target>120){
+    showToast("Target age must be 1–120");
+    return;
+  }
+
+  if(dob && new Date(dob+"T00:00:00")>new Date()){
+    showToast("Date of birth cannot be in the future");
+    return;
+  }
+
+  state.profile={
+    name,
+    dob,
+    targetAge:target,
+    note:document.getElementById("setNote").value
+  };
+
+  save();
+  showToast("Profile saved");
+}
+
+function deleteItem(collection,id){
+  if(!state[collection]) return;
+  if(!confirm("Delete this record?")) return;
+  state[collection]=state[collection].filter(x=>x.id!==id);
+  save();
+  showToast("Record deleted");
+}
 
 function exportData(){
   const data={
@@ -4129,107 +2547,94 @@ function exportData(){
     state
   };
 
-  const blob=new Blob(
-    [JSON.stringify(data,null,2)],
-    {type:"application/json"}
-  );
-
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
   const url=URL.createObjectURL(blob);
-
   const a=document.createElement("a");
-
   a.href=url;
-  a.download=
-    "life75-backup-"+todayISO()+".json";
-
+  a.download="life75-backup-"+todayISO()+".json";
   document.body.appendChild(a);
   a.click();
   a.remove();
-
   URL.revokeObjectURL(url);
+  showToast("Backup exported");
 }
 
-function resetAllData(){
-  const ok=confirm(
-    "LIFE 75 data အားလုံးကို ဖျက်မှာသေချာပါသလား"
-  );
+function importData(event){
+  const file=event.target.files?.[0];
+  if(!file)return;
 
-  if(!ok) return;
+  const reader=new FileReader();
 
-  const second=confirm(
-    "Profile, Health, Medication, Vitals, Goals, Journal အားလုံးဖျက်မယ်"
-  );
+  reader.onload=()=>{
+    try{
+      const data=JSON.parse(reader.result);
+      const imported=data.state || data;
 
-  if(!second) return;
+      if(!imported || typeof imported!=="object"){
+        throw new Error("Invalid");
+      }
 
-  state=JSON.parse(JSON.stringify(defaultState));
+      state=mergeDeep(clone(defaultState),imported);
+      save();
+      renderEmergency();
+      renderSettings();
+      showToast("Backup imported");
+    }catch(e){
+      showToast("Invalid backup file");
+    }
 
-  saveState();
+    event.target.value="";
+  };
 
-  renderAll();
-
-  alert("All data reset");
+  reader.readAsText(file);
 }
 
+function resetData(){
+  const first=confirm("Reset all LIFE 75 data?");
+  if(!first)return;
 
-/* =========================================================
-   INITIAL DEFAULT VALUES
-========================================================= */
+  const second=confirm("This will remove your local records from this browser. Continue?");
+  if(!second)return;
 
-function initializeInputs(){
-  document.getElementById("vitalDate").value =
-    localDateTimeInput(new Date());
-
-  document.getElementById("symDate").value =
-    localDateTimeInput(new Date());
-
-  document.getElementById("doctorDate").value =
-    todayISO();
-
-  document.getElementById("goalDeadline").value =
-    todayISO();
-
-  document.getElementById("journalDate").value =
-    todayISO();
-
-  document.getElementById("importantDate").value =
-    todayISO();
-
-  updateVitalFields();
+  state=clone(defaultState);
+  save();
+  renderEmergency();
+  renderSettings();
+  showToast("All data reset");
 }
-
-
-/* =========================================================
-   MASTER RENDER
-========================================================= */
 
 function renderAll(){
-  renderProfile();
   renderDashboard();
+  renderHealth();
   renderMedications();
   renderVitals();
   renderSymptoms();
-  renderConditions();
-  renderHealthChecklist();
-  renderCarePlan();
-  renderDoctor();
+  renderLabs();
+  renderDoctors();
   renderGoals();
-  renderJournal();
   renderImportant();
-  updateTimeStats();
+  renderJournals();
+  renderMoney();
+  renderEmergency();
+  renderSettings();
+  updateLifeTime(new Date());
 }
 
+window.addEventListener("keydown",e=>{
+  if(e.key==="Escape"){
+    document.querySelectorAll(".modal.show").forEach(m=>m.classList.remove("show"));
+  }
+});
 
-/* =========================================================
-   START
-========================================================= */
+document.querySelectorAll(".modal").forEach(modal=>{
+  modal.addEventListener("click",e=>{
+    if(e.target===modal) modal.classList.remove("show");
+  });
+});
 
-initializeInputs();
 renderAll();
 updateClock();
-
 setInterval(updateClock,1000);
-
 </script>
 
 </body>
